@@ -22,11 +22,16 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
     if (ref.current) {
       if (counter.current === targetNum) return;
 
-      const nextAdd = Math.round(targetNum / (DURATION / delta));
+      let nextAdd = Math.round(targetNum / (DURATION / delta));
+
+      if (nextAdd < 0.05) {
+        nextAdd = 0.05;
+      }
+
       const nextNum = counter.current + nextAdd;
 
       if (nextNum < targetNum) {
-        ref.current.innerText = nextNum.toString();
+        ref.current.innerText = nextNum.toFixed();
         counter.current = nextNum;
       } else {
         ref.current.innerText = targetNum.toString();
@@ -34,8 +39,6 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
 
         onAnimationEnd();
       }
-
-      
     }
   });
 
