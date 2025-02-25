@@ -29,6 +29,7 @@ export const API_ENDPOINTS = {
     GET_CLOTH_HERO: "/get_cloth_character",
     GET_ALL_HEROES_WITH_CLOTH: "/get_all_characters_with_cloth",
     LEADERBOARD: "/leaderboard",
+    GET_BANDIT: "/get_bandit",
   },
   POST: {
     AUTH: "/auth",
@@ -41,6 +42,8 @@ export const API_ENDPOINTS = {
     BUY_HERO: "/buy_character",
     SET_CLOTH: "/set_cloth_character",
     BUY_CLOTH: "/buy_cloth_character",
+    PLAY_BANDIT: "/bandit_play",
+    PLAY_BANDIT_JACKPOT: "/bandit_jackpot_play",
   },
 };
 

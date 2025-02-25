@@ -21,7 +21,7 @@ export const NS = {
     BUY: "BUY",
     SALE: "SALE",
     STARS: "STARS",
-    TAP_TO_CONTINUE: "TAP_TO_CONTINUE"
+    TAP_TO_CONTINUE: "TAP_TO_CONTINUE",
   },
   PAGES: {
     HOME: {
@@ -372,6 +372,11 @@ export const NS = {
         PLATINUM_LEAGUE: "PLATINUM_LEAGUE",
         BILLIARD_LEAGUE: "BILLIARD_LEAGUE",
       },
+    },
+    SLOT_MACHINE: {
+      ROOT: "SLOT_MACHINE",
+      REWARD: "REWARD",
+      JACKPOT: "JACKPOT",
     },
     BUY_STARS: {
       ROOT: "BUY_STARS",

@@ -28,7 +28,7 @@ export const Chevron: FunctionComponent<Props> = ({
   return isRight ? (
     <div
       className={classNames(
-        "absolute right-[5.1%] top-[54%] h-[5.7%] w-[10.35%] origin-[60%_45%]",
+        "absolute right-[5.1%] top-[54%] h-[5.7%] w-[10.35%] origin-[60%_45%] z-10",
         {
           "animate-slot-right-chevron-spin": isSpinning,
         },
@@ -39,7 +39,7 @@ export const Chevron: FunctionComponent<Props> = ({
   ) : (
     <div
       className={classNames(
-        "absolute left-[5.1%] top-[54%] h-[5.7%] w-[10.35%] origin-[30%_45%]",
+        "absolute left-[5.1%] top-[54%] h-[5.7%] w-[10.35%] origin-[30%_45%] z-10",
         {
           "animate-slot-left-chevron-spin": isSpinning,
         },
