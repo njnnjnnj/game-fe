@@ -21,7 +21,7 @@ export const NS = {
     BUY: "BUY",
     SALE: "SALE",
     STARS: "STARS",
-    TAP_TO_CONTINUE: "TAP_TO_CONTINUE"
+    TAP_TO_CONTINUE: "TAP_TO_CONTINUE",
   },
   PAGES: {
     HOME: {
@@ -32,6 +32,14 @@ export const NS = {
         DESCRIPTION: "DESCRIPTION",
         GET_BONUS: "GET_BONUS",
         BUY_BONUS: "BUY_BONUS",
+      },
+      NAVIGATION: {
+        ROOT: "NAVIGATION",
+        HOME: "HOME",
+        SHOP: "SHOP",
+        HEROES: "HEROES",
+        ASSIGNMENTS: "ASSIGNMENTS",
+        TOP: "TOP",
       },
     },
     SETTINGS: {
