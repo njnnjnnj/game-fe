@@ -24,7 +24,6 @@ export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
-  console.log("🚀 ~ Home ~ offlineBonus:", offlineBonus);
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
 
   const handleConfirmOfflineBonus = () => {

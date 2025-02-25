@@ -21,7 +21,16 @@ export const SpinButton: FunctionComponent<Props> = ({
   const [isSpinButtonTouched, setIsSpinButtonTouched] = useState(false);
 
   return (
-    <div className="absolute left-[29.5%] top-[75.7%] h-[16.7%] w-[43.85%]">
+    <div
+      className="absolute left-[29.5%] top-[75.7%] h-[16.7%] w-[43.85%]"
+      onClick={onSpinClick}
+      onTouchStart={() => {
+        setIsSpinButtonTouched(true);
+      }}
+      onTouchEnd={() => {
+        setIsSpinButtonTouched(false);
+      }}
+    >
       <Image src={SpinButtonBase} alt="" fill quality={100} />
       <div
         className={classNames(
@@ -42,16 +51,7 @@ export const SpinButton: FunctionComponent<Props> = ({
           SPIN
         </div>
       </div>
-      <div
-        className="absolute inset-x-0 bottom-[20.1%] mx-auto h-[48.4%] w-[85%]"
-        onClick={onSpinClick}
-        onTouchStart={() => {
-          setIsSpinButtonTouched(true);
-        }}
-        onTouchEnd={() => {
-          setIsSpinButtonTouched(false);
-        }}
-      >
+      <div className="absolute inset-x-0 bottom-[20.1%] mx-auto h-[48.4%] w-[85%]">
         <Image src={SpinButtonStub} alt="" fill quality={100} />
       </div>
     </div>
