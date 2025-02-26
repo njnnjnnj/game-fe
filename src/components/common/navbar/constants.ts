@@ -32,3 +32,11 @@ export const NAVBAR_ITEMS = [
     image: MapImage,
   },
 ];
+
+export const PAGES_WITH_NAVBAR = [
+  ROUTES.SHOP,
+  ROUTES.HEROES,
+  ROUTES.INDEX,
+  ROUTES.ASSIGNMENTS,
+  ROUTES.TOP_PLAYERS,
+];
