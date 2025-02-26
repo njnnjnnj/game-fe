@@ -18,6 +18,7 @@ export enum TaskStatus {
 export enum TaskRewardType {
   COINS = "coins",
   CHEST = "chest",
+  STARS = "stars",
 }
 
 export interface ITask {

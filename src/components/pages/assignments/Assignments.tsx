@@ -17,7 +17,7 @@ export const Assignments = () => {
 
   return (
     <PageWrapper className="bg-blue-800 pb-10 pt-4" isLoading={isTasksLoading}>
-      <div className="flex flex-col">
+      <div className="flex flex-col pb-23">
         <ProfileHeader />
         <AssignmentsCarousel onSlideClick={handleSlideClick} />
         <div className="flex flex-col gap-4">
@@ -27,7 +27,7 @@ export const Assignments = () => {
           />
           <AssignmentsList
             isLoading={isTasksLoading}
-            list={sortTasks(tasks?.other || [])}
+            list={sortTasks(tasks?.other.slice(0, 10) || [])}
             type={AssignmentType.ONE_OFF}
           />
         </div>
