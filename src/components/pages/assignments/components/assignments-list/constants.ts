@@ -24,4 +24,5 @@ export const ASSIGNMENTS_ICONS = {
 export const REWARD_ICONS = {
   [TaskRewardType.COINS]: StarSVG,
   [TaskRewardType.CHEST]: ChestSVG,
+  [TaskRewardType.STARS]: StarSVG,
 };

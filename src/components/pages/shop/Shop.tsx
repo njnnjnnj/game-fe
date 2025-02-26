@@ -6,7 +6,7 @@ import { ClothView } from "./components/cloth-view/ClothView";
 import { ShopProfile } from "./components/shop-profile/ShopProfile";
 
 export const Shop = () => (
-  <HSRoot wrapperClassName="flex flex-col">
+  <HSRoot wrapperClassName="flex flex-col pb-23">
     <ShopProfile />
     <ClothView />
   </HSRoot>
