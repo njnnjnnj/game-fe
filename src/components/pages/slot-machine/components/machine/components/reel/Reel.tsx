@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import classNames from "classnames";
 
-import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import ReelCenterBg1 from "@/public/assets/png/slot-machine/reel-center-bg-1.webp";
 import ReelCenterBg2 from "@/public/assets/png/slot-machine/reel-center-bg-2.webp";
 import ReelCenterBgShadow2 from "@/public/assets/png/slot-machine/reel-center-bg-s-2.webp";
@@ -12,7 +11,6 @@ import ReelSideBg1 from "@/public/assets/png/slot-machine/reel-side-bg-1.webp";
 import ReelSideBg2 from "@/public/assets/png/slot-machine/reel-side-bg-2.webp";
 import ReelSideBgShadow2 from "@/public/assets/png/slot-machine/reel-side-bg-s-2.webp";
 import { Face } from "@/services/slot-machine/types";
-import { ImpactStyleEnum } from "@/types/telegram";
 
 type Props = {
   isSpinning?: boolean;
@@ -36,8 +34,6 @@ export const Reel: FunctionComponent<Props> = ({
   position,
   combination,
 }) => {
-  const { handleImpactOccurred } = useHapticFeedback();
-
   const [reelFace1, reelFace2, reelFace3] = combination;
 
   if (position === "left") {
@@ -137,9 +133,6 @@ export const Reel: FunctionComponent<Props> = ({
                 [lastSpinClassName[reelFace3]]: !!reelFace3,
               },
             )}
-            onAnimationIteration={() => {
-              handleImpactOccurred(ImpactStyleEnum.LIGHT);
-            }}
           />
           <Image
             className="[transform:rotateY(180deg)]"

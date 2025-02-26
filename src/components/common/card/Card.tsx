@@ -17,6 +17,7 @@ export enum CardType {
   ORANGE = "orange",
   DARK_BLUE = "dark_blue",
   GREEN = "green",
+  RED = "red",
 }
 
 type Props = {
@@ -79,7 +80,7 @@ export const Card: FunctionComponent<Props> = ({
         {
           "bg-[#0069B1]": type === CardType.BLUE,
           "bg-[#403BB7]": type === CardType.INDIGO,
-          "bg-[#A6552D]": type === CardType.ORANGE,
+          "bg-[#A6552D]": type === CardType.ORANGE || type === CardType.RED,
           "bg-[#101C28]": type === CardType.DARK_BLUE,
           "bg-[#009F00]": type === CardType.GREEN,
           "scale-105": isSelected,
@@ -102,7 +103,7 @@ export const Card: FunctionComponent<Props> = ({
               type === CardType.BLUE,
             "bg-gradient-to-b from-[#9099FD] to-[#777AF0]":
               type === CardType.INDIGO,
-            "bg-[#EFC609]": type === CardType.ORANGE,
+            "bg-[#EFC609]": type === CardType.ORANGE || type === CardType.RED,
             "bg-[#203950]": type === CardType.DARK_BLUE,
             "bg-[#02DB07]": type === CardType.GREEN,
           },
@@ -117,6 +118,7 @@ export const Card: FunctionComponent<Props> = ({
               "bg-[#403BB7]": type === CardType.INDIGO,
               "bg-[#203950]": type === CardType.DARK_BLUE,
               "bg-[#02DB07]": type === CardType.GREEN,
+              "bg-[#8B2542]": type === CardType.RED,
             },
           )}
         >
@@ -129,6 +131,7 @@ export const Card: FunctionComponent<Props> = ({
                 "bg-card-orange-bg-pattern": type === CardType.ORANGE,
                 "bg-card-dark-blue-bg-pattern": type === CardType.DARK_BLUE,
                 "bg-card-green-bg-pattern": type === CardType.GREEN,
+                "bg-card-red-bg-pattern": type === CardType.RED,
               },
             )}
           />
@@ -145,6 +148,7 @@ export const Card: FunctionComponent<Props> = ({
                   "bg-[#EFC609]": type === CardType.ORANGE,
                   "bg-[#203950]": type === CardType.DARK_BLUE,
                   "bg-[#02DB07]": type === CardType.GREEN,
+                  "bg-[#8B2542]": type === CardType.RED,
                 },
               )}
             >
@@ -161,6 +165,7 @@ export const Card: FunctionComponent<Props> = ({
                   "bg-[#EFC609]": type === CardType.ORANGE,
                   "bg-[#203950]": type === CardType.DARK_BLUE,
                   "bg-[#02DB07]": type === CardType.GREEN,
+                  "bg-[#8B2542]": type === CardType.RED,
                 },
               )}
             >

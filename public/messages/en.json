@@ -344,7 +344,13 @@
   },
   "SLOT_MACHINE": {
     "REWARD": "Reward",
-    "JACKPOT": "Jackpot"
+    "JACKPOT": "Jackpot",
+    "ENERGY_MODAL": {
+      "TITLE": "Energy",
+      "DESCRIPTION": "You can buy more energy to play one-armed bandit.",
+      "ENERGY_UNIT": "{amount} of Energy",
+      "BUTTON": "Buy energy"
+    }
   },
   "BUY_STARS": {
     "TITLE": "Stars",

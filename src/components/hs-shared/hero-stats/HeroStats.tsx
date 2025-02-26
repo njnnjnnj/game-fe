@@ -47,7 +47,9 @@ type Props = {
 const calculateProgress = (current: number, max: number) =>
   (current / max) * 100;
 
-const calculateStat = (base: number, rate: number) => base * rate;
+const calculateStat = (base: number, rate: number, heroId: HeroId) =>
+  // "Default" hero is an edge case where we consider rate as an integer bonus of cloth
+  heroId === HeroId.DEFAULT ? rate : base * rate;
 
 export const HeroStats: FunctionComponent<Props> = ({
   ctaType,
@@ -130,14 +132,17 @@ export const HeroStats: FunctionComponent<Props> = ({
       calculatedEnergy += calculateStat(
         heroConfig.energy,
         clothConfig?.energy ?? 0,
+        heroId,
       );
       calculatedEarnPerHour += calculateStat(
         heroConfig.earn_per_hour,
         clothConfig?.earn_per_hour ?? 0,
+        heroId,
       );
       calculatedEarnPerTap += calculateStat(
         heroConfig.earn_per_tap,
         clothConfig?.earn_per_tap ?? 0,
+        heroId,
       );
 
       if (currentHeroCloth?.[clothPiece as HeroClothPiece] !== clothId) {
@@ -157,7 +162,7 @@ export const HeroStats: FunctionComponent<Props> = ({
       stars,
     };
   }, [heroes, selectedHeroCloth, heroId, currentHeroCloth]);
-
+  console.log(earnPerTap);
   return (
     <div className="absolute inset-y-0 right-4 my-auto max-h-fit w-1/2 rounded-2xl border border-[#EFC609]">
       <div className="flex flex-col gap-y-4 rounded-2xl bg-[rgba(0,0,0,0.6)] p-4 backdrop-blur-sm">
@@ -220,7 +225,7 @@ export const HeroStats: FunctionComponent<Props> = ({
           </div>
         </div>
         <div className="flex flex-col gap-y-3">
-          {isShopPage && (
+          {isShopPage && (!!coins || !!stars) && (
             <div className="flex flex-col gap-y-2">
               <div className="text-stroke-1 text-center text-base font-extrabold text-white text-shadow">
                 {tShop(
@@ -228,7 +233,9 @@ export const HeroStats: FunctionComponent<Props> = ({
                 )}
               </div>
               <div className="flex justify-center gap-x-2">
-                <Badge value={formatValue(coins)} suppressPadding />
+                {!!coins && (
+                  <Badge value={formatValue(coins)} suppressPadding />
+                )}
                 <Badge value={formatValue(stars)} suppressPadding />
               </div>
             </div>

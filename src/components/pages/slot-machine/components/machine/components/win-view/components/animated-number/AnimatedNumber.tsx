@@ -2,6 +2,9 @@ import React, { FunctionComponent, useRef } from "react";
 
 import { useAnimationFrame } from "framer-motion";
 
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { ImpactStyleEnum } from "@/types/telegram";
+
 type Props = {
   className?: string;
   targetNum: number;
@@ -17,6 +20,7 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const counter = useRef(0);
+  const { handleImpactOccurred } = useHapticFeedback();
 
   useAnimationFrame((time, delta) => {
     if (ref.current) {
@@ -24,8 +28,8 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
 
       let nextAdd = Math.round(targetNum / (DURATION / delta));
 
-      if (nextAdd < 0.05) {
-        nextAdd = 0.05;
+      if (nextAdd < 0.1) {
+        nextAdd = 0.1;
       }
 
       const nextNum = counter.current + nextAdd;
@@ -33,9 +37,13 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
       if (nextNum < targetNum) {
         ref.current.innerText = nextNum.toFixed();
         counter.current = nextNum;
+
+        handleImpactOccurred(ImpactStyleEnum.MEDIUM);
       } else {
         ref.current.innerText = targetNum.toString();
         counter.current = targetNum;
+
+        handleImpactOccurred(ImpactStyleEnum.MEDIUM);
 
         onAnimationEnd();
       }

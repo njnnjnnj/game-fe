@@ -386,6 +386,13 @@ export const NS = {
       ROOT: "SLOT_MACHINE",
       REWARD: "REWARD",
       JACKPOT: "JACKPOT",
+      ENERGY_MODAL: {
+        ROOT: "ENERGY_MODAL",
+        TITLE: "TITLE",
+        DESCRIPTION: "DESCRIPTION",
+        ENERGY_UNIT: "ENERGY_UNIT",
+        BUTTON: "BUTTON",
+      },
     },
     BUY_STARS: {
       ROOT: "BUY_STARS",

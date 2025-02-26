@@ -4,10 +4,12 @@ import Image from "next/image";
 
 import classNames from "classnames";
 
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import SpinButtonBase from "@/public/assets/png/slot-machine/spin-btn-base.webp";
 import SpinButtonGreen from "@/public/assets/png/slot-machine/spin-btn-green.webp";
 import SpinButtonRed from "@/public/assets/png/slot-machine/spin-btn-red.webp";
 import SpinButtonStub from "@/public/assets/png/slot-machine/spin-btn-stub.webp";
+import { ImpactStyleEnum } from "@/types/telegram";
 
 type Props = {
   isVip: boolean;
@@ -19,11 +21,17 @@ export const SpinButton: FunctionComponent<Props> = ({
   onSpinClick,
 }) => {
   const [isSpinButtonTouched, setIsSpinButtonTouched] = useState(false);
+  const { handleImpactOccurred } = useHapticFeedback();
+
+  const onClick = () => {
+    handleImpactOccurred(ImpactStyleEnum.MEDIUM);
+    onSpinClick();  
+  }
 
   return (
     <div
       className="absolute left-[29.5%] top-[75.7%] h-[16.7%] w-[43.85%]"
-      onClick={onSpinClick}
+      onClick={onClick}
       onTouchStart={() => {
         setIsSpinButtonTouched(true);
       }}

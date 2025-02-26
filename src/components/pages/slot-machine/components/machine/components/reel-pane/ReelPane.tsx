@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 
 import Image from "next/image";
 
@@ -9,28 +9,15 @@ import { Reel } from "../reel/Reel";
 
 type Props = {
   isSpinning?: boolean;
+  isFinalDrama?: boolean;
   combination: Face[];
 };
 
 export const ReelPane: FunctionComponent<Props> = ({
   isSpinning,
+  isFinalDrama,
   combination,
 }) => {
-  const [isFinalDrama, setIsFinalDrama] = useState(false);
-
-  useEffect(() => {
-    if (combination.length < 2) {
-      setIsFinalDrama(false);
-      return; 
-    };
-
-    const [reelFace1, reelFace2, reelFace3] = combination;
-
-    if (reelFace1 && reelFace2 && !reelFace3 && reelFace1 === reelFace2) {
-      setIsFinalDrama(true);
-    }
-  }, [combination]);
-
   return (
     <>
       <Reel
