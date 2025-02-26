@@ -382,6 +382,11 @@ export const NS = {
         BILLIARD_LEAGUE: "BILLIARD_LEAGUE",
       },
     },
+    SLOT_MACHINE: {
+      ROOT: "SLOT_MACHINE",
+      REWARD: "REWARD",
+      JACKPOT: "JACKPOT",
+    },
     BUY_STARS: {
       ROOT: "BUY_STARS",
       TITLE: "TITLE",

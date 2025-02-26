@@ -34,6 +34,7 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
   maxEnergy,
   amount,
 }) => {
+  console.log("🚀 ~ disabled:", disabled);
   const t = useTranslations(NS.PAGES.REWARDS.ROOT);
 
   return (

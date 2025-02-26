@@ -342,6 +342,10 @@
       "TOP": "Top {num}"
     }
   },
+  "SLOT_MACHINE": {
+    "REWARD": "Reward",
+    "JACKPOT": "Jackpot"
+  },
   "BUY_STARS": {
     "TITLE": "Stars",
     "DESCRIPTION": "Stars are awarded after 21 days from the date of earning.",
