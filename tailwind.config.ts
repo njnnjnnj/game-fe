@@ -714,6 +714,8 @@ export default {
         26: "104px",
         30: "120px",
         38: "152px",
+        45: "180px",
+        46: "184px",
         60: "240px",
         74: "296px",
         75: "300px",
@@ -811,6 +813,7 @@ export default {
         union: "0 2px 2px rgba(0,0,0,0.6)",
         tape: "0 2px 24px rgba(0, 0, 0, 0.80), 0 2px 8px rgba(0, 0, 0, 0.60), 0 6px 6px rgba(0, 0, 0, 0.60)",
         "social-icons": "0 1px 0 rgba(0, 0, 0, 1)",
+        "home-button": "0 0 12px rgba(0, 0, 0, 0.8)",
       },
       fontFamily: {
         rubik: ["Rubik, sans-serif"],

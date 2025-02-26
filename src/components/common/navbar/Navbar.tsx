@@ -9,11 +9,15 @@ import classNames from "classnames";
 
 import { NS } from "@/constants/ns";
 
-import { NAVBAR_ITEMS } from "./constants";
+import { NAVBAR_ITEMS, PAGES_WITH_NAVBAR } from "./constants";
 
 export const Navbar = () => {
   const t = useTranslations(NS.PAGES.HOME.ROOT);
   const { pathname } = useRouter();
+
+  if (!PAGES_WITH_NAVBAR.includes(pathname)) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-5 items-stretch">

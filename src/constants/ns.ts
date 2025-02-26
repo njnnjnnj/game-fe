@@ -26,6 +26,7 @@ export const NS = {
   PAGES: {
     HOME: {
       ROOT: "HOME",
+      SLOTS: "SLOTS",
       OFFLINE_BONUS: {
         ROOT: "OFFLINE_BONUS",
         TITLE: "TITLE",
