@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { PageWrapper } from "@/components/common";
-import { BottomMenu } from "@/components/common/bottom-menu/BottomMenu";
 import { Drawer } from "@/components/ui/drawer";
 import { useTelegram } from "@/context";
 import { useInfiniteLeaderboard } from "@/services/leaderboard/queries";
@@ -53,7 +52,6 @@ export const TopPlayers = () => {
         ) : null}
         <TimerBlock />
         <RewardsBlock />
-        <BottomMenu />
         <RewardsModal league={profile?.league ?? League.BRONZE} />
       </Drawer>
     </PageWrapper>
