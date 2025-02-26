@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -19,24 +19,42 @@ type Props = {
   reward: number;
   isVip: boolean;
   combination: Face[];
-  onClick: () => void;
+  onClose: () => void;
 };
+
+const CLOSE_TIMING = 3000;
 
 export const WinView: FunctionComponent<Props> = ({
   reward,
   isVip,
   combination,
-  onClick,
+  onClose,
 }) => {
   const [isAnimationActive, setIsAnimationActive] = useState(false);
+  const closeTimerRef = useRef<NodeJS.Timeout>();
   const tCommon = useTranslations(NS.COMMON.ROOT);
   const tSlotMachine = useTranslations(NS.PAGES.SLOT_MACHINE.ROOT);
 
   useEffect(() => {
     setIsAnimationActive(false);
+
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
   }, [reward]);
 
   const isActive = !!reward;
+
+  const stopAnimationAndRunTimer = () => {
+    setIsAnimationActive(false);
+
+    closeTimerRef.current = setTimeout(() => {
+      closeTimerRef.current = undefined;
+      onClose();
+    }, CLOSE_TIMING);
+  };
 
   return (
     <div
@@ -44,7 +62,7 @@ export const WinView: FunctionComponent<Props> = ({
         visible: isActive,
         invisible: !isActive,
       })}
-      onClick={onClick}
+      onClick={onClose}
     >
       <div
         className={classNames(
@@ -104,9 +122,7 @@ export const WinView: FunctionComponent<Props> = ({
               <AnimatedNumber
                 className="text-stroke-brown-1.5 font-black leading-none text-[#FDEC50] text-shadow-win [font-size:min(8.2vw,3.7vh)]"
                 targetNum={reward}
-                onAnimationEnd={() => {
-                  setIsAnimationActive(false);
-                }}
+                onAnimationEnd={stopAnimationAndRunTimer}
               />
             )}
           </div>

@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import { getBandit, playBandit, playBanditJackpot } from "./fetcher";
 import {
@@ -38,3 +38,16 @@ export const useGetBandit = () =>
     retry: false,
     staleTime: 1000 * 60 * 5,
   });
+
+export const updateGetBanditQuery = (
+  queryClient: QueryClient,
+  balance: number,
+) => {
+  queryClient.setQueryData(
+    [QueryKeys.GET_BANDIT],
+    (oldBanditInfo: BanditInfo) => ({
+      ...oldBanditInfo,
+      balance,
+    }),
+  );
+};

@@ -4,8 +4,10 @@ import Image from "next/image";
 
 import classNames from "classnames";
 
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import BetButtonImg from "@/public/assets/png/slot-machine/bet-btn.webp";
 import BetButtonBase from "@/public/assets/png/slot-machine/bet-btn-base.webp";
+import { ImpactStyleEnum } from "@/types/telegram";
 
 type Props = {
   bet: number;
@@ -14,6 +16,12 @@ type Props = {
 
 export const BetButton: FunctionComponent<Props> = ({ bet, onClick }) => {
   const [isButtonTouched, setIsButtonTouched] = useState(false);
+  const { handleImpactOccurred } = useHapticFeedback();
+
+  const handleClick = () => {
+    handleImpactOccurred(ImpactStyleEnum.SOFT);
+    onClick();   
+  }
 
   return (
     <div
@@ -23,7 +31,7 @@ export const BetButton: FunctionComponent<Props> = ({ bet, onClick }) => {
       }}
       onTouchEnd={() => {
         setIsButtonTouched(false);
-        onClick();
+        handleClick();
       }}
     >
       <Image src={BetButtonBase} alt="" fill quality={100} />

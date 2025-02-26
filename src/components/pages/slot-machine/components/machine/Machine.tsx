@@ -4,51 +4,52 @@ import { AxiosError } from "axios";
 import classNames from "classnames";
 import { toast } from "sonner";
 
+import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
-import { useGetProfile } from "@/services/profile/queries";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { updateProfileQuery, useGetProfile } from "@/services/profile/queries";
 import {
+  updateGetBanditQuery,
   useGetBandit,
   usePlayBandit,
   usePlayBanditJackpot,
 } from "@/services/slot-machine/queries";
-import { Face } from "@/services/slot-machine/types";
+import { BanditJackpotPlayResponse, Face } from "@/services/slot-machine/types";
+import { ImpactStyleEnum } from "@/types/telegram";
 import { formatValue } from "@/utils/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { BetButton } from "./components/bet-button/BetButton";
 import { Chevron } from "./components/chevron/Chevron";
+import { EnergyModal } from "./components/energy-modal/EnergyModal";
 import { JackpotPane } from "./components/jackpot-pane/JackpotPane";
 import { ReelPane } from "./components/reel-pane/ReelPane";
 import { SpinButton } from "./components/spin-button/SpinButton";
+import { StarsModal } from "./components/stars-modal/StarsModal";
 import { SwitchButton } from "./components/switch-button/SwitchButton";
 import { WinView } from "./components/win-view/WinView";
-
-// const faces = ["chest", "booster", "bucket", "super_booster", "bag"];
-
-// function getRandomFace() {
-//   const minCeiled = Math.ceil(0);
-//   const maxFloored = Math.floor(4);
-//   const num = Math.floor(
-//     Math.random() * (maxFloored - minCeiled + 1) + minCeiled,
-//   );
-
-//   return faces[1];
-// }
 
 const DEFAULT_BETS = [5, 10, 15, 20, 25, 50];
 const PAID_BETS = [100, 500, 1000, 2500];
 
 const WIN_VIEW_TIMING = 500;
 const REEL_STOP_INTERVAL = 1500;
+const JACKPOT_UPDATE_INTERVAL = 10_000;
 
 export const Machine = () => {
-  const [isVip, setIsVip] = useState(false);
+  const [isVip, setIsVip] = useState(true);
+  const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
   const [betIndex, setBetIndex] = useState(1);
   const [isSpinning, setIsSpinning] = useState(false);
   const [reward, setReward] = useState(0);
+  const [isFinalDrama, setIsFinalDrama] = useState(false);
   const [bets, setBets] = useState(DEFAULT_BETS);
   const [combination, setCombination] = useState<Face[]>([]);
+  const queryClient = useQueryClient();
+  const { handleImpactOccurred } = useHapticFeedback();
 
-  const intervalRef = useRef<NodeJS.Timeout>();
+  const reelStopIntevalRef = useRef<NodeJS.Timeout>();
+  const jackpotUpdateInterval = useRef<NodeJS.Timeout>();
   const winTimeoutRef = useRef<NodeJS.Timeout>();
 
   const bet = bets[betIndex];
@@ -58,6 +59,37 @@ export const Machine = () => {
 
   const { mutate: playBandit } = usePlayBandit();
   const { mutate: playBanditJackpot } = usePlayBanditJackpot();
+
+  const balance = isVip ? (profile?.stars ?? 0) : (banditInfo?.balance ?? 0);
+
+  useEffect(() => {
+    if (combination.length < 2) {
+      setIsFinalDrama(false);
+      return;
+    }
+
+    const [reelFace1, reelFace2, reelFace3] = combination;
+
+    if (reelFace1 && reelFace2 && !reelFace3 && reelFace1 === reelFace2) {
+      setIsFinalDrama(true);
+    }
+  }, [combination]);
+
+  useEffect(() => {
+    if (isVip) {
+      jackpotUpdateInterval.current = setInterval(
+        refetchBanditInfo,
+        JACKPOT_UPDATE_INTERVAL,
+      );
+    }
+
+    return () => {
+      if (jackpotUpdateInterval.current) {
+        clearInterval(jackpotUpdateInterval.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVip]);
 
   useEffect(() => {
     let bets = DEFAULT_BETS;
@@ -74,19 +106,41 @@ export const Machine = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [banditInfo, isVip]);
 
+  useEffect(
+    () => () => {
+      if (reelStopIntevalRef.current) {
+        clearInterval(reelStopIntevalRef.current);
+      }
+
+      if (winTimeoutRef.current) {
+        clearTimeout(winTimeoutRef.current);
+      }
+    },
+    [],
+  );
+
   const onChangeBet = () => {
     setBetIndex((prevBetIndex) =>
       prevBetIndex + 1 < bets.length ? prevBetIndex + 1 : 0,
     );
   };
 
+  const onBalanceClick = () => {
+    handleImpactOccurred(ImpactStyleEnum.LIGHT);
+
+    setIsBalanceModalOpen(true);
+  };
+
   const onSpin = () => {
-    if (isSpinning) return;
+    if (isSpinning || bet > balance) return;
 
     setIsSpinning(true);
     setCombination([]);
 
     const playMethod = isVip ? playBanditJackpot : playBandit;
+    const updateBalance = isVip ? updateProfileQuery : updateGetBanditQuery;
+
+    updateBalance(queryClient, balance - bet);
 
     playMethod(bet, {
       onSuccess: (response) => {
@@ -94,17 +148,25 @@ export const Machine = () => {
 
         console.log(`Combination: ${combination}`);
 
-        intervalRef.current = setInterval(() => {
+        reelStopIntevalRef.current = setInterval(() => {
           const face = combination.shift() as Face;
 
           setCombination((prevValue) => {
             if (!combination.length) {
-              clearInterval(intervalRef.current);
-              intervalRef.current = undefined;
+              clearInterval(reelStopIntevalRef.current);
+              reelStopIntevalRef.current = undefined;
 
-              if (response.reward > 0) {
+              let reward = response.reward;
+
+              if ("jackpot_reward" in response) {
+                reward +=
+                  (response as BanditJackpotPlayResponse).jackpot_reward ?? 0;
+              }
+
+              if (reward > 0) {
                 winTimeoutRef.current = setTimeout(() => {
-                  setReward(response.reward);
+                  setReward(reward);
+                  winTimeoutRef.current = undefined;
                 }, WIN_VIEW_TIMING);
               }
             }
@@ -114,10 +176,6 @@ export const Machine = () => {
 
           if (!combination.length) {
             setIsSpinning(false);
-
-            if ('jackpot_reward' in response) {
-              refetchBanditInfo();
-            }
           }
         }, REEL_STOP_INTERVAL);
       },
@@ -140,115 +198,88 @@ export const Machine = () => {
             text={`Bandit play has failed: ${message}`}
           />,
         );
+
+        updateBalance(queryClient, balance + bet);
       },
     });
   };
 
-  // useEffect(() => {
-  //   let timeout: NodeJS.Timeout;
-  //   let interval: NodeJS.Timeout;
-  //   let winTimeout: NodeJS.Timeout;
-
-  //   if (isSpinning) {
-  //     console.log("Fake run");
-
-  //     new Promise<string[]>((resolve) => {
-  //       timeout = setTimeout(
-  //         () => resolve(Array.from({ length: 3 }).map(getRandomFace)),
-  //         1000,
-  //       );
-  //     }).then((resp) => {
-  //       const response = [...resp];
-  //       console.log(`Fake response: ${response}`);
-
-  //       interval = setInterval(() => {
-  //         const face = response.shift() as Face;
-
-  //         setCombination((prevValue) => {
-  //           if (!response.length) {
-  //             clearInterval(interval);
-
-  //             const isWinCombination = new Set(resp).size === 1;
-
-  //             if (isWinCombination) {
-  //               winTimeout = setTimeout(() => {
-  //                 setIsWinViewMode(true);
-  //               }, 500);
-  //             }
-  //           }
-
-  //           return [...prevValue, face];
-  //         });
-
-  //         if (!response.length) {
-  //           setIsSpinning(false);
-  //         }
-  //       }, 1500);
-  //     });
-  //   }
-
-  //   return () => {
-  //     if (timeout) {
-  //       clearTimeout(timeout);
-  //     }
-
-  //     if (interval) {
-  //       clearInterval(interval);
-  //     }
-
-  //     if (winTimeout) {
-  //       clearTimeout(timeout);
-  //     }
-  //   };
-  // }, [isSpinning]);
-
   return (
-    <div className="flex min-h-0 grow flex-col">
-      <div className="mt-auto aspect-[0.51] max-h-full w-full">
-        <div
-          className={classNames(
-            "relative h-full w-full bg-[length:100%_100%]",
-            {
-              "bg-[url('/assets/png/slot-machine/slot-machine-red.webp')]":
-                !isVip,
-              "bg-[url('/assets/png/slot-machine/slot-machine-blue.webp')]":
-                isVip,
-            },
-          )}
-        >
-          <SwitchButton
-            label={isVip ? "BASE" : "VIP ROOM"}
-            onClick={() => setIsVip(!isVip)}
-          />
+    <Drawer
+      open={isBalanceModalOpen}
+      onClose={() => setIsBalanceModalOpen(false)}
+    >
+      <div className="flex min-h-0 grow flex-col">
+        <div className="mt-auto aspect-[0.51] max-h-full w-full">
+          <div
+            className={classNames(
+              "relative h-full w-full bg-[length:100%_100%]",
+              {
+                "bg-[url('/assets/png/slot-machine/slot-machine-red.webp')]":
+                  !isVip,
+                "bg-[url('/assets/png/slot-machine/slot-machine-blue.webp')]":
+                  isVip,
+              },
+            )}
+          >
+            <SwitchButton
+              label={isVip ? "BASE" : "VIP ROOM"}
+              onClick={() => setIsVip(!isVip)}
+            />
 
-          {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
+            {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
 
-          <ReelPane combination={combination} isSpinning={isSpinning} />
+            <ReelPane
+              combination={combination}
+              isFinalDrama={isFinalDrama}
+              isSpinning={isSpinning}
+            />
 
-          <Chevron isSpinning={isSpinning} />
+            <Chevron
+              isSpinning={isSpinning}
+              isSlowSpinning={!combination[2] && isFinalDrama}
+            />
 
-          <Chevron isSpinning={isSpinning} isRight />
+            <Chevron
+              isSpinning={isSpinning}
+              isSlowSpinning={!combination[2] && isFinalDrama}
+              isRight
+            />
 
-          <SpinButton isVip={isVip} onSpinClick={onSpin} />
+            <SpinButton isVip={isVip} onSpinClick={onSpin} />
 
-          <BetButton bet={bet} onClick={onChangeBet} />
-          {/* Balance */}
-          <div className="text-stroke-2 absolute left-[15.2%] top-[83.5%] w-[13%] text-center font-black leading-none text-white text-shadow [container-type:inline-size] [font-size:min(3.4cqw,1.6cqh)]">
-            {isVip
-              ? formatValue(profile?.stars ?? 0)
-              : formatValue(banditInfo?.balance ?? 0)}
+            <BetButton bet={bet} onClick={onChangeBet} />
+            {/* Balance */}
+            <div
+              className="absolute left-[3%] top-[81.8%] h-[6%] w-[27.4%]"
+              onClick={onBalanceClick}
+            >
+              <div className="text-stroke-2 absolute right-[10%] top-[45%] flex h-[64.2%] w-[45%] -translate-y-1/2 items-center justify-center font-black leading-none text-white text-shadow [container-type:inline-size] [font-size:min(3.4cqw,1.7cqh)]">
+                {formatValue(balance ?? 0)}
+              </div>
+            </div>
+
+            <WinView
+              combination={combination}
+              reward={reward}
+              isVip={isVip}
+              onClose={() => {
+                setReward(0);
+              }}
+            />
           </div>
-
-          <WinView
-            combination={combination}
-            reward={reward}
-            isVip={isVip}
-            onClick={() => {
-              setReward(0);
-            }}
-          />
         </div>
+        {isVip ? (
+          <StarsModal onClose={() => setIsBalanceModalOpen(false)} />
+        ) : (
+          <EnergyModal
+            onClose={() => setIsBalanceModalOpen(false)}
+            onSuccessfulBuy={(energyAmount: number) =>
+              updateGetBanditQuery(queryClient, balance + energyAmount)
+            }
+          />
+        )}
       </div>
-    </div>
+    </Drawer>
   );
 };

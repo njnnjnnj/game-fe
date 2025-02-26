@@ -40,6 +40,7 @@ export const PrimaryButton: FunctionComponent<Props> = ({
   ) => {
     if (disabled) {
       handleNotificationOccurred(NotificationEnum.ERROR);
+      return;
     } else {
       handleSelectionChanged();
     }

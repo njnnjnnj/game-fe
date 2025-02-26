@@ -38,9 +38,9 @@ export default {
         "slot-reel-bucket-last-spin":
           "slot-reel-bucket-last-spin 1s linear forwards",
         "slot-reel-bag-last-spin": "slot-reel-bag-last-spin 1s linear forwards",
-        "slot-left-chevron-spin": "slot-left-chevron-spin 0.5s linear infinite",
+        "slot-left-chevron-spin": "slot-left-chevron-spin 0.2s linear infinite",
         "slot-right-chevron-spin":
-          "slot-right-chevron-spin 0.5s linear infinite",
+          "slot-right-chevron-spin 0.2s linear infinite",
         "slot-win-view-text-pulse":
           "slot-win-view-text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "slot-win-view-backdrop-fade-in":
@@ -681,6 +681,8 @@ export default {
           "radial-gradient(50% 88.48% at 50% 50%, rgba(32, 57, 80, 0) 0%, #203950 100%), url('/assets/png/card-bg.png')",
         "card-green-bg-pattern":
           "radial-gradient(50% 88.48% at 50% 50%, rgba(0, 159, 0, 0) 0%, #009F00 100%), url('/assets/png/card-bg.png')",
+        "card-red-bg-pattern":
+          "radial-gradient(50% 88.48% at 50% 50%, rgba(136, 51, 8, 0) 0%, #883308 100%), url('/assets/png/card-bg.png')",
         "top-players-list-pattern":
           "linear-gradient(#FFB900 0%, #FDC42D 50%, #FFB900 100%)",
       },
