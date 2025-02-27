@@ -21,7 +21,6 @@ let currentWidth = 0;
 
 const BATTLE_PASS_LIST_HEADER_ROW_ID = "battle-pass-list-header-row";
 const BATTLE_PASS_ROWS_COUNT = 101; // 100 Battle Pass items and 1 for the Header
-const BATTLE_PASS_CURRENT_LEVEL = 3;
 
 const getItemSize = (index: number) => {
   if (!index)
@@ -44,7 +43,6 @@ const Row = ({ index, style }: { index: number; style: CSSProperties }) => {
         <BattlePassRow
           key={`level-${renderLevel}`}
           renderLevel={renderLevel}
-          battlePassLevel={BATTLE_PASS_CURRENT_LEVEL}
         />
       ) : (
         <BattlePassListHeader />
@@ -68,6 +66,8 @@ export const BattlePassList: FunctionComponent<Props> = ({ onScroll }) => {
     }
   }, []);
 
+
+  
   return (
     <div className="absolute inset-0">
       <AutoSizer>

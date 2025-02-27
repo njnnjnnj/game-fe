@@ -9,6 +9,12 @@ export const getBattlePass = async () => {
   return data;
 };
 
+export const getBattlePassConfig = async () => {
+  const { data } = await apiClient.get(API_ENDPOINTS.GET.GET_BATTLEPASS_CONFIG);
+
+  return data;
+};
+
 export const getRewardFromBattlePass = async ({
   level,
   isPaid,

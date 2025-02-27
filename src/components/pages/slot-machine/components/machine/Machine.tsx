@@ -100,6 +100,7 @@ export const Machine = () => {
     return () => {
       if (isVip && jackpotUpdateInterval.current) {
         clearInterval(jackpotUpdateInterval.current);
+        jackpotUpdateInterval.current = undefined;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,8 +117,7 @@ export const Machine = () => {
 
     setBets(bets);
     setBetIndex(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [banditInfo, isVip]);
+  }, [banditInfo?.paid, isVip]);
 
   useEffect(
     () => () => {

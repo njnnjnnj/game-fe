@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { GetRewardCard } from "@/components/common/get-reward-card/GetRewardCard";
 import { RewardsStatusEnum } from "@/components/pages/rewards/enums";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import RegularChest from "@/public/assets/png/battle-pass/mystery-chest.webp";
+import RegularChest from "@/public/assets/png/battle-pass/mega-chest.webp";
 import { IDailyReward, IDailyRewardInfo } from "@/services/rewards/types";
 import { NotificationEnum } from "@/types/telegram";
 import { ImpactStyleEnum } from "@/types/telegram";

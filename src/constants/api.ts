@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
     GET_BOOSTERS: "/get_boosters",
     CLICKER: "/clicker",
     GET_BATTLEPASS: "/get_battlepass",
+    GET_BATTLEPASS_CONFIG: "/get_battlepass_config",
     GET_REFERALS: "/get_referals",
     GET_REWARDS_EARN: "/get_referals_earn",
     GET_DAILY_INFO: "/get_daily_info",

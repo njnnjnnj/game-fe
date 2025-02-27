@@ -9,6 +9,33 @@ export type BattlePassInfo = {
   need_exp: number;
 };
 
+export enum BattleBassChestType {
+  START = "start",
+  EPIC = "epic",
+  MEGA = "mega",
+}
+
+export type BattlePassItem = {
+  is_paid: boolean;
+  level: number;
+  type:
+    | "chest"
+    | "friends"
+    | "stars"
+    | "coins"
+    | "offline"
+    | "buster"
+    | "game_energy"
+    | "cloth"
+    | "character";
+  value: number | "energy" | BattleBassChestType | HeroId | HeroId[];
+};
+
+export type BattlePassConfig = {
+  free: Record<number, BattlePassItem>;
+  paid: Record<number, BattlePassItem>;
+};
+
 type ExistReward = {
   currency: HeroCurrency;
   value: number;

@@ -10,49 +10,90 @@ import { LevelBadge } from "@/components/pages/battle-pass/components/level-badg
 import { CollectButton, CollectButtonColor } from "@/components/ui";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import LargeFx from "@/public/assets/png/battle-pass/large-fx.png";
-import MysteryChest from "@/public/assets/png/battle-pass/mystery-chest.webp";
-import RegularChest from "@/public/assets/png/battle-pass/regular-chest.webp";
-import SmallFx from "@/public/assets/png/battle-pass/small-fx.png";
+import Booster from "@/public/assets/png/battle-pass/booster.webp";
+import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
+import EnergyBooster from "@/public/assets/png/battle-pass/energy-booster.webp";
+import EpicChest from "@/public/assets/png/battle-pass/epic-chest.webp";
+import LargeFx from "@/public/assets/png/battle-pass/large-fx.webp";
+import MegaChest from "@/public/assets/png/battle-pass/mega-chest.webp";
+import SmallFx from "@/public/assets/png/battle-pass/small-fx.webp";
+import StartChest from "@/public/assets/png/battle-pass/start-chest.webp";
+import {
+  BattleBassChestType,
+  BattlePassItem,
+} from "@/services/battle-pass/types";
 import { NotificationEnum } from "@/types/telegram";
 
 import CellRenderer from "./cell-renderer";
 
-export enum CellType {
-  Regular,
-  Premium,
-}
-
 type Props = {
   battlePassLevel: number;
   renderLevel: number;
-  cellType: CellType;
+  item: BattlePassItem;
 };
 
 export const BattlePassCell: FunctionComponent<Props> = ({
   battlePassLevel,
   renderLevel,
-  cellType,
+  item,
 }) => {
   const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
   const { handleNotificationOccurred } = useHapticFeedback();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const isPremium = cellType === CellType.Premium;
+  const isPremium = item.is_paid;
   const isTaken = battlePassLevel > renderLevel;
   const isLocked = renderLevel > battlePassLevel;
   const isAnimated = !isTaken && !isLocked;
-  let ChestImage;
-  let FxImage;
+  let ChestImage = isPremium ? MegaChest : StartChest;
+  const FxImage = isPremium ? LargeFx : SmallFx;
 
-  switch (cellType) {
-    case CellType.Premium:
-      ChestImage = MysteryChest;
-      FxImage = LargeFx;
+  switch (item.type) {
+    case "chest": {
+      if (item.value === BattleBassChestType.EPIC) {
+        ChestImage = EpicChest;
+      } else if (item.value === BattleBassChestType.MEGA) {
+        ChestImage = MegaChest;
+      } else {
+        ChestImage = StartChest;
+      }
       break;
-    default:
-      ChestImage = RegularChest;
-      FxImage = SmallFx;
+    }
+    case "friends": {
+      ChestImage = Bucket;
       break;
+    }
+    case "stars": {
+      ChestImage = Bucket;
+      break;
+    }
+    case "coins": {
+      ChestImage = Bucket;
+      break;
+    }
+    case "offline": {
+      ChestImage = Bucket;
+      break;
+    }
+    case "buster": {
+      ChestImage = Booster;
+      break;
+    }
+    case "game_energy": {
+      ChestImage = EnergyBooster;
+      break;
+    }
+    case "cloth": {
+      ChestImage = StartChest;
+      break;
+    }
+    case "character": {
+      ChestImage = MegaChest;
+      break;
+    }
+    default: {
+      ChestImage = StartChest;
+      break;
+    }
   }
 
   useEffect(() => {

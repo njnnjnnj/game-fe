@@ -2,15 +2,18 @@ import React from "react";
 
 import { LevelBadge } from "@/components/pages/battle-pass/components/level-badge/LevelBadge";
 import { useGetBattlePass } from "@/services/battle-pass/queries";
+import { useGetShop } from "@/services/shop/queries";
 import { formatValue } from "@/utils/lib/utils";
 
 import { EnhanceButton } from "./components/enhance-button/EnhanceButton";
 
 export const BattlePassProgressBar = () => {
   const { data: battlePassInfo } = useGetBattlePass();
+  useGetShop();
   const currentLevel = battlePassInfo?.current_level ?? 1;
   const currentExp = battlePassInfo?.current_exp ?? 0;
   const needExp = battlePassInfo?.need_exp ?? 0;
+
 
   return (
     <div className="relative z-10 flex flex-col">
