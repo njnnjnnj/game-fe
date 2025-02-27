@@ -22,6 +22,8 @@
   },
   "HOME": {
     "SLOTS": "Slots",
+    "PER_HOUR": "Income / Hour",
+    "PER_TAP": "Income / Tap",
     "OFFLINE_BONUS": {
       "TITLE": "Offline Bonus",
       "DESCRIPTION": "Come back every 3 hours to earn profit! You can buy a Booster to increase the offline bonus period.",
