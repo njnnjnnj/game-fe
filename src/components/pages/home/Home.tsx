@@ -22,6 +22,7 @@ import {
 } from "@/services/offline-bonus/queries";
 import { OfflineBonus } from "@/services/offline-bonus/types";
 import { invalidateProfileQuery, useClicker } from "@/services/profile/queries";
+import { generateHmac } from "@/utils/lib/hmac";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -69,18 +70,24 @@ export const Home = () => {
   }, [clickCount]);
 
   useEffect(() => {
+    const unixTimeInMillis =
+      Date.now() - Math.abs(new Date().getTimezoneOffset()) * 60000;
+    const unixTimeInSeconds = Math.floor(unixTimeInMillis / 1000);
+
     if (debouncedClickCount > 0) {
-      const unixTime = Math.floor(Date.now() / 1000);
       const token = Cookies.get(AUTH_COOKIE_TOKEN);
 
-      setClicker(`${debouncedClickCount}:${unixTime}:${token}`, {
-        onSuccess: () => {
-          invalidateProfileQuery(queryClient);
+      setClicker(
+        `${debouncedClickCount}:${unixTimeInSeconds}:${generateHmac(debouncedClickCount, unixTimeInSeconds, token ?? "")}`,
+        {
+          onSuccess: () => {
+            invalidateProfileQuery(queryClient);
+          },
+          onError: (error) => {
+            toast.error(error.message);
+          },
         },
-        onError: (error) => {
-          toast.error(error.message);
-        },
-      });
+      );
     }
   }, [debouncedClickCount]);
 
