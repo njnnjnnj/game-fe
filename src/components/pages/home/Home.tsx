@@ -22,6 +22,7 @@ import {
 } from "@/services/offline-bonus/queries";
 import { OfflineBonus } from "@/services/offline-bonus/types";
 import { invalidateProfileQuery, useClicker } from "@/services/profile/queries";
+import { generateHmac } from "@/utils/lib/hmac";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -76,14 +77,17 @@ export const Home = () => {
     if (debouncedClickCount > 0) {
       const token = Cookies.get(AUTH_COOKIE_TOKEN);
 
-      setClicker(`${debouncedClickCount}:${unixTimeInSeconds}:${token}`, {
-        onSuccess: () => {
-          invalidateProfileQuery(queryClient);
+      setClicker(
+        `${debouncedClickCount}:${unixTimeInSeconds}:${generateHmac(debouncedClickCount, unixTimeInSeconds, token ?? "")}`,
+        {
+          onSuccess: () => {
+            invalidateProfileQuery(queryClient);
+          },
+          onError: (error) => {
+            toast.error(error.message);
+          },
         },
-        onError: (error) => {
-          toast.error(error.message);
-        },
-      });
+      );
     }
   }, [debouncedClickCount]);
 
