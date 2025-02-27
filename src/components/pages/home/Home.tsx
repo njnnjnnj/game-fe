@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import classNames from "classnames";
-import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { toast } from "sonner";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
+import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
@@ -28,7 +29,6 @@ import { BalanceInfo } from "./components/balance-info/BalanceInfo";
 import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
-import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 
 export const Home = () => {
   const queryClient = useQueryClient();
