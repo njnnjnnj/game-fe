@@ -73,7 +73,7 @@ export const Home = () => {
       const unixTime = Math.floor(Date.now() / 1000);
       const token = Cookies.get(AUTH_COOKIE_TOKEN);
 
-      setClicker(`${debouncedClickCount}:${unixTime}: ${token}`, {
+      setClicker(`${debouncedClickCount}:${unixTime}:${token}`, {
         onSuccess: () => {
           invalidateProfileQuery(queryClient);
         },

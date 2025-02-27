@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 
 import { useTranslations } from "next-intl";
