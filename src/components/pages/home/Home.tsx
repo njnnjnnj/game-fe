@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import classNames from "classnames";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
@@ -27,6 +28,7 @@ import { BalanceInfo } from "./components/balance-info/BalanceInfo";
 import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
+import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 
 export const Home = () => {
   const queryClient = useQueryClient();
@@ -68,8 +70,10 @@ export const Home = () => {
 
   useEffect(() => {
     if (debouncedClickCount > 0) {
-      console.log("debouncedClickCount", debouncedClickCount);
-      setClicker(`${debouncedClickCount}:`, {
+      const unixTime = Math.floor(Date.now() / 1000);
+      const token = Cookies.get(AUTH_COOKIE_TOKEN);
+
+      setClicker(`${debouncedClickCount}:${unixTime}: ${token}`, {
         onSuccess: () => {
           invalidateProfileQuery(queryClient);
         },
