@@ -6,8 +6,6 @@ import { formatValue } from "@/utils/lib/utils";
 
 import { EnhanceButton } from "./components/enhance-button/EnhanceButton";
 
-const CURRENT_LEVEL = 1;
-
 export const BattlePassProgressBar = () => {
   const { data: battlePassInfo } = useGetBattlePass();
   const currentLevel = battlePassInfo?.current_level ?? 1;
