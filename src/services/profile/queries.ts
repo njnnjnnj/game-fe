@@ -3,14 +3,21 @@ import Cookies from "js-cookie";
 
 import { validateToken } from "@/api/helpers";
 import { AUTH_COOKIE_TOKEN, STALE_TIME } from "@/constants/api";
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
-import { getProfile, getReferalLink } from "./fetcher";
-import { IProfile } from "./types";
+import {
+  deleteWallet,
+  getProfile,
+  getReferalLink,
+  getStarsInfo,
+  setWallet,
+} from "./fetcher";
+import { IProfile, IWalletReqM } from "./types";
 
 export enum QueryKeys {
   GET_PROFILE = "GET_PROFILE",
   GET_REFERALS = "GET_REFERALS",
+  GET_STARS_INFO = "GET_STARS_INFO",
 }
 
 export const useGetReferals = () =>
@@ -48,3 +55,21 @@ export const updateProfileQuery = (queryClient: QueryClient, stars: number) => {
     stars,
   }));
 };
+
+export const useSetWallet = () =>
+  useMutation({
+    mutationFn: (reqM: IWalletReqM) => setWallet(reqM),
+  });
+
+export const useDeleteWallet = () =>
+  useMutation({
+    mutationFn: () => deleteWallet(),
+  });
+
+export const useGetStarsInfo = () =>
+  useQuery({
+    queryKey: [QueryKeys.GET_STARS_INFO],
+    queryFn: getStarsInfo,
+    staleTime: STALE_TIME,
+    retry: false,
+  });
