@@ -47,3 +47,15 @@ export interface IReferals {
   link: string;
   reward: number;
 }
+
+export interface IWalletReqM {
+  userfriendly: string;
+  address: string;
+  chain: string;
+  publickey: string;
+}
+
+export interface IStarsInfo {
+  sum: number;
+  available: number;
+}
