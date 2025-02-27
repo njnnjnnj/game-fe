@@ -132,7 +132,11 @@ export const Machine = () => {
   };
 
   const onSpin = () => {
-    if (isSpinning || bet > balance) return;
+    if (isSpinning) return;
+    if (bet > balance) {
+      setIsBalanceModalOpen(true);
+      return;  
+    }
 
     setIsSpinning(true);
     setCombination([]);
@@ -166,6 +170,7 @@ export const Machine = () => {
               if (reward > 0) {
                 winTimeoutRef.current = setTimeout(() => {
                   setReward(reward);
+                  updateBalance(queryClient, balance + reward);
                   winTimeoutRef.current = undefined;
                 }, WIN_VIEW_TIMING);
               }

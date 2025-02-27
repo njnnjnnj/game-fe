@@ -12,6 +12,7 @@ import {
   IHeroClothConfig,
   SelectedCloth,
 } from "@/services/heroes/types";
+import { useGetProfile } from "@/services/profile/queries";
 
 import { ClothCard } from "../cloth-card/ClothCard";
 
@@ -42,10 +43,21 @@ export const ClothCarousel: FunctionComponent<Props> = ({
     onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
 
+  const { data: profile } = useGetProfile();
+  const configs = [...clothPieceConfigs];
+
+  const isBlocked = (config: IHeroClothConfig) =>
+    config.level_for_open > (profile?.level ?? 0);
+
+  configs.sort(
+    (configA: IHeroClothConfig, configB: IHeroClothConfig) =>
+      Number(isBlocked(configA)) - Number(isBlocked(configB)),
+  );
+
   return (
     <div className="relative -mx-4 overflow-hidden px-4 pt-2" ref={emblaRef}>
       <div className="-ml-2 flex will-change-transform">
-        {clothPieceConfigs.map((cloth) => (
+        {configs.map((cloth) => (
           <div key={cloth.id} className="shrink-0 basis-1/3 pl-2">
             <ClothCard
               clothPiece={clothPiece}
@@ -53,6 +65,7 @@ export const ClothCarousel: FunctionComponent<Props> = ({
               heroId={heroId}
               isSelectedCloth={selectedHeroCloth[clothPiece] === cloth.id}
               isOwnCloth={ownCloth.includes(cloth.id)}
+              isBlocked={isBlocked(cloth)}
               onCardClick={onCardClick}
             />
           </div>

@@ -14,7 +14,6 @@ import {
   HeroId,
   IHeroClothConfig,
 } from "@/services/heroes/types";
-import { useGetProfile } from "@/services/profile/queries";
 import { formatValue } from "@/utils/lib/utils";
 
 type Props = {
@@ -23,6 +22,7 @@ type Props = {
   heroId: HeroId;
   isOwnCloth: boolean;
   isSelectedCloth: boolean;
+  isBlocked: boolean;
   onCardClick: (clothPiece: HeroClothPiece, clothId: number) => void;
 };
 
@@ -40,11 +40,11 @@ export const ClothCard: FunctionComponent<Props> = ({
   heroId,
   isOwnCloth,
   isSelectedCloth,
+  isBlocked,
   onCardClick,
 }) => {
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
   const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
-  const { data: profile } = useGetProfile();
 
   let type = CardType.ORANGE;
 
@@ -54,7 +54,6 @@ export const ClothCard: FunctionComponent<Props> = ({
 
   const isSelectableCloth = isOwnCloth && !isSelectedCloth;
   const clothLevel = clothPieceConfig.level_for_open;
-  const isBlocked = clothLevel > (profile?.level ?? 0);
 
   const isTopBadgeShown = isSelectedCloth && isOwnCloth;
 

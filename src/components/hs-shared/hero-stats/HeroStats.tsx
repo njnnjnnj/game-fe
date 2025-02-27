@@ -162,7 +162,7 @@ export const HeroStats: FunctionComponent<Props> = ({
       stars,
     };
   }, [heroes, selectedHeroCloth, heroId, currentHeroCloth]);
-  console.log(earnPerTap);
+
   return (
     <div className="absolute inset-y-0 right-4 my-auto max-h-fit w-1/2 rounded-2xl border border-[#EFC609]">
       <div className="flex flex-col gap-y-4 rounded-2xl bg-[rgba(0,0,0,0.6)] p-4 backdrop-blur-sm">

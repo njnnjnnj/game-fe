@@ -12,6 +12,7 @@ type Props = {
 };
 
 const DURATION = 5000;
+const HAPTIC_FEEDBACK_INTERVAL = 100;
 
 export const AnimatedNumber: FunctionComponent<Props> = ({
   className,
@@ -20,6 +21,7 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const counter = useRef(0);
+  const hapticFeedbackTimer = useRef(0);
   const { handleImpactOccurred } = useHapticFeedback();
 
   useAnimationFrame((time, delta) => {
@@ -37,15 +39,18 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
       if (nextNum < targetNum) {
         ref.current.innerText = nextNum.toFixed();
         counter.current = nextNum;
-
-        handleImpactOccurred(ImpactStyleEnum.MEDIUM);
       } else {
         ref.current.innerText = targetNum.toString();
         counter.current = targetNum;
 
-        handleImpactOccurred(ImpactStyleEnum.MEDIUM);
-
         onAnimationEnd();
+      }
+
+      hapticFeedbackTimer.current += delta;
+
+      if (hapticFeedbackTimer.current >= HAPTIC_FEEDBACK_INTERVAL) {
+        handleImpactOccurred(ImpactStyleEnum.MEDIUM);
+        hapticFeedbackTimer.current = 0;
       }
     }
   });
