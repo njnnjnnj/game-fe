@@ -11,9 +11,8 @@ import CoinSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { Face } from "@/services/slot-machine/types";
 
+import { AnimatedNumber } from "../animated-number/AnimatedNumber";
 import { ReelPane } from "../reel-pane/ReelPane";
-
-import { AnimatedNumber } from "./components/animated-number/AnimatedNumber";
 
 type Props = {
   reward: number;
@@ -123,6 +122,7 @@ export const WinView: FunctionComponent<Props> = ({
                 className="text-stroke-brown-1.5 font-black leading-none text-[#FDEC50] text-shadow-win [font-size:min(8.2vw,3.7vh)]"
                 targetNum={reward}
                 onAnimationEnd={stopAnimationAndRunTimer}
+                withHapticFeedback
               />
             )}
           </div>

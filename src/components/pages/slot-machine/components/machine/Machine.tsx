@@ -62,6 +62,22 @@ export const Machine = () => {
 
   const balance = isVip ? (profile?.stars ?? 0) : (banditInfo?.balance ?? 0);
 
+  const runBanditInfoRefetch = (refetchBeforeInterval?: boolean) => {
+    if (refetchBeforeInterval) {
+      refetchBanditInfo();
+    }
+
+    if (jackpotUpdateInterval.current) {
+      clearInterval(jackpotUpdateInterval.current);
+      jackpotUpdateInterval.current = undefined;
+    }
+
+    jackpotUpdateInterval.current = setInterval(
+      refetchBanditInfo,
+      JACKPOT_UPDATE_INTERVAL,
+    );
+  }
+
   useEffect(() => {
     if (combination.length < 2) {
       setIsFinalDrama(false);
@@ -77,14 +93,11 @@ export const Machine = () => {
 
   useEffect(() => {
     if (isVip) {
-      jackpotUpdateInterval.current = setInterval(
-        refetchBanditInfo,
-        JACKPOT_UPDATE_INTERVAL,
-      );
+      runBanditInfoRefetch();
     }
 
     return () => {
-      if (jackpotUpdateInterval.current) {
+      if (isVip && jackpotUpdateInterval.current) {
         clearInterval(jackpotUpdateInterval.current);
       }
     };
@@ -135,7 +148,7 @@ export const Machine = () => {
     if (isSpinning) return;
     if (bet > balance) {
       setIsBalanceModalOpen(true);
-      return;  
+      return;
     }
 
     setIsSpinning(true);
@@ -145,6 +158,7 @@ export const Machine = () => {
     const updateBalance = isVip ? updateProfileQuery : updateGetBanditQuery;
 
     updateBalance(queryClient, balance - bet);
+    runBanditInfoRefetch(true);
 
     playMethod(bet, {
       onSuccess: (response) => {
@@ -171,6 +185,7 @@ export const Machine = () => {
                 winTimeoutRef.current = setTimeout(() => {
                   setReward(reward);
                   updateBalance(queryClient, balance + reward);
+                  runBanditInfoRefetch(true);
                   winTimeoutRef.current = undefined;
                 }, WIN_VIEW_TIMING);
               }

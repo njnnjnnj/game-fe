@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef } from "react";
+import React, { FunctionComponent, useRef, useState } from "react";
 
 import { useAnimationFrame } from "framer-motion";
 
@@ -8,6 +8,8 @@ import { ImpactStyleEnum } from "@/types/telegram";
 type Props = {
   className?: string;
   targetNum: number;
+  withHapticFeedback?: boolean;
+  startFromTarget?: boolean;
   onAnimationEnd: () => void;
 };
 
@@ -17,17 +19,22 @@ const HAPTIC_FEEDBACK_INTERVAL = 100;
 export const AnimatedNumber: FunctionComponent<Props> = ({
   className,
   targetNum,
+  withHapticFeedback,
+  startFromTarget,
   onAnimationEnd,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const counter = useRef(0);
+  const [displayNum, setDisplayNum] = useState<number | string>(
+    startFromTarget ? targetNum : 0,
+  );
+  const counter = useRef(startFromTarget ? targetNum : 0);
   const hapticFeedbackTimer = useRef(0);
   const { handleImpactOccurred } = useHapticFeedback();
 
   useAnimationFrame((time, delta) => {
-    if (ref.current) {
-      if (counter.current === targetNum) return;
+    if (counter.current === targetNum) return;
 
+    if (ref.current) {
       let nextAdd = Math.round(targetNum / (DURATION / delta));
 
       if (nextAdd < 0.1) {
@@ -37,20 +44,22 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
       const nextNum = counter.current + nextAdd;
 
       if (nextNum < targetNum) {
-        ref.current.innerText = nextNum.toFixed();
+        setDisplayNum(nextNum.toFixed());
         counter.current = nextNum;
       } else {
-        ref.current.innerText = targetNum.toString();
+        setDisplayNum(targetNum);
         counter.current = targetNum;
 
         onAnimationEnd();
       }
 
-      hapticFeedbackTimer.current += delta;
+      if (withHapticFeedback) {
+        hapticFeedbackTimer.current += delta;
 
-      if (hapticFeedbackTimer.current >= HAPTIC_FEEDBACK_INTERVAL) {
-        handleImpactOccurred(ImpactStyleEnum.MEDIUM);
-        hapticFeedbackTimer.current = 0;
+        if (hapticFeedbackTimer.current >= HAPTIC_FEEDBACK_INTERVAL) {
+          handleImpactOccurred(ImpactStyleEnum.MEDIUM);
+          hapticFeedbackTimer.current = 0;
+        }
       }
     }
   });
@@ -59,7 +68,7 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
     <div className={className}>
       <div className="invisible">{targetNum}</div>
       <div className="absolute top-1/2 -translate-y-1/2" ref={ref}>
-        {0}
+        {displayNum}
       </div>
     </div>
   );

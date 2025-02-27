@@ -7,6 +7,8 @@ import { NS } from "@/constants/ns";
 import JackpotPaneImg from "@/public/assets/png/slot-machine/jackpot-pane.webp";
 import StarSVG from "@/public/assets/svg/star.svg";
 
+import { AnimatedNumber } from "../animated-number/AnimatedNumber";
+
 type Props = {
   jackpot: number;
 };
@@ -31,9 +33,18 @@ export const JackpotPane: FunctionComponent<Props> = ({ jackpot }) => {
               preserveAspectRatio="none"
             />
           </div>
-          <div className="text-stroke-brown-1.5 font-black leading-none text-[#FDEC50] text-shadow-win [font-size:min(6.1vw,2.8vh)]">
-            {jackpot}
-          </div>
+          {jackpot > 0 ? (
+            <AnimatedNumber
+              className="text-stroke-brown-1.5 font-black leading-none text-[#FDEC50] text-shadow-win [font-size:min(6.1vw,2.8vh)]"
+              targetNum={jackpot}
+              onAnimationEnd={() => null}
+              startFromTarget
+            />
+          ) : (
+            <div className="text-stroke-brown-1.5 font-black leading-none text-[#FDEC50] text-shadow-win [font-size:min(6.1vw,2.8vh)]">
+              {0}
+            </div>
+          )}
         </div>
       </div>
     </div>
