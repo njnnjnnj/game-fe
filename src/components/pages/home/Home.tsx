@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import classNames from "classnames";
+import Cookies from "js-cookie";
 import { toast } from "sonner";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
+import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
@@ -68,8 +70,10 @@ export const Home = () => {
 
   useEffect(() => {
     if (debouncedClickCount > 0) {
-      console.log("debouncedClickCount", debouncedClickCount);
-      setClicker(`${debouncedClickCount}:`, {
+      const unixTime = Math.floor(Date.now() / 1000);
+      const token = Cookies.get(AUTH_COOKIE_TOKEN);
+
+      setClicker(`${debouncedClickCount}:${unixTime}: ${token}`, {
         onSuccess: () => {
           invalidateProfileQuery(queryClient);
         },
