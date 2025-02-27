@@ -69,11 +69,14 @@ export const Home = () => {
   }, [clickCount]);
 
   useEffect(() => {
+    const unixTimeInMillis =
+      Date.now() - Math.abs(new Date().getTimezoneOffset()) * 60000;
+    const unixTimeInSeconds = Math.floor(unixTimeInMillis / 1000);
+
     if (debouncedClickCount > 0) {
-      const unixTime = Math.floor(Date.now() / 1000);
       const token = Cookies.get(AUTH_COOKIE_TOKEN);
 
-      setClicker(`${debouncedClickCount}:${unixTime}:${token}`, {
+      setClicker(`${debouncedClickCount}:${unixTimeInSeconds}:${token}`, {
         onSuccess: () => {
           invalidateProfileQuery(queryClient);
         },
