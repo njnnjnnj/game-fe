@@ -10,6 +10,7 @@ import {
   getProfile,
   getReferalLink,
   getStarsInfo,
+  setClicker,
   setWallet,
 } from "./fetcher";
 import { IProfile, IWalletReqM } from "./types";
@@ -72,4 +73,9 @@ export const useGetStarsInfo = () =>
     queryFn: getStarsInfo,
     staleTime: STALE_TIME,
     retry: false,
+  });
+
+export const useClicker = () =>
+  useMutation({
+    mutationFn: (data: string) => setClicker(data),
   });

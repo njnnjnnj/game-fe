@@ -34,3 +34,11 @@ export const getStarsInfo = async (): Promise<IStarsInfo> => {
 
   return data;
 };
+
+export const setClicker = async (reqM: string): Promise<void> => {
+  const { data } = await apiClient.post(API_ENDPOINTS.POST.CLICKER, {
+    data: reqM,
+  });
+
+  return data;
+};

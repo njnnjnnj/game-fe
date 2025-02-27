@@ -685,6 +685,8 @@ export default {
           "radial-gradient(50% 88.48% at 50% 50%, rgba(136, 51, 8, 0) 0%, #883308 100%), url('/assets/png/card-bg.png')",
         "top-players-list-pattern":
           "linear-gradient(#FFB900 0%, #FDC42D 50%, #FFB900 100%)",
+        "home-energy-pattern":
+          "linear-gradient(to bottom, #3AB5F9 0%, #058EE6 50%, #0054C3 100%)",
       },
       textShadow: {
         sm: "0 1px 0px #000",

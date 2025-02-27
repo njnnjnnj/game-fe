@@ -27,6 +27,8 @@ export const NS = {
     HOME: {
       ROOT: "HOME",
       SLOTS: "SLOTS",
+      PER_HOUR: "PER_HOUR",
+      PER_TAP: "PER_TAP",
       OFFLINE_BONUS: {
         ROOT: "OFFLINE_BONUS",
         TITLE: "TITLE",

@@ -47,6 +47,7 @@ export const API_ENDPOINTS = {
     PLAY_BANDIT: "/bandit_play",
     PLAY_BANDIT_JACKPOT: "/bandit_jackpot_play",
     SET_WALLET: "/set_wallet",
+    CLICKER: "/clicker",
   },
 };
 
