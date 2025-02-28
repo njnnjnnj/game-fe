@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 
 import classNames from "classnames";
 
@@ -6,7 +6,11 @@ import { Timer } from "@/components/common/timer/Timer";
 
 import { BattlePassProgressBar } from "./components/battle-pass-progress-bar/BattlePassProgressBar";
 
-export const BattlePassListHeader = () => (
+type Props = {
+  onEnhanceClick: () => void;
+};
+
+export const BattlePassListHeader: FunctionComponent<Props> = ({ onEnhanceClick }) => (
   <div className="absolute bottom-0 w-full">
     <div className="mx-auto w-fit rounded-t-2xl bg-[#FFCE08] p-1">
       <div
@@ -22,7 +26,7 @@ export const BattlePassListHeader = () => (
       <div className="h-1.5 w-full bg-[#FFCE08] shadow-inner-light" />
       <div className="relative h-0.5 w-full bg-[#E88C0E]" />
     </div>
-    <BattlePassProgressBar />
+    <BattlePassProgressBar onEnhanceClick={onEnhanceClick} />
     <div className="flex w-full flex-col">
       <div className="h-1.5 w-full bg-[#FFCE08] shadow-inner-light" />
       <div className="relative h-0.5 w-full bg-[#E88C0E]" />

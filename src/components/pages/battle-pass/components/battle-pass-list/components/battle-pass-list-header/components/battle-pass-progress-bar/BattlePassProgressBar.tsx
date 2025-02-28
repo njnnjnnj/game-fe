@@ -1,15 +1,17 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 
 import { LevelBadge } from "@/components/pages/battle-pass/components/level-badge/LevelBadge";
 import { useGetBattlePass } from "@/services/battle-pass/queries";
-import { useGetShop } from "@/services/shop/queries";
 import { formatValue } from "@/utils/lib/utils";
 
 import { EnhanceButton } from "./components/enhance-button/EnhanceButton";
 
-export const BattlePassProgressBar = () => {
+type Props = {
+  onEnhanceClick: () => void;
+};
+
+export const BattlePassProgressBar: FunctionComponent<Props> = ({ onEnhanceClick }) => {
   const { data: battlePassInfo } = useGetBattlePass();
-  useGetShop();
   const currentLevel = battlePassInfo?.current_level ?? 1;
   const currentExp = battlePassInfo?.current_exp ?? 0;
   const needExp = battlePassInfo?.need_exp ?? 0;
@@ -30,7 +32,7 @@ export const BattlePassProgressBar = () => {
           </div>
           <LevelBadge className="relative -right-5" level={currentLevel + 1} />
         </div>
-        <EnhanceButton />
+        <EnhanceButton onClick={onEnhanceClick} />
       </div>
     </div>
   );

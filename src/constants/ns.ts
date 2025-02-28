@@ -137,6 +137,17 @@ export const NS = {
         ROOT: "BUTTONS",
         IMPROVE: "IMPROVE",
         COLLECT: "COLLECT",
+        MODALS_BUY: "MODALS_BUY",
+      },
+      ENHANCE_MODAL: {
+        ROOT: "ENHANCE_MODAL",
+        TITLE: "TITLE",
+        DESCRIPTION: "DESCRIPTION",
+      },
+      LEVELUP_MODAL: {
+        ROOT: "LEVELUP_MODAL",
+        TITLE: "TITLE",
+        DESCRIPTION: "DESCRIPTION",
       },
     },
     FRIENDS: {

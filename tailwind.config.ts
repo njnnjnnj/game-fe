@@ -659,6 +659,9 @@ export default {
           "linear-gradient(270deg, #FF86E5 0%, #FFFFFF 10.5%, rgba(255, 60, 213, 0.15) 100%)",
         "bp-bottom-menu-pattern":
           "linear-gradient(181.48deg, #5B6F89 1.35%, #424D63 98.84%)",
+        "bp-enhance-bp-modal-pattern":
+          "linear-gradient(180deg, #7740F5 0%, #EE84FF 100%)",
+        "bp-levelup-bp-modal-pattern": "linear-gradient(180deg, #04A0F5 0%, #0A4CDE 100%)",
         "shop-inventory-bg-pattern":
           "linear-gradient(180deg, #FFDE60 0%, #FABF33 100%)",
         "card-glow-pattern":

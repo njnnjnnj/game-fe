@@ -113,7 +113,16 @@
   "BATTLE_PASS": {
     "BUTTONS": {
       "IMPROVE": "Upgrade",
-      "COLLECT": "Collect"
+      "COLLECT": "Collect",
+      "MODALS_BUY": "Buy for"
+    },
+    "ENHANCE_MODAL": {
+      "TITLE": "Improve\nBATTLE PASS",
+      "DESCRIPTION": "Get unique rewards with improved Battle Pass!"
+    },
+    "LEVELUP_MODAL": {
+      "TITLE": "Buy level of\nBATTLE PASS",
+      "DESCRIPTION": "Don't wait the moment you can get next reward! Take the reward now!"
     }
   },
   "FRIENDS": {

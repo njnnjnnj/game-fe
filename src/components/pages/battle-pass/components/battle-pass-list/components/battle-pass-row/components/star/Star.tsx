@@ -5,10 +5,11 @@ import StarBaseIcon from "@/public/assets/svg/battle-pass/star-base.svg";
 
 type Props = {
   className?: string;
+  onClick: () => void;
 };
 
-export const Star: FunctionComponent<Props> = ({ className }) => (
-  <div className={className}>
+export const Star: FunctionComponent<Props> = ({ className, onClick }) => (
+  <div className={className} onClick={onClick}>
     <div className="relative">
       <StarBaseIcon />
       <div className="absolute left-1.5 top-1.5 size-6.5 overflow-hidden rounded-full">

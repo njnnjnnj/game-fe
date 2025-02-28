@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef } from "react";
+import React, { FunctionComponent, MouseEvent, useEffect, useRef } from "react";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -24,18 +24,24 @@ import {
 } from "@/services/battle-pass/types";
 import { NotificationEnum } from "@/types/telegram";
 
+import { ModalType } from "../../../../constants";
+
 import CellRenderer from "./cell-renderer";
 
 type Props = {
   battlePassLevel: number;
   renderLevel: number;
+  isPaid: boolean;
   item: BattlePassItem;
+  openModal: (type: ModalType) => void;
 };
 
 export const BattlePassCell: FunctionComponent<Props> = ({
   battlePassLevel,
   renderLevel,
+  isPaid,
   item,
+  openModal,
 }) => {
   const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
   const { handleNotificationOccurred } = useHapticFeedback();
@@ -119,6 +125,30 @@ export const BattlePassCell: FunctionComponent<Props> = ({
     } else {
       handleNotificationOccurred(NotificationEnum.SUCCESS);
     }
+
+    if (!isPremium) {
+      // Забрать награду
+    } else {
+      if (!isPaid) {
+        openModal(ModalType.ENHANCE);
+      } else {
+        // Забрать награду
+      }
+    }
+  };
+
+  const onCollectButtonClick = (event: MouseEvent) => {
+    event.stopPropagation();
+
+    if (!isPremium) {
+      // Забрать награду
+    } else {
+      if (!isPaid) {
+        openModal(ModalType.ENHANCE);
+      } else {
+        // Забрать награду
+      }
+    }
   };
 
   return (
@@ -168,7 +198,7 @@ export const BattlePassCell: FunctionComponent<Props> = ({
             isPremium ? CollectButtonColor.YELLOW : CollectButtonColor.GREEN
           }
           isLocked={isPremium}
-          onClick={() => {}}
+          onClick={onCollectButtonClick}
         >
           {t(
             `${NS.PAGES.BATTLE_PASS.BUTTONS.ROOT}.${NS.PAGES.BATTLE_PASS.BUTTONS.COLLECT}`,

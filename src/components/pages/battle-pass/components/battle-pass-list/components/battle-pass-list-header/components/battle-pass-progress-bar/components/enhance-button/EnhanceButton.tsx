@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 
 import { useTranslations } from "next-intl";
 
@@ -8,22 +8,14 @@ import { motion } from "framer-motion";
 import { CheckedPentagon } from "@/components/ui/svgr-icons/CheckedPentagon";
 import { Pentagon } from "@/components/ui/svgr-icons/Pentagon";
 import { NS } from "@/constants/ns";
-import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 
-export const EnhanceButton = () => {
-  const [isChecked, setIsChecked] = useState(false);
+type Props = {
+  onClick: () => void;
+};
+
+export const EnhanceButton: FunctionComponent<Props> = ({ onClick }) => {
+  const [isChecked] = useState(false);
   const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
-  const { buy: buyPremiumBattlePass } = useSafeStarsPayment(
-    () => {
-      console.log("Buying Premium BP");
-    },
-    () => {
-      setIsChecked(true);
-    },
-    () => {
-      setIsChecked(true);
-    },
-  );
 
   return (
     <motion.div
@@ -34,7 +26,7 @@ export const EnhanceButton = () => {
         stiffness: 200,
         damping: 20,
       }}
-      onClick={() => buyPremiumBattlePass(1)}
+      onClick={onClick}
     >
       {isChecked ? (
         <CheckedPentagon className="shrink-0" />

@@ -113,7 +113,16 @@
   "BATTLE_PASS": {
     "BUTTONS": {
       "IMPROVE": "Улучшить",
-      "COLLECT": "Забрать"
+      "COLLECT": "Забрать",
+      "MODALS_BUY": "Приобрести за"
+    },
+    "ENHANCE_MODAL": {
+      "TITLE": "Улучшить\nBATTLE PASS",
+      "DESCRIPTION": "Получайте уникальные награды c улучшенным Battle Pass!"
+    },
+    "LEVELUP_MODAL": {
+      "TITLE": "Купить уровень\nBATTLE PASS",
+      "DESCRIPTION": "Не ждите момент, когда сможете забрать следующую награду. Забирайте её прямо cейчас!"
     }
   },
   "FRIENDS": {

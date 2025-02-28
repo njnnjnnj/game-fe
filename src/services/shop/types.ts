@@ -7,6 +7,7 @@ export enum ShopItemTypeEnum {
   OFFLINE_BONUS = "offline_bonus",
   GAME_ENERGY = "game_energy",
   BOOSTER = "buster",
+  BATTLE_PASS = "BattlePass",
 }
 
 type ItemDetail = {
