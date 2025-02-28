@@ -1,7 +1,8 @@
 import apiClient from "@/api/api-client";
 import { API_ENDPOINTS } from "@/constants/api";
+import { RewardShape } from "@/types/rewards";
 
-import { BattlePassReward, GetRewardFromBattlePassParams } from "./types";
+import { GetRewardFromBattlePassParams } from "./types";
 
 export const getBattlePass = async () => {
   const { data } = await apiClient.get(API_ENDPOINTS.GET.GET_BATTLEPASS);
@@ -18,7 +19,7 @@ export const getBattlePassConfig = async () => {
 export const getRewardFromBattlePass = async ({
   level,
   isPaid,
-}: GetRewardFromBattlePassParams): Promise<BattlePassReward> => {
+}: GetRewardFromBattlePassParams): Promise<RewardShape> => {
   const { data } = await apiClient.post(
     API_ENDPOINTS.POST.PLAY_BANDIT_JACKPOT,
     {

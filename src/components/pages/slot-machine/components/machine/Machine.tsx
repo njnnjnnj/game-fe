@@ -14,7 +14,12 @@ import {
   usePlayBandit,
   usePlayBanditJackpot,
 } from "@/services/slot-machine/queries";
-import { BanditJackpotPlayResponse, Face } from "@/services/slot-machine/types";
+import {
+  BanditJackpotPlayResponse,
+  BanditPlayResponse,
+  Face,
+} from "@/services/slot-machine/types";
+import { Reward } from "@/types/rewards";
 import { ImpactStyleEnum } from "@/types/telegram";
 import { formatValue } from "@/utils/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
@@ -37,12 +42,20 @@ const WIN_VIEW_TIMING = 500;
 const REEL_STOP_INTERVAL = 1500;
 const JACKPOT_UPDATE_INTERVAL = 10_000;
 
+type StateReward = {
+  type: Reward.COINS | Reward.STARS | Reward.FRIENDS;
+  amount: number;
+};
+
 export const Machine = () => {
-  const [isVip, setIsVip] = useState(true);
+  const [isVip, setIsVip] = useState(false);
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
   const [betIndex, setBetIndex] = useState(1);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [reward, setReward] = useState(0);
+  const [reward, setReward] = useState<StateReward>({
+    type: Reward.COINS,
+    amount: 0,
+  });
   const [isFinalDrama, setIsFinalDrama] = useState(false);
   const [bets, setBets] = useState(DEFAULT_BETS);
   const [combination, setCombination] = useState<Face[]>([]);
@@ -77,7 +90,7 @@ export const Machine = () => {
       refetchBanditInfo,
       JACKPOT_UPDATE_INTERVAL,
     );
-  }
+  };
 
   useEffect(() => {
     if (combination.length < 2) {
@@ -154,74 +167,106 @@ export const Machine = () => {
     setIsSpinning(true);
     setCombination([]);
 
-    const playMethod = isVip ? playBanditJackpot : playBandit;
     const updateBalance = isVip ? updateProfileQuery : updateGetBanditQuery;
+    const nextBalance = balance - bet;
 
-    updateBalance(queryClient, balance - bet);
-    runBanditInfoRefetch(true);
+    updateBalance(queryClient, nextBalance);
 
-    playMethod(bet, {
-      onSuccess: (response) => {
-        const combination = [...response.combination];
+    if (isVip) {
+      runBanditInfoRefetch(true);
+    }
 
-        console.log(`Combination: ${combination}`);
+    const onError = (error: AxiosError<{ detail: string }>) => {
+      setIsSpinning(false);
 
-        reelStopIntevalRef.current = setInterval(() => {
-          const face = combination.shift() as Face;
+      let message = error.message;
 
-          setCombination((prevValue) => {
-            if (!combination.length) {
-              clearInterval(reelStopIntevalRef.current);
-              reelStopIntevalRef.current = undefined;
+      if (error.status === 403) {
+        if (error.response?.data?.detail === "wrongAmount") {
+          message = "Wrong bet";
+        } else {
+          message = "You should buy energy";
+        }
+      }
 
-              let reward = response.reward;
+      toast(
+        <Toast
+          type="destructive"
+          text={`Bandit play has failed: ${message}`}
+        />,
+      );
 
-              if ("jackpot_reward" in response) {
-                reward +=
-                  (response as BanditJackpotPlayResponse).jackpot_reward ?? 0;
-              }
+      updateBalance(queryClient, nextBalance + bet);
+    };
 
-              if (reward > 0) {
-                winTimeoutRef.current = setTimeout(() => {
-                  setReward(reward);
-                  updateBalance(queryClient, balance + reward);
-                  runBanditInfoRefetch(true);
-                  winTimeoutRef.current = undefined;
-                }, WIN_VIEW_TIMING);
+    const onSuccess = (
+      response: BanditPlayResponse | BanditJackpotPlayResponse,
+    ) => {
+      const combination = [...response.combination];
+
+      console.log(`Combination: ${combination}`);
+
+      reelStopIntevalRef.current = setInterval(() => {
+        const face = combination.shift() as Face;
+
+        setCombination((prevValue) => {
+          if (!combination.length) {
+            clearInterval(reelStopIntevalRef.current);
+            reelStopIntevalRef.current = undefined;
+
+            const nextReward: StateReward = {
+              type: reward.type,
+              amount: 0,
+            };
+
+            if ("jackpot_reward" in response) {
+              nextReward.amount += response.reward;
+              nextReward.amount += response.jackpot_reward ?? 0;
+              nextReward.type = Reward.STARS;
+            } else {
+              if (
+                response.reward === Reward.COINS ||
+                response.reward === Reward.FRIENDS
+              ) {
+                nextReward.amount += response.value as number;
+                nextReward.type = response.reward;
               }
             }
 
-            return [...prevValue, face];
-          });
+            if (nextReward.amount > 0) {
+              winTimeoutRef.current = setTimeout(() => {
+                setReward(nextReward);
 
-          if (!combination.length) {
-            setIsSpinning(false);
+                if (isVip) {
+                  updateBalance(queryClient, nextBalance + nextReward.amount);
+                  runBanditInfoRefetch(true);
+                }
+
+                winTimeoutRef.current = undefined;
+              }, WIN_VIEW_TIMING);
+            }
           }
-        }, REEL_STOP_INTERVAL);
-      },
-      onError: (error: AxiosError<{ detail: string }>) => {
-        setIsSpinning(false);
 
-        let message = error.message;
+          return [...prevValue, face];
+        });
 
-        if (error.status === 403) {
-          if (error.response?.data?.detail === "wrongAmount") {
-            message = "Wrong bet";
-          } else {
-            message = "You should buy energy";
-          }
+        if (!combination.length) {
+          setIsSpinning(false);
         }
+      }, REEL_STOP_INTERVAL);
+    };
 
-        toast(
-          <Toast
-            type="destructive"
-            text={`Bandit play has failed: ${message}`}
-          />,
-        );
-
-        updateBalance(queryClient, balance + bet);
-      },
-    });
+    if (isVip) {
+      playBanditJackpot(bet, {
+        onSuccess,
+        onError,
+      });
+    } else {
+      playBandit(bet, {
+        onSuccess,
+        onError,
+      });
+    }
   };
 
   return (
@@ -281,10 +326,10 @@ export const Machine = () => {
 
             <WinView
               combination={combination}
-              reward={reward}
-              isVip={isVip}
+              reward={reward.amount}
+              type={reward.type}
               onClose={() => {
-                setReward(0);
+                setReward((prevReward) => ({ ...prevReward, amount: 0 }));
               }}
             />
           </div>

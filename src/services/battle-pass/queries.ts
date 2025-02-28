@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 
+import { RewardShape } from "@/types/rewards";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
@@ -10,7 +11,6 @@ import {
 import {
   BattlePassConfig,
   BattlePassInfo,
-  BattlePassReward,
   GetRewardFromBattlePassParams,
 } from "./types";
 
@@ -37,7 +37,7 @@ export const useGetBattlePassConfig = () =>
   });
 
 export const usePlayBandit = () =>
-  useMutation<BattlePassReward, AxiosError, GetRewardFromBattlePassParams>({
+  useMutation<RewardShape, AxiosError, GetRewardFromBattlePassParams>({
     mutationKey: [QueryKeys.GET_REWARD_FROM_BATTLEPASS],
     mutationFn: getRewardFromBattlePass,
   });

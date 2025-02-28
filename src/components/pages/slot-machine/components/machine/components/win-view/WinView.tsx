@@ -7,26 +7,63 @@ import classNames from "classnames";
 
 import { NS } from "@/constants/ns";
 import WinPaneImg from "@/public/assets/png/slot-machine/win-pane.webp";
+import FriendsSVG from "@/public/assets/svg/friends-coin.svg";
 import CoinSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { Face } from "@/services/slot-machine/types";
+import { Reward } from "@/types/rewards";
 
 import { AnimatedNumber } from "../animated-number/AnimatedNumber";
 import { ReelPane } from "../reel-pane/ReelPane";
 
 type Props = {
   reward: number;
-  isVip: boolean;
   combination: Face[];
+  type: Reward.COINS | Reward.STARS | Reward.FRIENDS;
   onClose: () => void;
 };
 
 const CLOSE_TIMING = 3000;
 
+const renderCoin = (type: Props["type"]) => {
+  if (type === Reward.STARS) {
+    return (
+      <StarSVG
+        width="100%"
+        height="100%"
+        viewBox="0 0 29 29"
+        preserveAspectRatio="none"
+      />
+    );
+  }
+
+  if (type === Reward.COINS) {
+    return (
+      <CoinSvg
+        width="100%"
+        height="100%"
+        viewBox="0 0 26 26"
+        preserveAspectRatio="none"
+      />
+    );
+  }
+
+  if (type === Reward.FRIENDS) {
+    return (
+      <FriendsSVG
+        width="100%"
+        height="100%"
+        viewBox="0 0 28 28"
+        preserveAspectRatio="none"
+      />
+    );
+  }
+};
+
 export const WinView: FunctionComponent<Props> = ({
   reward,
-  isVip,
   combination,
+  type,
   onClose,
 }) => {
   const [isAnimationActive, setIsAnimationActive] = useState(false);
@@ -101,21 +138,7 @@ export const WinView: FunctionComponent<Props> = ({
                 "animate-slot-win-view-coin-pulse": isAnimationActive,
               })}
             >
-              {isVip ? (
-                <StarSVG
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 29 29"
-                  preserveAspectRatio="none"
-                />
-              ) : (
-                <CoinSvg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 26 26"
-                  preserveAspectRatio="none"
-                />
-              )}
+              {renderCoin(type)}
             </div>
             {isActive && (
               <AnimatedNumber
