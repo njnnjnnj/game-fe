@@ -145,10 +145,10 @@ export const Home = () => {
           <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
             <button
               onClick={handleClick}
-              className="relative flex h-full w-full items-center justify-center transition-all active:scale-[0.98]"
+              className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
             >
               <HeroView
-                className="aspect-[0.72] w-[90%]"
+                className="user-select-none pointer-events-none aspect-[0.72] h-full touch-none"
                 source="preview"
                 heroCloth={heroCloth}
                 heroId={current}
@@ -159,7 +159,11 @@ export const Home = () => {
               energy={profile.energy}
               max_energy={profile.max_energy}
             />
-            <SecondaryNavbar />
+            <SecondaryNavbar
+              currentExp={profile.exp}
+              needExp={profile.need_exp}
+              currentLevel={profile.level}
+            />
           </div>
 
           <OfflineBonusModal

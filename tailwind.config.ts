@@ -661,7 +661,8 @@ export default {
           "linear-gradient(181.48deg, #5B6F89 1.35%, #424D63 98.84%)",
         "bp-enhance-bp-modal-pattern":
           "linear-gradient(180deg, #7740F5 0%, #EE84FF 100%)",
-        "bp-levelup-bp-modal-pattern": "linear-gradient(180deg, #04A0F5 0%, #0A4CDE 100%)",
+        "bp-levelup-bp-modal-pattern":
+          "linear-gradient(180deg, #04A0F5 0%, #0A4CDE 100%)",
         "shop-inventory-bg-pattern":
           "linear-gradient(180deg, #FFDE60 0%, #FABF33 100%)",
         "card-glow-pattern":
@@ -689,7 +690,11 @@ export default {
         "top-players-list-pattern":
           "linear-gradient(#FFB900 0%, #FDC42D 50%, #FFB900 100%)",
         "home-energy-pattern":
-          "linear-gradient(to bottom, #3AB5F9 0%, #058EE6 50%, #0054C3 100%)",
+          "linear-gradient(to bottom, #04A0F5 52%, #0A4CDE 100%)",
+        "home-buttons-pattern":
+          "linear-gradient(to bottom, #04A0F5 52%, #0A4CDE 100%)",
+        "home-bp-btn-indicator-pattern":
+          "linear-gradient(to bottom, #3AB5F9 0%, #058EE6 52%, #0054C3 100%)",
       },
       textShadow: {
         sm: "0 1px 0px #000",
@@ -815,12 +820,15 @@ export default {
           "box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.80), 0 6px 6px rgba(0, 0, 0, 0.60)",
         "modal-shadow": "0 -8px 12px 0 rgba(5, 22, 37, 0.6)",
         "energy-bar-shadow": "0px 2px 12px 0px rgba(0, 0, 0, 0.6)",
+        "home-bp-btn-indicator":
+          "inset 0 -4px 8px 1px rgba(255, 255, 255, 0.2), inset 0 4px 8px rgba(255, 255, 255, 0.2)",
       },
       dropShadow: {
         union: "0 2px 2px rgba(0,0,0,0.6)",
         tape: "0 2px 24px rgba(0, 0, 0, 0.80), 0 2px 8px rgba(0, 0, 0, 0.60), 0 6px 6px rgba(0, 0, 0, 0.60)",
         "social-icons": "0 1px 0 rgba(0, 0, 0, 1)",
         "home-button": "0 0 12px rgba(0, 0, 0, 0.8)",
+        "home-bp-btn-indicator": "2px 1px 1px rgba(0, 0, 0, 0.2)",
       },
       fontFamily: {
         rubik: ["Rubik, sans-serif"],
