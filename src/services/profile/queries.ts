@@ -13,7 +13,7 @@ import {
   setClicker,
   setWallet,
 } from "./fetcher";
-import { IProfile, IWalletReqM } from "./types";
+import { ClickerReqM, IProfile, IWalletReqM } from "./types";
 
 export enum QueryKeys {
   GET_PROFILE = "GET_PROFILE",
@@ -77,5 +77,5 @@ export const useGetStarsInfo = () =>
 
 export const useClicker = () =>
   useMutation({
-    mutationFn: (data: string) => setClicker(data),
+    mutationFn: (data: ClickerReqM) => setClicker(data),
   });
