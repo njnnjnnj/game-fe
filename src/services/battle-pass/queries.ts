@@ -7,6 +7,7 @@ import {
   getBattlePass,
   getBattlePassConfig,
   getRewardFromBattlePass,
+  levelupBattlePass,
 } from "./fetcher";
 import {
   BattlePassConfig,
@@ -18,6 +19,7 @@ export enum QueryKeys {
   GET_BATTLEPASS = "GET_BATTLEPASS",
   GET_BATTLEPASS_CONFIG = "GET_BATTLEPASS_CONFIG",
   GET_REWARD_FROM_BATTLEPASS = "GET_REWARD_FROM_BATTLEPASS",
+  LEVELUP_BATTLEPASS = "LEVELUP_BATTLEPASS",
 }
 
 export const useGetBattlePass = () =>
@@ -36,8 +38,14 @@ export const useGetBattlePassConfig = () =>
     staleTime: 1000 * 60 * 5,
   });
 
-export const usePlayBandit = () =>
+export const useGetBattlePassReward = () =>
   useMutation<RewardShape, AxiosError, GetRewardFromBattlePassParams>({
     mutationKey: [QueryKeys.GET_REWARD_FROM_BATTLEPASS],
     mutationFn: getRewardFromBattlePass,
+  });
+
+export const useLevelupBattlePass = () =>
+  useMutation({
+    mutationKey: [QueryKeys.LEVELUP_BATTLEPASS],
+    mutationFn: levelupBattlePass,
   });

@@ -15,11 +15,18 @@ import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
+import AllCards from "@/public/assets/png/battle-pass/all-cards.webp";
+import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
+import EnergyBooster from "@/public/assets/png/battle-pass/energy-booster.webp";
+import EnergyBucket from "@/public/assets/png/battle-pass/energy-bucket.webp";
 import EnhanceBpHero from "@/public/assets/png/battle-pass/enhance-bp-hero.webp";
+import EpicChest from "@/public/assets/png/battle-pass/epic-chest.webp";
+import FriendsBucket from "@/public/assets/png/battle-pass/friends-bucket.webp";
 import MegaChest from "@/public/assets/png/battle-pass/mega-chest.webp";
 import StartChest from "@/public/assets/png/battle-pass/start-chest.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
+import { useGetBattlePass } from "@/services/battle-pass/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
 import { ShopItemTypeEnum } from "@/services/shop/types";
 
@@ -27,9 +34,23 @@ type Props = {
   onClose: () => void;
 };
 
-export const EnhanceBattlePassModal: FunctionComponent<Props> = ({ onClose }) => {
+const ITEMS = [
+  { img: MegaChest, amount: 40 },
+  { img: EpicChest, amount: 40 },
+  { img: StartChest, amount: 40 },
+  { img: EnergyBooster, amount: 40 },
+  { img: AllCards, amount: 40 },
+  { img: EnergyBucket, amount: 40 },
+  { img: FriendsBucket, amount: 1500 },
+  { img: Bucket, amount: 1500 },
+];
+
+export const EnhanceBattlePassModal: FunctionComponent<Props> = ({
+  onClose,
+}) => {
   const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
   const { data: shopItems } = useGetShop();
+  const { refetch: refetchBattlePass } = useGetBattlePass();
   const { mutate: buyBattlePass, isPending: isBuyingBattlePass } =
     useBuyShopItem();
 
@@ -46,13 +67,11 @@ export const EnhanceBattlePassModal: FunctionComponent<Props> = ({ onClose }) =>
 
     buyBattlePass(bpItems[0].id, {
       onSuccess: () => {
+        refetchBattlePass();
         onClose();
 
         toast(
-          <Toast
-            type="done"
-            text={`You've successfully bought Battle Pass`}
-          />,
+          <Toast type="done" text={`You've successfully bought Battle Pass`} />,
         );
       },
       onError: (error) => {
@@ -76,8 +95,8 @@ export const EnhanceBattlePassModal: FunctionComponent<Props> = ({ onClose }) =>
   );
 
   return (
-    <DrawerContent className="flex w-full flex-col items-center rounded-t-3xl border-none bg-gradient-to-b from-[#FAD22C] to-[#FEEE3D] px-[5px] pb-0 pt-[5px] shadow-[0_-8px_12px_0_rgba(5,22,37,0.6)]">
-      <div className="bg-bp-enhance-bp-modal-pattern relative flex w-full flex-col items-center rounded-t-3xl px-3 pb-7 pt-8">
+    <DrawerContent className="flex w-full flex-col items-center rounded-t-3xl border-none bg-gradient-to-b from-[#FFCE08] to-[#E88C0E] px-[5px] pb-0 pt-[5px] shadow-[0_-8px_12px_0_rgba(5,22,37,0.6)]">
+      <div className="relative flex w-full flex-col items-center rounded-t-3xl bg-bp-enhance-bp-modal-pattern px-3 pb-7 pt-8 shadow-[0px_12px_6px_0px_#FFFFFF66_inset,0px_-8px_4px_0px_#00000033_inset]">
         <DrawerClose
           className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full"
           asChild
@@ -102,17 +121,12 @@ export const EnhanceBattlePassModal: FunctionComponent<Props> = ({ onClose }) =>
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="aspect-square rounded-lg bg-black/40 p-2 shadow-[0px_2px_4px_0px_#00000066_inset,0px_-2px_4px_0px_#00000033_inset,0px_1px_1px_0px_#FFFFFF66]"
+                className="rounded-lg bg-black/40 p-0.5 shadow-[0px_2px_4px_0px_#00000066_inset,0px_-2px_4px_0px_#00000033_inset,0px_1px_1px_0px_#FFFFFF66]"
               >
-                <div className="relative h-full">
-                  <Image
-                    src={i ? StartChest : MegaChest}
-                    alt=""
-                    sizes="25vw"
-                    fill
-                  />
-                  <div className="text-stroke-1 absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow">
-                    x40
+                <div className="relative pt-[100%]">
+                  <Image src={ITEMS[i].img} alt="" sizes="25vw" fill />
+                  <div className="text-stroke-2 absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow">
+                    {`x${ITEMS[i].amount}`}
                   </div>
                 </div>
               </div>

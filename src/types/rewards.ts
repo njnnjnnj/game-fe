@@ -1,4 +1,9 @@
-import { HeroClothPiece, HeroCurrency, HeroId } from "@/services/heroes/types";
+import {
+  HeroClothPiece,
+  HeroCurrency,
+  HeroId,
+  HeroRarity,
+} from "@/services/heroes/types";
 
 export enum Reward {
   COINS = "coins",
@@ -11,6 +16,20 @@ export enum Reward {
   GAME_ENERGY = "game_energy",
   AUTO = "AUTO",
   CHEST = "chest",
+}
+
+export type RewardValue =
+  | number
+  | "energy"
+  | ChestType
+  | HeroId
+  | HeroId[]
+  | HeroRarity;
+
+export enum ChestType {
+  START = "start",
+  EPIC = "epic",
+  MEGA = "mega",
 }
 
 type ExistReward = {
@@ -44,7 +63,7 @@ type Coffer = {
 
 export type RewardShape = {
   reward: Reward;
-  value: string | number;
+  value: RewardValue;
   character: CofferReward | null;
   cloth: ClothCofferReward | null;
   coffer: Coffer | null;

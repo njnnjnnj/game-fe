@@ -21,7 +21,7 @@ export const getRewardFromBattlePass = async ({
   isPaid,
 }: GetRewardFromBattlePassParams): Promise<RewardShape> => {
   const { data } = await apiClient.post(
-    API_ENDPOINTS.POST.PLAY_BANDIT_JACKPOT,
+    API_ENDPOINTS.POST.GET_REWARD_FROM_BATTLEPASS,
     {
       level,
       isPaid,
@@ -29,4 +29,8 @@ export const getRewardFromBattlePass = async ({
   );
 
   return data;
+};
+
+export const levelupBattlePass = async (): Promise<void> => {
+  await apiClient.post(API_ENDPOINTS.POST.LEVELUP_BATTLEPASS);
 };

@@ -107,7 +107,7 @@ export const PrimaryButton: FunctionComponent<Props> = ({
             { "bg-white/40": color === "secondary" && !disabled },
             { "bg-white/20": color === "blue" && !disabled },
             { "bg-white/15": color === "red" && !disabled },
-            { "bg-[rgba(251, 239, 68, 0.6)]": color === "yellow" && !disabled },
+            { "bg-[rgba(251,239,68,0.6)]": color === "yellow" && !disabled },
             className,
           )}
           style={fontSize ? { fontSize } : undefined}

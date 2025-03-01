@@ -32,6 +32,8 @@ export const BattlePassRow: FunctionComponent<Props> = ({
       <BattlePassCell
         renderLevel={renderLevel}
         battlePassLevel={currentLevel}
+        lastFreeReward={battlePassInfo.last_free_reward}
+        lastPaidReward={battlePassInfo.last_paid_reward}
         isPaid={battlePassInfo.is_paid}
         item={free[renderLevel]}
         openModal={openModal}
@@ -39,6 +41,8 @@ export const BattlePassRow: FunctionComponent<Props> = ({
       <BattlePassCell
         renderLevel={renderLevel}
         battlePassLevel={currentLevel}
+        lastFreeReward={battlePassInfo.last_free_reward}
+        lastPaidReward={battlePassInfo.last_paid_reward}
         isPaid={battlePassInfo.is_paid}
         item={paid[renderLevel]}
         openModal={openModal}

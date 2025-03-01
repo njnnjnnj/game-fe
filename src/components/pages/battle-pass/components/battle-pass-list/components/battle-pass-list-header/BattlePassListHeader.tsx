@@ -31,6 +31,6 @@ export const BattlePassListHeader: FunctionComponent<Props> = ({ onEnhanceClick 
       <div className="h-1.5 w-full bg-[#FFCE08] shadow-inner-light" />
       <div className="relative h-0.5 w-full bg-[#E88C0E]" />
     </div>
-    <Timer time="2д. 14ч." />
+    <Timer />
   </div>
 );

@@ -16,7 +16,6 @@ export const BattlePassProgressBar: FunctionComponent<Props> = ({ onEnhanceClick
   const currentExp = battlePassInfo?.current_exp ?? 0;
   const needExp = battlePassInfo?.need_exp ?? 0;
 
-
   return (
     <div className="relative z-10 flex flex-col">
       <div className="h-0.5 w-full bg-[#35637D]" />

@@ -1,6 +1,4 @@
-import { Reward } from "@/types/rewards";
-
-import { HeroId } from "../heroes/types";
+import { Reward,RewardValue } from "@/types/rewards";
 
 export type BattlePassInfo = {
   current_exp: number;
@@ -11,17 +9,11 @@ export type BattlePassInfo = {
   need_exp: number;
 };
 
-export enum BattleBassChestType {
-  START = "start",
-  EPIC = "epic",
-  MEGA = "mega",
-}
-
 export type BattlePassItem = {
   is_paid: boolean;
   level: number;
   type: Reward;
-  value: number | "energy" | BattleBassChestType | HeroId | HeroId[];
+  value: RewardValue;
 };
 
 export type BattlePassConfig = {
