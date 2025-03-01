@@ -23,10 +23,10 @@ export const BalanceInfo: FunctionComponent<Props> = ({
 
   return (
     <div className="relative z-20 pt-6">
-      <div className="mb-3 flex items-center gap-3">
+      <div className="mb-3 flex items-center justify-center gap-3">
         <StarSvg className="size-10" />
         <span className="text-stroke-1 text-[40px] font-black leading-none text-white text-shadow-sm">
-          {formatNumber(balance)}
+          {balance ? formatNumber(balance) : "0"}
         </span>
       </div>
       <div className="flex items-center justify-center gap-2">
