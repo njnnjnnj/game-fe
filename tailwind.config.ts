@@ -824,11 +824,13 @@ export default {
           "inset 0 -4px 8px 1px rgba(255, 255, 255, 0.2), inset 0 4px 8px rgba(255, 255, 255, 0.2)",
       },
       dropShadow: {
+        "inner-side-link": "0 1px 0 rgba(255, 255, 255, 0.3)",
         union: "0 2px 2px rgba(0,0,0,0.6)",
         tape: "0 2px 24px rgba(0, 0, 0, 0.80), 0 2px 8px rgba(0, 0, 0, 0.60), 0 6px 6px rgba(0, 0, 0, 0.60)",
         "social-icons": "0 1px 0 rgba(0, 0, 0, 1)",
         "home-button": "0 0 12px rgba(0, 0, 0, 0.8)",
         "home-bp-btn-indicator": "2px 1px 1px rgba(0, 0, 0, 0.2)",
+        "side-link": "0 1px 1px rgba(0, 0, 0, 0.5)",
       },
       fontFamily: {
         rubik: ["Rubik, sans-serif"],
