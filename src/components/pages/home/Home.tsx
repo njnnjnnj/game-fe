@@ -137,7 +137,7 @@ export const Home = () => {
           <div className="fixed inset-0 z-10 h-full w-full">
             <Image src={MainImage} alt="main-bg" fill />
           </div>
-          <ProfileHeader className="top-0 z-20" />
+          <ProfileHeader className="top-0 z-20 w-full" />
           <BalanceInfo
             balance={profile.coins}
             perHour={profile.reward_per_hour}
