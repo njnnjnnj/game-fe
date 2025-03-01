@@ -118,14 +118,16 @@ export const BuyStars = () => {
               <div className="flex items-center gap-2">
                 <StarSVG className="size-9" />
                 <span className="text-stroke-1 text-4xl font-black leading-none tracking-wider text-white text-shadow">
-                  {starsInfo?.sum ? formatNumber(starsInfo.sum) : "0"}
+                  {starsInfo?.available
+                    ? formatNumber(starsInfo.available)
+                    : "0"}
                 </span>
               </div>
               <span className="font-normal text-gray-550">
                 ≈$
-                {starsInfo?.sum
+                {starsInfo?.available
                   ? formatNumber(
-                      +(Number(starsInfo.sum) * STARS_PRICE).toFixed(2),
+                      +(Number(starsInfo.available) * STARS_PRICE).toFixed(2),
                     )
                   : "0"}
               </span>

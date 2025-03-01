@@ -29,6 +29,7 @@ import { BalanceInfo } from "./components/balance-info/BalanceInfo";
 import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
+import { SideLink } from "./components/side-link/SideLink";
 
 export const Home = () => {
   const queryClient = useQueryClient();
@@ -143,6 +144,11 @@ export const Home = () => {
             perTap={profile.reward_per_tap}
           />
           <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
+            <div className="absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
+              <SideLink />
+              <SideLink />
+              <SideLink />
+            </div>
             <button
               onClick={handleClick}
               className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
@@ -155,6 +161,11 @@ export const Home = () => {
                 heroRarity={allAppsHeroes[current].rarity}
               />
             </button>
+            <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
+              <SideLink />
+              <SideLink />
+              <SideLink />
+            </div>
             <EnergyBar
               energy={profile.energy}
               max_energy={profile.max_energy}
