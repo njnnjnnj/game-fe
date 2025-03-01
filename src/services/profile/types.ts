@@ -59,3 +59,9 @@ export interface IStarsInfo {
   sum: number;
   available: number;
 }
+
+export interface ClickerReqM {
+  debouncedClickCount: number;
+  unixTimeInSeconds: number;
+  token: string;
+}

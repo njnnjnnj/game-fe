@@ -1,7 +1,15 @@
+import axios from "axios";
+
 import apiClient from "@/api/api-client";
 import { API_ENDPOINTS } from "@/constants/api";
 
-import { IProfile, IReferals, IStarsInfo, IWalletReqM } from "./types";
+import {
+  ClickerReqM,
+  IProfile,
+  IReferals,
+  IStarsInfo,
+  IWalletReqM,
+} from "./types";
 
 export const getProfile = async (): Promise<IProfile> => {
   const { data } = await apiClient.get(API_ENDPOINTS.GET.GET_PROFILE);
@@ -35,9 +43,9 @@ export const getStarsInfo = async (): Promise<IStarsInfo> => {
   return data;
 };
 
-export const setClicker = async (reqM: string): Promise<void> => {
-  const { data } = await apiClient.post(API_ENDPOINTS.POST.CLICKER, {
-    data: reqM,
+export const setClicker = async (reqM: ClickerReqM): Promise<void> => {
+  const { data } = await axios.post("/api/clicker", {
+    ...reqM,
   });
 
   return data;
