@@ -33,7 +33,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
       </div>
       <div className="flex items-center justify-center gap-2">
         <Link
-          href={ROUTES.SHOP}
+          href={ROUTES.REWARDS}
           className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
         >
           <IncomeSvg />
@@ -45,7 +45,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
           </span>
         </Link>
         <Link
-          href={ROUTES.REWARDS}
+          href={ROUTES.SHOP}
           className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
         >
           <TapSvg />
