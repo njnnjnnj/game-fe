@@ -90,7 +90,9 @@ export const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (offlineBonus?.reward && !isClaimed) {
+    const offlineBonusClaimed = Cookies.get("offlineBonusClaimed");
+
+    if (offlineBonus?.reward && !isClaimed && !offlineBonusClaimed) {
       setIsModalOpen(true);
     }
   }, [offlineBonus, isClaimed]);
@@ -109,6 +111,7 @@ export const Home = () => {
         toast(<Toast type="done" text="Бонус получен" />);
         setIsModalOpen(false);
         setIsClaimed(true);
+        Cookies.set("offlineBonusClaimed", "true", { expires: 1 / 24 });
       },
       onError: (error) =>
         toast(<Toast type="destructive" text={error.message} />),

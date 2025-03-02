@@ -1,4 +1,4 @@
-import type { NextApiRequest } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 import crypto from "crypto-js";
 
@@ -6,23 +6,20 @@ import { API_ENDPOINTS } from "@/constants/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-export default async function handler(req: NextApiRequest) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === "POST") {
     try {
       const { debouncedClickCount, unixTimeInSeconds, token } = req.body;
 
-      // const sha = crypto
-      //   .createHmac("sha256", process.env.NEXT_PUBLIC_SECRET_KEY as string)
-      //   .update(`${debouncedClickCount}:${unixTimeInSeconds}:${token}`)
-      //   .digest("hex");
       const sha = crypto
         .HmacSHA256(
           `${debouncedClickCount}:${unixTimeInSeconds}:${token}`,
           process.env.NEXT_PUBLIC_SECRET_KEY as string,
         )
         .toString(crypto.enc.Hex);
-
-      console.log("🚀 ~ sha:", sha);
 
       const dataToSend = `${debouncedClickCount}:${unixTimeInSeconds}:${sha}`;
       const apiRoute = `${BASE_URL}${API_ENDPOINTS.POST.CLICKER}`;
@@ -38,9 +35,9 @@ export default async function handler(req: NextApiRequest) {
 
       const data = await response.json();
 
-      Response.json({ message: "Data received", data }, { status: 200 });
-    } catch (error) {
-      Response.json({ message: error }, { status: 400 });
+      res.status(200).json({ message: "Data received", data });
+    } catch {
+      res.status(400).json({ message: "Error sending data" });
     }
   }
 }
