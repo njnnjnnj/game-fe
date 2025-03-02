@@ -44,9 +44,9 @@ export const getStarsInfo = async (): Promise<IStarsInfo> => {
 };
 
 export const setClicker = async (reqM: ClickerReqM): Promise<void> => {
-  const { data } = await axios.post("/api/clicker", {
-    ...reqM,
-  });
+  const { data } = await axios.get(
+    `/api/clicker?clicks=${reqM.debouncedClickCount}&token=${reqM.token}&unixTimeInSeconds=${reqM.unixTimeInSeconds}`,
+  );
 
   return data;
 };
