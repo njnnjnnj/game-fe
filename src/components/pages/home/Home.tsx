@@ -208,7 +208,7 @@ export const Home = () => {
                     animate={{ opacity: 0, y: -150 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1 }}
-                    className="pointer-events-none absolute z-50 select-none text-3xl font-black text-white"
+                    className="text-stroke-1 pointer-events-none absolute z-50 select-none text-4xl font-black text-white text-shadow-sm"
                     style={{ top: y, left: x }}
                   >
                     +1
