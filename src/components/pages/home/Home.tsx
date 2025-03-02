@@ -15,7 +15,6 @@ import { Toast } from "@/components/ui/toast";
 import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
 import MainImage from "@/public/assets/png/main-bg.webp";
-import { useGetBattlePass } from "@/services/battle-pass/queries";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
 import {
   invalidateOfflineBonusQuery,
@@ -24,6 +23,8 @@ import {
 } from "@/services/offline-bonus/queries";
 import { OfflineBonus } from "@/services/offline-bonus/types";
 import { invalidateProfileQuery, useClicker } from "@/services/profile/queries";
+import { useGetShop } from "@/services/shop/queries";
+import { ShopItemTypeEnum } from "@/services/shop/types";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -32,8 +33,6 @@ import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 import { SideLink } from "./components/side-link/SideLink";
-import { useGetShop } from "@/services/shop/queries";
-import { ShopItemTypeEnum } from "@/services/shop/types";
 
 export const Home = () => {
   const queryClient = useQueryClient();
