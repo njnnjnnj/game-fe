@@ -14,16 +14,21 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const { debouncedClickCount, unixTimeInSeconds, token } = req.body;
+      console.log("🚀 ~ debouncedClickCount:", debouncedClickCount);
+      console.log("🚀 ~ token:", token);
+      console.log("🚀 ~ unixTimeInSeconds:", unixTimeInSeconds);
 
       const sha = crypto
         .createHmac("sha256", process.env.NEXT_PUBLIC_SECRET_KEY as string)
         .update(`${debouncedClickCount}:${unixTimeInSeconds}:${token}`)
         .digest("hex");
 
+      console.log("🚀 ~ sha:", sha);
+
       const dataToSend = `${debouncedClickCount}:${unixTimeInSeconds}:${sha}`;
       const apiRoute = `${BASE_URL}${API_ENDPOINTS.POST.CLICKER}`;
 
-      const { data } = await axios.post(
+      const { data, status } = await axios.post(
         apiRoute,
         {
           data: dataToSend,
@@ -34,11 +39,14 @@ export default async function handler(
           },
         },
       );
+      console.log("🚀 ~ data:", data);
+      console.log("🚀 ~ status:", status);
 
       res.status(200).json({ message: "Data received", data });
     } catch (error) {
       if (error instanceof AxiosError) {
-        res.status(405).json({ message: error.message });
+        console.log("🚀 ~ error:", error.config?.data);
+        res.status(400).json({ message: error.response?.data });
       }
     }
   }

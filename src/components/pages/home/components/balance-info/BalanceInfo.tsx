@@ -1,8 +1,10 @@
 import React, { FunctionComponent } from "react";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { NS } from "@/constants/ns";
+import { ROUTES } from "@/constants/routes";
 import IncomeSvg from "@/public/assets/svg/income.svg";
 import StarSvg from "@/public/assets/svg/star.svg";
 import TapSvg from "@/public/assets/svg/tap.svg";
@@ -30,7 +32,10 @@ export const BalanceInfo: FunctionComponent<Props> = ({
         </span>
       </div>
       <div className="flex items-center justify-center gap-2">
-        <div className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2">
+        <Link
+          href={ROUTES.SHOP}
+          className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
+        >
           <IncomeSvg />
           <span className="text-stroke-1 flex items-center gap-1 text-sm font-black leading-none text-white text-shadow-sm">
             {perHour ? formatNumber(perHour) : "0"}
@@ -38,8 +43,11 @@ export const BalanceInfo: FunctionComponent<Props> = ({
               {t(NS.PAGES.HOME.PER_HOUR)}
             </span>
           </span>
-        </div>
-        <div className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2">
+        </Link>
+        <Link
+          href={ROUTES.REWARDS}
+          className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
+        >
           <TapSvg />
           <span className="text-stroke-1 flex items-center gap-1 text-sm font-black leading-none text-white text-shadow-sm">
             {perTap ? formatNumber(perTap) : "0"}
@@ -47,7 +55,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
               {t(NS.PAGES.HOME.PER_TAP)}
             </span>
           </span>
-        </div>
+        </Link>
       </div>
     </div>
   );

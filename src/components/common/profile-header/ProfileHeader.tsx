@@ -13,6 +13,7 @@ import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
 import { useTelegram } from "@/context";
 import FrindsSvg from "@/public/assets/svg/friends-coin.svg";
+import HaveBPSvg from "@/public/assets/svg/have-battle-pass.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { ShopItem } from "@/services/shop/types";
 
@@ -79,8 +80,9 @@ export const ProfileHeader: FunctionComponent<Props> = ({
             ) : null}
           </div>
           <div className="relative flex flex-col gap-y-1">
-            <p className="text-stroke-1 text-nowrap text-base font-black tracking-[0.04em] text-white text-shadow-sm">
-              {user?.first_name}
+            <p className="text-stroke-1 flex w-full items-center gap-1 text-nowrap text-sm font-black tracking-[0.04em] text-white text-shadow-sm">
+              <span className="max-w-16 text-ellipsis">{user?.first_name}</span>
+              <HaveBPSvg className="size-3.5" />
             </p>
             <div className="relative -left-5 flex h-5 items-center">
               <div className="absolute z-10 h-5 w-8.5">
