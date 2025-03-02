@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import axios, { AxiosError } from "axios";
 import crypto from "crypto-js";
 
 import { API_ENDPOINTS } from "@/constants/api";
@@ -22,22 +23,30 @@ export default async function handler(
         .toString(crypto.enc.Hex);
 
       const dataToSend = `${debouncedClickCount}:${unixTimeInSeconds}:${sha}`;
+
+      res.status(200).json({ message: "Data received", dataToSend });
+
       const apiRoute = `${BASE_URL}${API_ENDPOINTS.POST.CLICKER}`;
 
-      const response = await fetch(apiRoute, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const { data } = await axios.post(
+        apiRoute,
+        {
+          data: dataToSend,
         },
-        body: JSON.stringify({ data: dataToSend }),
-      });
-
-      const data = await response.json();
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
       res.status(200).json({ message: "Data received", data });
-    } catch {
-      res.status(400).json({ message: "Error sending data" });
+    } catch (error) {
+      if (error instanceof AxiosError)
+        res
+          .status(error.response?.status || 500)
+          .json({ message: error.response?.data });
     }
   }
 }

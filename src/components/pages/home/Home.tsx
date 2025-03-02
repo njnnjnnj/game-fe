@@ -15,6 +15,7 @@ import { Toast } from "@/components/ui/toast";
 import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
 import MainImage from "@/public/assets/png/main-bg.webp";
+import { useGetBattlePass } from "@/services/battle-pass/queries";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
 import {
   invalidateOfflineBonusQuery,
@@ -49,6 +50,7 @@ export const Home = () => {
     [data],
   );
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
+  const { data: battlePass } = useGetBattlePass();
   const { mutate: setClicker } = useClicker();
   const clickCountRef = useRef(0);
 
@@ -97,7 +99,7 @@ export const Home = () => {
     }
   }, [offlineBonus, isClaimed]);
 
-  if (!webApp || !profile || !allAppsHeroes) return null;
+  if (!webApp || !profile || !allAppsHeroes || !battlePass) return null;
 
   const { current, ...heroCloth } = profile?.character;
 
@@ -174,9 +176,9 @@ export const Home = () => {
             </div>
             <EnergyBar energy={energy} max_energy={profile.max_energy} />
             <SecondaryNavbar
-              currentExp={profile.exp}
-              needExp={profile.need_exp}
-              currentLevel={profile.level}
+              currentExp={battlePass.current_exp}
+              needExp={battlePass.need_exp}
+              currentLevel={battlePass.current_level}
             />
           </div>
 
