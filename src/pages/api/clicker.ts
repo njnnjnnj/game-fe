@@ -1,50 +1,73 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
-import axios, { AxiosError } from "axios";
-import crypto from "crypto-js";
+import { NextRequest, NextResponse } from "next/server";
 
 import { API_ENDPOINTS } from "@/constants/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  if (req.method === "POST") {
+export const config = {
+  runtime: "edge",
+};
+
+const key = crypto.subtle.importKey(
+  "raw",
+  new TextEncoder().encode("majestic"),
+  { name: "HMAC", hash: { name: "SHA-256" } },
+  false,
+  ["sign"],
+);
+
+function toHex(arrayBuffer: ArrayBuffer) {
+  return Array.prototype.map
+    .call(new Uint8Array(arrayBuffer), (n) => n.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+export default async function handler(req: NextRequest) {
+  if (req.method === "GET") {
+    const { searchParams } = req.nextUrl;
     try {
-      const { debouncedClickCount, unixTimeInSeconds, token } = req.body;
+      const clicks = Number(searchParams.get("clicks"));
+      const unix = Number(searchParams.get("unixTimeInSeconds"));
+      const token = searchParams.get("token");
 
-      const sha = crypto
-        .HmacSHA256(
-          `${debouncedClickCount}:${unixTimeInSeconds}:${token}`,
-          process.env.NEXT_PUBLIC_SECRET_KEY as string,
-        )
-        .toString(crypto.enc.Hex);
+      const dataForCrypto = new TextEncoder().encode(
+        `${clicks}:${unix}:${token}`,
+      );
 
-      const dataToSend = `${debouncedClickCount}:${unixTimeInSeconds}:${sha}`;
+      const sha = toHex(
+        await crypto.subtle.sign("HMAC", await key, dataForCrypto),
+      );
+
+      const dataToSend = `${clicks}:${unix}:${sha}`;
 
       const apiRoute = `${BASE_URL}${API_ENDPOINTS.POST.CLICKER}`;
 
-      const { data } = await axios.post(
-        apiRoute,
-        {
-          data: dataToSend,
+      const response = await fetch(apiRoute, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+        body: JSON.stringify({ data: dataToSend }),
+      });
 
-      res.status(200).json({ message: "Data received", data });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error["detail"]);
+      }
+
+      const data = await response.json();
+
+      return NextResponse.json({ data: JSON.stringify(data) }, { status: 200 });
     } catch (error) {
-      if (error instanceof AxiosError)
-        res
-          .status(error.response?.status || 500)
-          .json({ message: error.response?.data });
+      if (error instanceof Error) {
+        return NextResponse.json({ data: error.message }, { status: 400 });
+      } else {
+        return NextResponse.json(
+          { data: "Internal Server Error" },
+          { status: 500 },
+        );
+      }
     }
   }
 }

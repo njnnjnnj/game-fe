@@ -15,6 +15,7 @@ import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import { useGetBattlePass } from "@/services/battle-pass/queries";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
@@ -51,6 +52,7 @@ export const Home = () => {
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const { webApp, profile } = useTelegram();
+  const { handleSelectionChanged } = useHapticFeedback();
   const [energy, setEnergy] = useState(profile?.energy ?? 0);
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
   const { data } = useGetShop();
@@ -92,6 +94,7 @@ export const Home = () => {
 
   const handlePlusEvent = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
+      handleSelectionChanged();
       const { clientX, clientY, currentTarget } = event;
       const rect = currentTarget.getBoundingClientRect();
       const x = clientX - rect.left;
