@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Image from "next/image";
 
@@ -32,6 +32,8 @@ import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 import { SideLink } from "./components/side-link/SideLink";
+import { useGetShop } from "@/services/shop/queries";
+import { ShopItemTypeEnum } from "@/services/shop/types";
 
 export const Home = () => {
   const queryClient = useQueryClient();
@@ -42,8 +44,11 @@ export const Home = () => {
   const { webApp, profile } = useTelegram();
   const [energy, setEnergy] = useState(profile?.energy ?? 0);
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
-  const { data } = useGetBattlePass();
-  console.log("🚀 ~ Home ~ data:", data);
+  const { data } = useGetShop();
+  const friendsShopItems = useMemo(
+    () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
+    [data],
+  );
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { mutate: setClicker } = useClicker();
   const clickCountRef = useRef(0);
@@ -132,7 +137,11 @@ export const Home = () => {
           <div className="fixed inset-0 z-10 h-full w-full">
             <Image src={MainImage} alt="main-bg" fill />
           </div>
-          <ProfileHeader className="top-0 z-20 w-full" hasFriendsBlock />
+          <ProfileHeader
+            className="top-0 z-20 w-full"
+            hasFriendsBlock
+            shopItemsForBuyFriends={friendsShopItems ?? []}
+          />
           <BalanceInfo
             balance={profileBalance}
             perHour={profile.reward_per_hour}
