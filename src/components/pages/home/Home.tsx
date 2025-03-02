@@ -61,7 +61,7 @@ export const Home = () => {
           {
             onSuccess: () => {
               invalidateProfileQuery(queryClient);
-              clickCountRef.current = 0; // Обнуляем после отправки
+              clickCountRef.current = 0;
             },
             onError: (error) => {
               toast.error(error.message);
