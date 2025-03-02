@@ -75,6 +75,12 @@ export const useGetStarsInfo = () =>
     retry: false,
   });
 
+export const invalidateStarsInfoQuery = (queryClient: QueryClient) => {
+  return queryClient.invalidateQueries({
+    queryKey: [QueryKeys.GET_STARS_INFO],
+  });
+};
+
 export const useClicker = () =>
   useMutation({
     mutationFn: (data: ClickerReqM) => setClicker(data),

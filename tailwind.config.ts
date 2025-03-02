@@ -689,6 +689,8 @@ export default {
           "radial-gradient(50% 88.48% at 50% 50%, rgba(136, 51, 8, 0) 0%, #883308 100%), url('/assets/png/card-bg.png')",
         "top-players-list-pattern":
           "linear-gradient(#FFB900 0%, #FDC42D 50%, #FFB900 100%)",
+        "top-players-modal-pattern":
+          "linear-gradient(#6420B9 7%, #8948FA 50%, #6420B9 100%)",
         "home-energy-pattern":
           "linear-gradient(to bottom, #04A0F5 52%, #0A4CDE 100%)",
         "home-buttons-pattern":
@@ -815,7 +817,7 @@ export default {
         "heroes-stat-indicator-inner-dim": "-1px 2px 1px 0px #00000033 inset",
         "heroes-stat-indicator-glow": "0px 0px 4px 0px #FFCC0099",
         "leaderbord-list-pattern":
-          "inset 0 -2px 2px 0 rgba(0, 0, 0, 0.2), inset 0 4px 2px 0 rgba(0, 0, 0, 0.2)",
+          "inset -2px 0 24px 0 rgba(255, 255, 255, 0.2), inset -2px 0 1px 0 rgba(255, 255, 255, 0.2), inset 2px 0 24px 0 rgba(255, 255, 255, 0.2), inset 2px 0 1px 0 rgba(255, 255, 255, 0.2)",
         "leaderboard-tape-shadow":
           "box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.80), 0 6px 6px rgba(0, 0, 0, 0.60)",
         "modal-shadow": "0 -8px 12px 0 rgba(5, 22, 37, 0.6)",

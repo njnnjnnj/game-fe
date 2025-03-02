@@ -15,6 +15,7 @@ import { Toast } from "@/components/ui/toast";
 import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
 import MainImage from "@/public/assets/png/main-bg.webp";
+import { useGetBattlePass } from "@/services/battle-pass/queries";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
 import {
   invalidateOfflineBonusQuery,
@@ -41,6 +42,8 @@ export const Home = () => {
   const { webApp, profile } = useTelegram();
   const [energy, setEnergy] = useState(profile?.energy ?? 0);
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
+  const { data } = useGetBattlePass();
+  console.log("🚀 ~ Home ~ data:", data);
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { mutate: setClicker } = useClicker();
   const clickCountRef = useRef(0);
@@ -73,7 +76,7 @@ export const Home = () => {
   ).current;
 
   const handleClick = useCallback(() => {
-    setEnergy((prev) => prev - 1);
+    setEnergy((prev) => prev - (profile?.reward_per_tap ?? 1));
     setProfileBalance(
       (prevBalance) => prevBalance + (profile?.reward_per_tap ?? 1),
     );
@@ -129,7 +132,7 @@ export const Home = () => {
           <div className="fixed inset-0 z-10 h-full w-full">
             <Image src={MainImage} alt="main-bg" fill />
           </div>
-          <ProfileHeader className="top-0 z-20 w-full" />
+          <ProfileHeader className="top-0 z-20 w-full" hasFriendsBlock />
           <BalanceInfo
             balance={profileBalance}
             perHour={profile.reward_per_hour}

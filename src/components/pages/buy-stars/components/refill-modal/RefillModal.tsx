@@ -19,7 +19,10 @@ import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import { invalidateProfileQuery } from "@/services/profile/queries";
+import {
+  invalidateProfileQuery,
+  invalidateStarsInfoQuery,
+} from "@/services/profile/queries";
 import { ShopItem } from "@/services/shop/types";
 import { formatNumber } from "@/utils/number";
 import { useQueryClient } from "@tanstack/react-query";
@@ -43,7 +46,9 @@ export const RefillModal: FunctionComponent<Props> = ({
   const { buy: buyStarsFn, isStarsPaymentLoading } = useSafeStarsPayment(
     () => {},
     () => {
+      console.log("Stars payment success");
       invalidateProfileQuery(queryClient);
+      invalidateStarsInfoQuery(queryClient);
       onClose();
     },
     () => {

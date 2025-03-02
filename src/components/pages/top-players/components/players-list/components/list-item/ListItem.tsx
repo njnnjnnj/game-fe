@@ -11,11 +11,10 @@ import { Rank } from "./components/rank/Rank";
 
 type Props = {
   leader: Leader;
+  isLoading: boolean;
 };
 
-export const ListItem: FunctionComponent<Props> = ({
-  leader: { rank, name, photo_url, value },
-}) => {
+export const ListItem: FunctionComponent<Props> = ({ leader, isLoading }) => {
   return (
     <div
       className={classNames(
@@ -29,10 +28,15 @@ export const ListItem: FunctionComponent<Props> = ({
         )}
       >
         <div className="relative z-10 flex w-full gap-2">
-          <Rank rank={rank} />
-          <PlayerAvatar url={photo_url} />
-          <PlayerInfo name={name} league="League name" />
-          <PlayerValue value={value} />
+          <Rank rank={leader?.rank} />
+
+          <PlayerAvatar url={leader?.photo_url} isLoading={isLoading} />
+          <PlayerInfo
+            name={leader?.name}
+            league="League name"
+            isLoading={isLoading}
+          />
+          <PlayerValue value={leader?.value} isLoading={isLoading} />
         </div>
       </div>
     </div>
