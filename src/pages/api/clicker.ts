@@ -24,8 +24,6 @@ export default async function handler(
 
       const dataToSend = `${debouncedClickCount}:${unixTimeInSeconds}:${sha}`;
 
-      res.status(200).json({ message: "Data received", dataToSend });
-
       const apiRoute = `${BASE_URL}${API_ENDPOINTS.POST.CLICKER}`;
 
       const { data } = await axios.post(

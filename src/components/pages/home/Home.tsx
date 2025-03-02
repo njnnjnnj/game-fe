@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 
 import classNames from "classnames";
+import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
 import throttle from "lodash.throttle";
 import { toast } from "sonner";
@@ -35,10 +36,18 @@ import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonus
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 import { SideLink } from "./components/side-link/SideLink";
 
+interface ClickEffect {
+  id: number;
+  x: number;
+  y: number;
+}
+
 export const Home = () => {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
+  const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
+  const timeoutRefs = useRef<{ [key: number]: NodeJS.Timeout }>({});
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const { webApp, profile } = useTelegram();
@@ -81,15 +90,38 @@ export const Home = () => {
     }, 5000),
   ).current;
 
-  const handleClick = useCallback(() => {
-    setEnergy((prev) => prev - (profile?.reward_per_tap ?? 1));
-    setProfileBalance(
-      (prevBalance) => prevBalance + (profile?.reward_per_tap ?? 1),
-    );
+  const handlePlusEvent = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const { clientX, clientY, currentTarget } = event;
+      const rect = currentTarget.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      const id = Date.now();
 
-    clickCountRef.current += 1;
-    throttledSetClicker();
-  }, []);
+      setClickEffects((prev) => [...prev, { id, x, y }]);
+
+      timeoutRefs.current[id] = setTimeout(() => {
+        setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
+        delete timeoutRefs.current[id];
+      }, 1000);
+    },
+    [],
+  );
+
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setEnergy((prev) => prev - (profile?.reward_per_tap ?? 1));
+      setProfileBalance(
+        (prevBalance) => prevBalance + (profile?.reward_per_tap ?? 1),
+      );
+
+      handlePlusEvent(event);
+
+      clickCountRef.current += 1;
+      throttledSetClicker();
+    },
+    [],
+  );
 
   useEffect(() => {
     const offlineBonusClaimed = Cookies.get("offlineBonusClaimed");
@@ -168,6 +200,21 @@ export const Home = () => {
                 heroId={current}
                 heroRarity={allAppsHeroes[current].rarity}
               />
+              <AnimatePresence>
+                {clickEffects.map(({ id, x, y }) => (
+                  <motion.div
+                    key={id}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 0, y: -30 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                    className="pointer-events-none absolute z-50 select-none text-3xl font-black text-white"
+                    style={{ top: y, left: x }}
+                  >
+                    +1
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </button>
             <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
               <SideLink />
