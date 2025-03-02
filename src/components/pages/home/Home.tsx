@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 
 import classNames from "classnames";
 import Cookies from "js-cookie";
+import throttle from "lodash.throttle";
 import { toast } from "sonner";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
@@ -31,19 +32,57 @@ import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonus
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 import { SideLink } from "./components/side-link/SideLink";
 
+const MemoizedHeroView = memo(HeroView);
+
 export const Home = () => {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
-  const [debouncedClickCount, setDebouncedClickCount] =
-    useState<number>(clickCount);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const { webApp, profile } = useTelegram();
+  const [energy, setEnergy] = useState(profile?.energy ?? 0);
+  const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { mutate: setClicker } = useClicker();
+  const clickCountRef = useRef(0);
+
+  const throttledSetClicker = useRef(
+    throttle(() => {
+      const clicks = clickCountRef.current;
+      if (clicks > 0) {
+        const unixTimeInSeconds = Math.floor(Date.now() / 1000);
+        const token = Cookies.get(AUTH_COOKIE_TOKEN) || "";
+
+        setClicker(
+          {
+            debouncedClickCount: clicks,
+            unixTimeInSeconds,
+            token,
+          },
+          {
+            onSuccess: () => {
+              invalidateProfileQuery(queryClient);
+              clickCountRef.current = 0; // Обнуляем после отправки
+            },
+            onError: (error) => {
+              toast.error(error.message);
+            },
+          },
+        );
+      }
+    }, 5000),
+  ).current;
+
+  const handleClick = useCallback(() => {
+    setEnergy((prev) => prev - 1);
+    setProfileBalance(
+      (prevBalance) => prevBalance + (profile?.reward_per_tap ?? 1),
+    );
+
+    clickCountRef.current += 1;
+    throttledSetClicker();
+  }, []);
 
   useEffect(() => {
     if (offlineBonus?.reward && !isClaimed) {
@@ -51,50 +90,9 @@ export const Home = () => {
     }
   }, [offlineBonus, isClaimed]);
 
-  useEffect(() => {
-    localStorage.setItem("clickCount", JSON.stringify(clickCount));
-
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    const newTimeoutId = setTimeout(() => {
-      setDebouncedClickCount(clickCount);
-    }, 500);
-
-    setTimeoutId(newTimeoutId);
-
-    return () => {
-      if (newTimeoutId) clearTimeout(newTimeoutId);
-    };
-  }, [clickCount]);
-
-  useEffect(() => {
-    const unixTimeInSeconds = Math.floor(Date.now() / 1000);
-
-    if (debouncedClickCount > 0) {
-      const token = Cookies.get(AUTH_COOKIE_TOKEN) || "";
-      setClicker(
-        {
-          debouncedClickCount,
-          unixTimeInSeconds,
-          token,
-        },
-        {
-          onSuccess: () => {
-            invalidateProfileQuery(queryClient);
-          },
-          onError: (error) => {
-            toast.error(error.message);
-          },
-        },
-      );
-    }
-  }, [debouncedClickCount]);
-
   if (!webApp || !profile || !allAppsHeroes) return null;
 
-  const { current, ...heroCloth } = profile.character;
+  const { current, ...heroCloth } = profile?.character;
 
   const insetTop = getTgSafeAreaInsetTop(webApp);
   const calculatedPaddingTop = insetTop ? insetTop : 16;
@@ -110,10 +108,6 @@ export const Home = () => {
       onError: (error) =>
         toast(<Toast type="destructive" text={error.message} />),
     });
-  };
-
-  const handleClick = () => {
-    setClickCount((prev) => prev + 1);
   };
 
   const handleClose = () => {
@@ -139,7 +133,7 @@ export const Home = () => {
           </div>
           <ProfileHeader className="top-0 z-20 w-full" />
           <BalanceInfo
-            balance={profile.coins}
+            balance={profileBalance}
             perHour={profile.reward_per_hour}
             perTap={profile.reward_per_tap}
           />
@@ -153,7 +147,7 @@ export const Home = () => {
               onClick={handleClick}
               className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
             >
-              <HeroView
+              <MemoizedHeroView
                 className="user-select-none pointer-events-none aspect-[0.72] h-full touch-none"
                 source="preview"
                 heroCloth={heroCloth}
@@ -166,10 +160,7 @@ export const Home = () => {
               <SideLink />
               <SideLink />
             </div>
-            <EnergyBar
-              energy={profile.energy}
-              max_energy={profile.max_energy}
-            />
+            <EnergyBar energy={energy} max_energy={profile.max_energy} />
             <SecondaryNavbar
               currentExp={profile.exp}
               needExp={profile.need_exp}
