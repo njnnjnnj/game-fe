@@ -211,7 +211,7 @@ export const Home = () => {
                     className="text-stroke-1 pointer-events-none absolute z-50 select-none text-4xl font-black text-white text-shadow-sm"
                     style={{ top: y, left: x }}
                   >
-                    +1
+                    +{profile.reward_per_tap}
                   </motion.div>
                 ))}
               </AnimatePresence>
