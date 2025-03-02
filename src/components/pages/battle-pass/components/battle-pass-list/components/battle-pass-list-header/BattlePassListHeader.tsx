@@ -11,11 +11,11 @@ type Props = {
 };
 
 export const BattlePassListHeader: FunctionComponent<Props> = ({ onEnhanceClick }) => (
-  <div className="absolute bottom-0 w-full">
-    <div className="mx-auto w-fit rounded-t-2xl bg-[#FFCE08] p-1">
+  <div className="absolute bottom-0 w-full flex flex-col items-center">
+    <div className="rounded-t-2xl bg-[#FFCE08] p-1">
       <div
         className={classNames(
-          "w-fit rounded-b-md rounded-t-xl bg-orange-550 px-[30px] py-2 shadow-battle-pass-combined",
+          "rounded-b-md rounded-t-xl bg-orange-550 px-[30px] py-2 shadow-battle-pass-combined",
           "text-stroke-half text-2xl font-black uppercase tracking-wide text-white text-shadow",
         )}
       >

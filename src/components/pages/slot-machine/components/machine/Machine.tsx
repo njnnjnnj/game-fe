@@ -68,7 +68,7 @@ export const Machine = () => {
 
   const bet = bets[betIndex];
 
-  const { data: profile } = useGetProfile();
+  const { data: profile, refetch: refetchProfile } = useGetProfile();
   const { data: banditInfo, refetch: refetchBanditInfo } = useGetBandit();
 
   const { mutate: playBandit } = usePlayBandit();
@@ -240,6 +240,8 @@ export const Machine = () => {
                 if (isVip) {
                   updateBalance(queryClient, nextBalance + nextReward.amount);
                   runBanditInfoRefetch(true);
+                } else {
+                  refetchProfile();
                 }
 
                 winTimeoutRef.current = undefined;

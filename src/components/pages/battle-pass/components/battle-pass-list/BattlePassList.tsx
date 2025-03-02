@@ -21,13 +21,11 @@ import {
   BATTLE_PASS_BOTTOM_MENU_HEIGHT,
   BATTLE_PASS_LIST_PROGRESS_BAR_HEIGHT,
   BATTLE_PASS_ROW_HEIGHT,
+  BATTLE_PASS_ROWS_COUNT,
   ModalType,
 } from "./constants";
 
 let currentWidth = 0;
-
-const BATTLE_PASS_LIST_HEADER_ROW_ID = "battle-pass-list-header-row";
-const BATTLE_PASS_ROWS_COUNT = 101; // 100 Battle Pass items and 1 for the Header
 
 type RowProps = {
   index: number;
@@ -35,6 +33,11 @@ type RowProps = {
   data: {
     openModal: (type: ModalType) => void;
   };
+};
+
+type ModalState = {
+  type: ModalType;
+  isOpen: boolean;
 };
 
 const getItemSize = (index: number) => {
@@ -53,7 +56,7 @@ const Row = ({ index, style, data }: RowProps) => {
   const renderLevel = index;
 
   return (
-    <div style={style} id={!index ? BATTLE_PASS_LIST_HEADER_ROW_ID : undefined}>
+    <div style={style}>
       {index ? (
         <BattlePassRow
           key={`level-${renderLevel}`}
@@ -74,8 +77,11 @@ type Props = {
 };
 
 export const BattlePassList: FunctionComponent<Props> = ({ onScroll }) => {
-  const [openModalType, setOpenModalType] = useState<ModalType | null>(null);
-  const listRef = useRef<VariableSizeList | null>(null);
+  const [modalState, setModalState] = useState<ModalState>({
+    type: ModalType.LEVEL_UP,
+    isOpen: false,
+  });
+
   const listContainerRef = useRef<HTMLElement | null>(null);
   const listenToScroll = useCallback((instance: HTMLElement | null) => {
     if (instance) {
@@ -86,8 +92,22 @@ export const BattlePassList: FunctionComponent<Props> = ({ onScroll }) => {
     }
   }, []);
 
+  const setOpenModalType = (type: ModalType) => {
+    setModalState({
+      type,
+      isOpen: true,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState((prevState) => ({
+      ...prevState,
+      isOpen: false,
+    }));
+  };
+
   return (
-    <Drawer open={!!openModalType} onClose={() => setOpenModalType(null)}>
+    <Drawer open={modalState.isOpen} onClose={closeModal}>
       <div className="absolute inset-0">
         <AutoSizer>
           {({ width, height }) => {
@@ -95,7 +115,6 @@ export const BattlePassList: FunctionComponent<Props> = ({ onScroll }) => {
 
             return (
               <VariableSizeList
-                ref={listRef}
                 width={width}
                 height={height}
                 itemCount={BATTLE_PASS_ROWS_COUNT}
@@ -109,10 +128,10 @@ export const BattlePassList: FunctionComponent<Props> = ({ onScroll }) => {
           }}
         </AutoSizer>
       </div>
-      {openModalType === ModalType.LEVEL_UP ? (
-        <LevelupBattlePassModal onClose={() => setOpenModalType(null)} />
+      {modalState.type === ModalType.LEVEL_UP ? (
+        <LevelupBattlePassModal onClose={closeModal} />
       ) : (
-        <EnhanceBattlePassModal onClose={() => setOpenModalType(null)} />
+        <EnhanceBattlePassModal onClose={closeModal} />
       )}
     </Drawer>
   );

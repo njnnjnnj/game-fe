@@ -2,6 +2,7 @@ import React from "react";
 
 import { PageWrapper } from "@/components/common";
 
+// import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { Machine } from "./components/machine/Machine";
 
 export const SlotMachine = () => {
@@ -11,6 +12,7 @@ export const SlotMachine = () => {
       disableSafeAreaInset
     >
       <Machine />
+      {/* <RewardScreen /> */}
     </PageWrapper>
   );
 };

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -25,6 +25,7 @@ import { getImgByReward } from "@/utils/rewards";
 
 import { ModalType } from "../../../../constants";
 
+import { ActivateAnimationController } from "./activate-animation-controller";
 import CellRenderer from "./cell-renderer";
 
 type Props = {
@@ -36,6 +37,8 @@ type Props = {
   item: BattlePassItem;
   openModal: (type: ModalType) => void;
 };
+
+const activateAnimationController = new ActivateAnimationController();
 
 export const BattlePassCell: FunctionComponent<Props> = ({
   battlePassLevel,
@@ -63,6 +66,7 @@ export const BattlePassCell: FunctionComponent<Props> = ({
     ? getImgByReward(item.type, item.value, heroes)
     : undefined;
   const FxImage = isPremium ? LargeFx : SmallFx;
+  const [isGlowActive, setIsGlowActive] = useState(isCollectible);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -78,6 +82,14 @@ export const BattlePassCell: FunctionComponent<Props> = ({
       cellRenderer.render();
     }
   }, [isPremium, isTaken, isLocked, FxImage.src]);
+
+  useEffect(() => {
+    if (isCollectible && !isGlowActive) {
+      activateAnimationController.addActivateAnimationListener(() => {
+        setIsGlowActive(true);
+      });
+    }
+  }, [isCollectible, isGlowActive]);
 
   const onCollectItem = () => {
     if (isTaken) {
@@ -118,7 +130,7 @@ export const BattlePassCell: FunctionComponent<Props> = ({
   return (
     <div className="relative" onClick={onCollectItem}>
       <canvas className="h-30 w-full" ref={canvasRef} />
-      {isCollectible && (
+      {isCollectible && isGlowActive && (
         <div className="absolute inset-0 overflow-hidden">
           <div
             className={classNames(
@@ -128,6 +140,7 @@ export const BattlePassCell: FunctionComponent<Props> = ({
                 "bg-bp-regular-glow-pattern": !isPremium,
               },
             )}
+            onAnimationIteration={activateAnimationController.activateAnimation}
           />
         </div>
       )}
