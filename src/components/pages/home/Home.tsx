@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 
@@ -31,8 +31,6 @@ import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 import { SideLink } from "./components/side-link/SideLink";
-
-const MemoizedHeroView = memo(HeroView);
 
 export const Home = () => {
   const queryClient = useQueryClient();
@@ -147,7 +145,7 @@ export const Home = () => {
               onClick={handleClick}
               className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
             >
-              <MemoizedHeroView
+              <HeroView
                 className="user-select-none pointer-events-none aspect-[0.72] h-full touch-none"
                 source="preview"
                 heroCloth={heroCloth}
