@@ -205,7 +205,7 @@ export const Home = () => {
                   <motion.div
                     key={id}
                     initial={{ opacity: 1, y: 0 }}
-                    animate={{ opacity: 0, y: -30 }}
+                    animate={{ opacity: 0, y: -150 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1 }}
                     className="pointer-events-none absolute z-50 select-none text-3xl font-black text-white"
