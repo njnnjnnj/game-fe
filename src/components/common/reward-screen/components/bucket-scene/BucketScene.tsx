@@ -10,48 +10,149 @@ import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
 import StarSVG from "@/public/assets/svg/star.svg";
+import { CofferKey } from "@/types/rewards";
+import { formatNumber } from "@/utils/number";
 
 type Props = {
   clickToggle: boolean;
-  onAnimationEnd: () => void;
+  type: Exclude<CofferKey, "auto" | "character" | "cloth">;
+  amount: number;
+  balance: number;
+  onFinishScene: () => void;
 };
 
 type Point = { x: number; y: number };
 
-export const BucketScene: FunctionComponent<Props> = ({ clickToggle }) => {
+enum CoinsAnimation {
+  SPAWN,
+  SCATTER,
+  TARGET,
+}
+
+enum AppearanceAnimation {
+  APPEARANCE,
+  DISAPPEARANCE,
+}
+
+const SCATTER_RADIUS = 30;
+
+const getRandomIntInclusive = (min: number, max: number) => {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+};
+
+const getScatteredOffset = (): Point => ({
+  x: getRandomIntInclusive(-SCATTER_RADIUS, SCATTER_RADIUS),
+  y: getRandomIntInclusive(-SCATTER_RADIUS, SCATTER_RADIUS),
+});
+
+const REWARD = 150_000;
+
+export const BG_CLASS = "bg-reward-screen-bucket-pattern";
+
+export const BucketScene: FunctionComponent<Props> = ({
+  clickToggle,
+  onFinishScene,
+}) => {
+  const t = useTranslations(NS.COMMON.ROOT);
   const coinsSpawnRef = useRef<HTMLDivElement | null>(null);
   const coinsTargetRef = useRef<HTMLDivElement | null>(null);
-  const [coins, setCoins] = useState(0);
-  const [step, setStep] = useState(0);
-  const [target, setTarget] = useState<Point | null>(null);
-  const t = useTranslations(NS.COMMON.ROOT);
+  const coinsAnimationTimerRef = useRef<NodeJS.Timeout>();
+  const appearanceAnimationTimerRef = useRef<NodeJS.Timeout>();
+  const [balance, setBalance] = useState(30500000);
+  const [appearanceAnimation, setAppearanceAnimation] =
+    useState<AppearanceAnimation | null>(null);
+  const [coinsAnimation, setCoinsAnimation] = useState<CoinsAnimation | null>(
+    null,
+  );
+
+  const clearTimers = () => {
+    if (coinsAnimationTimerRef.current) {
+      clearTimeout(coinsAnimationTimerRef.current);
+    }
+
+    if (appearanceAnimationTimerRef.current) {
+      clearTimeout(appearanceAnimationTimerRef.current);
+    }
+  };
 
   useEffect(() => {
-    setStep((prevStep) => prevStep + 1);
+    appearanceAnimationTimerRef.current = setTimeout(() => {
+      setAppearanceAnimation(AppearanceAnimation.APPEARANCE);
+      appearanceAnimationTimerRef.current = undefined;
+    }, 200);
+
+    return clearTimers;
   }, []);
 
   useEffect(() => {
-    if (!coinsTargetRef.current || !coins) return;
+    if (!coinsTargetRef.current || coinsAnimation === null) return;
 
-    const rect = coinsTargetRef.current.getBoundingClientRect();
-
-    setTimeout(() => {
-      setTarget({ x: rect.x, y: rect.y });
-    }, 1000);
-  }, [coins]);
+    if (coinsAnimation === CoinsAnimation.SPAWN) {
+      coinsAnimationTimerRef.current = setTimeout(() => {
+        setCoinsAnimation(CoinsAnimation.SCATTER);
+        coinsAnimationTimerRef.current = undefined;
+      }, 200);
+    }
+  }, [coinsAnimation]);
 
   useUpdateEffect(() => {
-    setStep((prevStep) => prevStep + 1);
+    setAppearanceAnimation(AppearanceAnimation.DISAPPEARANCE);
   }, [clickToggle]);
 
-  const getSpawnTop = () => {
-    if (!coinsSpawnRef.current) return 0;
+  const finishScene = () => {
+    clearTimers();
+
+    setCoinsAnimation(null);
+    onFinishScene();
+  };
+
+  const getSpawnPoint = () => {
+    if (!coinsSpawnRef.current) return { x: 0, y: 0 };
 
     const rect = coinsSpawnRef.current.getBoundingClientRect();
 
-    return rect.top + rect.height / 10;
+    return { x: rect.x + rect.width / 2.2, y: rect.y + rect.height / 5 };
   };
-  console.log(target);
+
+  const getCoinPoint = (): Point => {
+    if (coinsAnimation === null) return { x: 0, y: 0 };
+
+    if (coinsAnimation === CoinsAnimation.SPAWN) {
+      return getSpawnPoint();
+    } else if (coinsAnimation === CoinsAnimation.SCATTER) {
+      const spawnPoint = getSpawnPoint();
+      const scatteredOffset = getScatteredOffset();
+
+      return {
+        x: spawnPoint.x + scatteredOffset.x,
+        y: spawnPoint.y + scatteredOffset.y,
+      };
+    } else if (coinsAnimation === CoinsAnimation.TARGET) {
+      if (!coinsTargetRef.current) return { x: 0, y: 0 };
+
+      const rect = coinsTargetRef.current.getBoundingClientRect();
+
+      return { x: rect.x, y: rect.y };
+    }
+
+    return { x: 0, y: 0 };
+  };
+
+  const animatedCoinsAmount = Math.min(REWARD, 10);
+  const coinsCounter = useRef(animatedCoinsAmount);
+
+  const handleCoinsTargetAnimationEnd = () => {
+    setBalance((prevBalance) => prevBalance + REWARD / animatedCoinsAmount);
+
+    coinsCounter.current -= 1;
+
+    if (coinsCounter.current === 0) {
+      setCoinsAnimation(null);
+    }
+  };
+
   return (
     <div className="absolute flex h-[100vh] w-full items-center justify-center">
       <div className="absolute aspect-[0.64] w-[43%]">
@@ -59,8 +160,9 @@ export const BucketScene: FunctionComponent<Props> = ({ clickToggle }) => {
           className={classNames(
             "absolute bottom-[110%] w-full transition-transform duration-1000",
             {
-              "scale-0": step === 0,
-              "scale-100": step === 1,
+              "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
+              "scale-100":
+                appearanceAnimation === AppearanceAnimation.APPEARANCE,
             },
           )}
         >
@@ -68,7 +170,7 @@ export const BucketScene: FunctionComponent<Props> = ({ clickToggle }) => {
             {"Ведро звезд"}
           </div>
           <div className="text-stroke-2 leading-1 mt-2 text-center font-extrabold uppercase italic text-[#00FF06] text-shadow [font-size:min(4.1vw,1.8vh)]">
-            {"Ведро звезд"}
+            {"Карта ресурса"}
           </div>
         </div>
 
@@ -76,8 +178,10 @@ export const BucketScene: FunctionComponent<Props> = ({ clickToggle }) => {
           className={classNames(
             "absolute h-full w-full transition-transform duration-1000",
             {
-              "[transform:rotateY(0deg)_scale(0)]": step === 0,
-              "[transform:rotateY(360deg)_scale(1)]": step === 1,
+              "[transform:rotateY(0deg)_scale(0)]":
+                appearanceAnimation !== AppearanceAnimation.APPEARANCE,
+              "[transform:rotateY(360deg)_scale(1)]":
+                appearanceAnimation === AppearanceAnimation.APPEARANCE,
             },
           )}
         >
@@ -98,12 +202,19 @@ export const BucketScene: FunctionComponent<Props> = ({ clickToggle }) => {
           className={classNames(
             "absolute top-[110%] flex w-full flex-col items-center gap-y-3 transition-transform duration-1000",
             {
-              "scale-0": step === 0,
-              "scale-100": step === 1,
+              "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
+              "scale-100":
+                appearanceAnimation === AppearanceAnimation.APPEARANCE,
             },
           )}
           onTransitionEnd={() => {
-            setCoins(20);
+            if (appearanceAnimation === AppearanceAnimation.APPEARANCE) {
+              setCoinsAnimation(CoinsAnimation.SPAWN);
+            } else if (
+              appearanceAnimation === AppearanceAnimation.DISAPPEARANCE
+            ) {
+              finishScene();
+            }
           }}
         >
           <div className="text-stroke-2 mt-2 text-center font-extrabold uppercase italic leading-none text-white text-shadow [font-size:min(4.1vw,1.8vh)]">
@@ -120,38 +231,54 @@ export const BucketScene: FunctionComponent<Props> = ({ clickToggle }) => {
               />
             </div>
             <div className="text-stroke-2 font-extrabold leading-none text-white [font-size:min(6.1vw,2.8vh)]">
-              30.500.000
+              {formatNumber(balance)}
             </div>
           </div>
         </div>
       </div>
 
-      {Array.from({ length: Math.min(coins, 10) }).map((_, i) => (
-        <div
-          key={`coin-${i}`}
-          className="absolute h-[5.2vh] py-2.5 transition-all duration-1000"
-          style={{
-            top: target ? target.y : `${getSpawnTop()}px`,
-            left: target ? target.x : undefined,
-          }}
-        >
-          <div className="aspect-square h-full">
-            <StarSVG
-              height="100%"
-              width="100%"
-              viewBox="0 0 29 29"
-              preserveAspectRatio="none"
-            />
-          </div>
-        </div>
-      ))}
+      {coinsAnimation !== null &&
+        Array.from({ length: animatedCoinsAmount }).map((_, i) => {
+          const { x, y } = getCoinPoint();
+
+          return (
+            <div
+              key={`coin-${i}`}
+              className={classNames(
+                "absolute -top-2.5 left-0 h-[5.2vh] py-2.5 transition-transform duration-500",
+                { "ease-out": coinsAnimation === CoinsAnimation.TARGET },
+              )}
+              style={{
+                transform: `translateX(${x}px) translateY(${y}px)`,
+              }}
+              onTransitionEnd={() => {
+                if (coinsAnimation === CoinsAnimation.SCATTER) {
+                  setCoinsAnimation(CoinsAnimation.TARGET);
+                } else if (coinsAnimation === CoinsAnimation.TARGET) {
+                  handleCoinsTargetAnimationEnd();
+                }
+              }}
+            >
+              <div className="aspect-square h-full">
+                <StarSVG
+                  height="100%"
+                  width="100%"
+                  viewBox="0 0 29 29"
+                  preserveAspectRatio="none"
+                />
+              </div>
+            </div>
+          );
+        })}
 
       <div
         className={classNames(
           "absolute inset-x-10 text-center font-black uppercase italic leading-[36px] text-white transition-[top] duration-500 ease-linear text-shadow [font-size:min(7.6vw,3.5vh)]",
           {
-            "top-[85vh]": true,
-            // "top-[120vh]": step === 1,
+            "top-[85vh]":
+              appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE,
+            "top-[120vh]":
+              appearanceAnimation === AppearanceAnimation.DISAPPEARANCE,
           },
         )}
       >
