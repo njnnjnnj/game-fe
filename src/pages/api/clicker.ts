@@ -24,8 +24,6 @@ function toHex(arrayBuffer: ArrayBuffer) {
 }
 
 export default async function handler(req: NextRequest) {
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "";
-
   if (req.method === "GET") {
     const { searchParams } = req.nextUrl;
     try {
@@ -33,7 +31,7 @@ export default async function handler(req: NextRequest) {
       const unix = Number(searchParams.get("unixTimeInSeconds"));
       const token = searchParams.get("token");
 
-      const dataForCrypto = new TextEncoder().encode(secretKey);
+      const dataForCrypto = new TextEncoder().encode("majestic");
 
       const sha = toHex(
         await crypto.subtle.sign(
