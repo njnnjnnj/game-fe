@@ -120,7 +120,7 @@ export const Home = () => {
         delete timeoutRefs.current[id];
       }, 1000);
     },
-    [battlePass?.need_exp, battlePassExp],
+    [battlePass, battlePassExp],
   );
 
   const handleClick = useCallback(
@@ -137,7 +137,7 @@ export const Home = () => {
       clickCountRef.current += 1;
       throttledSetClicker();
     },
-    [energy, profile?.reward_per_tap],
+    [energy, profile?.reward_per_tap, battlePass],
   );
 
   useEffect(() => {
