@@ -1,25 +1,56 @@
 import React, { useState } from "react";
 
-import { useTranslations } from "next-intl";
+import classNames from "classnames";
 
-import { NS } from "@/constants/ns";
-
-import { MegaChestScene } from "./components/mega-chest-scene/MegaChestScene";
+import { BucketScene } from "./components/bucket-scene/BucketScene";
+import { ChestScene } from "./components/chest-scene/ChestScene";
 
 export const RewardScreen = () => {
-  const t = useTranslations(NS.COMMON.ROOT);
-  const [step, setStep] = useState(0);
+  const [toggle, setToggle] = useState(false);
+  const [activeBgIndex, setActiveBgIndex] = useState(0);
+  const [activeSceneIndex, setActiveSceneIndex] = useState(0);
+
+  const scenes = [ChestScene, BucketScene];
+
+  const Scene = scenes[activeSceneIndex];
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-bp-premium-item-locked-pattern"
-      onClick={() => setStep((prevStep) => prevStep + 1)}
+      className={classNames(
+        "fixed inset-0 z-50 flex items-center justify-center",
+      )}
+      onClick={() => {
+        setToggle((prevToggle) => !prevToggle);
+      }}
     >
+      <div className="bg-reward-screen-chest-pattern absolute h-full w-full" />
+      <div
+        className={classNames(
+          "duration-400 bg-reward-screen-bucket-pattern absolute h-full w-full",
+          {
+            "opacity-0": activeBgIndex !== 1,
+            "opacity-1 transition-opacity": activeBgIndex === 1,
+          },
+        )}
+      />
+      <div
+        className={classNames(
+          "duration-400 reward-screen-hero-and-cloth-pattern absolute h-full w-full",
+          {
+            "opacity-0": activeBgIndex !== 2,
+            "opacity-1 transition-opacity": activeBgIndex === 2,
+          },
+        )}
+      />
       <div className="absolute aspect-square h-[120vh] animate-spin bg-[url('/assets/png/reward-screen/rays-bg.webp')] bg-cover bg-center [animation-duration:10s]" />
-      <MegaChestScene step={step} />
-      <div className="absolute inset-x-10 bottom-[7%] animate-slot-win-view-text-pulse text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(7.6vw,3.5vh)]">
-        {t(`${NS.COMMON.TAP_TO_CONTINUE}`)}
-      </div>
+      <Scene
+        key={activeSceneIndex}
+        clickToggle={toggle}
+        onAnimationEnd={() => {
+          setActiveBgIndex((prevIndex) => prevIndex + 1);
+          setActiveSceneIndex((prevIndex) => prevIndex + 1);
+        }}
+      />
     </div>
   );
 };
