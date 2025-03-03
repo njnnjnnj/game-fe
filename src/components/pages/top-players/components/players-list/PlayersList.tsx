@@ -75,18 +75,13 @@ export const PlayersList: FunctionComponent<Props> = ({
           </div>
         </div>
         <div className="top-players-list-inset-shadows flex w-full flex-col gap-2 rounded-b-4xl bg-black/50 px-4 pb-5 pt-3">
-          {isLoading
-            ? Array(7)
-                .fill(null)
-                .map((index) => (
-                  <ListItem key={index} isLoading leader={{} as Leader} />
-                ))
-            : leaders.slice(3).map((leader) => (
+          {!isLoading
+            ? leaders.slice(3).map((leader) => (
                 <>
                   <ListItem
                     key={`leaderboard_${leader.rank}`}
                     leader={leader}
-                    isLoading={isLoading}
+                    isLoading={false}
                   />
                   {leader.rank === NUMBER_OF_WINNERS && (
                     <div className="my-2 flex items-center justify-center gap-3 border-b border-solid border-white/20 pb-2">
@@ -107,7 +102,16 @@ export const PlayersList: FunctionComponent<Props> = ({
                     </div>
                   )}
                 </>
-              ))}
+              ))
+            : Array(7)
+                .fill(0)
+                .map((_, index) => (
+                  <ListItem
+                    key={index}
+                    leader={{} as Leader}
+                    isLoading={true}
+                  />
+                ))}
         </div>
       </InfiniteScroll>
     </div>

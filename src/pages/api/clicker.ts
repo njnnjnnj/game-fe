@@ -8,13 +8,14 @@ export const config = {
   runtime: "edge",
 };
 
-const key = crypto.subtle.importKey(
-  "raw",
-  new TextEncoder().encode("majestic"),
-  { name: "HMAC", hash: { name: "SHA-256" } },
-  false,
-  ["sign"],
-);
+const key = (data: string) =>
+  crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(data),
+    { name: "HMAC", hash: { name: "SHA-256" } },
+    false,
+    ["sign"],
+  );
 
 function toHex(arrayBuffer: ArrayBuffer) {
   return Array.prototype.map
@@ -30,12 +31,14 @@ export default async function handler(req: NextRequest) {
       const unix = Number(searchParams.get("unixTimeInSeconds"));
       const token = searchParams.get("token");
 
-      const dataForCrypto = new TextEncoder().encode(
-        `${clicks}:${unix}:${token}`,
-      );
+      const dataForCrypto = new TextEncoder().encode("majestic");
 
       const sha = toHex(
-        await crypto.subtle.sign("HMAC", await key, dataForCrypto),
+        await crypto.subtle.sign(
+          "HMAC",
+          await key(`${clicks}:${unix}:${token}`),
+          dataForCrypto,
+        ),
       );
 
       const dataToSend = `${clicks}:${unix}:${sha}`;
