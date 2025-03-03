@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 
 import { RewardShape } from "@/types/rewards";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import {
   getBattlePass,
@@ -27,6 +27,10 @@ export const useGetBattlePass = () =>
     retry: false,
     staleTime: 1000 * 60 * 5,
   });
+
+export const invalidateBattlePassQuery = (queryClient: QueryClient) => {
+  queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_BATTLEPASS] });
+};
 
 export const useGetBattlePassConfig = () =>
   useQuery<BattlePassConfig>({

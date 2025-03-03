@@ -10,7 +10,7 @@ type Props = {
 
 export const PlayerValue: FunctionComponent<Props> = ({ value, isLoading }) => {
   return (
-    <div className="ml-auto flex min-w-18 items-center justify-center gap-2 rounded-[10px] bg-[#8E9EB7] px-3 py-2 shadow-[inset_0_2px_1px_0_rgba(0,0,0,0.3)]">
+    <div className="ml-auto flex w-[113px] items-center justify-center gap-2 rounded-[10px] bg-[#8E9EB7] px-3 py-2 shadow-[inset_0_2px_1px_0_rgba(0,0,0,0.3)]">
       {isLoading ? (
         <>
           <div className="size-4 animate-pulse rounded-full bg-white" />
