@@ -25,7 +25,7 @@ export const EnergyBar: FunctionComponent<Props> = ({ energy, max_energy }) => {
       >
         <div
           className={classNames(
-            "relative ml-auto h-full rounded-[8px] bg-home-energy-pattern px-4 py-1",
+            "relative ml-auto h-full rounded-[8px] bg-home-energy-pattern transition-all duration-300 ease-in-out",
             "after:absolute after:left-0.5 after:right-0.5 after:top-0.5 after:z-30 after:h-1.5 after:rounded-t-[8px] after:bg-white after:opacity-30 after:content-['']",
           )}
           style={{ width: `${calculateProgress(energy, max_energy)}%` }}

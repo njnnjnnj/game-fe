@@ -52,6 +52,7 @@ export default {
         "slot-win-view-coin-pulse":
           "slot-win-view-coin-pulse 1.2s ease-in-out infinite",
         slideUp: "slideUp 0.5s ease-out forwards",
+        "spin-slow": "spin-slowly 6s linear infinite",
       },
       keyframes: {
         "collect-button-vertical-sway": {
@@ -634,6 +635,10 @@ export default {
         slideUp: {
           "0%": { transform: "translateY(100%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "spin-slowly": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
         },
       },
       backgroundImage: {

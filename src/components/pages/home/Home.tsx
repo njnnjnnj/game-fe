@@ -17,7 +17,10 @@ import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import MainImage from "@/public/assets/png/main-bg.webp";
-import { useGetBattlePass } from "@/services/battle-pass/queries";
+import {
+  invalidateBattlePassQuery,
+  useGetBattlePass,
+} from "@/services/battle-pass/queries";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
 import {
   invalidateOfflineBonusQuery,
@@ -45,6 +48,8 @@ interface ClickEffect {
 
 export const Home = () => {
   const queryClient = useQueryClient();
+  const { data: allAppsHeroes } = useGetAllAppsHeroes();
+  const { data: battlePass } = useGetBattlePass();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
   const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
@@ -53,17 +58,19 @@ export const Home = () => {
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const { webApp, profile } = useTelegram();
   const { handleSelectionChanged } = useHapticFeedback();
-  const [energy, setEnergy] = useState(profile?.energy ?? 0);
+  const initialEnergy = profile?.energy ?? 0;
+  const [energy, setEnergy] = useState(initialEnergy);
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
   const { data } = useGetShop();
   const friendsShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
     [data],
   );
-  const { data: allAppsHeroes } = useGetAllAppsHeroes();
-  const { data: battlePass } = useGetBattlePass();
   const { mutate: setClicker } = useClicker();
   const clickCountRef = useRef(0);
+  const [battlePassExp, setBattlePassExp] = useState(
+    battlePass?.current_exp ?? 0,
+  );
 
   const throttledSetClicker = useRef(
     throttle(() => {
@@ -80,7 +87,6 @@ export const Home = () => {
           },
           {
             onSuccess: () => {
-              invalidateProfileQuery(queryClient);
               clickCountRef.current = 0;
             },
             onError: (error) => {
@@ -89,7 +95,7 @@ export const Home = () => {
           },
         );
       }
-    }, 5000),
+    }, 3000),
   ).current;
 
   const handlePlusEvent = useCallback(
@@ -103,16 +109,24 @@ export const Home = () => {
 
       setClickEffects((prev) => [...prev, { id, x, y }]);
 
+      if (battlePassExp === battlePass?.need_exp) {
+        invalidateBattlePassQuery(queryClient);
+      } else {
+        setBattlePassExp((prevExp) => prevExp + 1);
+      }
+
       timeoutRefs.current[id] = setTimeout(() => {
         setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
         delete timeoutRefs.current[id];
       }, 1000);
     },
-    [],
+    [battlePass?.need_exp, battlePassExp],
   );
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (energy < (profile?.reward_per_tap ?? 1)) return;
+
       setEnergy((prev) => prev - (profile?.reward_per_tap ?? 1));
       setProfileBalance(
         (prevBalance) => prevBalance + (profile?.reward_per_tap ?? 1),
@@ -123,7 +137,7 @@ export const Home = () => {
       clickCountRef.current += 1;
       throttledSetClicker();
     },
-    [],
+    [energy, profile?.reward_per_tap],
   );
 
   useEffect(() => {
@@ -133,6 +147,18 @@ export const Home = () => {
       setIsModalOpen(true);
     }
   }, [offlineBonus, isClaimed]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      invalidateProfileQuery(queryClient).then(() => {
+        if (profile) {
+          setEnergy(profile.energy);
+        }
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [queryClient, profile]);
 
   if (!webApp || !profile || !allAppsHeroes || !battlePass) return null;
 
@@ -226,7 +252,7 @@ export const Home = () => {
             </div>
             <EnergyBar energy={energy} max_energy={profile.max_energy} />
             <SecondaryNavbar
-              currentExp={battlePass.current_exp}
+              currentExp={battlePassExp}
               needExp={battlePass.need_exp}
               currentLevel={battlePass.current_level}
             />
