@@ -6,14 +6,14 @@ import {
 } from "@/services/heroes/types";
 
 export enum Reward {
-  COINS = "coins",
-  STARS = "stars",
-  FRIENDS = "friends",
-  BUSTER = "buster",
-  OFFLINE = "offline",
+  COINS = "coins", // countable
+  STARS = "stars", // countable
+  FRIENDS = "friends", // countable
+  BUSTER = "buster", // countable
+  OFFLINE = "offline", // countable
   CLOTH = "cloth",
   CHARACTER = "character",
-  GAME_ENERGY = "game_energy",
+  GAME_ENERGY = "game_energy", // countable
   AUTO = "AUTO",
   CHEST = "chest",
 }
@@ -46,10 +46,10 @@ type ClothCofferReward = {
   value: string | number;
   isExist: ExistReward | null;
   character: HeroId;
-  slot: HeroClothPiece;
+  char_slot: HeroClothPiece;
 };
 
-type Coffer = {
+export type Coffer = {
   coins: number | null;
   stars: number | null;
   buster: number | null;
@@ -60,6 +60,9 @@ type Coffer = {
   game_energy: number | null;
   auto: CofferReward | null;
 };
+
+export type CofferKey = keyof Coffer;
+export type CofferValue = Coffer[CofferKey];
 
 export type RewardShape = {
   reward: Reward;

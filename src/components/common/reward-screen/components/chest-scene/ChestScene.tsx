@@ -9,22 +9,29 @@ import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import Dust from "@/public/assets/png/reward-screen/dust.webp";
 import MegaChestOpen from "@/public/assets/png/reward-screen/mega-chest-open.webp";
+import { ChestType } from "@/types/rewards";
 
-import { MegaChest } from "../mega-chest/MegaChest";
+import { MegaChest } from "./components/mega-chest/MegaChest";
 
 type Props = {
   clickToggle: boolean;
-  onAnimationEnd: () => void;
+  type: ChestType;
+  onFinishScene: () => void;
 };
+
+export const BG_CLASS = 'bg-reward-screen-chest-pattern';
 
 export const ChestScene: FunctionComponent<Props> = ({
   clickToggle,
-  onAnimationEnd,
+  onFinishScene,
 }) => {
   const t = useTranslations(NS.COMMON.ROOT);
   const [step, setStep] = useState(0);
 
-  useUpdateEffect(() => setStep((prevStep) => prevStep + 1), [clickToggle]);
+  useUpdateEffect(
+    () => setStep((prevStep) => Math.min(prevStep + 1, 1)),
+    [clickToggle],
+  );
 
   return (
     <div className="absolute flex h-[100vh] w-full items-center justify-center">
@@ -37,7 +44,7 @@ export const ChestScene: FunctionComponent<Props> = ({
           },
         )}
       >
-        <div className="animate-reward-screen-text-scale text-stroke-2 text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(10.2vw,5vh)]">
+        <div className="text-stroke-2 animate-reward-screen-text-scale text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(10.2vw,5vh)]">
           {"Нажми на меня!"}
         </div>
       </div>
@@ -61,7 +68,7 @@ export const ChestScene: FunctionComponent<Props> = ({
           "absolute aspect-[0.82] w-[66.6%] -translate-y-1/2 transition-[top] delay-500 duration-700 ease-linear",
           { "invisible top-[50vh]": step === 0, "top-[150vh]": step === 1 },
         )}
-        onTransitionEnd={onAnimationEnd}
+        onTransitionEnd={onFinishScene}
       >
         <Image src={MegaChestOpen} alt="" quality={100} fill />
       </div>

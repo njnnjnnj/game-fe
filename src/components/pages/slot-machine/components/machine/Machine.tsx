@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 
 import { AxiosError } from "axios";
 import classNames from "classnames";
@@ -19,7 +19,7 @@ import {
   BanditPlayResponse,
   Face,
 } from "@/services/slot-machine/types";
-import { Reward } from "@/types/rewards";
+import { Reward, RewardShape } from "@/types/rewards";
 import { ImpactStyleEnum } from "@/types/telegram";
 import { formatValue } from "@/utils/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
@@ -47,7 +47,11 @@ type StateReward = {
   amount: number;
 };
 
-export const Machine = () => {
+type Props = {
+  onGetReward: (reward: RewardShape) => void;
+};
+
+export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
   const [isVip, setIsVip] = useState(false);
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
   const [betIndex, setBetIndex] = useState(1);
@@ -230,6 +234,15 @@ export const Machine = () => {
               ) {
                 nextReward.amount += response.value as number;
                 nextReward.type = response.reward;
+              } else {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { combination, ...reward } = response;
+
+                winTimeoutRef.current = setTimeout(() => {
+                  onGetReward(reward);
+
+                  winTimeoutRef.current = undefined;
+                }, WIN_VIEW_TIMING);
               }
             }
 
