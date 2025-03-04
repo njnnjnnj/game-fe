@@ -218,6 +218,8 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
             clearInterval(reelStopIntevalRef.current);
             reelStopIntevalRef.current = undefined;
 
+            if (!response.reward) return [...prevValue, face];
+
             const nextReward: StateReward = {
               type: reward.type,
               amount: 0,
