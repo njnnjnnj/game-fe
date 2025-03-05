@@ -53,7 +53,6 @@ export const Shop = () => {
   return (
     <PageWrapper
       isLoading={isLoading}
-      disableSafeAreaInset
       overscrollBehaviour={OverscrollBehavior.NONE}
     >
       <div className="relative w-full">
