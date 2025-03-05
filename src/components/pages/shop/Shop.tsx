@@ -5,7 +5,11 @@ import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
 
-import { PageWrapper, ProfileHeader } from "@/components/common";
+import {
+  OverscrollBehavior,
+  PageWrapper,
+  ProfileHeader,
+} from "@/components/common";
 import { NS } from "@/constants/ns";
 import TapeBlueImage from "@/public/assets/png/shop/tape-1.webp";
 import ChestSVG from "@/public/assets/svg/chest-light.svg";
@@ -47,9 +51,12 @@ export const Shop = () => {
   );
 
   return (
-    <PageWrapper isLoading={isLoading}>
+    <PageWrapper
+      isLoading={isLoading}
+      overscrollBehaviour={OverscrollBehavior.NONE}
+    >
       <div className="relative w-full">
-        <div className="pointer-events-none absolute inset-0 -top-45 -z-[1] bg-[url('/assets/png/shop/bg.webp')] bg-[length:100%] bg-center-top bg-no-repeat" />
+        <div className="pointer-events-none fixed inset-0 -top-45 -z-[1] bg-[url('/assets/png/shop/bg.webp')] bg-[length:100%] bg-center-top bg-no-repeat" />
         <ProfileHeader className="my-5 w-full" />
         <div className="w-full px-4">
           <div className="relative flex aspect-[9/1] items-center justify-center px-4">
