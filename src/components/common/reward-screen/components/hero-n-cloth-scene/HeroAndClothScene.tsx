@@ -123,7 +123,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
             {type === "cloth" &&
               isClothCoffer(reward) &&
               tShop(
-                `${NS.PAGES.SHOP.LABELS.ROOT}.${NS.PAGES.SHOP.LABELS.CLOTH.ROOT}.${reward.character.toUpperCase()}`,
+                `${NS.PAGES.SHOP_CLOTHES.LABELS.ROOT}.${NS.PAGES.SHOP_CLOTHES.LABELS.CLOTH.ROOT}.${reward.character.toUpperCase()}`,
                 { cloth: `${reward.char_slot}_${reward.value}` },
               )}
           </div>
