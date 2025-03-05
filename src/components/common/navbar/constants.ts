@@ -27,14 +27,14 @@ export const NAVBAR_ITEMS = [
     image: AssignmentsImage,
   },
   {
-    href: ROUTES.TOP_PLAYERS,
-    label: `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.TOP}`,
+    href: ROUTES.REWARDS,
+    label: `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
     image: MapImage,
   },
 ];
 
 export const PAGES_WITH_NAVBAR = [
-  ROUTES.SHOP,
+  ROUTES.SHOP_CLOTHES,
   ROUTES.HEROES,
   ROUTES.INDEX,
   ROUTES.ASSIGNMENTS,

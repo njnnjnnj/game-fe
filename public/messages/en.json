@@ -35,7 +35,7 @@
       "SHOP": "Shop",
       "HEROES": "Heroes",
       "ASSIGNMENTS": "Assignments",
-      "TOP": "Top"
+      "REWARDS": "Rewards"
     }
   },
   "SETTINGS": {
@@ -280,7 +280,7 @@
       "ZUCKERBERG": "Mark Zuckerberg"
     }
   },
-  "SHOP": {
+  "SHOP_CLOTHES": {
     "TITLE": "Cart",
     "KIT": "{form, select, plural {Kits} full_plural {Clothing Kits} full_singular {Clothing Kit} other {Kit}}",
     "HAT": "{form, select, plural {Hats} other {Hat}}",
@@ -320,6 +320,17 @@
         "ZUCKERBERG": "{cloth, select, hat_1 {Panama Hat PlayBoy} hat_2 {Cap Dolce&Gabbana} hat_3 {Cap Hugo Boss} hat_4 {Cap Balenciaga} watch_1 {Watch №1} watch_2 {Watch №2} watch_3 {Watch №3} watch_4 {Watch №4} other {Kit}}"
       }
     }
+  },
+  "SHOP": {
+    "SPECIAL_OFFER": "Special offer",
+    "EXPRESS_YOUR_MOOD": "Express your mood with emoji!",
+    "SPECIAL_OFFER_CARD": "Buy 1 pack and get 2 free",
+    "STARTER_SET": "Starter kit",
+    "STARTER_SET_CARD": "Starter kit up to level 5",
+    "CHESTS": "Chests",
+    "STARS": "Stars",
+    "BUY_FRIENDS": "Buying friends",
+    "AUTO_COLLECT": "Auto collect"
   },
   "TOP_PLAYERS": {
     "TITLE": "Top players",

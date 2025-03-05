@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { motion } from "framer-motion";
 
 import { HSPieceImage } from "@/components/hs-shared";
-import { CLOTH_PIECE_CONTAINER_ID } from "@/components/pages/shop/constants";
+import { CLOTH_PIECE_CONTAINER_ID } from "@/components/pages/shop-clothes/constants";
 import { NS } from "@/constants/ns";
 import Close from "@/public/assets/png/close.webp";
 import InventoryPlus from "@/public/assets/png/shop/inventory-plus.webp";
@@ -35,7 +35,7 @@ export const InventoryCell: FunctionComponent<Props> = ({
   clothId,
   onRemoveClick,
 }) => {
-  const t = useTranslations(NS.PAGES.SHOP.ROOT);
+  const t = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
   const onClick = () => {
     if (!clothId) {
       const target = document.getElementById(
@@ -84,7 +84,7 @@ export const InventoryCell: FunctionComponent<Props> = ({
       </div>
       <div className="text-stroke-1 text-center text-xs font-bold tracking-wide text-white text-shadow-sm">
         {t(
-          `${NS.PAGES.SHOP[clothPiece.toUpperCase() as Uppercase<HeroClothPiece>]}`,
+          `${NS.PAGES.SHOP_CLOTHES[clothPiece.toUpperCase() as Uppercase<HeroClothPiece>]}`,
           { form: "single" },
         )}
       </div>

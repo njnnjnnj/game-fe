@@ -45,7 +45,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
           </span>
         </Link>
         <Link
-          href={ROUTES.SHOP}
+          href={ROUTES.SHOP_CLOTHES}
           className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
         >
           <TapSvg />
