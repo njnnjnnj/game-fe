@@ -57,7 +57,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
   const tCommon = useTranslations(NS.COMMON.ROOT);
   const tRewards = useTranslations(NS.REWARDS_SCREEN.ROOT);
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
-  const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
+  const tShop = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
   const { data: heroes } = useGetAllAppsHeroes();
   const [appearanceAnimation, setAppearanceAnimation] =
     useState<AppearanceAnimation | null>(null);
