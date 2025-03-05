@@ -4,10 +4,12 @@ import Image from "next/image";
 
 import classNames from "classnames";
 
+import { useTelegram } from "@/context";
 import RewardCardsImg from "@/public/assets/png/reward-screen/reward-cards.webp";
 import { useGetProfile } from "@/services/profile/queries";
 import { useGetBandit } from "@/services/slot-machine/queries";
 import { CofferKey, CofferValue, Reward, RewardShape } from "@/types/rewards";
+import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 
 import {
   BG_CLASS as BucketSceneBg,
@@ -44,6 +46,7 @@ export const RewardScreen: FunctionComponent<Props> = ({
   reward,
   onFinish,
 }) => {
+  const { webApp } = useTelegram();
   const [toggle, setToggle] = useState(false);
   const [activeBgIndex, setActiveBgIndex] = useState(0);
   const [activeSceneIndex, setActiveSceneIndex] = useState(0);
@@ -183,6 +186,8 @@ export const RewardScreen: FunctionComponent<Props> = ({
 
   const itemsLeft = scenes.length - activeSceneIndex - 1;
 
+  const tgSafeInsetTop = webApp ? getTgSafeAreaInsetTop(webApp) : 0;
+
   return (
     <div
       className={classNames(
@@ -212,7 +217,14 @@ export const RewardScreen: FunctionComponent<Props> = ({
         />
       ))}
       <div className="absolute aspect-square h-[120vh] animate-spin bg-[url('/assets/png/reward-screen/rays-bg.webp')] bg-cover bg-center [animation-duration:10s]" />
-      <div className="absolute top-5">
+      <div
+        className="absolute top-5"
+        style={
+          tgSafeInsetTop
+            ? { top: tgSafeInsetTop, transform: "translateY(-50%)" }
+            : undefined
+        }
+      >
         <Image src={RewardCardsImg} width={40} height={40} alt="" />
         <div
           className={classNames(
