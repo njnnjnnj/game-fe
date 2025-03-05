@@ -385,5 +385,16 @@
   "ERRORS": {
     "notEnoughStars": "Недостаточно звезд",
     "userNotFound": "Пользователь не найден"
+  },
+  "REWARDS_SCREEN": {
+    "BUCKET_SCENE": {
+      "CARD_TITLE": "{type, select, coins {Ведро монет} stars {Ведро звезд} buster {Бустер} friends {Ведро друзей} offline {Бустер} game_energy {Ведро энергии} other {Ресурс}}",
+      "CARD_SUBTITLE": "Карта ресурса",
+      "BALANCE_TITLE": "{type, select, coins {Сейчас монет} stars {Сейчас звезд} friends {Сейчас друзей} game_energy {Сейчас энергии} other {Баланс}}",
+      "BOOSTER_DURATION": "{hours} часов"
+    },
+    "HERO_AND_CLOTH_SCENE": {
+      "REWARD_SUBTITLE": "{type, select, character {Новый персонаж} cloth {Карта одежды} other {Награда}}"
+    }
   }
 }

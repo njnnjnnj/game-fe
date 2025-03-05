@@ -22,7 +22,7 @@ export const mockComplexReward: RewardShape = {
       value: HeroId.MESSI,
       isExist: null,
     },
-    game_energy: null,
+    game_energy: 2050,
     auto: null,
   },
 };

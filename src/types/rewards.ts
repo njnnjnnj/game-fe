@@ -6,14 +6,14 @@ import {
 } from "@/services/heroes/types";
 
 export enum Reward {
-  COINS = "coins", // countable
-  STARS = "stars", // countable
-  FRIENDS = "friends", // countable
-  BUSTER = "buster", // countable
-  OFFLINE = "offline", // countable
+  COINS = "coins",
+  STARS = "stars",
+  FRIENDS = "friends",
+  BUSTER = "buster",
+  OFFLINE = "offline",
+  GAME_ENERGY = "game_energy",
   CLOTH = "cloth",
   CHARACTER = "character",
-  GAME_ENERGY = "game_energy", // countable
   AUTO = "AUTO",
   CHEST = "chest",
 }
@@ -55,9 +55,9 @@ export type Coffer = {
   buster: number | null;
   friends: number | null;
   offline: number | null;
+  game_energy: number | null;
   cloth: ClothCofferReward | null;
   character: CofferReward | null;
-  game_energy: number | null;
   auto: CofferReward | null;
 };
 

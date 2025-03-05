@@ -11,12 +11,12 @@ import Dust from "@/public/assets/png/reward-screen/dust.webp";
 import MegaChestOpen from "@/public/assets/png/reward-screen/mega-chest-open.webp";
 import { ChestType } from "@/types/rewards";
 
+import { SceneIntrinsicProps } from "../../types";
+
 import { MegaChest } from "./components/mega-chest/MegaChest";
 
-type Props = {
-  clickToggle: boolean;
+export type Props = SceneIntrinsicProps & {
   type: ChestType;
-  onFinishScene: () => void;
 };
 
 export const BG_CLASS = 'bg-reward-screen-chest-pattern';

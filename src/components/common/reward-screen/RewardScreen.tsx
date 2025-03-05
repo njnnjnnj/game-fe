@@ -1,40 +1,44 @@
-import React, { FunctionComponent, useMemo, useState } from "react";
+import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
 
 import Image from "next/image";
 
 import classNames from "classnames";
 
 import RewardCardsImg from "@/public/assets/png/reward-screen/reward-cards.webp";
+import { useGetProfile } from "@/services/profile/queries";
+import { useGetBandit } from "@/services/slot-machine/queries";
 import { CofferKey, CofferValue, Reward, RewardShape } from "@/types/rewards";
 
 import {
   BG_CLASS as BucketSceneBg,
   BucketScene,
+  Props as BucketSceneProps,
 } from "./components/bucket-scene/BucketScene";
 import {
   BG_CLASS as ChestSceneBg,
   ChestScene,
+  Props as ChestSceneProps,
 } from "./components/chest-scene/ChestScene";
 import {
   BG_CLASS as FinalSceneBg,
   FinalScene,
+  Props as FinalSceneProps,
 } from "./components/final-scene/FinalScene";
 import {
   BG_CLASS as HeroAndCloseSceneBg,
   HeroAndClothScene,
+  Props as HeroAndClothSceneProps,
 } from "./components/hero-n-cloth-scene/HeroAndClothScene";
+import { Scene } from "./types";
 
 type Props = {
   reward: RewardShape;
   onFinish: () => void;
 };
 
-type Scene = {
-  scene: FunctionComponent;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props: any;
-  bg: string;
-};
+type Scenes = Scene<
+  ChestSceneProps | BucketSceneProps | HeroAndClothSceneProps | FinalSceneProps
+>[];
 
 export const RewardScreen: FunctionComponent<Props> = ({
   reward,
@@ -44,32 +48,43 @@ export const RewardScreen: FunctionComponent<Props> = ({
   const [activeBgIndex, setActiveBgIndex] = useState(0);
   const [activeSceneIndex, setActiveSceneIndex] = useState(0);
 
-  const scenes = useMemo(() => {
+  // Refresh/prefetch data that is neccessary along the way
+  const { refetch: refetchBanditInfo } = useGetBandit();
+  const { refetch: refetchProfile } = useGetProfile();
+
+  useEffect(() => {
+    refetchBanditInfo();
+    refetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [scenes, rewards] = useMemo(() => {
     const buildSceneForCoffer = (key: CofferKey, value: CofferValue) => {
       switch (key) {
         case "cloth":
           return {
             scene: HeroAndClothScene,
-            props: { reward: value },
+            props: { type: key, reward: value },
             bg: HeroAndCloseSceneBg,
           };
         case "character":
           return {
             scene: HeroAndClothScene,
-            props: { reward: value },
+            props: { type: key, reward: value },
             bg: HeroAndCloseSceneBg,
           };
         case "auto":
           // Not supported
           return {
             scene: HeroAndClothScene,
-            props: { reward: value },
+            props: { type: key, reward: value },
             bg: HeroAndCloseSceneBg,
           };
         default:
           return {
             scene: BucketScene,
-            props: { type: key, amount: value, balance: 10 },
+            props: { type: key, amount: value },
             bg: BucketSceneBg,
           };
       }
@@ -82,9 +97,27 @@ export const RewardScreen: FunctionComponent<Props> = ({
     };
 
     if (reward.reward === Reward.CHEST) {
-      const coffer = reward.coffer;
+      const { coffer: rawCoffer } = reward;
 
-      if (!coffer) return [];
+      if (!rawCoffer) return [];
+
+      const coffer = { ...rawCoffer };
+
+      if (coffer.character?.isExist) {
+        const { currency, value } = coffer.character.isExist;
+
+        coffer[currency] = coffer[currency] ? coffer[currency] + value : value;
+
+        coffer.character = null;
+      }
+
+      if (coffer.cloth?.isExist) {
+        const { currency, value } = coffer.cloth.isExist;
+
+        coffer[currency] = coffer[currency] ? coffer[currency] + value : value;
+
+        coffer.cloth = null;
+      }
 
       const chestScene = {
         scene: ChestScene,
@@ -92,33 +125,50 @@ export const RewardScreen: FunctionComponent<Props> = ({
         bg: ChestSceneBg,
       };
 
-      return [
+      const rewards: string[] = [];
+      const scenesList = [
         chestScene,
         ...Object.keys(coffer)
           .filter((key) => !!coffer[key as CofferKey])
+          .sort((key) =>
+            ["cloth", "character", "auto"].includes(key) ? 1 : -1,
+          )
           .map((nextKey) => {
             const key = nextKey as CofferKey;
             const value = coffer[key];
+
+            rewards.push(nextKey);
 
             return buildSceneForCoffer(key, value);
           }),
         finalScene,
       ];
+
+      return [scenesList, rewards];
     } else if (reward.reward === Reward.CLOTH) {
-      return [buildSceneForCoffer("cloth", reward.cloth), finalScene];
+      return [
+        [buildSceneForCoffer("cloth", reward.cloth), finalScene],
+        reward.reward,
+      ];
     } else if (reward.reward === Reward.CHARACTER) {
-      return [buildSceneForCoffer("character", reward.character), finalScene];
+      return [
+        [buildSceneForCoffer("character", reward.character), finalScene],
+        [reward.reward],
+      ];
     } else {
       return [
-        {
-          scene: BucketScene,
-          props: { type: reward.reward, amount: reward.value, balance: 10 },
-          bg: BucketSceneBg,
-        },
-        finalScene,
+        [
+          {
+            scene: BucketScene,
+            props: { type: reward.reward, amount: reward.value },
+            bg: BucketSceneBg,
+          },
+          finalScene,
+        ],
+        [reward.reward],
       ];
     }
-  }, [reward]) as Scene[];
+  }, [reward]) as [Scenes, string[]];
 
   const { scene: Scene, props: sceneProps } = scenes[activeSceneIndex];
 

@@ -10,17 +10,16 @@ import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
 
-type Props = {
-  clickToggle: boolean;
-  onFinishScene: () => void;
-};
+import { SceneIntrinsicProps } from "../../types";
+
+export type Props = SceneIntrinsicProps & {};
 
 enum AppearanceAnimation {
   APPEARANCE,
   DISAPPEARANCE,
 }
 
-export const BG_CLASS = 'bg-reward-screen-hero-and-cloth-pattern';
+export const BG_CLASS = "bg-reward-screen-hero-and-cloth-pattern";
 
 export const FinalScene: FunctionComponent<Props> = ({
   clickToggle,

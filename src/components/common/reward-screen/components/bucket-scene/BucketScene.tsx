@@ -6,19 +6,22 @@ import { useTranslations } from "next-intl";
 import classNames from "classnames";
 
 import { Card, CardType } from "@/components/common/card/Card";
+import { AnimatedNumber } from "@/components/pages/slot-machine/components/machine/components/animated-number/AnimatedNumber";
 import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
-import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
 import StarSVG from "@/public/assets/svg/star.svg";
-import { CofferKey } from "@/types/rewards";
+import { useGetProfile } from "@/services/profile/queries";
+import { useGetBandit } from "@/services/slot-machine/queries";
+import { CofferKey, Reward } from "@/types/rewards";
+import { formatValue } from "@/utils/lib/utils";
 import { formatNumber } from "@/utils/number";
+import { getImgByReward } from "@/utils/rewards";
 
-type Props = {
-  clickToggle: boolean;
+import { SceneIntrinsicProps } from "../../types";
+
+export type Props = SceneIntrinsicProps & {
   type: Exclude<CofferKey, "auto" | "character" | "cloth">;
   amount: number;
-  balance: number;
-  onFinishScene: () => void;
 };
 
 type Point = { x: number; y: number };
@@ -47,25 +50,37 @@ const getScatteredOffset = (): Point => ({
   y: getRandomIntInclusive(-SCATTER_RADIUS, SCATTER_RADIUS),
 });
 
-const REWARD = 150_000;
-
 export const BG_CLASS = "bg-reward-screen-bucket-pattern";
 
 export const BucketScene: FunctionComponent<Props> = ({
+  type,
+  amount,
   clickToggle,
   onFinishScene,
 }) => {
-  const t = useTranslations(NS.COMMON.ROOT);
+  const tCommon = useTranslations(NS.COMMON.ROOT);
+  const tRewards = useTranslations(NS.REWARDS_SCREEN.ROOT);
   const coinsSpawnRef = useRef<HTMLDivElement | null>(null);
   const coinsTargetRef = useRef<HTMLDivElement | null>(null);
   const coinsAnimationTimerRef = useRef<NodeJS.Timeout>();
   const appearanceAnimationTimerRef = useRef<NodeJS.Timeout>();
-  const [balance, setBalance] = useState(30500000);
   const [appearanceAnimation, setAppearanceAnimation] =
     useState<AppearanceAnimation | null>(null);
   const [coinsAnimation, setCoinsAnimation] = useState<CoinsAnimation | null>(
     null,
   );
+
+  const { data: profile } = useGetProfile();
+  const { data: banditInfo } = useGetBandit();
+  const [balance, setBalance] = useState(() => {
+    if (type === "game_energy") {
+      return banditInfo?.balance ?? 0;
+    } else if (type !== "buster" && type !== "offline") {
+      return profile?.[type] ?? 0;
+    }
+  });
+
+  const isShowingBooster = type === "buster" || type === "offline";
 
   const clearTimers = () => {
     if (coinsAnimationTimerRef.current) {
@@ -140,16 +155,15 @@ export const BucketScene: FunctionComponent<Props> = ({
     return { x: 0, y: 0 };
   };
 
-  const animatedCoinsAmount = Math.min(REWARD, 10);
+  const animatedCoinsAmount = Math.min(amount, 10);
   const coinsCounter = useRef(animatedCoinsAmount);
 
   const handleCoinsTargetAnimationEnd = () => {
-    setBalance((prevBalance) => prevBalance + REWARD / animatedCoinsAmount);
-
     coinsCounter.current -= 1;
 
     if (coinsCounter.current === 0) {
       setCoinsAnimation(null);
+      setBalance((prevBalance) => (prevBalance ?? 0) + amount);
     }
   };
 
@@ -158,19 +172,37 @@ export const BucketScene: FunctionComponent<Props> = ({
       <div className="absolute aspect-[0.64] w-[43%]">
         <div
           className={classNames(
-            "absolute bottom-[110%] w-full transition-transform duration-1000",
+            "absolute bottom-[110%] flex w-full flex-col items-center transition-transform duration-1000",
             {
               "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
               "scale-100":
                 appearanceAnimation === AppearanceAnimation.APPEARANCE,
             },
           )}
+          onTransitionEnd={() => {
+            if (appearanceAnimation === AppearanceAnimation.APPEARANCE) {
+              if (!isShowingBooster) {
+                setCoinsAnimation(CoinsAnimation.SPAWN);
+              }
+            } else if (
+              appearanceAnimation === AppearanceAnimation.DISAPPEARANCE
+            ) {
+              finishScene();
+            }
+          }}
         >
-          <div className="text-stroke-2 text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(10.2vw,5vh)]">
-            {"Ведро звезд"}
+          <div className="text-stroke-2 inline-flex text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(10.2vw,5vh)]">
+            {tRewards(
+              `${NS.REWARDS_SCREEN.BUCKET_SCENE.ROOT}.${NS.REWARDS_SCREEN.BUCKET_SCENE.CARD_TITLE}`,
+              {
+                type,
+              },
+            )}
           </div>
           <div className="text-stroke-2 leading-1 mt-2 text-center font-extrabold uppercase italic text-[#00FF06] text-shadow [font-size:min(4.1vw,1.8vh)]">
-            {"Карта ресурса"}
+            {tRewards(
+              `${NS.REWARDS_SCREEN.BUCKET_SCENE.ROOT}.${NS.REWARDS_SCREEN.BUCKET_SCENE.CARD_SUBTITLE}`,
+            )}
           </div>
         </div>
 
@@ -190,51 +222,67 @@ export const BucketScene: FunctionComponent<Props> = ({
               className="absolute top-1/2 aspect-square w-full -translate-y-1/2"
               ref={coinsSpawnRef}
             >
-              <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
+              <Image
+                src={getImgByReward(type as Reward)}
+                alt=""
+                fill
+                sizes="50vw"
+                quality={100}
+              />
             </div>
             <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-2xl font-black text-shadow">
-              x150k
+              {type === "offline"
+                ? tRewards(
+                    `${NS.REWARDS_SCREEN.BUCKET_SCENE.ROOT}.${NS.REWARDS_SCREEN.BUCKET_SCENE.BOOSTER_DURATION}`,
+                    { hours: amount },
+                  )
+                : `x${formatValue(amount)}`}
             </span>
           </Card>
         </div>
 
-        <div
-          className={classNames(
-            "absolute top-[110%] flex w-full flex-col items-center gap-y-3 transition-transform duration-1000",
-            {
-              "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-              "scale-100":
-                appearanceAnimation === AppearanceAnimation.APPEARANCE,
-            },
-          )}
-          onTransitionEnd={() => {
-            if (appearanceAnimation === AppearanceAnimation.APPEARANCE) {
-              setCoinsAnimation(CoinsAnimation.SPAWN);
-            } else if (
-              appearanceAnimation === AppearanceAnimation.DISAPPEARANCE
-            ) {
-              finishScene();
-            }
-          }}
-        >
-          <div className="text-stroke-2 mt-2 text-center font-extrabold uppercase italic leading-none text-white text-shadow [font-size:min(4.1vw,1.8vh)]">
-            {"Сейчас золота"}
-          </div>
+        {!isShowingBooster && typeof balance === "number" && (
+          <div
+            className={classNames(
+              "absolute top-[110%] flex w-full flex-col items-center gap-y-3 transition-transform duration-1000",
+              {
+                "scale-0":
+                  appearanceAnimation !== AppearanceAnimation.APPEARANCE,
+                "scale-100":
+                  appearanceAnimation === AppearanceAnimation.APPEARANCE,
+              },
+            )}
+          >
+            <div className="text-stroke-2 mt-2 text-center font-extrabold uppercase italic leading-none text-white text-shadow [font-size:min(4.1vw,1.8vh)]">
+              {tRewards(
+                `${NS.REWARDS_SCREEN.BUCKET_SCENE.ROOT}.${NS.REWARDS_SCREEN.BUCKET_SCENE.BALANCE_TITLE}`,
+                {
+                  type,
+                },
+              )}
+            </div>
 
-          <div className="flex h-[5.2vh] items-center gap-x-1 rounded-[20px] bg-black/50 px-4 py-2.5">
-            <div className="aspect-square h-full shrink-0" ref={coinsTargetRef}>
-              <StarSVG
-                height="100%"
-                width="100%"
-                viewBox="0 0 29 29"
-                preserveAspectRatio="none"
+            <div className="flex h-[5.2vh] items-center gap-x-1 rounded-[20px] bg-black/50 px-4 py-2.5">
+              <div
+                className="aspect-square h-full shrink-0"
+                ref={coinsTargetRef}
+              >
+                <StarSVG
+                  height="100%"
+                  width="100%"
+                  viewBox="0 0 29 29"
+                  preserveAspectRatio="none"
+                />
+              </div>
+              <AnimatedNumber
+                className="text-stroke-2 relative font-extrabold leading-none text-white [font-size:min(6.1vw,2.8vh)]"
+                targetNum={balance}
+                formatter={formatNumber}
+                startFromTarget
               />
             </div>
-            <div className="text-stroke-2 font-extrabold leading-none text-white [font-size:min(6.1vw,2.8vh)]">
-              {formatNumber(balance)}
-            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {coinsAnimation !== null &&
@@ -283,7 +331,7 @@ export const BucketScene: FunctionComponent<Props> = ({
         )}
       >
         <div className="animate-slot-win-view-text-pulse">
-          {t(`${NS.COMMON.TAP_TO_CONTINUE}`)}
+          {tCommon(`${NS.COMMON.TAP_TO_CONTINUE}`)}
         </div>
       </div>
     </div>

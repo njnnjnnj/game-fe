@@ -3,7 +3,7 @@ import { StaticImageData } from "next/image";
 import Booster from "@/public/assets/png/battle-pass/booster.webp";
 import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
 import CommonCards from "@/public/assets/png/battle-pass/common-cards.webp";
-import EnergyBooster from "@/public/assets/png/battle-pass/energy-booster.webp";
+import EnergyBucket from "@/public/assets/png/battle-pass/energy-bucket.webp";
 import EpicCards from "@/public/assets/png/battle-pass/epic-cards.webp";
 import EpicChest from "@/public/assets/png/battle-pass/epic-chest.webp";
 import FriendsBucket from "@/public/assets/png/battle-pass/friends-bucket.webp";
@@ -19,8 +19,8 @@ import { ChestType, Reward, RewardValue } from "@/types/rewards";
 
 export const getImgByReward = (
   reward: Reward,
-  value: RewardValue,
-  heroes: GetAllAppsHeroesResponse,
+  value?: RewardValue,
+  heroes?: GetAllAppsHeroesResponse,
 ): StaticImageData => {
   switch (reward) {
     case Reward.CHEST: {
@@ -36,15 +36,15 @@ export const getImgByReward = (
       return FriendsBucket;
     }
     case Reward.STARS:
-    case Reward.COINS:
-    case Reward.OFFLINE: {
+    case Reward.COINS: {
       return Bucket;
     }
-    case Reward.BUSTER: {
+    case Reward.BUSTER:
+    case Reward.OFFLINE: {
       return Booster;
     }
     case Reward.GAME_ENERGY: {
-      return EnergyBooster;
+      return EnergyBucket;
     }
     case Reward.CLOTH: {
       if (value === HeroRarity.RARE) {
@@ -56,6 +56,8 @@ export const getImgByReward = (
       return CommonCards;
     }
     case Reward.CHARACTER: {
+      if (!heroes || !value) return CommonCards;
+
       const heroId = Array.isArray(value) ? value[0] : value;
       const { rarity } = heroes[heroId as HeroId];
 
