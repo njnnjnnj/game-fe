@@ -13,7 +13,7 @@ import { HeroClothPiece } from "@/services/heroes/types";
 import { ClothListRow } from "./components/cloth-list-row/ClothListRow";
 
 export const ClothList = () => {
-  const t = useTranslations(NS.PAGES.SHOP.ROOT);
+  const t = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
   const { selection } = useContext(HSSharedContext);
   const { data: heroes } = useGetAllAppsHeroes();
   const { data: heroOwnCloth } = useGetClothHeroQuery(
@@ -36,7 +36,7 @@ export const ClothList = () => {
             <ClothListRow
               key={clothPiece}
               title={t(
-                `${NS.PAGES.SHOP[clothPiece.toUpperCase() as Uppercase<HeroClothPiece>]}`,
+                `${NS.PAGES.SHOP_CLOTHES[clothPiece.toUpperCase() as Uppercase<HeroClothPiece>]}`,
                 { form: "plural" },
               )}
               clothPiece={clothPiece as HeroClothPiece}

@@ -44,7 +44,7 @@ export const ClothCard: FunctionComponent<Props> = ({
   onCardClick,
 }) => {
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
-  const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
+  const tShop = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
 
   let type = CardType.ORANGE;
 
@@ -117,7 +117,7 @@ export const ClothCard: FunctionComponent<Props> = ({
       {isBlocked && (
         <div className="absolute inset-0 flex items-center bg-black/50 px-3 text-center text-xs font-black text-shadow">
           {tShop(
-            `${NS.PAGES.SHOP.LABELS.ROOT}.${NS.PAGES.SHOP.LABELS.BLOCKED}`,
+            `${NS.PAGES.SHOP_CLOTHES.LABELS.ROOT}.${NS.PAGES.SHOP_CLOTHES.LABELS.BLOCKED}`,
             { level: clothLevel },
           )}
         </div>
@@ -133,7 +133,7 @@ export const ClothCard: FunctionComponent<Props> = ({
           )}
         >
           {tShop(
-            `${NS.PAGES.SHOP.LABELS.ROOT}.${NS.PAGES.SHOP.LABELS.CLOTH.ROOT}.${heroId.toUpperCase()}`,
+            `${NS.PAGES.SHOP_CLOTHES.LABELS.ROOT}.${NS.PAGES.SHOP_CLOTHES.LABELS.CLOTH.ROOT}.${heroId.toUpperCase()}`,
             { cloth: `${clothPiece}_${clothPieceConfig.id}` },
           )}
         </div>

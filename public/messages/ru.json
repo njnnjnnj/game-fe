@@ -29,7 +29,7 @@
       "SHOP": "Магазин",
       "HEROES": "Герои",
       "ASSIGNMENTS": "Задания",
-      "TOP": "Топ"
+      "REWARDS": "Заработок"
     },
     "OFFLINE_BONUS": {
       "TITLE": "Оффлайн бонус",
@@ -280,7 +280,7 @@
       "ZUCKERBERG": "Марк Цукерберг"
     }
   },
-  "SHOP": {
+  "SHOP_CLOTHES": {
     "TITLE": "Корзина",
     "KIT": "{form, select, plural {Комплекты} full_plural {Комплекты одежды} full_singular {Комлект одежды} other {Комплект}}",
     "HAT": "{form, select, plural {Шляпы} other {Шляпа}}",
@@ -320,6 +320,17 @@
         "ZUCKERBERG": "{cloth, select, hat_1 {Панама PlayBoy} hat_2 {Панама Dolce&Gabbana} hat_3 {Панама Hugo Boss} hat_4 {Панама Balenciaga} watch_1 {Часы №1} watch_2 {Часы №2} watch_3 {Часы №3} watch_4 {Часы №4} other {Комплект одежды}}"
       }
     }
+  },
+  "SHOP": {
+    "SPECIAL_OFFER": "Спец. предложение",
+    "EXPRESS_YOUR_MOOD": "Выражай настроение с помощью эмодзи!",
+    "SPECIAL_OFFER_CARD": "Купите 1 пакет и получите 2 бесплатно",
+    "STARTER_SET": "Старт. набор",
+    "STARTER_SET_CARD": "Стартовый набор до 5 уровня",
+    "CHESTS": "Сундуки",
+    "STARS": "Звезды",
+    "BUY_FRIENDS": "Покупка друзей",
+    "AUTO_COLLECT": "Автомат. сбор дохода"
   },
   "TOP_PLAYERS": {
     "TITLE": "Топ игроков",

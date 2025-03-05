@@ -162,10 +162,10 @@ export const Card: FunctionComponent<Props> = ({
                 {
                   "bg-[#2596E4]": type === CardType.BLUE,
                   "bg-[#777AF0]": type === CardType.INDIGO,
-                  "bg-[#EFC609]": type === CardType.ORANGE,
+                  "bg-[#EFC609]":
+                    type === CardType.ORANGE || type === CardType.RED,
                   "bg-[#203950]": type === CardType.DARK_BLUE,
                   "bg-[#02DB07]": type === CardType.GREEN,
-                  "bg-[#8B2542]": type === CardType.RED,
                 },
               )}
             >

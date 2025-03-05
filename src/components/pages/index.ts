@@ -9,5 +9,6 @@ export * from "./home/Home";
 export * from "./rewards/Rewards";
 export * from "./settings/Settings";
 export * from "./shop/Shop";
+export * from "./shop-clothes/ShopClothes";
 export * from "./slot-machine/SlotMachine";
 export * from "./top-players/TopPlayers";
