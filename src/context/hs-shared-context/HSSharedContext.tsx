@@ -173,7 +173,7 @@ export const HSSharedProvider: FunctionComponent<PropsWithChildren> = ({
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      if (router.pathname === ROUTES.SHOP && url === ROUTES.HEROES) {
+      if (router.pathname === ROUTES.SHOP_CLOTHES && url === ROUTES.HEROES) {
         persistedHero = hero;
       }
     };

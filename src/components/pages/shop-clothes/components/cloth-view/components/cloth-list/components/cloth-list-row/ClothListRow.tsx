@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 
 import { PAGE_WRAPPER_ID } from "@/components/common";
-import { CLOTH_PIECE_CONTAINER_ID } from "@/components/pages/shop/constants";
+import { CLOTH_PIECE_CONTAINER_ID } from "@/components/pages/shop-clothes/constants";
 import { Toast } from "@/components/ui/toast";
 import { HSSharedContext } from "@/context/hs-shared-context/HSSharedContext";
 import {

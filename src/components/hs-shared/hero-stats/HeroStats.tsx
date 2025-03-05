@@ -60,7 +60,7 @@ export const HeroStats: FunctionComponent<Props> = ({
   onCtaClick,
 }) => {
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
-  const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
+  const tShop = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
   const { data: heroes } = useGetAllAppsHeroes();
 
   const renderCta = () => {
@@ -167,7 +167,7 @@ export const HeroStats: FunctionComponent<Props> = ({
           <div className="absolute inset-x-2 bottom-[72%] top-1.5 rounded-t-2xl bg-white opacity-5" />
           <div className="text-center text-xl font-black leading-none tracking-wide text-white text-shadow">
             {isShopPage
-              ? tShop(`${NS.PAGES.SHOP.KIT}`, { form: "full_singular" })
+              ? tShop(`${NS.PAGES.SHOP_CLOTHES.KIT}`, { form: "full_singular" })
               : tHeroes(
                   `${NS.PAGES.HEROES.HERO_NAMES.ROOT}.${NS.PAGES.HEROES.HERO_NAMES[nameTranslationKey]}`,
                 )}
@@ -226,7 +226,7 @@ export const HeroStats: FunctionComponent<Props> = ({
             <div className="flex flex-col gap-y-2">
               <div className="text-stroke-1 text-center text-base font-extrabold text-white text-shadow">
                 {tShop(
-                  `${NS.PAGES.SHOP.LABELS.ROOT}.${NS.PAGES.SHOP.LABELS.TOTAL}`,
+                  `${NS.PAGES.SHOP_CLOTHES.LABELS.ROOT}.${NS.PAGES.SHOP_CLOTHES.LABELS.TOTAL}`,
                 )}
               </div>
               <div className="flex justify-center gap-x-2">
@@ -243,7 +243,7 @@ export const HeroStats: FunctionComponent<Props> = ({
               ctaType === HeroStatsCtaType.SELECTED) && (
               <Link
                 href={{
-                  pathname: ROUTES.SHOP,
+                  pathname: ROUTES.SHOP_CLOTHES,
                   query: isCurrentHeroSelected ? undefined : { heroId },
                 }}
                 className="text-center text-sm font-extrabold text-white"

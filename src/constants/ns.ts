@@ -42,7 +42,7 @@ export const NS = {
         SHOP: "SHOP",
         HEROES: "HEROES",
         ASSIGNMENTS: "ASSIGNMENTS",
-        TOP: "TOP",
+        REWARDS: "REWARDS",
       },
     },
     SETTINGS: {
@@ -313,8 +313,8 @@ export const NS = {
         ZUCKERBERG: "ZUCKERBERG",
       },
     },
-    SHOP: {
-      ROOT: "SHOP",
+    SHOP_CLOTHES: {
+      ROOT: "SHOP_CLOTHES",
       TITLE: "TITLE",
       KIT: "KIT",
       HAT: "HAT",
@@ -356,6 +356,18 @@ export const NS = {
           ZUCKERBERG: "ZUCKERBERG",
         },
       },
+    },
+    SHOP: {
+      ROOT: "SHOP",
+      SPECIAL_OFFER: "SPECIAL_OFFER",
+      EXPRESS_YOUR_MOOD: "EXPRESS_YOUR_MOOD",
+      SPECIAL_OFFER_CARD: "SPECIAL_OFFER_CARD",
+      STARTER_SET: "STARTER_SET",
+      STARTER_SET_CARD: "STARTER_SET_CARD",
+      CHESTS: "CHESTS",
+      STARS: "STARS",
+      BUY_FRIENDS: "BUY_FRIENDS",
+      AUTO_COLLECT: "AUTO_COLLECT",
     },
     TOP_PLAYERS: {
       ROOT: "TOP_PLAYERS",
