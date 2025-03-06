@@ -80,7 +80,7 @@ export const Card: FunctionComponent<Props> = ({
     <div
       ref={ref}
       className={classNames(
-        "relative rounded-xl border border-solid border-black pb-1 text-white transition-transform will-change-transform",
+        "relative aspect-[3/4] rounded-xl border border-solid border-black pb-1 text-white transition-transform will-change-transform active:scale-[0.98]",
         {
           "aspect-[3/4]": !isFullSize,
           "h-full w-full": isFullSize,

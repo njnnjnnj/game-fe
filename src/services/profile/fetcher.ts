@@ -1,7 +1,6 @@
-import axios from "axios";
-
 import apiClient from "@/api/api-client";
 import { API_ENDPOINTS } from "@/constants/api";
+import { generateHmac } from "@/utils/lib/generateHmac";
 
 import {
   ClickerReqM,
@@ -44,9 +43,11 @@ export const getStarsInfo = async (): Promise<IStarsInfo> => {
 };
 
 export const setClicker = async (reqM: ClickerReqM): Promise<void> => {
-  const { data } = await axios.get(
-    `/api/clicker?clicks=${reqM.debouncedClickCount}&token=${reqM.token}&unixTimeInSeconds=${reqM.unixTimeInSeconds}`,
-  );
+  const sha = generateHmac(reqM);
+
+  const { data } = await apiClient.post(API_ENDPOINTS.POST.CLICKER, {
+    data: `${reqM.debouncedClickCount}:${reqM.unixTimeInSeconds}:${sha}`,
+  });
 
   return data;
 };
