@@ -14,9 +14,10 @@ import { CHESTS_CARDS } from "../../constants";
 
 type Props = {
   cards: ShopItem[];
+  onSelect: (card: ShopItem) => void;
 };
 
-export const Chests: FunctionComponent<Props> = ({ cards }) => {
+export const Chests: FunctionComponent<Props> = ({ cards, onSelect }) => {
   const t = useTranslations(NS.PAGES.SHOP.ROOT);
   const tCommon = useTranslations(NS.COMMON.ROOT);
 
@@ -43,7 +44,7 @@ export const Chests: FunctionComponent<Props> = ({ cards }) => {
                 children: tCommon(staticCardData.buttonText),
               }}
               bottomBadge={<Badge value={formatNumber(card.price)} />}
-              onClick={() => {}}
+              onClick={() => onSelect(card)}
               isAnimated
               type={CardType.RED}
             >
