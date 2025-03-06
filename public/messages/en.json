@@ -330,7 +330,33 @@
     "CHESTS": "Chests",
     "STARS": "Stars",
     "BUY_FRIENDS": "Buying friends",
-    "AUTO_COLLECT": "Auto collect"
+    "AUTO_COLLECT": "Auto collect",
+    "SHOP_TYPE": {
+      "CHESTS": "Chests",
+      "STARS": "Stars",
+      "FRIENDS": "Friends",
+      "AUTO_COLLECT": "Revenue collection",
+      "STARTER_SET": "Starter kit",
+      "SPECIAL_OFFER": "Special offer"
+    },
+    "STARS_TYPE": {
+      "BAG": "A bag of stars",
+      "BUCKET": "Bucket of stars",
+      "BOX": "Star barrel",
+      "CHEST": "Chest of stars",
+      "CARRIAGE": "Carriage of stars",
+      "CONTAINER": "Star container"
+    },
+    "BUY_FRIENDS_COUNT": "Buying {count} friends",
+    "EPIC_CHEST": "Epic chest",
+    "REGULAR_CHEST": "Regular chest",
+    "MODAL_DESCRIPTION": "Complete a daily Stars transaction and receive massive rewards",
+    "BUY_FOR": "Buy for",
+    "SPECIAL_OFFER_MODAL": {
+      "BADGE": "Special offer",
+      "TITLE": "Get 15,000 spins at a super discount!",
+      "DESCRIPTION": "Complete daily star transactions and get huge rewards"
+    }
   },
   "TOP_PLAYERS": {
     "TITLE": "Top players",

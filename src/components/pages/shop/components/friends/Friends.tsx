@@ -14,9 +14,10 @@ import { FRIENDS_CARDS } from "../../constants";
 
 type Props = {
   cards: ShopItem[];
+  onSelect: (card: ShopItem) => void;
 };
 
-export const Friends: FunctionComponent<Props> = ({ cards }) => {
+export const Friends: FunctionComponent<Props> = ({ cards, onSelect }) => {
   const t = useTranslations(NS.PAGES.SHOP.ROOT);
   const tCommon = useTranslations(NS.COMMON.ROOT);
 
@@ -43,7 +44,7 @@ export const Friends: FunctionComponent<Props> = ({ cards }) => {
                 children: tCommon(staticCardData.buttonText),
               }}
               bottomBadge={<Badge value={formatNumber(card.price)} />}
-              onClick={() => {}}
+              onClick={() => onSelect(card)}
               isAnimated
               type={CardType.BLUE}
             >

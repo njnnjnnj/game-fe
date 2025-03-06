@@ -76,7 +76,7 @@ export const Card: FunctionComponent<Props> = ({
     <div
       ref={ref}
       className={classNames(
-        "relative aspect-[3/4] rounded-xl border border-solid border-black pb-1 text-white transition-transform will-change-transform",
+        "relative aspect-[3/4] rounded-xl border border-solid border-black pb-1 text-white transition-transform will-change-transform active:scale-[0.98]",
         {
           "bg-[#0069B1]": type === CardType.BLUE,
           "bg-[#403BB7]": type === CardType.INDIGO,
