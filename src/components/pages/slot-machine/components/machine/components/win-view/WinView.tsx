@@ -67,12 +67,14 @@ export const WinView: FunctionComponent<Props> = ({
   onClose,
 }) => {
   const [isAnimationActive, setIsAnimationActive] = useState(false);
+  const [isCounterStopped, setIsCounterStopped] = useState(false);
   const closeTimerRef = useRef<NodeJS.Timeout>();
   const tCommon = useTranslations(NS.COMMON.ROOT);
   const tSlotMachine = useTranslations(NS.PAGES.SLOT_MACHINE.ROOT);
 
   useEffect(() => {
     setIsAnimationActive(false);
+    setIsCounterStopped(false);
 
     return () => {
       if (closeTimerRef.current) {
@@ -92,13 +94,22 @@ export const WinView: FunctionComponent<Props> = ({
     }, CLOSE_TIMING);
   };
 
+  const onClick = () => {
+    if (!isCounterStopped) {
+      setIsCounterStopped(true);
+      stopAnimationAndRunTimer();
+    } else {
+      onClose();
+    }
+  };
+
   return (
     <div
       className={classNames("absolute inset-0 z-20", {
         visible: isActive,
         invisible: !isActive,
       })}
-      onClick={onClose}
+      onClick={onClick}
     >
       <div
         className={classNames(
@@ -140,13 +151,18 @@ export const WinView: FunctionComponent<Props> = ({
             >
               {renderCoin(type)}
             </div>
-            {isActive && (
+            {isActive && !isCounterStopped && (
               <AnimatedNumber
                 className="text-stroke-brown-1.5 font-black leading-none text-[#FDEC50] text-shadow-win [font-size:min(8.2vw,3.7vh)]"
                 targetNum={reward}
                 onAnimationEnd={stopAnimationAndRunTimer}
                 withHapticFeedback
               />
+            )}
+            {isCounterStopped && (
+              <div className="text-stroke-brown-1.5 font-black leading-none text-[#FDEC50] text-shadow-win [font-size:min(8.2vw,3.7vh)]">
+                {reward}
+              </div>
             )}
           </div>
         </div>
