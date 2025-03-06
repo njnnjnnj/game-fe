@@ -10,7 +10,8 @@ type Props = {
   targetNum: number;
   withHapticFeedback?: boolean;
   startFromTarget?: boolean;
-  onAnimationEnd: () => void;
+  formatter?: (value: string | number) => string | number;
+  onAnimationEnd?: () => void;
 };
 
 const DURATION = 5000;
@@ -21,6 +22,7 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
   targetNum,
   withHapticFeedback,
   startFromTarget,
+  formatter,
   onAnimationEnd,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -50,7 +52,9 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
         setDisplayNum(targetNum);
         counter.current = targetNum;
 
-        onAnimationEnd();
+        if (onAnimationEnd) {
+          onAnimationEnd();
+        }
       }
 
       if (withHapticFeedback) {
@@ -64,11 +68,13 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
     }
   });
 
+  const value = formatter ? formatter(displayNum) : displayNum;
+
   return (
     <div className={className}>
-      <div className="invisible">{targetNum}</div>
+      <div className="invisible">{value}</div>
       <div className="absolute top-1/2 -translate-y-1/2" ref={ref}>
-        {displayNum}
+        {value}
       </div>
     </div>
   );

@@ -474,4 +474,26 @@ export const NS = {
   ERRORS: {
     ROOT: "ERRORS",
   },
+  REWARDS_SCREEN: {
+    ROOT: "REWARDS_SCREEN",
+    CHEST_SCENE: {
+      ROOT: "CHEST_SCENE",
+      TITLE: "TITLE",
+    },
+    BUCKET_SCENE: {
+      ROOT: "BUCKET_SCENE",
+      CARD_TITLE: "CARD_TITLE",
+      CARD_SUBTITLE: "CARD_SUBTITLE",
+      BALANCE_TITLE: "BALANCE_TITLE",
+      BOOSTER_DURATION: "BOOSTER_DURATION",
+    },
+    HERO_AND_CLOTH_SCENE: {
+      ROOT: "HERO_AND_CLOTH_SCENE",
+      REWARD_SUBTITLE: "REWARD_SUBTITLE",
+    },
+    FINAL_SCENE: {
+      ROOT: "FINAL_SCENE",
+      TITLE: "TITLE",
+    },
+  },
 };

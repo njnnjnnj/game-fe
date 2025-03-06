@@ -11,9 +11,9 @@ export enum Reward {
   FRIENDS = "friends",
   BUSTER = "buster",
   OFFLINE = "offline",
+  GAME_ENERGY = "game_energy",
   CLOTH = "cloth",
   CHARACTER = "character",
-  GAME_ENERGY = "game_energy",
   AUTO = "AUTO",
   CHEST = "chest",
 }
@@ -37,29 +37,32 @@ type ExistReward = {
   value: number;
 };
 
-type CofferReward = {
+export type CofferReward = {
   value: string;
   isExist: ExistReward | null;
 };
 
-type ClothCofferReward = {
+export type ClothCofferReward = {
   value: string | number;
   isExist: ExistReward | null;
   character: HeroId;
-  slot: HeroClothPiece;
+  char_slot: HeroClothPiece;
 };
 
-type Coffer = {
+export type Coffer = {
   coins: number | null;
   stars: number | null;
   buster: number | null;
   friends: number | null;
   offline: number | null;
+  game_energy: number | null;
   cloth: ClothCofferReward | null;
   character: CofferReward | null;
-  game_energy: number | null;
   auto: CofferReward | null;
 };
+
+export type CofferKey = keyof Coffer;
+export type CofferValue = Coffer[CofferKey];
 
 export type RewardShape = {
   reward: Reward;

@@ -43,6 +43,8 @@ export default {
           "slot-right-chevron-spin 0.2s linear infinite",
         "slot-win-view-text-pulse":
           "slot-win-view-text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "reward-screen-text-scale":
+          "reward-screen-text-scale 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "slot-win-view-backdrop-fade-in":
           "slot-win-view-backdrop-fade-in 0.5s ease-out forwards",
         "slot-win-view-pane-scale-in":
@@ -636,6 +638,11 @@ export default {
           "0%": { transform: "translateY(100%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+        "reward-screen-text-scale": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.1)" },
+          "100%": { transform: "scale(1)" },
+        },
         "spin-slowly": {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
@@ -702,6 +709,12 @@ export default {
           "linear-gradient(to bottom, #04A0F5 52%, #0A4CDE 100%)",
         "home-bp-btn-indicator-pattern":
           "linear-gradient(to bottom, #3AB5F9 0%, #058EE6 52%, #0054C3 100%)",
+        "reward-screen-chest-pattern":
+          "linear-gradient(to bottom, #EE84FF, #7740F5)",
+        "reward-screen-bucket-pattern":
+          "linear-gradient(180deg, #FFDE60 0%, #FABF33 100%)",
+        "reward-screen-hero-and-cloth-pattern":
+          "linear-gradient(180deg, #8684FF 0%, #4043F5 100%)",
       },
       textShadow: {
         sm: "0 1px 0px #000",

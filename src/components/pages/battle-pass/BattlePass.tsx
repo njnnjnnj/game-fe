@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { PageWrapper } from "@/components/common";
 import { BottomMenu } from "@/components/common/bottom-menu/BottomMenu";
@@ -14,9 +14,14 @@ import { BattlePassList } from "./components/battle-pass-list/BattlePassList";
 export const BattlePass = () => {
   const [bgScaleDelta, setBgScaleDelta] = useState(0);
 
-  const { isPending: isBattlePassPending } = useGetBattlePass();
+  const { isPending: isBattlePassPending, refetch: refetchBattlePass } = useGetBattlePass();
   const { isPending: isBattlePassConfigPending } = useGetBattlePassConfig();
   const { isPending: isAllAppsHeroesPending } = useGetAllAppsHeroes();
+
+  useEffect(() => {
+    // Always refetch when getting to this page
+    refetchBattlePass(); 
+  }, []);
 
   const onScroll = (e: Event) => {
     const { scrollTop } = e.target as HTMLDivElement;

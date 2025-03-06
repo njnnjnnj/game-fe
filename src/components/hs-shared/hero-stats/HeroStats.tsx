@@ -20,6 +20,7 @@ import { Coin, CoinType } from "./components/coin/Coin";
 import { Indicator } from "./components/indicator/Indicator";
 import { Ribbon } from "./components/ribbon/Ribbon";
 import {
+  calculateStat,
   MAX_ENERGY,
   MAX_INCOME_PER_HOUR,
   MAX_INCOME_PER_TAP,
@@ -46,10 +47,6 @@ type Props = {
 
 const calculateProgress = (current: number, max: number) =>
   (current / max) * 100;
-
-const calculateStat = (base: number, rate: number, heroId: HeroId) =>
-  // "Default" hero is an edge case where we consider rate as an integer bonus of cloth
-  heroId === HeroId.DEFAULT ? rate : base * rate;
 
 export const HeroStats: FunctionComponent<Props> = ({
   ctaType,

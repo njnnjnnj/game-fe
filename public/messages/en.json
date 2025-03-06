@@ -422,5 +422,22 @@
   "ERRORS": {
     "notEnoughStars": "Not enough stars",
     "userNotFound": "User not found"
+  },
+  "REWARDS_SCREEN": {
+    "CHEST_SCENE": {
+      "TITLE": "Hit me!"  
+    },
+    "BUCKET_SCENE": {
+      "CARD_TITLE": "{type, select, coins {Coins bucket} stars {Stars bucket} buster {Booster} friends {Friends bucket} offline {Booster} game_energy {Energy bucket} other {Resource}}",
+      "CARD_SUBTITLE": "Resource card",
+      "BALANCE_TITLE": "{type, select, coins {Coins} stars {Stars} friends {Friends} game_energy {Energy} other {Balance}}",
+      "BOOSTER_DURATION": "{hours} hours"
+    },
+    "HERO_AND_CLOTH_SCENE": {
+      "REWARD_SUBTITLE": "{type, select, character {New character} cloth {Cloth card} other {Reward}}"
+    },
+    "FINAL_SCENE": {
+      "TITLE": "Your reward"
+    }
   }
 }
