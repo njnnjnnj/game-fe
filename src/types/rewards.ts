@@ -37,12 +37,12 @@ type ExistReward = {
   value: number;
 };
 
-type CofferReward = {
+export type CofferReward = {
   value: string;
   isExist: ExistReward | null;
 };
 
-type ClothCofferReward = {
+export type ClothCofferReward = {
   value: string | number;
   isExist: ExistReward | null;
   character: HeroId;

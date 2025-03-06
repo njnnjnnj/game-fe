@@ -11,16 +11,12 @@ import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import HourIncomeCoinSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
-import {
-  HeroClothPiece,
-  HeroId,
-  HeroRarity,
-  SelectedCloth,
-} from "@/services/heroes/types";
+import { HeroClothPiece, HeroId, SelectedCloth } from "@/services/heroes/types";
 import { Coffer, CofferKey } from "@/types/rewards";
 import { formatNumber } from "@/utils/number";
 
 import { SceneIntrinsicProps } from "../../types";
+import { SceneFooter } from "../scene-footer/SceneFooter";
 
 type NonNullable<T> = Exclude<T, null>;
 
@@ -37,11 +33,14 @@ enum AppearanceAnimation {
 export const BG_CLASS = "bg-reward-screen-hero-and-cloth-pattern";
 
 const clothCardClassName = {
-  [HeroClothPiece.CHAIN]: "scale-[3] -translate-x-[5%] translate-y-[5%]",
-  [HeroClothPiece.HAT]: "scale-150 translate-y-[48%]",
-  [HeroClothPiece.GLASS]: "scale-[2] translate-y-[36%]",
-  [HeroClothPiece.KIT]: "scale-125 -translate-y-[20%]",
-  [HeroClothPiece.WATCH]: "scale-[4] translate-x-[48%] -translate-y-[60%]",
+  [HeroClothPiece.CHAIN]:
+    "[transform:translateY(5%)_translateX(-5%)_scaleY(3)_scaleX(3.3)]",
+  [HeroClothPiece.HAT]: "[transform:translateY(50%)_scaleY(1.5)_scaleX(1.8)]",
+  [HeroClothPiece.GLASS]: "[transform:translateY(36%)_scaleY(2)_scaleX(2.3)]",
+  [HeroClothPiece.KIT]:
+    "[transform:translateY(-20%)_scaleY(1.25)_scaleX(1.35)]",
+  [HeroClothPiece.WATCH]:
+    "[transform:translateY(-74%)_translateX(52%)_scaleY(4.5)_scaleX(4.5)]",
 };
 
 const isClothCoffer = (
@@ -54,7 +53,6 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
   clickToggle,
   onFinishScene,
 }) => {
-  const tCommon = useTranslations(NS.COMMON.ROOT);
   const tRewards = useTranslations(NS.REWARDS_SCREEN.ROOT);
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
   const tShop = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
@@ -107,7 +105,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
       >
         <div
           className={classNames(
-            "absolute bottom-[100%] flex w-full flex-col items-center transition-transform duration-1000",
+            "absolute bottom-[100%] flex w-full flex-col items-center transition-transform duration-500",
             {
               "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
               "scale-100":
@@ -143,7 +141,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
 
         <div
           className={classNames(
-            "absolute h-full w-full transition-transform duration-1000",
+            "absolute h-full w-full transition-transform duration-500",
             {
               "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
               "scale-100":
@@ -151,11 +149,11 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
             },
           )}
         >
-          {type === "character" && (
+          {type === "character" && heroes && (
             <HeroView
               className="left-0 top-0 h-full w-full"
-              heroId={HeroId.MESSI}
-              heroRarity={HeroRarity.EPIC}
+              heroId={reward.value as HeroId}
+              heroRarity={heroes[reward.value as HeroId].rarity}
               heroCloth={{ kit: 0 } as SelectedCloth}
               source="preview"
             />
@@ -180,7 +178,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
 
         <div
           className={classNames(
-            "absolute top-[100%] flex w-full flex-col items-center gap-y-3 transition-transform duration-1000",
+            "absolute top-[100%] flex w-full flex-col items-center gap-y-3 transition-transform duration-500",
             {
               "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
               "scale-100":
@@ -215,21 +213,10 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
         </div>
       </div>
 
-      <div
-        className={classNames(
-          "absolute inset-x-10 text-center font-black uppercase italic leading-[36px] text-white transition-[top] duration-500 ease-linear text-shadow [font-size:min(7.6vw,3.5vh)]",
-          {
-            "top-[85vh]":
-              appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE,
-            "top-[120vh]":
-              appearanceAnimation === AppearanceAnimation.DISAPPEARANCE,
-          },
-        )}
-      >
-        <div className="animate-slot-win-view-text-pulse">
-          {tCommon(`${NS.COMMON.TAP_TO_CONTINUE}`)}
-        </div>
-      </div>
+      <SceneFooter
+        isMovingIn={appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE}
+        isMovingOut={appearanceAnimation === AppearanceAnimation.DISAPPEARANCE}
+      />
     </div>
   );
 };

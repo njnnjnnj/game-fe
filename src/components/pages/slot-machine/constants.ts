@@ -11,7 +11,7 @@ export const mockComplexReward: RewardShape = {
     stars: 125,
     buster: 2,
     friends: 25,
-    offline: 24,
+    offline: 6,
     cloth: {
       value: "1",
       isExist: null,
@@ -29,13 +29,13 @@ export const mockComplexReward: RewardShape = {
 
 export const mockClothReward: RewardShape = {
   reward: Reward.CLOTH,
-  value: HeroId.IRONMAN,
+  value: HeroId.HASBIK,
   character: null,
   cloth: {
     value: "1",
     isExist: null,
-    character: HeroId.IRONMAN,
-    char_slot: HeroClothPiece.KIT,
+    character: HeroId.HASBIK,
+    char_slot: HeroClothPiece.CHAIN,
   },
   coffer: null,
 };

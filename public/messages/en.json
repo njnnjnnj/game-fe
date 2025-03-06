@@ -398,6 +398,9 @@
     "userNotFound": "User not found"
   },
   "REWARDS_SCREEN": {
+    "CHEST_SCENE": {
+      "TITLE": "Hit me!"  
+    },
     "BUCKET_SCENE": {
       "CARD_TITLE": "{type, select, coins {Coins bucket} stars {Stars bucket} buster {Booster} friends {Friends bucket} offline {Booster} game_energy {Energy bucket} other {Resource}}",
       "CARD_SUBTITLE": "Resource card",
@@ -406,6 +409,9 @@
     },
     "HERO_AND_CLOTH_SCENE": {
       "REWARD_SUBTITLE": "{type, select, character {New character} cloth {Cloth card} other {Reward}}"
+    },
+    "FINAL_SCENE": {
+      "TITLE": "Your reward"
     }
   }
 }

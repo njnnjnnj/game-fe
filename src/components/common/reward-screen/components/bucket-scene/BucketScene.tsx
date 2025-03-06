@@ -9,6 +9,8 @@ import { Card, CardType } from "@/components/common/card/Card";
 import { AnimatedNumber } from "@/components/pages/slot-machine/components/machine/components/animated-number/AnimatedNumber";
 import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
+import FriendsSVG from "@/public/assets/svg/friends-coin.svg";
+import CoinSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { useGetProfile } from "@/services/profile/queries";
 import { useGetBandit } from "@/services/slot-machine/queries";
@@ -18,13 +20,16 @@ import { formatNumber } from "@/utils/number";
 import { getImgByReward } from "@/utils/rewards";
 
 import { SceneIntrinsicProps } from "../../types";
+import { SceneFooter } from "../scene-footer/SceneFooter";
 
 export type Props = SceneIntrinsicProps & {
   type: Exclude<CofferKey, "auto" | "character" | "cloth">;
-  amount: number;
+  reward: number;
 };
 
 type Point = { x: number; y: number };
+
+export const BG_CLASS = "bg-reward-screen-bucket-pattern";
 
 enum CoinsAnimation {
   SPAWN,
@@ -50,15 +55,45 @@ const getScatteredOffset = (): Point => ({
   y: getRandomIntInclusive(-SCATTER_RADIUS, SCATTER_RADIUS),
 });
 
-export const BG_CLASS = "bg-reward-screen-bucket-pattern";
+const renderCoin = (type: CofferKey) => {
+  if (type === "stars") {
+    return (
+      <StarSVG
+        width="100%"
+        height="100%"
+        viewBox="0 0 29 29"
+        preserveAspectRatio="none"
+      />
+    );
+  }
+
+  if (type === "friends") {
+    return (
+      <FriendsSVG
+        width="100%"
+        height="100%"
+        viewBox="0 0 28 28"
+        preserveAspectRatio="none"
+      />
+    );
+  }
+
+  return (
+    <CoinSvg
+      width="100%"
+      height="100%"
+      viewBox="0 0 26 26"
+      preserveAspectRatio="none"
+    />
+  );
+};
 
 export const BucketScene: FunctionComponent<Props> = ({
   type,
-  amount,
+  reward,
   clickToggle,
   onFinishScene,
 }) => {
-  const tCommon = useTranslations(NS.COMMON.ROOT);
   const tRewards = useTranslations(NS.REWARDS_SCREEN.ROOT);
   const coinsSpawnRef = useRef<HTMLDivElement | null>(null);
   const coinsTargetRef = useRef<HTMLDivElement | null>(null);
@@ -113,6 +148,7 @@ export const BucketScene: FunctionComponent<Props> = ({
   }, [coinsAnimation]);
 
   useUpdateEffect(() => {
+    setCoinsAnimation(null);
     setAppearanceAnimation(AppearanceAnimation.DISAPPEARANCE);
   }, [clickToggle]);
 
@@ -155,7 +191,7 @@ export const BucketScene: FunctionComponent<Props> = ({
     return { x: 0, y: 0 };
   };
 
-  const animatedCoinsAmount = Math.min(amount, 10);
+  const animatedCoinsAmount = Math.min(reward, 10);
   const coinsCounter = useRef(animatedCoinsAmount);
 
   const handleCoinsTargetAnimationEnd = () => {
@@ -163,7 +199,7 @@ export const BucketScene: FunctionComponent<Props> = ({
 
     if (coinsCounter.current === 0) {
       setCoinsAnimation(null);
-      setBalance((prevBalance) => (prevBalance ?? 0) + amount);
+      setBalance((prevBalance) => (prevBalance ?? 0) + reward);
     }
   };
 
@@ -172,7 +208,7 @@ export const BucketScene: FunctionComponent<Props> = ({
       <div className="absolute aspect-[0.64] w-[43%]">
         <div
           className={classNames(
-            "absolute bottom-[110%] flex w-full flex-col items-center transition-transform duration-1000",
+            "absolute bottom-[110%] flex w-full flex-col items-center transition-transform duration-500",
             {
               "scale-0": appearanceAnimation !== AppearanceAnimation.APPEARANCE,
               "scale-100":
@@ -208,7 +244,7 @@ export const BucketScene: FunctionComponent<Props> = ({
 
         <div
           className={classNames(
-            "absolute h-full w-full transition-transform duration-1000",
+            "absolute h-full w-full transition-transform duration-500",
             {
               "[transform:rotateY(0deg)_scale(0)]":
                 appearanceAnimation !== AppearanceAnimation.APPEARANCE,
@@ -234,9 +270,9 @@ export const BucketScene: FunctionComponent<Props> = ({
               {type === "offline"
                 ? tRewards(
                     `${NS.REWARDS_SCREEN.BUCKET_SCENE.ROOT}.${NS.REWARDS_SCREEN.BUCKET_SCENE.BOOSTER_DURATION}`,
-                    { hours: amount },
+                    { hours: reward },
                   )
-                : `x${formatValue(amount)}`}
+                : `x${formatValue(reward)}`}
             </span>
           </Card>
         </div>
@@ -244,7 +280,7 @@ export const BucketScene: FunctionComponent<Props> = ({
         {!isShowingBooster && typeof balance === "number" && (
           <div
             className={classNames(
-              "absolute top-[110%] flex w-full flex-col items-center gap-y-3 transition-transform duration-1000",
+              "absolute top-[110%] flex w-full flex-col items-center gap-y-3 transition-transform duration-500",
               {
                 "scale-0":
                   appearanceAnimation !== AppearanceAnimation.APPEARANCE,
@@ -267,12 +303,7 @@ export const BucketScene: FunctionComponent<Props> = ({
                 className="aspect-square h-full shrink-0"
                 ref={coinsTargetRef}
               >
-                <StarSVG
-                  height="100%"
-                  width="100%"
-                  viewBox="0 0 29 29"
-                  preserveAspectRatio="none"
-                />
+                {renderCoin(type)}
               </div>
               <AnimatedNumber
                 className="text-stroke-2 relative font-extrabold leading-none text-white [font-size:min(6.1vw,2.8vh)]"
@@ -307,33 +338,15 @@ export const BucketScene: FunctionComponent<Props> = ({
                 }
               }}
             >
-              <div className="aspect-square h-full">
-                <StarSVG
-                  height="100%"
-                  width="100%"
-                  viewBox="0 0 29 29"
-                  preserveAspectRatio="none"
-                />
-              </div>
+              <div className="aspect-square h-full">{renderCoin(type)}</div>
             </div>
           );
         })}
 
-      <div
-        className={classNames(
-          "absolute inset-x-10 text-center font-black uppercase italic leading-[36px] text-white transition-[top] duration-500 ease-linear text-shadow [font-size:min(7.6vw,3.5vh)]",
-          {
-            "top-[85vh]":
-              appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE,
-            "top-[120vh]":
-              appearanceAnimation === AppearanceAnimation.DISAPPEARANCE,
-          },
-        )}
-      >
-        <div className="animate-slot-win-view-text-pulse">
-          {tCommon(`${NS.COMMON.TAP_TO_CONTINUE}`)}
-        </div>
-      </div>
+      <SceneFooter
+        isMovingIn={appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE}
+        isMovingOut={appearanceAnimation === AppearanceAnimation.DISAPPEARANCE}
+      />
     </div>
   );
 };

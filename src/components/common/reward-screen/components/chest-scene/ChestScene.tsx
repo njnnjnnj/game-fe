@@ -6,26 +6,33 @@ import { useTranslations } from "next-intl";
 import classNames from "classnames";
 
 import { NS } from "@/constants/ns";
+import { useTelegram } from "@/context";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import Dust from "@/public/assets/png/reward-screen/dust.webp";
 import MegaChestOpen from "@/public/assets/png/reward-screen/mega-chest-open.webp";
+import StartChestOpen from "@/public/assets/png/reward-screen/start-chest-open.webp";
 import { ChestType } from "@/types/rewards";
+import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 
 import { SceneIntrinsicProps } from "../../types";
+import { SceneFooter } from "../scene-footer/SceneFooter";
 
 import { MegaChest } from "./components/mega-chest/MegaChest";
+import { StartChest } from "./components/start-chest/StartChest";
 
 export type Props = SceneIntrinsicProps & {
   type: ChestType;
 };
 
-export const BG_CLASS = 'bg-reward-screen-chest-pattern';
+export const BG_CLASS = "bg-reward-screen-chest-pattern";
 
 export const ChestScene: FunctionComponent<Props> = ({
+  type,
   clickToggle,
   onFinishScene,
 }) => {
-  const t = useTranslations(NS.COMMON.ROOT);
+  const tRewards = useTranslations(NS.REWARDS_SCREEN.ROOT);
+  const { webApp } = useTelegram();
   const [step, setStep] = useState(0);
 
   useUpdateEffect(
@@ -33,8 +40,19 @@ export const ChestScene: FunctionComponent<Props> = ({
     [clickToggle],
   );
 
+  const tgSafeInsetTop = webApp ? getTgSafeAreaInsetTop(webApp) : 0;
+
   return (
-    <div className="absolute flex h-[100vh] w-full items-center justify-center">
+    <div
+      className={classNames(
+        "absolute flex h-[100vh] w-full items-center justify-center",
+        tgSafeInsetTop
+          ? {
+              paddingTop: tgSafeInsetTop,
+            }
+          : undefined,
+      )}
+    >
       <div
         className={classNames(
           "absolute w-[60%] transition-[bottom] duration-500 ease-linear",
@@ -45,7 +63,9 @@ export const ChestScene: FunctionComponent<Props> = ({
         )}
       >
         <div className="text-stroke-2 animate-reward-screen-text-scale text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(10.2vw,5vh)]">
-          {"Нажми на меня!"}
+          {tRewards(
+            `${NS.REWARDS_SCREEN.CHEST_SCENE.ROOT}.${NS.REWARDS_SCREEN.CHEST_SCENE.TITLE}`,
+          )}
         </div>
       </div>
 
@@ -59,7 +79,7 @@ export const ChestScene: FunctionComponent<Props> = ({
             },
           )}
         >
-          <MegaChest />
+          {type === ChestType.MEGA ? <MegaChest /> : <StartChest />}
         </div>
       </div>
 
@@ -70,7 +90,12 @@ export const ChestScene: FunctionComponent<Props> = ({
         )}
         onTransitionEnd={onFinishScene}
       >
-        <Image src={MegaChestOpen} alt="" quality={100} fill />
+        <Image
+          src={type === ChestType.MEGA ? MegaChestOpen : StartChestOpen}
+          alt=""
+          quality={100}
+          fill
+        />
       </div>
       <div
         className={classNames(
@@ -84,19 +109,7 @@ export const ChestScene: FunctionComponent<Props> = ({
         <Image src={Dust} alt="" quality={100} fill />
       </div>
 
-      <div
-        className={classNames(
-          "absolute inset-x-10 text-center font-black uppercase italic leading-[36px] text-white transition-[top] duration-500 ease-linear text-shadow [font-size:min(7.6vw,3.5vh)]",
-          {
-            "top-[85vh]": step === 0,
-            "top-[120vh]": step === 1,
-          },
-        )}
-      >
-        <div className="animate-slot-win-view-text-pulse">
-          {t(`${NS.COMMON.TAP_TO_CONTINUE}`)}
-        </div>
-      </div>
+      <SceneFooter isMovingIn={step === 0} isMovingOut={step === 1} />
     </div>
   );
 };

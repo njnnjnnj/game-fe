@@ -447,6 +447,10 @@ export const NS = {
   },
   REWARDS_SCREEN: {
     ROOT: "REWARDS_SCREEN",
+    CHEST_SCENE: {
+      ROOT: "CHEST_SCENE",
+      TITLE: "TITLE",
+    },
     BUCKET_SCENE: {
       ROOT: "BUCKET_SCENE",
       CARD_TITLE: "CARD_TITLE",
@@ -457,6 +461,10 @@ export const NS = {
     HERO_AND_CLOTH_SCENE: {
       ROOT: "HERO_AND_CLOTH_SCENE",
       REWARD_SUBTITLE: "REWARD_SUBTITLE",
+    },
+    FINAL_SCENE: {
+      ROOT: "FINAL_SCENE",
+      TITLE: "TITLE",
     },
   },
 };

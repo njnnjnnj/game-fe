@@ -9,7 +9,6 @@ import RewardCardsImg from "@/public/assets/png/reward-screen/reward-cards.webp"
 import { useGetProfile } from "@/services/profile/queries";
 import { useGetBandit } from "@/services/slot-machine/queries";
 import { CofferKey, CofferValue, Reward, RewardShape } from "@/types/rewards";
-import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 
 import {
   BG_CLASS as BucketSceneBg,
@@ -24,6 +23,7 @@ import {
 import {
   BG_CLASS as FinalSceneBg,
   FinalScene,
+  FinalSceneReward,
   Props as FinalSceneProps,
 } from "./components/final-scene/FinalScene";
 import {
@@ -62,7 +62,7 @@ export const RewardScreen: FunctionComponent<Props> = ({
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [scenes, rewards] = useMemo(() => {
+  const scenes = useMemo(() => {
     const buildSceneForCoffer = (key: CofferKey, value: CofferValue) => {
       switch (key) {
         case "cloth":
@@ -87,16 +87,10 @@ export const RewardScreen: FunctionComponent<Props> = ({
         default:
           return {
             scene: BucketScene,
-            props: { type: key, amount: value },
+            props: { type: key, reward: value },
             bg: BucketSceneBg,
           };
       }
-    };
-
-    const finalScene = {
-      scene: FinalScene,
-      props: {},
-      bg: FinalSceneBg,
     };
 
     if (reward.reward === Reward.CHEST) {
@@ -128,7 +122,7 @@ export const RewardScreen: FunctionComponent<Props> = ({
         bg: ChestSceneBg,
       };
 
-      const rewards: string[] = [];
+      const rewards: FinalSceneReward[] = [];
       const scenesList = [
         chestScene,
         ...Object.keys(coffer)
@@ -140,38 +134,55 @@ export const RewardScreen: FunctionComponent<Props> = ({
             const key = nextKey as CofferKey;
             const value = coffer[key];
 
-            rewards.push(nextKey);
+            rewards.push({ type: key, value: value });
 
             return buildSceneForCoffer(key, value);
           }),
-        finalScene,
+        {
+          scene: FinalScene,
+          props: { rewards },
+          bg: FinalSceneBg,
+        },
       ];
 
-      return [scenesList, rewards];
+      return scenesList;
     } else if (reward.reward === Reward.CLOTH) {
       return [
-        [buildSceneForCoffer("cloth", reward.cloth), finalScene],
-        reward.reward,
+        buildSceneForCoffer("cloth", reward.cloth),
+        {
+          scene: FinalScene,
+          props: { rewards: [{ type: reward.reward, value: reward.cloth }] },
+          bg: FinalSceneBg,
+        },
       ];
     } else if (reward.reward === Reward.CHARACTER) {
       return [
-        [buildSceneForCoffer("character", reward.character), finalScene],
-        [reward.reward],
+        buildSceneForCoffer("character", reward.character),
+        {
+          scene: FinalScene,
+          props: {
+            rewards: [{ type: reward.reward, value: reward.character }],
+          },
+          bg: FinalSceneBg,
+        },
       ];
     } else {
       return [
-        [
-          {
-            scene: BucketScene,
-            props: { type: reward.reward, amount: reward.value },
-            bg: BucketSceneBg,
+        {
+          scene: BucketScene,
+          props: { type: reward.reward, reward: reward.value },
+          bg: BucketSceneBg,
+        },
+        {
+          scene: FinalScene,
+          props: {
+            rewards: [{ type: reward.reward, value: reward.value }],
           },
-          finalScene,
-        ],
-        [reward.reward],
+          bg: FinalSceneBg,
+        },
       ];
     }
-  }, [reward]) as [Scenes, string[]];
+  }, [reward]) as Scenes;
 
   const { scene: Scene, props: sceneProps } = scenes[activeSceneIndex];
 
@@ -185,8 +196,9 @@ export const RewardScreen: FunctionComponent<Props> = ({
   };
 
   const itemsLeft = scenes.length - activeSceneIndex - 1;
-
-  const tgSafeInsetTop = webApp ? getTgSafeAreaInsetTop(webApp) : 0;
+  const tgSafeInsetTop = webApp ? webApp.safeAreaInset.top : 0;
+  const isCounterHidden =
+    reward.reward === Reward.CHEST && activeSceneIndex === 0;
 
   return (
     <div
@@ -205,7 +217,7 @@ export const RewardScreen: FunctionComponent<Props> = ({
             bg,
             i > 0
               ? {
-                  "transition-opacity duration-1000": true,
+                  "transition-opacity duration-500": true,
                   "opacity-0": activeBgIndex !== i,
                   "opacity-1":
                     i === scenes.length - 1
@@ -217,24 +229,22 @@ export const RewardScreen: FunctionComponent<Props> = ({
         />
       ))}
       <div className="absolute aspect-square h-[120vh] animate-spin bg-[url('/assets/png/reward-screen/rays-bg.webp')] bg-cover bg-center [animation-duration:10s]" />
-      <div
-        className="absolute top-5"
-        style={
-          tgSafeInsetTop
-            ? { top: tgSafeInsetTop, transform: "translateY(-50%)" }
-            : undefined
-        }
-      >
-        <Image src={RewardCardsImg} width={40} height={40} alt="" />
+      {!isCounterHidden && (
         <div
-          className={classNames(
-            "absolute top-1/2 -translate-y-1/2 rotate-[4deg] text-base font-extrabold text-white",
-            { "right-2.5": itemsLeft !== 1, "right-3": itemsLeft === 1 },
-          )}
+          className="absolute top-5"
+          style={tgSafeInsetTop ? { top: tgSafeInsetTop } : undefined}
         >
-          {itemsLeft}
+          <Image src={RewardCardsImg} width={40} height={40} alt="" />
+          <div
+            className={classNames(
+              "absolute top-1/2 -translate-y-1/2 rotate-[4deg] text-base font-extrabold text-white",
+              { "right-2.5": itemsLeft !== 1, "right-3": itemsLeft === 1 },
+            )}
+          >
+            {itemsLeft}
+          </div>
         </div>
-      </div>
+      )}
       {Scene && (
         <Scene
           {...sceneProps}

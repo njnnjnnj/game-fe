@@ -1,18 +1,26 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
 
-import { Card, CardType } from "@/components/common/card/Card";
 import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
-import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
+import { CofferKey, CofferValue } from "@/types/rewards";
 
 import { SceneIntrinsicProps } from "../../types";
+import { SceneFooter } from "../scene-footer/SceneFooter";
 
-export type Props = SceneIntrinsicProps & {};
+import { FinalSceneCard } from "./components/FinalSceneCard";
+
+export type FinalSceneReward = {
+  type: CofferKey;
+  value: CofferValue;
+};
+
+export type Props = SceneIntrinsicProps & {
+  rewards: FinalSceneReward[];
+};
 
 enum AppearanceAnimation {
   APPEARANCE,
@@ -22,10 +30,11 @@ enum AppearanceAnimation {
 export const BG_CLASS = "bg-reward-screen-hero-and-cloth-pattern";
 
 export const FinalScene: FunctionComponent<Props> = ({
+  rewards,
   clickToggle,
   onFinishScene,
 }) => {
-  const t = useTranslations(NS.COMMON.ROOT);
+  const tRewards = useTranslations(NS.REWARDS_SCREEN.ROOT);
   const [appearanceAnimation, setAppearanceAnimation] =
     useState<AppearanceAnimation | null>(null);
   const appearanceAnimationTimerRef = useRef<NodeJS.Timeout>();
@@ -47,13 +56,30 @@ export const FinalScene: FunctionComponent<Props> = ({
     setAppearanceAnimation(AppearanceAnimation.DISAPPEARANCE);
   }, [clickToggle]);
 
+  const renderCard = ({ type, value }: FinalSceneReward) => (
+    <div
+      key={type}
+      className={classNames(
+        "aspect-[0.65] basis-[25%] transition-transform duration-500",
+        {
+          "[transform:rotateY(0deg)_scale(0)]":
+            appearanceAnimation !== AppearanceAnimation.APPEARANCE,
+          "[transform:rotateY(360deg)_scale(1)]":
+            appearanceAnimation === AppearanceAnimation.APPEARANCE,
+        },
+      )}
+    >
+      <FinalSceneCard type={type} value={value} />
+    </div>
+  );
+
   return (
     <div className="absolute flex h-[100vh] w-full items-center justify-center">
       <div className="absolute w-full px-4">
         <div className="absolute bottom-[110%] left-1/2 mb-[10%] w-[55%] -translate-x-1/2">
           <div
             className={classNames(
-              "text-stroke-2 text-center font-black uppercase italic leading-[36px] text-white transition-transform duration-1000 text-shadow [font-size:min(10.2vw,5vh)]",
+              "text-stroke-2 text-center font-black uppercase italic leading-[36px] text-white transition-transform duration-500 text-shadow [font-size:min(10.2vw,5vh)]",
               {
                 "scale-0":
                   appearanceAnimation !== AppearanceAnimation.APPEARANCE,
@@ -67,193 +93,31 @@ export const FinalScene: FunctionComponent<Props> = ({
               }
             }}
           >
-            {"Ваша награда"}
+            {tRewards(
+              `${NS.REWARDS_SCREEN.FINAL_SCENE.ROOT}.${NS.REWARDS_SCREEN.FINAL_SCENE.TITLE}`,
+            )}
           </div>
         </div>
-
-        <div className="flex flex-col gap-y-2">
-          <div className="flex gap-x-2">
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
+        {rewards.length <= 3 ? (
+          <div className="flex justify-center gap-x-2">
+            {rewards.map(renderCard)}
+          </div>
+        ) : (
+          <div className="flex flex-col gap-y-2">
+            <div className="flex justify-center gap-x-2">
+              {rewards.slice(0, Math.ceil(rewards.length / 2)).map(renderCard)}
             </div>
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
-            </div>
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
-            </div>
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
+            <div className="flex justify-center gap-x-2">
+              {rewards.slice(-Math.floor(rewards.length / 2)).map(renderCard)}
             </div>
           </div>
-          <div className="flex gap-x-2">
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
-            </div>
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
-            </div>
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
-            </div>
-            <div
-              className={classNames(
-                "aspect-[0.65] basis-[25%] transition-transform duration-1000",
-                {
-                  "[transform:rotateY(0deg)_scale(0)]":
-                    appearanceAnimation !== AppearanceAnimation.APPEARANCE,
-                  "[transform:rotateY(360deg)_scale(1)]":
-                    appearanceAnimation === AppearanceAnimation.APPEARANCE,
-                },
-              )}
-            >
-              <Card type={CardType.ORANGE} isFullSize>
-                <div className="absolute top-1/2 aspect-square w-full -translate-y-1/2">
-                  <Image src={Bucket} alt="" fill sizes="50vw" quality={100} />
-                </div>
-                <span className="text-stroke-1 absolute bottom-2 left-1/2 z-20 w-full -translate-x-1/2 text-center text-sm font-black text-shadow">
-                  x150k
-                </span>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={classNames(
-          "absolute inset-x-10 text-center font-black uppercase italic leading-[36px] text-white transition-[top] duration-500 ease-linear text-shadow [font-size:min(7.6vw,3.5vh)]",
-          {
-            "top-[85vh]":
-              appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE,
-            "top-[120vh]":
-              appearanceAnimation === AppearanceAnimation.DISAPPEARANCE,
-          },
         )}
-      >
-        <div className="animate-slot-win-view-text-pulse">
-          {t(`${NS.COMMON.TAP_TO_CONTINUE}`)}
-        </div>
       </div>
+      
+      <SceneFooter
+        isMovingIn={appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE}
+        isMovingOut={appearanceAnimation === AppearanceAnimation.DISAPPEARANCE}
+      />
     </div>
   );
 };
