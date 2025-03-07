@@ -311,9 +311,9 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
               Array.from({ length: 4 }).map((_, i) => (
                 <div
                   key={`side-link-${i}`}
-                  className={classNames("absolute aspect-square h-[9.1%]", {
-                    "top-[13.7%]": i % 2 === 0,
-                    "top-[24.9%]": i % 2 !== 0,
+                  className={classNames("absolute aspect-square h-[8.2%]", {
+                    "top-[15.2%]": i % 2 === 0,
+                    "top-[25.9%]": i % 2 !== 0,
                     "left-[7.6%]": i < 2,
                     "right-[7.6%]": i >= 2,
                   })}
