@@ -28,7 +28,7 @@ export const SecondaryNavbar: FunctionComponent<Props> = ({
   return (
     <div className="relative z-30 grid w-full grid-cols-[1fr_175px] gap-2">
       <Link href={ROUTES.BATTLE_PASS} className="relative h-full w-full">
-        <div className="text-stroke-1 bg absolute -top-7 left-[1px] rounded-t-[8px] bg-[#0A4CDE] px-[14px] pb-5 pt-1.5 text-sm font-black shadow-[inset_0_1px_0_0_rgba(255,255,255,0.3)] text-shadow-sm">
+        <div className="text-stroke-1 bg absolute -top-7 left-[1px] rounded-t-[8px] bg-[#0A4CDE] px-[14px] pb-5 pt-1.5 text-sm font-black text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.3)] text-shadow-sm">
           Battle Pass
         </div>
         <button
