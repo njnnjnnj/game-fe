@@ -42,6 +42,18 @@ type Scenes = Scene<
   ChestSceneProps | BucketSceneProps | HeroAndClothSceneProps | FinalSceneProps
 >[];
 
+const SCENES_ORDER: Record<CofferKey, number> = {
+  coins: 0,
+  stars: 1,
+  friends: 2,
+  game_energy: 3,
+  buster: 4,
+  offline: 5,
+  cloth: 6,
+  character: 7,
+  auto: 8,
+};
+
 export const RewardScreen: FunctionComponent<Props> = ({
   reward,
   onFinish,
@@ -125,13 +137,11 @@ export const RewardScreen: FunctionComponent<Props> = ({
       const rewards: FinalSceneReward[] = [];
       const scenesList = [
         chestScene,
-        ...Object.keys(coffer)
-          .filter((key) => !!coffer[key as CofferKey])
-          .sort((key) =>
-            ["cloth", "character", "auto"].includes(key) ? 1 : -1,
-          )
+        ...(Object.keys(coffer) as CofferKey[])
+          .filter((key) => !!coffer[key])
+          .sort((key1, key2) => SCENES_ORDER[key1] - SCENES_ORDER[key2])
           .map((nextKey) => {
-            const key = nextKey as CofferKey;
+            const key = nextKey;
             const value = coffer[key];
 
             rewards.push({ type: key, value: value });

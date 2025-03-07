@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import classNames from "classnames";
 import { toast } from "sonner";
 
+import { SideLink } from "@/components/common";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
@@ -162,7 +163,7 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
   };
 
   const onSpin = () => {
-    if (isSpinning) return;
+    if (isSpinning || winTimeoutRef.current) return;
     if (bet > balance) {
       setIsBalanceModalOpen(true);
       return;
@@ -208,8 +209,6 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
     ) => {
       const combination = [...response.combination];
 
-      console.log(`Combination: ${combination}`);
-
       reelStopIntevalRef.current = setInterval(() => {
         const face = combination.shift() as Face;
 
@@ -217,8 +216,6 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
           if (!combination.length) {
             clearInterval(reelStopIntevalRef.current);
             reelStopIntevalRef.current = undefined;
-
-            if (!response.reward) return [...prevValue, face];
 
             const nextReward: StateReward = {
               type: reward.type,
@@ -240,11 +237,13 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { combination, ...reward } = response;
 
-                winTimeoutRef.current = setTimeout(() => {
-                  onGetReward(reward);
+                if (reward.reward) {
+                  winTimeoutRef.current = setTimeout(() => {
+                    onGetReward(reward);
 
-                  winTimeoutRef.current = undefined;
-                }, WIN_VIEW_TIMING);
+                    winTimeoutRef.current = undefined;
+                  }, WIN_VIEW_TIMING);
+                }
               }
             }
 
@@ -308,7 +307,20 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
               label={isVip ? "BASE" : "VIP ROOM"}
               onClick={() => setIsVip(!isVip)}
             />
-
+            {!isVip &&
+              Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={`side-link-${i}`}
+                  className={classNames("absolute aspect-square h-[9.1%]", {
+                    "top-[13.7%]": i % 2 === 0,
+                    "top-[24.9%]": i % 2 !== 0,
+                    "left-[7.6%]": i < 2,
+                    "right-[7.6%]": i >= 2,
+                  })}
+                >
+                  <SideLink isFullSize />
+                </div>
+              ))}
             {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
 
             <ReelPane

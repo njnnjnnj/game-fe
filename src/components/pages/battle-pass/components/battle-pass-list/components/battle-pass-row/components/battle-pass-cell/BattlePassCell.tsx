@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { FunctionComponent, useEffect, useRef } from "react";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -20,13 +20,14 @@ import {
 } from "@/services/battle-pass/queries";
 import { BattlePassItem } from "@/services/battle-pass/types";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
+import { RewardShape } from "@/types/rewards";
 import { NotificationEnum } from "@/types/telegram";
 import { getImgByReward } from "@/utils/rewards";
 
 import { ModalType } from "../../../../constants";
 
-import { ActivateAnimationController } from "./activate-animation-controller";
 import CellRenderer from "./cell-renderer";
+import { GlowAnimationController } from "./glow-animation-controller";
 
 type Props = {
   battlePassLevel: number;
@@ -35,10 +36,11 @@ type Props = {
   lastPaidReward: number;
   isPaid: boolean;
   item: BattlePassItem;
+  onGetReward: (reward: RewardShape) => void;
   openModal: (type: ModalType) => void;
 };
 
-const activateAnimationController = new ActivateAnimationController();
+const glowAnimationController = new GlowAnimationController();
 
 export const BattlePassCell: FunctionComponent<Props> = ({
   battlePassLevel,
@@ -47,6 +49,7 @@ export const BattlePassCell: FunctionComponent<Props> = ({
   lastPaidReward,
   isPaid,
   item,
+  onGetReward,
   openModal,
 }) => {
   const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
@@ -56,6 +59,7 @@ export const BattlePassCell: FunctionComponent<Props> = ({
   const { mutate: getBattlePassReward, isPending: isGettingBattlePassReward } =
     useGetBattlePassReward();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const glowRef = useRef<HTMLDivElement | null>(null);
 
   const isPremium = item.is_paid;
   const lastTakenReward = isPremium ? lastPaidReward : lastFreeReward;
@@ -66,7 +70,6 @@ export const BattlePassCell: FunctionComponent<Props> = ({
     ? getImgByReward(item.type, item.value, heroes)
     : undefined;
   const FxImage = isPremium ? LargeFx : SmallFx;
-  const [isGlowActive, setIsGlowActive] = useState(isCollectible);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -84,12 +87,18 @@ export const BattlePassCell: FunctionComponent<Props> = ({
   }, [isPremium, isTaken, isLocked, FxImage.src]);
 
   useEffect(() => {
-    if (isCollectible && !isGlowActive) {
-      activateAnimationController.addActivateAnimationListener(() => {
-        setIsGlowActive(true);
-      });
+    const glowElement = glowRef.current;
+
+    if (isCollectible && glowElement) {
+      glowAnimationController.addGlowElement(glowElement);
     }
-  }, [isCollectible, isGlowActive]);
+
+    return () => {
+      if (isCollectible && glowElement) {
+        glowAnimationController.removeGlowElement(glowElement);
+      }
+    };
+  }, [isCollectible]);
 
   const onCollectItem = () => {
     if (isTaken) {
@@ -111,15 +120,15 @@ export const BattlePassCell: FunctionComponent<Props> = ({
     getBattlePassReward(
       { level: renderLevel, isPaid: isPremium },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
+          onGetReward(response);
           refetchBattlePass();
-          toast(<Toast type="done" text={`You've taken Battle Pass reward`} />);
         },
         onError: (error) => {
           toast(
             <Toast
               type="destructive"
-              text={`Taking Battle Pass reward has failed: ${error.message}`}
+              text={`Obtaining Battle Pass reward has failed: ${error.message}`}
             />,
           );
         },
@@ -130,17 +139,17 @@ export const BattlePassCell: FunctionComponent<Props> = ({
   return (
     <div className="relative" onClick={onCollectItem}>
       <canvas className="h-30 w-full" ref={canvasRef} />
-      {isCollectible && isGlowActive && (
+      {isCollectible && (
         <div className="absolute inset-0 overflow-hidden">
           <div
+            ref={glowRef}
             className={classNames(
-              "absolute inset-0 mx-0 my-auto h-60 w-full origin-left animate-bp-glow-running bg-[length:64px] bg-no-repeat blur-[10px] will-change-transform",
+              "rotate-z-[15deg] absolute inset-0 mx-0 my-auto h-60 w-full origin-left -translate-x-[120%] bg-[length:64px] bg-no-repeat blur-[10px] will-change-transform",
               {
                 "bg-bp-premium-glow-pattern": isPremium,
                 "bg-bp-regular-glow-pattern": !isPremium,
               },
             )}
-            onAnimationIteration={activateAnimationController.activateAnimation}
           />
         </div>
       )}

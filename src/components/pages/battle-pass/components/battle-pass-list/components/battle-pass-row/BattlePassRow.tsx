@@ -4,6 +4,7 @@ import {
   useGetBattlePass,
   useGetBattlePassConfig,
 } from "@/services/battle-pass/queries";
+import { RewardShape } from "@/types/rewards";
 
 import { ModalType } from "../../constants";
 
@@ -12,11 +13,13 @@ import { Star } from "./components/star/Star";
 
 type Props = {
   renderLevel: number;
+  onGetReward: (reward: RewardShape) => void;
   openModal: (type: ModalType) => void;
 };
 
 export const BattlePassRow: FunctionComponent<Props> = ({
   renderLevel,
+  onGetReward,
   openModal,
 }) => {
   const { data: battlePassInfo } = useGetBattlePass();
@@ -36,6 +39,7 @@ export const BattlePassRow: FunctionComponent<Props> = ({
         lastPaidReward={battlePassInfo.last_paid_reward}
         isPaid={battlePassInfo.is_paid}
         item={free[renderLevel]}
+        onGetReward={onGetReward}
         openModal={openModal}
       />
       <BattlePassCell
@@ -45,6 +49,7 @@ export const BattlePassRow: FunctionComponent<Props> = ({
         lastPaidReward={battlePassInfo.last_paid_reward}
         isPaid={battlePassInfo.is_paid}
         item={paid[renderLevel]}
+        onGetReward={onGetReward}
         openModal={openModal}
       />
       {currentLevel === renderLevel ? (

@@ -8,6 +8,9 @@ import EpicCards from "@/public/assets/png/battle-pass/epic-cards.webp";
 import EpicChest from "@/public/assets/png/battle-pass/epic-chest.webp";
 import FriendsBucket from "@/public/assets/png/battle-pass/friends-bucket.webp";
 import MegaChest from "@/public/assets/png/battle-pass/mega-chest.webp";
+import Offline6 from "@/public/assets/png/battle-pass/offline6.png";
+import Offline12 from "@/public/assets/png/battle-pass/offline12.png";
+import Offline24 from "@/public/assets/png/battle-pass/offline24.png";
 import RareCards from "@/public/assets/png/battle-pass/rare-cards.webp";
 import StartChest from "@/public/assets/png/battle-pass/start-chest.webp";
 import {
@@ -32,20 +35,23 @@ export const getImgByReward = (
 
       return StartChest;
     }
-    case Reward.FRIENDS: {
+    case Reward.FRIENDS:
       return FriendsBucket;
-    }
     case Reward.STARS:
-    case Reward.COINS: {
+    case Reward.COINS:
       return Bucket;
-    }
     case Reward.BUSTER:
-    case Reward.OFFLINE: {
       return Booster;
+    case Reward.OFFLINE: {
+      if (value === 6) {
+        return Offline6;
+      } else if (value === 24) {
+        return Offline24;
+      }
+      return Offline12;
     }
-    case Reward.GAME_ENERGY: {
+    case Reward.GAME_ENERGY:
       return EnergyBucket;
-    }
     case Reward.CLOTH: {
       if (value === HeroRarity.RARE) {
         return RareCards;
@@ -69,8 +75,7 @@ export const getImgByReward = (
 
       return CommonCards;
     }
-    default: {
+    default:
       return StartChest;
-    }
   }
 };
