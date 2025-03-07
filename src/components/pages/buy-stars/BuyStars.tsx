@@ -45,7 +45,7 @@ export const BuyStars = () => {
     <PageWrapper isLoading={isLoadingShop} disableSafeAreaInset>
       <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
         <div
-          className="flex flex-col items-center px-4"
+          className="flex flex-col items-center bg-blue-800 px-4"
           style={{ paddingTop: `${calculatedPaddingTop}px` }}
         >
           <h2 className="text-stroke-1 mb-6 text-center text-lg font-extrabold tracking-wide text-white text-shadow-sm">
