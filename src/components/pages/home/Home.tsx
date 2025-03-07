@@ -49,9 +49,11 @@ interface ClickEffect {
 export const Home = () => {
   const queryClient = useQueryClient();
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
-  const { data: battlePass } = useGetBattlePass();
+  const { data: battlePass, isSuccess: isBattlePassSuccess } =
+    useGetBattlePass();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
+  const [battlePassExp, setBattlePassExp] = useState(0);
   const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
   const timeoutRefs = useRef<{ [key: number]: NodeJS.Timeout }>({});
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
@@ -68,16 +70,17 @@ export const Home = () => {
   );
   const { mutate: setClicker } = useClicker();
   const clickCountRef = useRef(0);
-  const [battlePassExp, setBattlePassExp] = useState(
-    battlePass?.current_exp ?? 0,
-  );
+  const bufferedClickCountRef = useRef(0);
+  const lastClickTimeRef = useRef<number>(0);
 
   const throttledSetClicker = useRef(
     throttle(() => {
       const clicks = clickCountRef.current;
+
       if (clicks > 0) {
         const unixTimeInSeconds = Math.floor(Date.now() / 1000);
         const token = Cookies.get(AUTH_COOKIE_TOKEN) || "";
+        bufferedClickCountRef.current += clicks;
 
         setClicker(
           {
@@ -87,7 +90,8 @@ export const Home = () => {
           },
           {
             onSuccess: () => {
-              clickCountRef.current = 0;
+              clickCountRef.current -= bufferedClickCountRef.current;
+              bufferedClickCountRef.current = 0;
             },
             onError: (error) => {
               toast.error(error.message);
@@ -112,7 +116,7 @@ export const Home = () => {
       if (battlePassExp === battlePass?.need_exp) {
         invalidateBattlePassQuery(queryClient);
       } else {
-        setBattlePassExp((prevExp) => prevExp + 1);
+        setBattlePassExp((prev) => prev + 1);
       }
 
       timeoutRefs.current[id] = setTimeout(() => {
@@ -136,9 +140,33 @@ export const Home = () => {
 
       clickCountRef.current += 1;
       throttledSetClicker();
+
+      lastClickTimeRef.current = Date.now();
     },
     [energy, profile?.reward_per_tap, battlePass],
   );
+
+  useEffect(() => {
+    if (isBattlePassSuccess && battlePass) {
+      setBattlePassExp(battlePass.current_exp);
+    }
+  }, [isBattlePassSuccess, battlePass]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const timeSinceLastClick = Date.now() - lastClickTimeRef.current;
+
+      if (timeSinceLastClick >= 3000) {
+        invalidateProfileQuery(queryClient).then(() => {
+          if (profile) {
+            setEnergy(profile.energy);
+          }
+        });
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [queryClient, profile]);
 
   useEffect(() => {
     const offlineBonusClaimed = Cookies.get("offlineBonusClaimed");
@@ -147,18 +175,6 @@ export const Home = () => {
       setIsModalOpen(true);
     }
   }, [offlineBonus, isClaimed]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      invalidateProfileQuery(queryClient).then(() => {
-        if (profile) {
-          setEnergy(profile.energy);
-        }
-      });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [queryClient, profile]);
 
   if (!webApp || !profile || !allAppsHeroes || !battlePass) return null;
 
