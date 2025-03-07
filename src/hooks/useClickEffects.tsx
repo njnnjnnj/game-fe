@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 
 import { invalidateBattlePassQuery } from "@/services/battle-pass/queries";
 import { BattlePassInfo } from "@/services/battle-pass/types";
-import { QueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ClickEffect {
   id: number;
@@ -12,17 +12,15 @@ interface ClickEffect {
 
 export const useClickEffects = (
   battlePass: BattlePassInfo,
-  queryClient: QueryClient,
+  battlePassExp: number,
+  setBattlePassExp: Dispatch<SetStateAction<number>>,
 ) => {
   const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
   const timeoutRefs = useRef<{ [key: number]: NodeJS.Timeout }>({});
+  const queryClient = useQueryClient();
 
-  const handleClickEffect = useCallback(
-    (
-      event: React.MouseEvent<HTMLButtonElement>,
-      battlePassExp: number,
-      setBattlePassExp: Dispatch<SetStateAction<number>>,
-    ) => {
+  const handlePlusEvent = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
       const { clientX, clientY, currentTarget } = event;
       const rect = currentTarget.getBoundingClientRect();
       const x = clientX - rect.left;
@@ -42,8 +40,8 @@ export const useClickEffects = (
         delete timeoutRefs.current[id];
       }, 1000);
     },
-    [battlePass, queryClient],
+    [battlePass, battlePassExp, queryClient],
   );
 
-  return { clickEffects, handleClickEffect };
+  return { clickEffects, handlePlusEvent };
 };

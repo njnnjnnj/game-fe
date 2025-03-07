@@ -6,21 +6,18 @@ import Image from "next/image";
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
-import throttle from "lodash.throttle";
 import { toast } from "sonner";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
-import { AUTH_COOKIE_TOKEN } from "@/constants/api";
 import { useTelegram } from "@/context";
-import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useClickEffects } from "@/hooks/useClickEffects";
+import { useThrottledClicker } from "@/hooks/useThrottledClicker";
 import MainImage from "@/public/assets/png/main-bg.webp";
-import {
-  invalidateBattlePassQuery,
-  useGetBattlePass,
-} from "@/services/battle-pass/queries";
+import { useGetBattlePass } from "@/services/battle-pass/queries";
+import { BattlePassInfo } from "@/services/battle-pass/types";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
 import {
   invalidateOfflineBonusQuery,
@@ -28,7 +25,7 @@ import {
   useGetOfflineBonus,
 } from "@/services/offline-bonus/queries";
 import { OfflineBonus } from "@/services/offline-bonus/types";
-import { invalidateProfileQuery, useClicker } from "@/services/profile/queries";
+import { useGetProfile } from "@/services/profile/queries";
 import { useGetShop } from "@/services/shop/queries";
 import { ShopItemTypeEnum } from "@/services/shop/types";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
@@ -40,26 +37,18 @@ import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonus
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 import { SideLink } from "./components/side-link/SideLink";
 
-interface ClickEffect {
-  id: number;
-  x: number;
-  y: number;
-}
-
 export const Home = () => {
   const queryClient = useQueryClient();
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
+  const { refetch } = useGetProfile();
   const { data: battlePass, isSuccess: isBattlePassSuccess } =
     useGetBattlePass();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
   const [battlePassExp, setBattlePassExp] = useState(0);
-  const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
-  const timeoutRefs = useRef<{ [key: number]: NodeJS.Timeout }>({});
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const { webApp, profile } = useTelegram();
-  const { handleSelectionChanged } = useHapticFeedback();
   const initialEnergy = profile?.energy ?? 0;
   const [energy, setEnergy] = useState(initialEnergy);
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
@@ -68,64 +57,15 @@ export const Home = () => {
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
     [data],
   );
-  const { mutate: setClicker } = useClicker();
-  const clickCountRef = useRef(0);
-  const bufferedClickCountRef = useRef(0);
+
+  const { registerClick } = useThrottledClicker();
+  const { clickEffects, handlePlusEvent: handleBattlePassPlusEvent } =
+    useClickEffects(
+      battlePass ?? ({} as BattlePassInfo),
+      battlePassExp,
+      setBattlePassExp,
+    );
   const lastClickTimeRef = useRef<number>(0);
-
-  const throttledSetClicker = useRef(
-    throttle(() => {
-      const clicks = clickCountRef.current;
-
-      if (clicks > 0) {
-        const unixTimeInSeconds = Math.floor(Date.now() / 1000);
-        const token = Cookies.get(AUTH_COOKIE_TOKEN) || "";
-        bufferedClickCountRef.current += clicks;
-
-        setClicker(
-          {
-            debouncedClickCount: clicks,
-            unixTimeInSeconds,
-            token,
-          },
-          {
-            onSuccess: () => {
-              clickCountRef.current -= bufferedClickCountRef.current;
-              bufferedClickCountRef.current = 0;
-            },
-            onError: (error) => {
-              toast.error(error.message);
-            },
-          },
-        );
-      }
-    }, 3000),
-  ).current;
-
-  const handlePlusEvent = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      handleSelectionChanged();
-      const { clientX, clientY, currentTarget } = event;
-      const rect = currentTarget.getBoundingClientRect();
-      const x = clientX - rect.left;
-      const y = clientY - rect.top;
-      const id = Date.now();
-
-      setClickEffects((prev) => [...prev, { id, x, y }]);
-
-      if (battlePassExp === battlePass?.need_exp) {
-        invalidateBattlePassQuery(queryClient);
-      } else {
-        setBattlePassExp((prev) => prev + 1);
-      }
-
-      timeoutRefs.current[id] = setTimeout(() => {
-        setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
-        delete timeoutRefs.current[id];
-      }, 1000);
-    },
-    [battlePass, battlePassExp],
-  );
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -136,10 +76,9 @@ export const Home = () => {
         (prevBalance) => prevBalance + (profile?.reward_per_tap ?? 1),
       );
 
-      handlePlusEvent(event);
+      handleBattlePassPlusEvent(event);
 
-      clickCountRef.current += 1;
-      throttledSetClicker();
+      registerClick();
 
       lastClickTimeRef.current = Date.now();
     },
@@ -157,9 +96,9 @@ export const Home = () => {
       const timeSinceLastClick = Date.now() - lastClickTimeRef.current;
 
       if (timeSinceLastClick >= 3000) {
-        invalidateProfileQuery(queryClient).then(() => {
-          if (profile) {
-            setEnergy(profile.energy);
+        refetch().then(({ data }) => {
+          if (data) {
+            setEnergy(data.energy);
           }
         });
       }
