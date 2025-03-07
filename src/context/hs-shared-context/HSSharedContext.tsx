@@ -82,6 +82,7 @@ const toSelectedHero = (
   rarity: config.rarity,
   price: config.price,
   currency: config.currency,
+  gender: config.gender,
   auto: 0,
   background: 0,
   cloth: selectedCloth,

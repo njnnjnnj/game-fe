@@ -47,6 +47,11 @@ export enum HeroRarity {
   EPIC = "epic",
 }
 
+export enum HeroGender {
+  FEMALE = "female",
+  MALE = "male"
+}
+
 export enum HeroCurrency {
   STARS = "stars",
   COINS = "coins",
@@ -76,6 +81,7 @@ export interface ISelectedHero extends IHeroIdentity, IHeroStats {
   price: number;
   currency: HeroCurrency;
   cloth: SelectedCloth;
+  gender: HeroGender;
 }
 
 export interface IHeroInfo extends IHeroEquipment, IHeroStats {
@@ -97,6 +103,7 @@ export interface IHeroConfig extends IHeroStats {
   level_for_open: number;
   price: number;
   rarity: HeroRarity;
+  gender: HeroGender;
 }
 
 export interface IHeroConfigWithId extends IHeroConfig {

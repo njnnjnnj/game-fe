@@ -6,4 +6,5 @@ export * from "./page-wrapper/PageWrapper";
 export * from "./profile-header/ProfileHeader";
 export * from "./side-link/SideLink";
 export * from "./spinner/Spinner";
+export * from "./splash-screen/SplashScreen";
 export * from "./timeline/Timeline";
