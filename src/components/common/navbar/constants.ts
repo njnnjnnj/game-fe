@@ -1,9 +1,9 @@
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
-import AssignmentsImage from "@/public/assets/png/home/assignments.png";
-import HeroesImage from "@/public/assets/png/home/heroes.png";
-import MapImage from "@/public/assets/png/home/map.png";
-import ShopImage from "@/public/assets/png/home/shop.png";
+import AssignmentsImage from "@/public/assets/png/home/assignments.webp";
+import HeroesImage from "@/public/assets/png/home/heroes.webp";
+import MapImage from "@/public/assets/png/home/map.webp";
+import ShopImage from "@/public/assets/png/home/shop.webp";
 
 export const NAVBAR_ITEMS = [
   {

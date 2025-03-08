@@ -7,7 +7,7 @@ import classNames from "classnames";
 
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
-import AssignmentsImage from "@/public/assets/png/home/assignments.png";
+import AssignmentsImage from "@/public/assets/png/home/assignments.webp";
 import LigtningSvg from "@/public/assets/png/side-link-bg.webp";
 
 type Props = {

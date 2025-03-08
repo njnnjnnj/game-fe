@@ -27,7 +27,7 @@ export const HeroesProfile = () => {
   const queryClient = useQueryClient();
 
   const { selection, currentHero } = useContext(HSSharedContext);
-  const { data: ownHeroes, isPending: isOwnHeroesPending } = useGetAllHeroes();
+  const { data: ownHeroes } = useGetAllHeroes();
   const { mutate: setProfileHero, isPending: isSettingProfileHero } =
     useSetHero(
       () => {
@@ -111,8 +111,7 @@ export const HeroesProfile = () => {
         )
       }
       HeroStatsNode={
-        selection?.hero &&
-        !isOwnHeroesPending && (
+        selection?.hero && (
           <HeroStats
             heroId={selection.hero.characterId}
             heroRarity={selection.hero.rarity}

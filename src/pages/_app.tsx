@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 
-import { SplashScreen } from '@/components/common';
+// import { SplashScreen } from "@/components/common";
 import { Navbar } from "@/components/common/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { SettingsProvider } from "@/context";
@@ -49,10 +49,8 @@ export default function App({ Component, pageProps }: AppProps) {
                 <div
                   className={`flex min-h-screen flex-col items-center justify-center font-[family-name:var(--font-rubik)]`}
                 >
-                  <SplashScreen>
-                    <Component {...pageProps} />
-                    <Navbar />
-                  </SplashScreen>
+                  <Component {...pageProps} />
+                  <Navbar />
                   <SpeedInsights />
                   <Toaster />
                   {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA && (
