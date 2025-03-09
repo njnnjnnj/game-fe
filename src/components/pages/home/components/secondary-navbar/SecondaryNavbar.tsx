@@ -8,6 +8,7 @@ import classNames from "classnames";
 import { LevelBadge } from "@/components/pages/battle-pass/components/level-badge/LevelBadge";
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import SlotsSVG from "@/public/assets/svg/slots.svg";
 import { formatValue } from "@/utils/lib/utils";
 
@@ -24,10 +25,15 @@ export const SecondaryNavbar: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations(NS.PAGES.HOME.ROOT);
   const progress = ((Number(currentExp) / Number(needExp)) * 100).toFixed(0);
+  const { handleSelectionChanged } = useHapticFeedback();
 
   return (
     <div className="relative z-30 grid w-full grid-cols-[1fr_175px] gap-2">
-      <Link href={ROUTES.BATTLE_PASS} className="relative h-full w-full">
+      <Link
+        href={ROUTES.BATTLE_PASS}
+        className="relative h-full w-full"
+        onClick={() => handleSelectionChanged()}
+      >
         <div className="text-stroke-1 bg absolute -top-7 left-[1px] rounded-t-[8px] bg-[#0A4CDE] px-[14px] pb-5 pt-1.5 text-sm font-black text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.3)] text-shadow-sm">
           Battle Pass
         </div>
@@ -63,7 +69,11 @@ export const SecondaryNavbar: FunctionComponent<Props> = ({
           </div>
         </button>
       </Link>
-      <Link href={ROUTES.SLOT_MACHINE} className="h-full w-full">
+      <Link
+        href={ROUTES.SLOT_MACHINE}
+        className="h-full w-full"
+        onClick={() => handleSelectionChanged()}
+      >
         <button className="text-stroke-1 relative flex w-full items-center gap-2 rounded-xl border border-solid border-black bg-[#0932A4] pb-1 font-black text-white transition-all text-shadow-sm active:scale-[0.98]">
           <div className="flex w-full justify-end rounded-xl bg-home-buttons-pattern px-4 py-[15px] shadow-[inset_0px_-2px_4px_rgba(4,160,245,0.6),inset_0px_-1px_0px_rgba(4,160,245,0.8)]">
             <SlotsSVG className="absolute -top-2 left-2" />

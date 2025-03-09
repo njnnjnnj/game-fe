@@ -152,6 +152,7 @@
   },
   "REWARDS": {
     "GET_REWARDS": "Получить награды",
+    "COMBO": "Комбо",
     "TABS": {
       "EARNINGS": "Заработок",
       "REWARDS": "Награды",
@@ -425,7 +426,7 @@
   },
   "REWARDS_SCREEN": {
     "CHEST_SCENE": {
-      "TITLE": "Нажми на меня!"  
+      "TITLE": "Нажми на меня!"
     },
     "BUCKET_SCENE": {
       "CARD_TITLE": "{type, select, coins {Ведро монет} stars {Ведро звезд} buster {Бустер} friends {Ведро друзей} offline {Бустер} game_energy {Ведро энергии} other {Ресурс}}",

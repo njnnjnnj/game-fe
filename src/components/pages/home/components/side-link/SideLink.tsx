@@ -1,25 +1,32 @@
 import React from "react";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
 
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
+import { NS } from "@/constants/ns";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import AssignmentsImage from "@/public/assets/png/home/assignments.png";
-import LigtningSvg from "@/public/assets/png/side-link-bg.webp";
+import LightningSvg from "@/public/assets/png/side-link-bg.webp";
 
 export const SideLink = () => {
+  const { handleSelectionChanged } = useHapticFeedback();
+  const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
+
   return (
     <div
       className={classNames(
         "outline-solid relative h-[66px] w-16 rounded-full bg-[#E88C0E] pb-0.5 outline outline-1 outline-[#422212] drop-shadow-side-link active:scale-[0.98]",
       )}
+      onClick={() => handleSelectionChanged()}
     >
       <div className="relative flex h-full w-full items-center justify-center rounded-full bg-[#FFCE08] p-1.5 shadow-[inset_0_-1px_0_rgba(255,255,255,0.4)]">
         <div className="flex h-full w-full items-center justify-center rounded-full bg-[#E88C0E] shadow-[inset_0_1px_0_rgba(0,0,0,0.2)] drop-shadow-inner-side-link">
           <Image
-            className="animate-spin-slow absolute z-50 !size-[90px] !max-w-[90px]"
-            src={LigtningSvg}
+            className="absolute z-50 !size-[90px] !max-w-[90px] animate-spin-slow"
+            src={LightningSvg}
             width={90}
             height={90}
             alt="side-bar-link"
@@ -34,7 +41,9 @@ export const SideLink = () => {
           innerClassname="!rounded-[4px] !p-0.5"
           className="text-x tracking-tighter"
         >
-          Забрать
+          {t(
+            `${NS.PAGES.BATTLE_PASS.BUTTONS.ROOT}.${NS.PAGES.BATTLE_PASS.BUTTONS.COLLECT}`,
+          )}
         </PrimaryButton>
       </div>
     </div>

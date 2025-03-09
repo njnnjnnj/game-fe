@@ -152,6 +152,7 @@
   },
   "REWARDS": {
     "GET_REWARDS": "Get Rewards",
+    "COMBO": "Combo",
     "TABS": {
       "EARNINGS": "Earnings",
       "REWARDS": "Rewards",
@@ -425,7 +426,7 @@
   },
   "REWARDS_SCREEN": {
     "CHEST_SCENE": {
-      "TITLE": "Hit me!"  
+      "TITLE": "Hit me!"
     },
     "BUCKET_SCENE": {
       "CARD_TITLE": "{type, select, coins {Coins bucket} stars {Stars bucket} buster {Booster} friends {Friends bucket} offline {Booster} game_energy {Energy bucket} other {Resource}}",

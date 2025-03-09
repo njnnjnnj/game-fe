@@ -12,7 +12,7 @@ import { Drawer } from "@/components/ui/drawer";
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
 import { useTelegram } from "@/context";
-import FrindsSvg from "@/public/assets/svg/friends-coin.svg";
+import FriendsSvg from "@/public/assets/svg/friends-coin.svg";
 import HaveBPSvg from "@/public/assets/svg/have-battle-pass.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { ShopItem } from "@/services/shop/types";
@@ -168,7 +168,7 @@ export const ProfileHeader: FunctionComponent<Props> = ({
               )
             }
             imageNode={
-              <FrindsSvg className="col-span-1 row-span-2 size-8 object-contain" />
+              <FriendsSvg className="col-span-1 row-span-2 size-8 object-contain" />
             }
             onClick={() => setIsModalOpen(true)}
           />

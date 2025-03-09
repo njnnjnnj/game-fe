@@ -70,7 +70,7 @@ export const BoosterCard: FunctionComponent<Props> = ({
             </div>
           </div>
         </div>
-        <div className="pointer-events-auto w-[122px]">
+        <div className="pointer-events-auto w-26">
           <PrimaryButton
             onClick={onUpgrade}
             disabled={isDisabled}

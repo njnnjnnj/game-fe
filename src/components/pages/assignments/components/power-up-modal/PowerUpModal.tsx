@@ -12,7 +12,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import BackgroundImage from "@/public/assets/png/assignments/specail.png";
+import BackgroundImage from "@/public/assets/png/shop/beast.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 

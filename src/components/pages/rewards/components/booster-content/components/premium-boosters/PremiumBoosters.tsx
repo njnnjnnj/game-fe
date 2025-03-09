@@ -201,7 +201,7 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
               </div>
             </div>
           </div>
-          <div className="pointer-events-auto w-[122px]">
+          <div className="pointer-events-auto w-26">
             <PrimaryButton
               onClick={handleUseBooster}
               size="small"

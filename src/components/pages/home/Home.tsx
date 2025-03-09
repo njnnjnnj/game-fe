@@ -14,6 +14,7 @@ import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { useTelegram } from "@/context";
 import { useClickEffects } from "@/hooks/useClickEffects";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useThrottledClicker } from "@/hooks/useThrottledClicker";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import { useGetBattlePass } from "@/services/battle-pass/queries";
@@ -41,6 +42,7 @@ export const Home = () => {
   const queryClient = useQueryClient();
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { refetch } = useGetProfile();
+  const { handleSelectionChanged } = useHapticFeedback();
   const { data: battlePass, isSuccess: isBattlePassSuccess } =
     useGetBattlePass();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,6 +72,7 @@ export const Home = () => {
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       if (energy < (profile?.reward_per_tap ?? 1)) return;
+      handleSelectionChanged();
 
       setEnergy((prev) => prev - (profile?.reward_per_tap ?? 1));
       setProfileBalance(

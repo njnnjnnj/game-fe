@@ -1,7 +1,10 @@
 import React, { FunctionComponent } from "react";
 
+import { useTranslations } from "next-intl";
+
 import classNames from "classnames";
 
+import { NS } from "@/constants/ns";
 import LockSvg from "@/public/assets/svg/lock.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { DataStructure } from "@/services/rewards/types";
@@ -13,15 +16,17 @@ type Props = {
 };
 
 export const Combo: FunctionComponent<Props> = ({ cards }) => {
+  const t = useTranslations(NS.PAGES.REWARDS.ROOT);
+
   return (
     <div
       className={classNames(
-        "relative mb-4 flex w-full flex-col items-center justify-between gap-2 rounded-2xl bg-blue-700 p-3 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]",
+        "relative mb-4 flex w-full flex-col items-center justify-between gap-3 rounded-2xl bg-blue-700 p-3 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]",
       )}
     >
-      <div className="combo-border-radius relative w-full bg-white/5 p-3">
+      <div className="combo-border-radius relative w-full bg-white/5 px-3 py-2">
         <span className="text-stroke-1 text-sm font-black leading-none tracking-[0.04em] text-white text-shadow-sm">
-          Комбо
+          {t(NS.PAGES.REWARDS.COMBO)}
         </span>
         <button
           className={classNames(
@@ -29,7 +34,7 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
             "transition-all duration-500 ease-in-out active:scale-95",
           )}
         >
-          <div className="flex h-full w-full items-center rounded-full bg-[#0075FF] px-4 py-2 shadow-inset-btn">
+          <div className="flex h-full w-full items-center rounded-full bg-[#0075FF] px-4 py-1.5 shadow-inset-btn">
             <div className="text-stroke-half grid grid-cols-[16px_1fr] items-center gap-1 text-xs font-extrabold text-white text-shadow-sm">
               <StarSVG className="size-4" />+{formatNumber(3000000)}
             </div>

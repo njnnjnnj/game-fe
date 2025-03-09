@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import classNames from "classnames";
 
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import EnergySvg from "@/public/assets/svg/energy.svg";
 import { calculateProgress } from "@/utils/progress";
 
@@ -11,11 +12,14 @@ type Props = {
 };
 
 export const EnergyBar: FunctionComponent<Props> = ({ energy, max_energy }) => {
+  const { handleSelectionChanged } = useHapticFeedback();
+
   return (
     <div
       className={classNames(
         "relative mb-[14px] ml-auto flex h-7 w-40 items-center rounded-r-[10px] bg-black/50 p-[3px] pl-3",
       )}
+      onClick={() => handleSelectionChanged()}
     >
       <EnergySvg className="absolute -left-6 z-40" />
       <div
