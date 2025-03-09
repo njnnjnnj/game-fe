@@ -164,7 +164,7 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="pointer-events-auto w-[122px]">
+            <div className="pointer-events-auto w-26">
               <PrimaryButton
                 onClick={(e) =>
                   handleUseBoosterMutation(e, UpgradeBoosterType.CAPACITY)
@@ -229,7 +229,7 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="pointer-events-auto w-[122px]">
+            <div className="pointer-events-auto w-26">
               <PrimaryButton
                 onClick={(e) =>
                   handleUseBoosterMutation(e, UpgradeBoosterType.RECOVERY)

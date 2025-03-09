@@ -153,6 +153,7 @@
   },
   "REWARDS": {
     "GET_REWARDS": "Получить награды",
+    "COMBO": "Комбо",
     "TABS": {
       "EARNINGS": "Заработок",
       "REWARDS": "Награды",

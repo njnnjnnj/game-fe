@@ -173,6 +173,7 @@ export const NS = {
         SALE: "SALE",
         FRIENDS: "FRIENDS",
         BOUGHT_SUCCESSFULLY: "BOUGHT_SUCCESSFULLY",
+        BUY_FRIENDS: "BUY_FRIENDS",
       },
       ERRORS: {
         ROOT: "ERRORS",
@@ -182,6 +183,7 @@ export const NS = {
     REWARDS: {
       ROOT: "REWARDS",
       GET_REWARDS: "GET_REWARDS",
+      COMBO: "COMBO",
       TABS: {
         ROOT: "TABS",
         EARNINGS: "EARNINGS",

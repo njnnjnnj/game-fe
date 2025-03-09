@@ -36,7 +36,7 @@ export const Events: FunctionComponent<Props> = ({
   return (
     <div className="flex flex-col gap-4">
       <div className="text-stroke-1 text-nowrap text-2xl font-black tracking-[0.04em] text-white text-shadow-sm">
-        Мероприятия
+        {t(`${NS.PAGES.REWARDS.EVENTS.ROOT}.${NS.PAGES.REWARDS.EVENTS.TITLE}`)}
       </div>
       <div className="grid gap-3">
         {appsCards.map(
@@ -89,7 +89,7 @@ export const Events: FunctionComponent<Props> = ({
                     </span>
                   </div>
                 ) : (
-                  <div className="pointer-events-auto w-[122px]">
+                  <div className="pointer-events-auto w-26">
                     <PrimaryButton
                       isLoading={isPending}
                       size="small"

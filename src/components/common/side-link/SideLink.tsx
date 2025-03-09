@@ -7,14 +7,16 @@ import classNames from "classnames";
 
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
-import AssignmentsImage from "@/public/assets/png/home/assignments.webp";
-import LigtningSvg from "@/public/assets/png/side-link-bg.webp";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import AssignmentsImage from "@/public/assets/png/home/assignments.png";
+import LightningSvg from "@/public/assets/png/side-link-bg.webp";
 
 type Props = {
   isFullSize?: boolean;
 };
 
 export const SideLink: FunctionComponent<Props> = ({ isFullSize }) => {
+  const { handleSelectionChanged } = useHapticFeedback();
   const t = useTranslations(NS.COMMON.ROOT);
 
   return (
@@ -26,13 +28,14 @@ export const SideLink: FunctionComponent<Props> = ({ isFullSize }) => {
           "w-full": isFullSize,
         },
       )}
+      onClick={() => handleSelectionChanged()}
     >
       <div className="relative flex h-full w-full items-center justify-center rounded-full bg-[#FFCE08] p-1.5 shadow-[inset_0_-1px_0_rgba(255,255,255,0.4)]">
         <div className="flex h-full w-full items-center justify-center rounded-full bg-[#E88C0E] shadow-[inset_0_1px_0_rgba(0,0,0,0.2)] drop-shadow-inner-side-link">
           <div className="relative size-full scale-[1.7]">
             <Image
               className="absolute z-50 animate-spin-slow"
-              src={LigtningSvg}
+              src={LightningSvg}
               fill
               sizes="90px"
               alt="side-bar-link"

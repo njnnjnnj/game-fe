@@ -149,7 +149,7 @@ export const EverydayBoosters: FunctionComponent<Props> = ({
             </div>
           </div>
         </div>
-        <div className="pointer-events-auto w-[122px]">
+        <div className="pointer-events-auto w-26">
           <PrimaryButton
             onClick={handleUseBoosterMutation}
             size="small"

@@ -153,6 +153,7 @@
   },
   "REWARDS": {
     "GET_REWARDS": "Get Rewards",
+    "COMBO": "Combo",
     "TABS": {
       "EARNINGS": "Earnings",
       "REWARDS": "Rewards",

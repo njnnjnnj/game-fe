@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import IncomeSvg from "@/public/assets/svg/income.svg";
 import StarSvg from "@/public/assets/svg/star.svg";
 import TapSvg from "@/public/assets/svg/tap.svg";
@@ -22,6 +23,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
   perTap,
 }) => {
   const t = useTranslations(NS.PAGES.HOME.ROOT);
+  const { handleSelectionChanged } = useHapticFeedback();
 
   return (
     <div className="relative z-20 pt-6">
@@ -35,6 +37,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
         <Link
           href={ROUTES.REWARDS}
           className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
+          onClick={() => handleSelectionChanged()}
         >
           <IncomeSvg />
           <span className="text-stroke-1 flex items-center gap-1 text-sm font-black leading-none text-white text-shadow-sm">
@@ -47,6 +50,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
         <Link
           href={ROUTES.SHOP_CLOTHES}
           className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
+          onClick={() => handleSelectionChanged()}
         >
           <TapSvg />
           <span className="text-stroke-1 flex items-center gap-1 text-sm font-black leading-none text-white text-shadow-sm">
