@@ -318,7 +318,7 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
                     "right-[7.6%]": i >= 2,
                   })}
                 >
-                  <SideLink isFullSize />
+                  <SideLink href="" isFullSize />
                 </div>
               ))}
             {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
