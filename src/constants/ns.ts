@@ -22,6 +22,7 @@ export const NS = {
     SALE: "SALE",
     STARS: "STARS",
     TAP_TO_CONTINUE: "TAP_TO_CONTINUE",
+    SIDE_LINK: "SIDE_LINK",
   },
   PAGES: {
     HOME: {

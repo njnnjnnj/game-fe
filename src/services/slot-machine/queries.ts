@@ -31,11 +31,12 @@ export const usePlayBanditJackpot = () =>
     mutationFn: playBanditJackpot,
   });
 
-export const useGetBandit = () =>
+export const useGetBandit = (enabled?: boolean) =>
   useQuery<BanditInfo>({
     queryKey: [QueryKeys.GET_BANDIT],
     queryFn: () => getBandit(),
     retry: false,
+    enabled,
     staleTime: 1000 * 60 * 5,
   });
 

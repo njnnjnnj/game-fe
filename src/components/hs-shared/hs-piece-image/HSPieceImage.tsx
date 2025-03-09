@@ -56,9 +56,13 @@ export const HSPieceImage: FunctionComponent<Props> = ({
         {...props}
         alt={props.alt} // to appease eslint
         src={img}
-        onError={() => {
+        onError={(e) => {
           if (!isHidden) {
             setIsHidden(true);
+          }
+
+          if (props.onError) {
+            props.onError(e);
           }
         }}
       />

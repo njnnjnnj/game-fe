@@ -105,17 +105,25 @@ export const BucketScene: FunctionComponent<Props> = ({
     null,
   );
 
-  const { data: profile } = useGetProfile();
-  const { data: banditInfo } = useGetBandit();
+  const isShowingBooster = type === "buster" || type === "offline";
+  const isShowingGameEnergy = type === "game_energy";
+
+  const { data: profile } = useGetProfile(!isShowingBooster);
+  const { data: banditInfo } = useGetBandit(isShowingGameEnergy);
   const [balance, setBalance] = useState(() => {
-    if (type === "game_energy") {
+    if (isShowingGameEnergy) {
       return banditInfo?.balance ?? 0;
-    } else if (type !== "buster" && type !== "offline") {
+    } else if (!isShowingBooster) {
       return profile?.[type] ?? 0;
     }
   });
 
-  const isShowingBooster = type === "buster" || type === "offline";
+  useEffect(() => {
+    // There are certain cases when Bandit Info doesn't have enough to to resolve
+    if (isShowingGameEnergy && banditInfo?.balance) {
+      setBalance(banditInfo?.balance);
+    }
+  }, [isShowingGameEnergy, banditInfo?.balance]);
 
   const clearTimers = () => {
     if (coinsAnimationTimerRef.current) {

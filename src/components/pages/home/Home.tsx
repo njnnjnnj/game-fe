@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 
-import { PageWrapper, ProfileHeader } from "@/components/common";
+import { PageWrapper, ProfileHeader, SideLink } from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
@@ -36,7 +36,6 @@ import { BalanceInfo } from "./components/balance-info/BalanceInfo";
 import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
-import { SideLink } from "./components/side-link/SideLink";
 
 export const Home = () => {
   const queryClient = useQueryClient();

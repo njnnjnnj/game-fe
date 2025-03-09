@@ -61,7 +61,7 @@ export const HeroStats: FunctionComponent<Props> = ({
 }) => {
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
   const tShop = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
-  const { data: heroes } = useGetAllAppsHeroes();
+  const { data: heroes, isPending: isHeroesDataPending } = useGetAllAppsHeroes();
 
   const renderCta = () => {
     let color: ComponentProps<typeof PrimaryButton>["color"];
@@ -191,6 +191,7 @@ export const HeroStats: FunctionComponent<Props> = ({
                   { num: formatValue(energy) },
                 )}
                 progress={calculateProgress(energy, MAX_ENERGY)}
+                isLoading={isHeroesDataPending}
               />
             </div>
             <div className="flex w-full items-center gap-x-2">
@@ -204,6 +205,7 @@ export const HeroStats: FunctionComponent<Props> = ({
                   { num: formatValue(earnPerHour) },
                 )}
                 progress={calculateProgress(earnPerHour, MAX_INCOME_PER_HOUR)}
+                isLoading={isHeroesDataPending}
               />
             </div>
             <div className="flex w-full items-center gap-x-2">
@@ -217,6 +219,7 @@ export const HeroStats: FunctionComponent<Props> = ({
                   { num: formatValue(earnPerTap) },
                 )}
                 progress={calculateProgress(earnPerTap, MAX_INCOME_PER_TAP)}
+                isLoading={isHeroesDataPending}
               />
             </div>
           </div>

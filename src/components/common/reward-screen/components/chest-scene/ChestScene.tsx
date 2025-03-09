@@ -9,6 +9,7 @@ import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import Dust from "@/public/assets/png/reward-screen/dust.webp";
+import EpicChestOpen from "@/public/assets/png/reward-screen/epic-chest-open.webp";
 import MegaChestOpen from "@/public/assets/png/reward-screen/mega-chest-open.webp";
 import StartChestOpen from "@/public/assets/png/reward-screen/start-chest-open.webp";
 import { ChestType } from "@/types/rewards";
@@ -17,6 +18,7 @@ import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { SceneIntrinsicProps } from "../../types";
 import { SceneFooter } from "../scene-footer/SceneFooter";
 
+import { EpicChest } from "./components/epic-chest/EpicChest";
 import { MegaChest } from "./components/mega-chest/MegaChest";
 import { StartChest } from "./components/start-chest/StartChest";
 
@@ -41,6 +43,17 @@ export const ChestScene: FunctionComponent<Props> = ({
   );
 
   const tgSafeInsetTop = webApp ? getTgSafeAreaInsetTop(webApp) : 0;
+
+  let Animation = StartChest;
+  let OpenImg = StartChestOpen;
+
+  if (type === ChestType.EPIC) {
+    Animation = EpicChest;
+    OpenImg = EpicChestOpen;
+  } else if (type === ChestType.MEGA) {
+    Animation = MegaChest;
+    OpenImg = MegaChestOpen;
+  }
 
   return (
     <div
@@ -79,7 +92,7 @@ export const ChestScene: FunctionComponent<Props> = ({
             },
           )}
         >
-          {type === ChestType.MEGA ? <MegaChest /> : <StartChest />}
+          <Animation />
         </div>
       </div>
 
@@ -90,12 +103,7 @@ export const ChestScene: FunctionComponent<Props> = ({
         )}
         onTransitionEnd={onFinishScene}
       >
-        <Image
-          src={type === ChestType.MEGA ? MegaChestOpen : StartChestOpen}
-          alt=""
-          quality={100}
-          fill
-        />
+        <Image src={OpenImg} alt="" quality={100} fill />
       </div>
       <div
         className={classNames(

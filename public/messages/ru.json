@@ -18,7 +18,8 @@
     "BUY": "Купить",
     "SALE": "-20%",
     "STARS": "{count} звезд",
-    "TAP_TO_CONTINUE": "Нажмите, чтобы продолжить"
+    "TAP_TO_CONTINUE": "Нажмите, чтобы продолжить",
+    "SIDE_LINK": "Забрать"
   },
   "HOME": {
     "SLOTS": "Рулетка",
@@ -429,7 +430,7 @@
       "TITLE": "Нажми на меня!"
     },
     "BUCKET_SCENE": {
-      "CARD_TITLE": "{type, select, coins {Ведро монет} stars {Ведро звезд} buster {Бустер} friends {Ведро друзей} offline {Бустер} game_energy {Ведро энергии} other {Ресурс}}",
+      "CARD_TITLE": "{type, select, coins {Ведро монет} stars {Ведро звезд} buster {Бустер} friends {Ведро друзей} offline {Оффлайн бонус} game_energy {Ведро энергии} other {Ресурс}}",
       "CARD_SUBTITLE": "Карта ресурса",
       "BALANCE_TITLE": "{type, select, coins {Сейчас монет} stars {Сейчас звезд} friends {Сейчас друзей} game_energy {Сейчас энергии} other {Баланс}}",
       "BOOSTER_DURATION": "{hours, plural, =24 {# часа} other {# часов}}"

@@ -10,6 +10,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { VariableSizeList } from "react-window";
 
 import { Drawer } from "@/components/ui/drawer";
+import { RewardShape } from "@/types/rewards";
 
 import { EnhanceBattlePassModal } from "../enhance-battle-pass-modal/EnhanceBattlePassModal";
 import { LevelupBattlePassModal } from "../levelup-battle-pass-modal/LevelupBattlePassModal";
@@ -27,11 +28,17 @@ import {
 
 let currentWidth = 0;
 
+type Props = {
+  onGetReward: (reward: RewardShape) => void;
+  onScroll: (e: Event) => void;
+};
+
 type RowProps = {
   index: number;
   style: CSSProperties;
   data: {
     openModal: (type: ModalType) => void;
+    onGetReward: Props['onGetReward'];
   };
 };
 
@@ -62,6 +69,7 @@ const Row = ({ index, style, data }: RowProps) => {
           key={`level-${renderLevel}`}
           renderLevel={renderLevel}
           openModal={data.openModal}
+          onGetReward={data.onGetReward}
         />
       ) : (
         <BattlePassListHeader
@@ -72,11 +80,7 @@ const Row = ({ index, style, data }: RowProps) => {
   );
 };
 
-type Props = {
-  onScroll: (e: Event) => void;
-};
-
-export const BattlePassList: FunctionComponent<Props> = ({ onScroll }) => {
+export const BattlePassList: FunctionComponent<Props> = ({ onGetReward, onScroll }) => {
   const [modalState, setModalState] = useState<ModalState>({
     type: ModalType.LEVEL_UP,
     isOpen: false,
@@ -120,7 +124,7 @@ export const BattlePassList: FunctionComponent<Props> = ({ onScroll }) => {
                 itemCount={BATTLE_PASS_ROWS_COUNT}
                 itemSize={getItemSize}
                 outerRef={listenToScroll}
-                itemData={{ openModal: setOpenModalType }}
+                itemData={{ openModal: setOpenModalType, onGetReward }}
               >
                 {Row}
               </VariableSizeList>
