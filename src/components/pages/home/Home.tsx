@@ -12,6 +12,7 @@ import { PageWrapper, ProfileHeader, SideLink } from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
+import { ROUTES } from "@/constants/routes";
 import { useTelegram } from "@/context";
 import { useClickEffects } from "@/hooks/useClickEffects";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
@@ -171,9 +172,9 @@ export const Home = () => {
           />
           <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
             <div className="absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
-              <SideLink />
-              <SideLink />
-              <SideLink />
+              <SideLink href="" />
+              <SideLink href="" />
+              <SideLink href="" />
             </div>
             <button
               onClick={handleClick}
@@ -203,9 +204,9 @@ export const Home = () => {
               </AnimatePresence>
             </button>
             <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
-              <SideLink />
-              <SideLink />
-              <SideLink />
+              <SideLink href={ROUTES.TOP_PLAYERS} />
+              <SideLink href={ROUTES.FRIENDS} />
+              <SideLink href="" />
             </div>
             <EnergyBar energy={energy} max_energy={profile.max_energy} />
             <SecondaryNavbar

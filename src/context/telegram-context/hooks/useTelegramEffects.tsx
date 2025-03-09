@@ -5,14 +5,13 @@ import { useRouter } from "next/router";
 
 import { ROUTES, ROUTES_WITH_CLOSE_BUTTON } from "@/constants/routes";
 import { IWebApp } from "@/types/telegram";
-import { getUserDeviceInfo } from "@/utils/lib/userDevice";
+// import { getUserDeviceInfo } from "@/utils/lib/userDevice";
 
 export const useTelegramEffects = (webApp: IWebApp, pathname: string) => {
   const { back: navigateBack } = useNextRouter();
   const { push } = useRouter();
 
-  const deviceInfo = getUserDeviceInfo();
-  console.log("🚀 ~ useTelegramEffects ~ deviceInfo:", deviceInfo);
+  // const deviceInfo = getUserDeviceInfo();
 
   useEffect(() => {
     if (!webApp) return;

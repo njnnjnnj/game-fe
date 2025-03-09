@@ -63,11 +63,15 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           className="z-20"
         />
       </div>
-      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase text-white text-shadow-sm">
-        Запас энергии
+      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase !text-white text-shadow-sm">
+        {t(
+          `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+        )}
       </DrawerTitle>
-      <DrawerDescription className="mb-6 text-sm font-medium tracking-wide text-white">
-        Увеличивает максимальный запас энергии
+      <DrawerDescription className="mb-6 text-sm font-medium tracking-wide !text-white">
+        {t(
+          `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.RECOVERY_ENERGY_DESCRIPTION}`,
+        )}
       </DrawerDescription>
       <div className="mb-6 flex w-full items-center justify-between px-3">
         {Array(11)
@@ -130,7 +134,9 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
             })}
           >
             <span className="text-xs font-medium tracking-wide text-gray-550">
-              Запас энергии
+              {t(
+                `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+              )}
             </span>
             <div className="flex items-center gap-2">
               <FriendsIcon className="size-5" />
@@ -152,7 +158,9 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
                 {+capacity?.level + 1} ур.
               </div>
               <span className="text-xs font-medium tracking-wide text-gray-550">
-                Запас энергии
+                {t(
+                  `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+                )}
               </span>
               <div className="flex items-center gap-2">
                 <FriendsIcon className="size-5" />

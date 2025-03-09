@@ -18,7 +18,6 @@ type Props = {
   children?: React.ReactNode;
   isAnimated?: boolean;
   caption?: string;
-  amount?: number;
   onClick?: () => void;
   isActive?: boolean;
 };
@@ -28,7 +27,6 @@ export const GetRewardCard: FunctionComponent<Props> = ({
   children,
   isAnimated,
   caption,
-  amount = 1,
   onClick,
   isActive,
 }) => {
@@ -125,11 +123,11 @@ export const GetRewardCard: FunctionComponent<Props> = ({
           {caption && (
             <div
               className={classNames(
-                "text-stroke-1 absolute left-1/2 top-[calc(50%_+_2px)] -translate-x-1/2 -translate-y-1/2 text-sm font-black text-white text-shadow-sm",
+                "text-stroke-1 absolute left-1/2 top-[calc(50%_+_2px)] -translate-x-1/2 -translate-y-1/2 text-nowrap text-xs font-black text-white text-shadow-sm",
                 "md:text-lg",
               )}
             >
-              {status === RewardsStatusEnum.UNAVAILABLE && amount} {caption}
+              {caption}
             </div>
           )}
         </div>
