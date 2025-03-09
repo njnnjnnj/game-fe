@@ -141,7 +141,7 @@ export const Shop = () => {
       overscrollBehaviour={OverscrollBehavior.NONE}
     >
       <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <div className="relative w-full">
+        <div className="relative w-full pb-23">
           <div className="pointer-events-none fixed inset-0 -z-[1] bg-[url('/assets/png/shop/bg.webp')] bg-[length:100%] bg-center-top bg-no-repeat" />
           <ProfileHeader className="my-5 w-full" />
           <div className="w-full px-4">

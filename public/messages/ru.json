@@ -154,6 +154,8 @@
   "REWARDS": {
     "GET_REWARDS": "Получить награды",
     "COMBO": "Комбо",
+    "COUNT": "{num} шт.",
+    "TIMER": "{time} ч.",
     "TABS": {
       "EARNINGS": "Заработок",
       "REWARDS": "Награды",
@@ -186,7 +188,8 @@
       "DEFAULT": {
         "TITLE": "Усилители",
         "ENERGY": "Запас энергии",
-        "RECOVERY_ENERGY": "Восстановление энергии"
+        "RECOVERY_ENERGY": "Восстановление энергии",
+        "RECOVERY_ENERGY_DESCRIPTION": "Увеличивает максимальный запас энергии"
       }
     },
     "EVENTS": {

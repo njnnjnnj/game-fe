@@ -7,6 +7,9 @@ import Coins3 from "@/public/assets/png/friends/buy-friends/coins-3.webp";
 import Coins4 from "@/public/assets/png/friends/buy-friends/coins-4.webp";
 import Coins5 from "@/public/assets/png/friends/buy-friends/coins-5.webp";
 import Coins6 from "@/public/assets/png/friends/buy-friends/coins-6.webp";
+import EnergySmallImage from "@/public/assets/png/shop/energy/1.webp";
+import EnergyHalfImage from "@/public/assets/png/shop/energy/2.webp";
+import EnergyFullImage from "@/public/assets/png/shop/energy/3.webp";
 import BuyStarsOneImage from "@/public/assets/png/shop/stars/1.webp";
 import BuyStarsTwoImage from "@/public/assets/png/shop/stars/2.webp";
 import BuyStarsThreeImage from "@/public/assets/png/shop/stars/3.webp";
@@ -64,9 +67,9 @@ export const STARS_CARDS = [
 ];
 
 export const AUTO_COLLECT_CARDS = [
-  { image: BuyStarsOneImage, buttonText: NS.COMMON.BUY },
-  { image: BuyStarsTwoImage, buttonText: NS.COMMON.BUY },
-  { image: BuyStarsThreeImage, buttonText: NS.COMMON.BUY },
+  { image: EnergySmallImage, buttonText: NS.COMMON.BUY },
+  { image: EnergyHalfImage, buttonText: NS.COMMON.BUY },
+  { image: EnergyFullImage, buttonText: NS.COMMON.BUY },
 ];
 
 export const MODAL_IMAGES_BY_SHOP_ITEM = [
