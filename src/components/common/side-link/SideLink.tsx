@@ -8,7 +8,7 @@ import classNames from "classnames";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import AssignmentsImage from "@/public/assets/png/home/assignments.png";
+import AssignmentsImage from "@/public/assets/png/home/assignments.webp";
 import LightningSvg from "@/public/assets/png/side-link-bg.webp";
 
 type Props = {
