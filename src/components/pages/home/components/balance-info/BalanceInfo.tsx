@@ -52,7 +52,7 @@ export const BalanceInfo: FunctionComponent<Props> = ({
           className="flex items-center justify-center gap-2 rounded-full bg-blue-700/30 p-1 pr-2"
           onClick={() => handleSelectionChanged()}
         >
-          <TapSvg />
+          <TapSvg className="size-4.5" />
           <span className="text-stroke-1 flex items-center gap-1 text-sm font-black leading-none text-white text-shadow-sm">
             {perTap ? formatNumber(perTap) : "0"}
             <span className="text-xs font-medium">

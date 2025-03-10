@@ -5,7 +5,7 @@ import { generateHmac } from "@/utils/lib/generateHmac";
 import {
   ClickerReqM,
   IProfile,
-  IReferals,
+  IReferrals,
   IStarsInfo,
   IWalletReqM,
 } from "./types";
@@ -16,7 +16,7 @@ export const getProfile = async (): Promise<IProfile> => {
   return data;
 };
 
-export const getReferalLink = async (): Promise<IReferals> => {
+export const getReferralLink = async (): Promise<IReferrals> => {
   const { data } = await apiClient.get(API_ENDPOINTS.GET.GET_REFERALS);
 
   return data;
@@ -48,6 +48,12 @@ export const setClicker = async (reqM: ClickerReqM): Promise<void> => {
   const { data } = await apiClient.post(API_ENDPOINTS.POST.CLICKER, {
     data: `${reqM.debouncedClickCount}:${reqM.unixTimeInSeconds}:${sha}`,
   });
+
+  return data;
+};
+
+export const getReferralEarn = async (): Promise<void> => {
+  const { data } = await apiClient.get(API_ENDPOINTS.GET.GET_REWARDS_EARN);
 
   return data;
 };

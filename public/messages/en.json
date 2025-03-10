@@ -139,6 +139,8 @@
     "GET_FRIENDS": "Buy Friends",
     "GET": "Get",
     "CAN_COLLECT": "Can Collect",
+    "SUCCESSFULLY_EARN": "Collection of awards completed successfully.",
+    "PROFIT_PER_HOUR": "Profit per hour: +{reward}",
     "MODAL": {
       "TITLE": "Buy Friends",
       "DESCRIPTION": "You can get friends who will bring you passive income.",
@@ -148,6 +150,7 @@
       "BOUGHT_SUCCESSFULLY": "You have successfully purchased {number} friends"
     },
     "ERRORS": {
+      "EARN_FRIENDS": "There was an error when collecting rewards from friends.",
       "BUY_FRIENDS": "An error occurred while buying friends."
     }
   },
@@ -156,6 +159,11 @@
     "COMBO": "Combo",
     "COUNT": "{num} pcs.",
     "TIMER": "{time} h.",
+    "MAX_CARD_LEVEL": "Max",
+    "EARNINGS": {
+      "CARD_UPDATED": "The map rating has been updated",
+      "ERROR_CARD_UPDATED": "An error occurred when updating the map"
+    },
     "TABS": {
       "EARNINGS": "Earnings",
       "REWARDS": "Rewards",
@@ -199,6 +207,7 @@
       "TAXI": "Taxi",
       "INVITE_FRIENDS": "Invite Friends: {number}",
       "LEVEL": "{num} lvl.",
+      "NEED_CARD": "Need a card {card} {level} level",
       "EVENTS_LIST": {
         "STARSBANK": "StarsBank",
         "OILCOMPANY": "Oil Company",

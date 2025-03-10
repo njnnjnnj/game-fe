@@ -165,6 +165,8 @@ export const NS = {
       GET: "GET",
       GET_FRIENDS: "GET_FRIENDS",
       CAN_COLLECT: "CAN_COLLECT",
+      SUCCESSFULLY_EARN: "SUCCESSFULLY_EARN",
+      PROFIT_PER_HOUR: "PROFIT_PER_HOUR",
       MODAL: {
         ROOT: "MODAL",
         TITLE: "TITLE",
@@ -178,6 +180,7 @@ export const NS = {
       ERRORS: {
         ROOT: "ERRORS",
         BUY_FRIENDS: "BUY_FRIENDS",
+        EARN_FRIENDS: "EARN_FRIENDS",
       },
     },
     REWARDS: {
@@ -186,6 +189,12 @@ export const NS = {
       COMBO: "COMBO",
       COUNT: "COUNT",
       TIMER: "TIMER",
+      MAX_CARD_LEVEL: "MAX_CARD_LEVEL",
+      EARNINGS: {
+        ROOT: "EARNINGS",
+        CARD_UPDATED: "CARD_UPDATED",
+        ERROR_CARD_UPDATED: "ERROR_CARD_UPDATED",
+      },
       TABS: {
         ROOT: "TABS",
         EARNINGS: "EARNINGS",
@@ -226,6 +235,7 @@ export const NS = {
         TAXI: "TAXI",
         INVITE_FRIENDS: "INVITE_FRIENDS",
         LEVEL: "LEVEL",
+        NEED_CARD: "NEED_CARD",
         EVENTS_LIST: {
           ROOT: "EVENTS_LIST",
           STARSBANK: "STARSBANK",

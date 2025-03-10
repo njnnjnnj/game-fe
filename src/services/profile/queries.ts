@@ -8,7 +8,8 @@ import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   deleteWallet,
   getProfile,
-  getReferalLink,
+  getReferralEarn,
+  getReferralLink,
   getStarsInfo,
   setClicker,
   setWallet,
@@ -17,20 +18,25 @@ import { ClickerReqM, IProfile, IWalletReqM } from "./types";
 
 export enum QueryKeys {
   GET_PROFILE = "GET_PROFILE",
-  GET_REFERALS = "GET_REFERALS",
+  GET_REFERRALS = "GET_REFERRALS",
   GET_STARS_INFO = "GET_STARS_INFO",
 }
 
-export const useGetReferals = () =>
+export const useGetReferrals = () =>
   useQuery({
-    queryKey: [QueryKeys.GET_REFERALS],
+    queryKey: [QueryKeys.GET_REFERRALS],
     queryFn: async () => {
       validateToken();
-      return getReferalLink();
+      return getReferralLink();
     },
     enabled: !!Cookies.get(AUTH_COOKIE_TOKEN),
     retry: false,
     staleTime: STALE_TIME,
+  });
+
+export const useEarnReferrals = () =>
+  useMutation({
+    mutationFn: () => getReferralEarn(),
   });
 
 export const useGetProfile = (enabled?: boolean) =>
@@ -47,7 +53,7 @@ export const invalidateProfileQuery = (queryClient: QueryClient) => {
 };
 
 export const invalidateReferralQuery = (queryClient: QueryClient) => {
-  return queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_REFERALS] });
+  return queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_REFERRALS] });
 };
 
 export const updateProfileQuery = (queryClient: QueryClient, stars: number) => {

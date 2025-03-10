@@ -22,7 +22,7 @@ import {
   RecoveryBooster,
   UpgradeBoosterType,
 } from "@/services/rewards/types";
-import { formatNumber } from "@/utils/number";
+import { formatValue } from "@/utils/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { RecoveryEnergyModal } from "./components/recovery-energy-modal/RecoveryEnergyModal";
@@ -34,6 +34,8 @@ type Props = {
   isAnimated: boolean;
 };
 
+const MAX_LEVEL_CARD = 10;
+
 export const DefaultBoosters: FunctionComponent<Props> = ({
   capacity,
   recovery,
@@ -44,16 +46,23 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
   const { handleSelectionChanged } = useHapticFeedback();
   const [isCapacityModalOpen, setIsCapacityModalOpen] = useState(false);
   const [isRecoveryModalOpen, setIsRecoveryModalOpen] = useState(false);
+  const [typeBooster, setTypeBooster] = useState<UpgradeBoosterType | null>(
+    null,
+  );
   const isCapacityAvailable = useMemo(() => capacity?.level < 10, [capacity]);
   const isRecoveryAvailable = useMemo(() => recovery?.level < 10, [recovery]);
-  const { mutate } = useUpgradeBooster(queryClient);
+  const { mutate, isPending } = useUpgradeBooster(queryClient);
   const { profile } = useTelegram();
   const isRecoveryDisabled = useMemo(
-    () => recovery?.level >= 10 || recovery.price > (profile?.coins ?? 0),
+    () =>
+      recovery?.level >= MAX_LEVEL_CARD ||
+      recovery.price > (profile?.coins ?? 0),
     [recovery, profile],
   );
   const isCapacityDisabled = useMemo(
-    () => capacity?.level >= 10 || capacity.price > (profile?.coins ?? 0),
+    () =>
+      capacity?.level >= MAX_LEVEL_CARD ||
+      capacity.price > (profile?.coins ?? 0),
     [capacity, profile],
   );
 
@@ -78,6 +87,8 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
     type: UpgradeBoosterType,
   ) => {
     event.stopPropagation();
+
+    setTypeBooster(type);
 
     const isAvailable =
       type === UpgradeBoosterType.CAPACITY
@@ -153,32 +164,43 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                     {t(
                       `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
                       {
-                        num: capacity?.level,
+                        num: capacity?.level || 0,
                       },
                     )}
                   </span>
-                  <span className="flex items-center gap-1 text-xs font-semibold text-white">
-                    <FriendsIcon className="size-4" /> +
-                    {capacity?.new - capacity?.current}
-                  </span>
+                  {capacity?.level < MAX_LEVEL_CARD ? (
+                    <span className="flex items-center gap-1 text-xs font-semibold text-white">
+                      <FriendsIcon className="size-4" /> +
+                      {capacity?.new - capacity?.current}
+                    </span>
+                  ) : (
+                    <span className="!text-x !text-[#02DB07]">
+                      {t(NS.PAGES.REWARDS.MAX_CARD_LEVEL)}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
-            <div className="pointer-events-auto w-26">
-              <PrimaryButton
-                onClick={(e) =>
-                  handleUseBoosterMutation(e, UpgradeBoosterType.CAPACITY)
-                }
-                disabled={isCapacityDisabled}
-                size="small"
-                className="text-stroke-1 text-xs font-extrabold text-shadow-sm"
-              >
-                <div className="grid grid-cols-[16px_1fr] items-center gap-2">
-                  <StarSVG className="size-4" />
-                  {formatNumber(+capacity?.price)}
-                </div>
-              </PrimaryButton>
-            </div>
+            {capacity?.level < MAX_LEVEL_CARD ? (
+              <div className="pointer-events-auto w-26">
+                <PrimaryButton
+                  onClick={(e) =>
+                    handleUseBoosterMutation(e, UpgradeBoosterType.CAPACITY)
+                  }
+                  isLoading={
+                    isPending && typeBooster === UpgradeBoosterType.CAPACITY
+                  }
+                  disabled={isCapacityDisabled}
+                  size="small"
+                  className="text-stroke-1 text-sm font-extrabold text-shadow-sm"
+                >
+                  <div className="grid grid-cols-[16px_1fr] items-center gap-2">
+                    <StarSVG className="size-4" />
+                    {formatValue(+capacity?.price)}
+                  </div>
+                </PrimaryButton>
+              </div>
+            ) : null}
           </div>
           <ReserveEnergyModal
             onSubmit={handleUseBoosterMutation}
@@ -219,31 +241,42 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                   <span className="self-start rounded-full bg-white/10 px-2.5 py-[5px] text-xs font-semibold text-gray-550">
                     {t(
                       `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
-                      { num: recovery?.level },
+                      { num: recovery?.level || 0 },
                     )}
                   </span>
-                  <span className="flex items-center gap-1 text-xs font-semibold text-white">
-                    <FriendsIcon className="size-4" />
-                    {(recovery?.new - recovery?.current).toFixed(2)} c
-                  </span>
+                  {recovery?.level < MAX_LEVEL_CARD ? (
+                    <span className="flex items-center gap-1 text-xs font-semibold text-white">
+                      <FriendsIcon className="size-4" />
+                      {(recovery?.new - recovery?.current).toFixed(2)} c
+                    </span>
+                  ) : (
+                    <span className="!text-x !text-[#02DB07]">
+                      {t(NS.PAGES.REWARDS.MAX_CARD_LEVEL)}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
-            <div className="pointer-events-auto w-26">
-              <PrimaryButton
-                onClick={(e) =>
-                  handleUseBoosterMutation(e, UpgradeBoosterType.RECOVERY)
-                }
-                disabled={isRecoveryDisabled}
-                size="small"
-                className="text-stroke-1 text-xs font-extrabold text-shadow-sm"
-              >
-                <div className="grid grid-cols-[16px_1fr] items-center gap-2">
-                  <StarSVG className="size-4" />
-                  {formatNumber(+recovery?.price)}
-                </div>
-              </PrimaryButton>
-            </div>
+            {recovery?.level < MAX_LEVEL_CARD ? (
+              <div className="pointer-events-auto w-26">
+                <PrimaryButton
+                  onClick={(e) =>
+                    handleUseBoosterMutation(e, UpgradeBoosterType.RECOVERY)
+                  }
+                  isLoading={
+                    isPending && typeBooster === UpgradeBoosterType.RECOVERY
+                  }
+                  disabled={isRecoveryDisabled}
+                  size="small"
+                  className="text-stroke-1 text-sm font-extrabold text-shadow-sm"
+                >
+                  <div className="grid grid-cols-[16px_1fr] items-center gap-2">
+                    <StarSVG className="size-4" />
+                    {formatValue(+recovery?.price)}
+                  </div>
+                </PrimaryButton>
+              </div>
+            ) : null}
           </div>
           <RecoveryEnergyModal
             disabled={isRecoveryDisabled}
