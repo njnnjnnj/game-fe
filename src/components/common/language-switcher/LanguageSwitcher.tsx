@@ -17,6 +17,7 @@ export const LocaleSwitcher: FunctionComponent<Props> = ({
 
   const handleClick = () => {
     router.replace(route, undefined, { locale });
+    document.cookie = `NEXT_LOCALE=${locale}; max-age=31536000; path=/`
   };
 
   return (

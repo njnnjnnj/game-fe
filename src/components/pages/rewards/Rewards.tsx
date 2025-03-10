@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
+import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import {
   Carousel,
   CarouselApi,
@@ -20,6 +21,7 @@ import {
   IBoosters,
   IDailyRewardInfo,
 } from "@/services/rewards/types";
+import { RewardShape } from "@/types/rewards";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { BoosterContent } from "./components/booster-content/BoosterContent";
@@ -35,10 +37,14 @@ export const Rewards = () => {
   const [current, setCurrent] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const [slideHeight, setSlideHeight] = useState<number>(0);
+  const [reward, setReward] = useState<RewardShape | null>(null);
 
   const { data: dailyRewardInfo, isLoading: isLoadingDailyReward } =
     useGetDailyRewardInfo();
-  const { mutate: getDailyReward, isPending } = useGetDailyReward(queryClient);
+  const { mutate: getDailyReward, isPending } = useGetDailyReward(
+    queryClient,
+    setReward,
+  );
   const { data, isLoading: isLoadingBoosters } = useGetBoosters();
   const { data: appsCards, isLoading: isLoadingAppsCards } =
     useGetAllAppsCards();
@@ -143,6 +149,9 @@ export const Rewards = () => {
           isLoading={isPending}
           onClick={getDailyReward}
         />
+      )}
+      {reward && (
+        <RewardScreen reward={reward} onFinish={() => setReward(null)} />
       )}
     </PageWrapper>
   );

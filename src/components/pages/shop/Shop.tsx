@@ -10,6 +10,7 @@ import {
   PageWrapper,
   ProfileHeader,
 } from "@/components/common";
+import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
@@ -20,7 +21,8 @@ import {
   invalidateReferralQuery,
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
-import { ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { ChestType, Reward, RewardShape } from "@/types/rewards";
 import { NotificationEnum } from "@/types/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -33,6 +35,17 @@ import { SpecialOfferModal } from "./components/special-offer-modal/SpecialOffer
 import { Stars } from "./components/stars/Stars";
 import { StarterKit } from "./components/starter-kit/StarterKit";
 
+const boughtItemToChestReward = (
+  item: IBoughtItem,
+  chestType: ChestType,
+): RewardShape => ({
+  reward: Reward.CHEST,
+  value: chestType,
+  character: null,
+  cloth: null,
+  coffer: item.coffer,
+});
+
 export const Shop = () => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.SHOP.ROOT);
@@ -40,6 +53,7 @@ export const Shop = () => {
   const { data: shopData, isLoading } = useGetShop();
   const [selectedCard, setSelectedCard] = useState<ShopItem | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [reward, setReward] = useState<RewardShape | null>(null);
   const { handleNotificationOccurred, handleSelectionChanged } =
     useHapticFeedback();
   const { mutate, isPending } = useBuyShopItem();
@@ -66,19 +80,26 @@ export const Shop = () => {
     if (selectedCard === null) return;
 
     mutate(selectedCard.id, {
-      onSuccess: () => {
+      onSuccess: (response: IBoughtItem) => {
         invalidateReferralQuery(queryClient);
         invalidateProfileQuery(queryClient);
         setIsDrawerOpen(false);
-        toast(
-          <Toast
-            type="done"
-            text={t(
-              `${NS.PAGES.FRIENDS.MODAL.ROOT}.${NS.PAGES.FRIENDS.MODAL.BOUGHT_SUCCESSFULLY}`,
-              { number: selectedCard.amount },
-            )}
-          />,
-        );
+
+        if (response.coffer) {
+          setReward(
+            boughtItemToChestReward(response, selectedCard.value as ChestType),
+          );
+        } else {
+          toast(
+            <Toast
+              type="done"
+              text={t(
+                `${NS.PAGES.FRIENDS.MODAL.ROOT}.${NS.PAGES.FRIENDS.MODAL.BOUGHT_SUCCESSFULLY}`,
+                { number: selectedCard.amount },
+              )}
+            />,
+          );
+        }
       },
       onError: (error) => {
         if (error instanceof AxiosError) {
@@ -183,6 +204,9 @@ export const Shop = () => {
           />
         )}
       </Drawer>
+      {reward && (
+        <RewardScreen reward={reward} onFinish={() => setReward(null)} />
+      )}
     </PageWrapper>
   );
 };

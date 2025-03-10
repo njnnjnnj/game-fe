@@ -9,7 +9,8 @@ import { GetRewardCard } from "@/components/common/get-reward-card/GetRewardCard
 import { RewardsStatusEnum } from "@/components/pages/rewards/enums";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import { IDailyReward, IDailyRewardInfo } from "@/services/rewards/types";
+import { IDailyRewardInfo } from "@/services/rewards/types";
+import { RewardShape } from "@/types/rewards";
 import { NotificationEnum } from "@/types/telegram";
 import { ImpactStyleEnum } from "@/types/telegram";
 import { formatValue } from "@/utils/lib/utils";
@@ -22,7 +23,7 @@ import { REWARDS, RewardTypeEnum } from "./reward.data";
 type Props = {
   dailyRewardInfo: IDailyRewardInfo;
   isActive: boolean;
-  onCollectReward: UseMutateFunction<IDailyReward, Error, void, unknown>;
+  onCollectReward: UseMutateFunction<RewardShape, Error, void, unknown>;
 };
 
 export const RewardsContent: FunctionComponent<Props> = ({

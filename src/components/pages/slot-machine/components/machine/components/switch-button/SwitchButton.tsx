@@ -14,18 +14,35 @@ type Props = {
 export const SwitchButton: FunctionComponent<Props> = ({ label, onClick }) => {
   return (
     <motion.div
-      whileTap={{ scale: 0.98 }}
       className="absolute inset-x-0 top-[19.5%] mx-auto h-[6%] w-[36.6%]"
+      animate={{
+        scale: [1, 1.06, 1, 1.03, 1, 1.015, 1],
+      }}
       transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
+        duration: 0.8,
+        ease: "linear",
+        times: [0, 0.4, 0.65, 0.8, 0.9, 0.95, 1],
+        repeat: Infinity,
+        repeatDelay: 2,
       }}
       onClick={onClick}
     >
       <Image src={SwitchButtonImg} alt="" fill quality={100} />
-      <div className="text-shadow-blue text-stroke-blue-1.5 absolute top-1/2 w-full -translate-y-1/2 text-center font-black text-white [font-size:min(3.8vw,1.7vh)]">
+      <div className="text-stroke-blue-1.5 absolute top-1/2 w-full -translate-y-1/2 text-center font-black text-white text-shadow-blue [font-size:min(3.8vw,1.7vh)]">
         {label}
+      </div>
+      <div className="absolute inset-x-0 h-[calc(100%-3px)] [clip-path:polygon(0_50%,10%_0,90%_0,100%_50%,90%_100%,10%_100%)]">
+        <motion.div
+          className="absolute -top-[40%] h-[180%] w-[30%] origin-center rotate-[30deg] bg-card-glow-pattern"
+          initial={{ rotate: "30deg", translateX: "-30%" }}
+          animate={{ translateX: "350%" }}
+          transition={{
+            duration: 0.4,
+            ease: "linear",
+            repeat: Infinity,
+            repeatDelay: 2.4,
+          }}
+        />
       </div>
     </motion.div>
   );

@@ -105,7 +105,7 @@ export const WinView: FunctionComponent<Props> = ({
 
   return (
     <div
-      className={classNames("absolute inset-0 z-20", {
+      className={classNames("absolute inset-0 z-50", {
         visible: isActive,
         invisible: !isActive,
       })}

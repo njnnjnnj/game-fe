@@ -1,4 +1,5 @@
 import { NS } from "@/constants/ns";
+import EpicChestImage from "@/public/assets/png/battle-pass/epic-chest.webp";
 import MegaChestImage from "@/public/assets/png/battle-pass/mega-chest.webp";
 import StartChestImage from "@/public/assets/png/battle-pass/start-chest.webp";
 import Coins1 from "@/public/assets/png/friends/buy-friends/coins-1.webp";
@@ -53,7 +54,7 @@ export const FRIENDS_CARDS = [
 
 export const CHESTS_CARDS = [
   { image: StartChestImage, buttonText: NS.COMMON.BUY },
-  { image: StartChestImage, buttonText: NS.COMMON.BUY },
+  { image: EpicChestImage, buttonText: NS.COMMON.BUY },
   { image: MegaChestImage, buttonText: NS.COMMON.BUY },
 ];
 
@@ -129,7 +130,7 @@ export const MODAL_IMAGES_BY_SHOP_ITEM = [
   },
   {
     id: 10,
-    image: StartChestImage,
+    image: EpicChestImage,
     isSquare: true,
     color: ModalColorEnum.PURPLE,
   },
