@@ -9,8 +9,8 @@ import { PageWrapper, ProfileHeader } from "@/components/common";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
-import { useGetReferals } from "@/services/profile/queries";
-import { IReferals } from "@/services/profile/types";
+import { useGetReferrals } from "@/services/profile/queries";
+import { IReferrals } from "@/services/profile/types";
 import { useGetShop } from "@/services/shop/queries";
 import { ShopItemTypeEnum } from "@/services/shop/types";
 
@@ -24,11 +24,11 @@ export const Friends = () => {
   const [bgScaleDelta, setBgScaleDelta] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
-    data: referalData,
-    isPending: isPendingReferalData,
+    data: referralData,
+    isPending: isPendingReferralData,
     isError,
     error,
-  } = useGetReferals();
+  } = useGetReferrals();
   const { data, isLoading: isLoadingShop } = useGetShop();
   const friendsShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
@@ -53,7 +53,7 @@ export const Friends = () => {
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <PageWrapper
         className="scroll-smooth bg-blue-800 pt-4"
-        isLoading={isPendingReferalData || isLoadingShop}
+        isLoading={isPendingReferralData || isLoadingShop}
         onScroll={onScroll}
       >
         <div
@@ -79,8 +79,8 @@ export const Friends = () => {
               animate={{ y: "-16px" }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
             >
-              <InviteBoard referalsData={referalData || ({} as IReferals)} />
-              <FriendsList referalsData={referalData || ({} as IReferals)} />
+              <InviteBoard referralsData={referralData || ({} as IReferrals)} />
+              <FriendsList referralsData={referralData || ({} as IReferrals)} />
             </motion.div>
           </div>
           <InviteButton />

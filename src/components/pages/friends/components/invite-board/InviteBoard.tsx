@@ -13,21 +13,21 @@ import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import CopySVG from "@/public/assets/svg/friends/share.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
-import { IReferals } from "@/services/profile/types";
+import { IReferrals } from "@/services/profile/types";
 import { getLinkToApp } from "@/utils/lib/tg";
 
 type Props = {
-  referalsData: IReferals;
+  referralsData: IReferrals;
 };
 
-export const InviteBoard: FunctionComponent<Props> = ({ referalsData }) => {
+export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
   const t = useTranslations(NS.PAGES.FRIENDS.ROOT);
   const { handleSelectionChanged } = useHapticFeedback();
   const { webApp } = useTelegram();
 
   const handleCopyClipboard = () => {
     handleSelectionChanged();
-    navigator.clipboard.writeText(getLinkToApp(referalsData.link));
+    navigator.clipboard.writeText(getLinkToApp(referralsData.link));
     toast(<Toast type="done" text={t(NS.PAGES.FRIENDS.LINK_COPIED)} />);
   };
 
@@ -61,7 +61,7 @@ export const InviteBoard: FunctionComponent<Props> = ({ referalsData }) => {
             onClick={() => {
               handleSelectionChanged();
               webApp?.openTelegramLink(
-                `https://t.me/share/url?url=${getLinkToApp(referalsData.link)}`,
+                `https://t.me/share/url?url=${getLinkToApp(referralsData.link)}`,
               );
             }}
           >

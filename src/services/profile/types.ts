@@ -34,16 +34,16 @@ export interface IProfile {
   league: League;
 }
 
-export type Referal = {
+export type Referral = {
   name: string;
   photo_url: string;
   reward: number;
   reward_per_hour: number;
 };
 
-export interface IReferals {
+export interface IReferrals {
   count: number;
-  friends: Referal[];
+  friends: Referral[];
   link: string;
   reward: number;
 }

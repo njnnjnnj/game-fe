@@ -139,6 +139,8 @@
     "GET_FRIENDS": "Приобрести друзей",
     "GET": "Получить",
     "CAN_COLLECT": "Можешь собрать",
+    "SUCCESSFULLY_EARN": "Сбор наград завершен успешно.",
+    "PROFIT_PER_HOUR": "Прибыль в час: +{reward}",
     "MODAL": {
       "TITLE": "Покупка друзей",
       "DESCRIPTION": "Вы можете завести друзей, которые будут приносить вам пассивный доход.",
@@ -148,6 +150,7 @@
       "BOUGHT_SUCCESSFULLY": "Вы успешно приобрели {number} друзей"
     },
     "ERRORS": {
+      "EARN_FRIENDS": "Произошла ошибка при сборе наград с друзей.",
       "BUY_FRIENDS": "Произошла ошибка при покупке друзей."
     }
   },
@@ -156,6 +159,11 @@
     "COMBO": "Комбо",
     "COUNT": "{num} шт.",
     "TIMER": "{time} ч.",
+    "MAX_CARD_LEVEL": "Максимальный",
+    "EARNINGS": {
+      "CARD_UPDATED": "Рейтинг карты обновлен",
+      "ERROR_CARD_UPDATED": "Произошла ошибка при обновлении карты"
+    },
     "TABS": {
       "EARNINGS": "Заработок",
       "REWARDS": "Награды",
@@ -198,7 +206,8 @@
       "LEADER_OF_MINDS": "Лидер мнений",
       "TAXI": "Такси",
       "INVITE_FRIENDS": "Пригласи друзей: {number}",
-      "LEVEL": "{num} ур.",
+      "LEVEL": "{level} ур.",
+      "NEED_CARD": "Нужна карта {card} {level} уровня",
       "EVENTS_LIST": {
         "STARSBANK": "Банк StarsBank",
         "OILCOMPANY": "Нефтяная компания",

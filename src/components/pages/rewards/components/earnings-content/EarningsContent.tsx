@@ -1,8 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
+
+import { useTranslations } from "next-intl";
 
 import { toast } from "sonner";
 
 import { Toast } from "@/components/ui/toast";
+import { NS } from "@/constants/ns";
 import { invalidateProfileQuery } from "@/services/profile/queries";
 import { useUpgradeCard } from "@/services/rewards/queries";
 import { DataStructure, Events as EventsType } from "@/services/rewards/types";
@@ -19,8 +22,10 @@ type Props = {
 };
 
 export const EarningsContent = ({ isActive, cards, appsCards }: Props) => {
+  const t = useTranslations(NS.PAGES.REWARDS.ROOT);
   const queryClient = useQueryClient();
-  const { mutate: upgradeCard, isPending } = useUpgradeCard(queryClient);
+  const { mutate: upgradeCard } = useUpgradeCard(queryClient);
+  const [indexLoading, setIndexLoading] = useState<null | number>(null);
   const preparedCards = useMemo(() => prepareCards(cards.cards), [cards.cards]);
 
   const preparedEvents = useMemo(
@@ -33,14 +38,32 @@ export const EarningsContent = ({ isActive, cards, appsCards }: Props) => {
     [preparedCards, preparedEvents],
   );
 
-  const handleUpgradeCard = (name: string) => {
+  const handleUpgradeCard = (name: string, index: number) => {
+    setIndexLoading(index);
     upgradeCard(name, {
       onSuccess: () => {
         invalidateProfileQuery(queryClient);
-        toast(<Toast type="done" text="Карта обновлена" />);
+        toast(
+          <Toast
+            type="done"
+            text={t(
+              `${NS.PAGES.REWARDS.EARNINGS.ROOT}.${NS.PAGES.REWARDS.EARNINGS.CARD_UPDATED}`,
+            )}
+          />,
+        );
       },
       onError: () => {
-        toast(<Toast type="destructive" text="Что-то пошло не так" />);
+        toast(
+          <Toast
+            type="destructive"
+            text={t(
+              `${NS.PAGES.REWARDS.EARNINGS.ROOT}.${NS.PAGES.REWARDS.EARNINGS.ERROR_CARD_UPDATED}`,
+            )}
+          />,
+        );
+      },
+      onSettled: () => {
+        setIndexLoading(null);
       },
     });
   };
@@ -55,7 +78,7 @@ export const EarningsContent = ({ isActive, cards, appsCards }: Props) => {
         isAnimated={isActive}
         appsCards={mergedCards}
         onUpgradeCard={handleUpgradeCard}
-        isPending={isPending}
+        indexLoading={indexLoading}
       />
     </div>
   );

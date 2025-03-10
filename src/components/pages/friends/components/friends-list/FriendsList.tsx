@@ -4,22 +4,48 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
+import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import StarSVG from "@/public/assets/svg/star.svg";
-import { IReferals } from "@/services/profile/types";
+import { useEarnReferrals, useGetProfile } from "@/services/profile/queries";
+import { IReferrals } from "@/services/profile/types";
 import { NotificationEnum } from "@/types/telegram";
 
 type Props = {
-  referalsData: IReferals;
+  referralsData: IReferrals;
 };
 
-export const FriendsList: FunctionComponent<Props> = ({ referalsData }) => {
+export const FriendsList: FunctionComponent<Props> = ({ referralsData }) => {
   const t = useTranslations(NS.PAGES.FRIENDS.ROOT);
+  const { mutate: earnReferrals, isPending } = useEarnReferrals();
+  const { refetch } = useGetProfile();
   const { handleSelectionChanged, handleNotificationOccurred } =
     useHapticFeedback();
+
+  const handleClick = () => {
+    earnReferrals(undefined, {
+      onSuccess: () => {
+        refetch();
+        toast(
+          <Toast type="done" text={t(NS.PAGES.FRIENDS.SUCCESSFULLY_EARN)} />,
+        );
+      },
+      onError: () => {
+        toast(
+          <Toast
+            type="destructive"
+            text={t(
+              `${NS.PAGES.FRIENDS.ERRORS}.${NS.PAGES.FRIENDS.ERRORS.EARN_FRIENDS}`,
+            )}
+          />,
+        );
+      },
+    });
+  };
 
   return (
     <motion.div
@@ -35,11 +61,11 @@ export const FriendsList: FunctionComponent<Props> = ({ referalsData }) => {
         <div className="flex items-center gap-2 text-sm font-medium text-gray-550">
           {t(NS.PAGES.FRIENDS.INVITED)}{" "}
           <div className="text-nowrap rounded-[20px] bg-blue-700 px-3 py-1 text-xs font-black tracking-[0.04em] text-white">
-            {referalsData.count}
+            {referralsData.count}
           </div>
         </div>
       </div>
-      <motion.div className="relative mb-4 flex items-center justify-between rounded-2xl bg-blue-700 p-4 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]">
+      <div className="relative mb-4 flex items-center justify-between rounded-2xl bg-blue-700 p-4 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]">
         <div className="flex flex-col gap-2">
           <span className="text-xs font-medium text-gray-550">
             {t(NS.PAGES.FRIENDS.CAN_COLLECT)}
@@ -48,30 +74,32 @@ export const FriendsList: FunctionComponent<Props> = ({ referalsData }) => {
             <StarSVG className="size-5" />
             <div className="flex items-center gap-2">
               <span className="text-stroke-1 font-extrabold text-white text-shadow-sm">
-                {referalsData.reward}
+                {referralsData.reward}
               </span>
             </div>
           </div>
         </div>
         <div className="w-[134px]">
           <PrimaryButton
+            isLoading={isPending}
             onClick={() => {
-              if (referalsData.reward > 0) {
+              if (referralsData.reward > 0) {
                 handleSelectionChanged();
+                handleClick();
               } else {
                 handleNotificationOccurred(NotificationEnum.ERROR);
               }
             }}
             size="small"
-            disabled={referalsData.reward === 0}
+            disabled={referralsData.reward === 0}
           >
             {t(NS.PAGES.FRIENDS.GET)}
           </PrimaryButton>
         </div>
-      </motion.div>
+      </div>
       <div className="flex flex-col gap-4">
-        {referalsData?.friends
-          ? referalsData.friends.map((friend, index) => (
+        {referralsData?.friends
+          ? referralsData.friends.map((friend, index) => (
               <div
                 key={index}
                 className="relative flex items-center justify-between rounded-2xl bg-blue-700 p-4 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]"
@@ -91,7 +119,9 @@ export const FriendsList: FunctionComponent<Props> = ({ referalsData }) => {
                       {friend.name}
                     </span>
                     <span className="text-xs font-medium text-gray-550">
-                      Прибыль в час: +{friend.reward_per_hour}
+                      {t(NS.PAGES.FRIENDS.PROFIT_PER_HOUR, {
+                        reward: friend.reward_per_hour,
+                      })}
                     </span>
                   </div>
                 </div>
