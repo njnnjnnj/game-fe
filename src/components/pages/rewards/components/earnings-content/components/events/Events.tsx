@@ -88,7 +88,7 @@ export const Events: FunctionComponent<Props> = ({
                       </span>
                       <div
                         className={classNames(
-                          "text-yellow flex items-center gap-1 text-xs font-semibold !text-white",
+                          "text-yellow flex items-center gap-1 text-xs font-semibold text-white",
                           {
                             "!text-x !text-[#02DB07]": level === MAX_LEVEL_CARD,
                           },
