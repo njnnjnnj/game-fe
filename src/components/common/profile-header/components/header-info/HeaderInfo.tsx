@@ -11,10 +11,10 @@ export const HeaderInfo: FunctionComponent<Props> = ({
 }) => {
   return (
     <div className="flex h-full w-fit flex-col justify-center gap-y-1">
-      <div className="font-inter text-xs font-medium text-white">
+      <div className="font-inter text-x font-medium text-white">
         {topComponent}
       </div>
-      <div className="text-stroke-1 text-nowrap text-base font-black tracking-[0.04em] text-white text-shadow-sm">
+      <div className="text-stroke-1 text-nowrap text-xs font-black tracking-[0.04em] text-white text-shadow-sm">
         {bottomComponent}
       </div>
     </div>

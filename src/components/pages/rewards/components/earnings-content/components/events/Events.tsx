@@ -8,6 +8,7 @@ import classNames from "classnames";
 
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
+import { useTelegram } from "@/context";
 import LockSvg from "@/public/assets/svg/lock.svg";
 import TapSvg from "@/public/assets/svg/tap.svg";
 import {
@@ -39,6 +40,7 @@ export const Events: FunctionComponent<Props> = ({
   indexLoading,
 }) => {
   const t = useTranslations(NS.PAGES.REWARDS.ROOT);
+  const { profile } = useTelegram();
 
   return (
     <div className="flex flex-col gap-4">
@@ -106,7 +108,7 @@ export const Events: FunctionComponent<Props> = ({
                   </div>
                 </div>
                 {!isValid ? (
-                  <div className="flex w-30 flex-col items-center justify-center gap-2">
+                  <div className="flex w-full flex-col items-center justify-center gap-2">
                     <LockSvg className="size-4 fill-white/30" />
                     <span className="text-center text-x font-medium text-white/30">
                       {t(
@@ -129,6 +131,7 @@ export const Events: FunctionComponent<Props> = ({
                       size="small"
                       className="text-stroke-1 text-sm font-extrabold text-shadow-sm"
                       onClick={() => onUpgradeCard(name, index)}
+                      disabled={(profile?.coins ?? 0) < price}
                     >
                       <div className="text-stroke-half grid grid-cols-[16px_1fr] items-center gap-1 text-sm font-extrabold text-white text-shadow-sm">
                         {createElement(PRICE_CURRENCY_ICON[currency], {

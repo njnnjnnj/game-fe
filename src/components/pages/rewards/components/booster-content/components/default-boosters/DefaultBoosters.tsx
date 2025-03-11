@@ -49,10 +49,16 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
   const [typeBooster, setTypeBooster] = useState<UpgradeBoosterType | null>(
     null,
   );
-  const isCapacityAvailable = useMemo(() => capacity?.level < 10, [capacity]);
-  const isRecoveryAvailable = useMemo(() => recovery?.level < 10, [recovery]);
-  const { mutate, isPending } = useUpgradeBooster(queryClient);
   const { profile } = useTelegram();
+  const isCapacityAvailable = useMemo(
+    () => capacity?.level < 10 && (profile?.coins ?? 0) > capacity.price,
+    [capacity, profile],
+  );
+  const isRecoveryAvailable = useMemo(
+    () => recovery?.level < 10 && (profile?.coins ?? 0) > recovery.price,
+    [recovery, profile],
+  );
+  const { mutate, isPending } = useUpgradeBooster(queryClient);
   const isRecoveryDisabled = useMemo(
     () =>
       recovery?.level >= MAX_LEVEL_CARD ||

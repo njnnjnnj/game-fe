@@ -123,9 +123,7 @@ export const ProfileHeader: FunctionComponent<Props> = ({
                 <BottomComponent value={profile?.stars.toFixed(2) ?? 0} />
               )
             }
-            imageNode={
-              <StarSVG className="col-span-1 row-span-2 size-8 object-contain" />
-            }
+            imageNode={<StarSVG className="size-8 object-contain" />}
           />
         </Link>
       ) : (
@@ -145,9 +143,7 @@ export const ProfileHeader: FunctionComponent<Props> = ({
               <BottomComponent value={profile?.coins ?? 0} />
             )
           }
-          imageNode={
-            <StarSVG className="col-span-1 row-span-2 size-8 object-contain" />
-          }
+          imageNode={<StarSVG className="size-8 object-contain" />}
         />
       )}
       {hasFriendsBlock ? (
@@ -167,9 +163,7 @@ export const ProfileHeader: FunctionComponent<Props> = ({
                 <BottomComponent value={profile?.friends.toFixed(2) ?? 0} />
               )
             }
-            imageNode={
-              <FriendsSvg className="col-span-1 row-span-2 size-8 object-contain" />
-            }
+            imageNode={<FriendsSvg className="size-8 object-contain" />}
             onClick={() => setIsModalOpen(true)}
           />
           <InviteModal
@@ -197,9 +191,7 @@ export const ProfileHeader: FunctionComponent<Props> = ({
                 <BottomComponent value={profile?.stars.toFixed(2) ?? 0} />
               )
             }
-            imageNode={
-              <StarSVG className="col-span-1 row-span-2 size-8 object-contain" />
-            }
+            imageNode={<StarSVG className="size-8 object-contain" />}
           />
         </Link>
       )}

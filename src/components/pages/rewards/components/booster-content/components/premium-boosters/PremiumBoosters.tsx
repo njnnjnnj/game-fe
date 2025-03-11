@@ -208,7 +208,7 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
               isLoading={isRequesting}
               color={!booster?.amount ? "primary" : "secondary"}
               buttonClassName="relative z-50"
-              className="text-stroke-1 text-xs font-extrabold text-shadow-sm"
+              className="text-stroke-1 text-sm font-extrabold uppercase text-shadow-sm"
             >
               {!booster?.amount
                 ? t(
