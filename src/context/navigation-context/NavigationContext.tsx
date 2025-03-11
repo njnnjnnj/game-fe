@@ -18,7 +18,6 @@ export const NavigationProvider = ({
 }) => {
   const router = useRouter();
   const [previousUrl, setPreviousUrl] = useState<string | null>(null);
-  console.log("🚀 ~ previousUrl:", previousUrl);
 
   useEffect(() => {
     const handleRouteChange = () => {

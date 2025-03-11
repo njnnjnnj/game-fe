@@ -88,7 +88,7 @@ export const RewardsContent: FunctionComponent<Props> = ({
                         item.type !== RewardTypeEnum.ENERGY_BOOSTER
                       ? t(NS.PAGES.REWARDS.COUNT, { num: item.amount })
                       : `x${formatValue(item.amount)}`
-                  : CARD_CAPTION[status]
+                  : t(CARD_CAPTION[status])
               }
               onClick={() => handleClick(status)}
             >
@@ -98,7 +98,7 @@ export const RewardsContent: FunctionComponent<Props> = ({
                     "text-stroke-1 text-nowrap text-x font-extrabold text-shadow-sm",
                   )}
                 >
-                  День {index + 1}
+                  {t(NS.PAGES.REWARDS.DAY, { num: index + 1 })}
                 </span>
                 <div className={classNames("relative aspect-square w-full")}>
                   {item.image && (
