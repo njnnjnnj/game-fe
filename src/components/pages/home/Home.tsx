@@ -182,7 +182,7 @@ export const Home = () => {
             <div className="absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
               <SideLink href="" />
               <SideLink href="" />
-              <SideLink href="" />
+              <SideLink href={ROUTES.REWARDS} />
             </div>
             <button
               onClick={handleClick}
@@ -214,7 +214,7 @@ export const Home = () => {
             <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
               <SideLink href={ROUTES.TOP_PLAYERS} />
               <SideLink href={ROUTES.FRIENDS} />
-              <SideLink href="" />
+              <SideLink href={ROUTES.SHOP_CLOTHES} />
             </div>
             <EnergyBar energy={energy} max_energy={profile.max_energy} />
             <SecondaryNavbar

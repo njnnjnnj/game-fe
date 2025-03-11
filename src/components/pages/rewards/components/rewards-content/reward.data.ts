@@ -1,12 +1,12 @@
 import { StaticImageData } from "next/image";
 
-import EnergyBucketImage from "@/public/assets/png/battle-pass/energy-bucket.webp";
-import CoinsBucketImage from "@/public/assets/png/battle-pass/friends-bucket.webp";
-import RareCardsImage from "@/public/assets/png/battle-pass/rare-cards.webp";
-import StartChestImage from "@/public/assets/png/battle-pass/start-chest.webp";
-import EnergySmallImage from "@/public/assets/png/rewards/1.webp";
-import EnergyHalfImage from "@/public/assets/png/rewards/2.webp";
-import EnergyBoosterImage from "@/public/assets/png/rewards/full-energy.webp";
+import EnergyBoosterImage from "@/public/assets/png/rewards/rewards/1.webp";
+import CoinsBucketImage from "@/public/assets/png/rewards/rewards/2.webp";
+import RareCardsImage from "@/public/assets/png/rewards/rewards/3.webp";
+import EnergyBucketImage from "@/public/assets/png/rewards/rewards/4.webp";
+import EnergySmallImage from "@/public/assets/png/rewards/rewards/5.webp";
+import EnergyHalfImage from "@/public/assets/png/rewards/rewards/6.webp";
+import StartChestImage from "@/public/assets/png/rewards/rewards/7.webp";
 
 export enum RewardTypeEnum {
   COINS = "coins",

@@ -100,7 +100,11 @@ export const RewardsContent: FunctionComponent<Props> = ({
                 >
                   {t(NS.PAGES.REWARDS.DAY, { num: index + 1 })}
                 </span>
-                <div className={classNames("relative aspect-square w-full")}>
+                <div
+                  className={classNames(
+                    "absolute inset-0 aspect-square h-full w-full",
+                  )}
+                >
                   {item.image && (
                     <Image
                       src={item.image}
