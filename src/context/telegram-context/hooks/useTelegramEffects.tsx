@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-import { useRouter as useNextRouter } from "next/navigation";
 import { useRouter } from "next/router";
 
 import { ROUTES, ROUTES_WITH_CLOSE_BUTTON } from "@/constants/routes";

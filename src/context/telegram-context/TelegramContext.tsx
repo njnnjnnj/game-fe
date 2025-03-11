@@ -14,7 +14,6 @@ import { IWebApp, WebAppUser } from "@/types/telegram";
 
 import { useTelegramAuth } from "./hooks/useTelegramAuth";
 import { useTelegramEffects } from "./hooks/useTelegramEffects";
-import { useNavigation } from "../navigation-context/NavigationContext";
 
 export interface ITelegramContext {
   webApp?: IWebApp;
