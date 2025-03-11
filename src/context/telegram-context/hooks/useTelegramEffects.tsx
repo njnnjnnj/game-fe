@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 
-import { useRouter as useNextRouter } from "next/navigation";
 import { useRouter } from "next/router";
 
 import { ROUTES, ROUTES_WITH_CLOSE_BUTTON } from "@/constants/routes";
+import { useNavigation } from "@/context/navigation-context/NavigationContext";
 import { IWebApp } from "@/types/telegram";
 
 export const useTelegramEffects = (webApp: IWebApp, pathname: string) => {
-  const { back: navigateBack } = useNextRouter();
+  const { goBack } = useNavigation();
   const { push } = useRouter();
 
   useEffect(() => {
@@ -38,9 +38,9 @@ export const useTelegramEffects = (webApp: IWebApp, pathname: string) => {
 
     if (!ROUTES_WITH_CLOSE_BUTTON.includes(pathname)) {
       webApp.BackButton.show();
-      webApp.BackButton.onClick(() => navigateBack());
+      webApp.BackButton.onClick(() => goBack());
     } else {
       webApp.BackButton.hide();
     }
-  }, [webApp, pathname, navigateBack]);
+  }, [webApp, pathname]);
 };

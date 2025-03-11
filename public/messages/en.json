@@ -160,6 +160,9 @@
     "COUNT": "{num} pcs.",
     "TIMER": "{time} h.",
     "MAX_CARD_LEVEL": "Max",
+    "RECEIVED": "Received",
+    "COLLECT": "Receive",
+    "DAY": "Day {num}",
     "EARNINGS": {
       "CARD_UPDATED": "The map rating has been updated",
       "ERROR_CARD_UPDATED": "An error occurred when updating the map"
@@ -172,7 +175,7 @@
     "BOOSTERS": {
       "AVAILABLE": "Available",
       "NOT_AVAILABLE": "Not Available",
-      "APPLY": "Apply Booster",
+      "APPLY": "Apply",
       "BUY": "Buy",
       "INSUFFICIENT_FUNDS": "Insufficient Funds",
       "COUNT": "{num1} of {num2}",
@@ -206,7 +209,7 @@
       "LEADER_OF_MINDS": "Opinion Leader",
       "TAXI": "Taxi",
       "INVITE_FRIENDS": "Invite Friends: {number}",
-      "LEVEL": "{num} lvl.",
+      "LEVEL": "{level} lvl.",
       "NEED_CARD": "Need a card {card} {level} level",
       "EVENTS_LIST": {
         "STARSBANK": "StarsBank",

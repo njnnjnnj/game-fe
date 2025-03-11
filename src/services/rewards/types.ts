@@ -123,5 +123,5 @@ export type Cards = Record<string, Card>;
 
 export interface DataStructure {
   cards: Cards;
-  daily: (string | null)[];
+  daily: (EventNames | null)[];
 }

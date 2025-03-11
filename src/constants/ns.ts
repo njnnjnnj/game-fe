@@ -189,7 +189,10 @@ export const NS = {
       COMBO: "COMBO",
       COUNT: "COUNT",
       TIMER: "TIMER",
+      DAY: "DAY",
       MAX_CARD_LEVEL: "MAX_CARD_LEVEL",
+      RECEIVED: "RECEIVED",
+      COLLECT: "COLLECT",
       EARNINGS: {
         ROOT: "EARNINGS",
         CARD_UPDATED: "CARD_UPDATED",
