@@ -43,8 +43,11 @@ export const Home = () => {
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { refetch } = useGetProfile();
   const { handleSelectionChanged } = useHapticFeedback();
-  const { data: battlePass, isSuccess: isBattlePassSuccess } =
-    useGetBattlePass();
+  const {
+    data: battlePass,
+    isSuccess: isBattlePassSuccess,
+    refetch: refetchBattlePass,
+  } = useGetBattlePass();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
   const [battlePassExp, setBattlePassExp] = useState(0);
@@ -87,6 +90,11 @@ export const Home = () => {
     },
     [energy, profile?.reward_per_tap, battlePass],
   );
+
+  useEffect(() => {
+    // Always refetch BP info when getting to this page
+    refetchBattlePass({ cancelRefetch: false });
+  }, []);
 
   useEffect(() => {
     if (isBattlePassSuccess && battlePass) {

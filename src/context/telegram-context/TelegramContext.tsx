@@ -6,7 +6,7 @@ import Script from "next/script";
 
 import { toast } from "sonner";
 
-import { LoadingScreen } from "@/components/common";
+import { SplashScreen } from "@/components/common";
 import { Toast } from "@/components/ui/toast";
 import { useGetProfile } from "@/services/profile/queries";
 import { IProfile } from "@/services/profile/types";
@@ -102,8 +102,8 @@ export const TelegramProvider = ({
       : { isAuthenticating, isProfileLoading };
   }, [webApp, profile, isAuthenticating, isProfileLoading]);
 
-  const showChildren =
-    !isAuthenticating && !isProfileLoading && isProfileSuccess;
+  const isAppDataLoading =
+    isAuthenticating || isProfileLoading || !isProfileSuccess;
 
   return (
     <TelegramContext.Provider value={value}>
@@ -111,7 +111,9 @@ export const TelegramProvider = ({
         src="https://telegram.org/js/telegram-web-app.js"
         strategy="beforeInteractive"
       />
-      {showChildren ? children : <LoadingScreen />}
+      <SplashScreen isAppDataLoading={isAppDataLoading}>
+        {children}
+      </SplashScreen>
     </TelegramContext.Provider>
   );
 };

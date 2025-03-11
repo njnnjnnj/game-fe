@@ -289,7 +289,6 @@ export default {
           "81%": { backgroundPositionY: "110%" },
           "100%": { backgroundPositionY: "110%" },
         },
-        //   "0%": { backgroundPositionY: "141.2%" },
         //   "1%": { backgroundPositionY: "143.35%" },
         //   "2%": { backgroundPositionY: "146.17%" },
         //   "3%": { backgroundPositionY: "149.4%" },

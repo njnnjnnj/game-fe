@@ -5,12 +5,18 @@ import throttle from "lodash.throttle";
 import { toast } from "sonner";
 
 import { AUTH_COOKIE_TOKEN } from "@/constants/api";
+import { invalidateBattlePassQuery } from "@/services/battle-pass/queries";
 import { useClicker } from "@/services/profile/queries";
+import { useQueryClient } from "@tanstack/react-query";
+
+if (typeof window !== "undefined") {
+  window.clickCounter = 0;
+}
 
 export const useThrottledClicker = () => {
-  const { mutate: setClicker } = useClicker();
+  const { mutate: setClicker, mutateAsync: setClickerAsync } = useClicker();
+  const queryClient = useQueryClient();
   const clickCountRef = useRef(0);
-  const bufferedClickCountRef = useRef(0);
 
   const throttledSetClicker = useRef(
     throttle(() => {
@@ -19,7 +25,7 @@ export const useThrottledClicker = () => {
       if (clicks > 0) {
         const unixTimeInSeconds = Math.floor(Date.now() / 1000);
         const token = Cookies.get(AUTH_COOKIE_TOKEN) || "";
-        bufferedClickCountRef.current += clicks;
+        clickCountRef.current -= clicks;
 
         setClicker(
           {
@@ -29,10 +35,10 @@ export const useThrottledClicker = () => {
           },
           {
             onSuccess: () => {
-              clickCountRef.current -= bufferedClickCountRef.current;
-              bufferedClickCountRef.current = 0;
+              console.log("Throttle Success!!");
             },
             onError: (error) => {
+              clickCountRef.current += clicks;
               toast.error(error.message);
             },
           },
@@ -42,6 +48,7 @@ export const useThrottledClicker = () => {
   ).current;
 
   const registerClick = () => {
+    window.clickCounter++;
     clickCountRef.current += 1;
     throttledSetClicker();
   };
@@ -50,30 +57,32 @@ export const useThrottledClicker = () => {
 
   useEffect(() => {
     return () => {
+      console.log(
+        "Update effect triggered!" + ` Clicks left = ${clickCountRef.current}`,
+      );
       const remainingClicks = clickCountRef.current;
+
       if (remainingClicks > 0) {
         const unixTimeInSeconds = Math.floor(Date.now() / 1000);
         const token = Cookies.get(AUTH_COOKIE_TOKEN) || "";
+        clickCountRef.current -= remainingClicks;
 
-        setClicker(
-          {
-            debouncedClickCount: remainingClicks,
-            unixTimeInSeconds,
-            token,
-          },
-          {
-            onSuccess: () => {
-              clickCountRef.current = 0;
-              bufferedClickCountRef.current = 0;
-            },
-            onError: (error) => {
-              toast.error(error.message);
-            },
-          },
-        );
+        // Sync version does not trigger onSuccess method
+        setClickerAsync({
+          debouncedClickCount: remainingClicks,
+          unixTimeInSeconds,
+          token,
+        })
+          .then(() => {
+            // If we go away from Home to Battle Pass, we'll need to update BP info once this request succeeds
+            invalidateBattlePassQuery(queryClient);
+          })
+          .catch((error) => {
+            toast.error(error.message);
+          });
       }
     };
-  }, [setClicker]);
+  }, [setClickerAsync, queryClient]);
 
   return { registerClick, getClickCount };
 };

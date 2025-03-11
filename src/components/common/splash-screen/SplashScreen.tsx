@@ -10,13 +10,15 @@ import {
 
 import Image from "next/image";
 
+import classNames from "classnames";
+
 import AssignmentsImage from "@/public/assets/png/home/assignments.webp";
 import HeroesImage from "@/public/assets/png/home/heroes.webp";
 import MapImage from "@/public/assets/png/home/map.webp";
 import ShopImage from "@/public/assets/png/home/shop.webp";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import SideLinkBg from "@/public/assets/png/side-link-bg.webp";
-import SplashBg from "@/public/assets/png/slot-machine/bg.webp";
+import SplashBg from "@/public/assets/png/splash-screen-bg.webp";
 
 import { PreloadCurrentHeroView } from "./components/preload-current-hero-view/PreloadCurrentHeroView";
 import { PreloadRareHeroGridViews } from "./components/preload-rare-hero-grid-views/PreloadRareHeroGridViews";
@@ -26,9 +28,16 @@ type ExtractedImageProps = Pick<
   "src" | "sizes" | "fill" | "quality"
 >;
 
-type RenderingCallback = (onLoad: () => void) => ReactNode;
+type RenderingCallback = (
+  key: string | number,
+  onLoad: () => void,
+) => ReactNode;
 
 type PreloadItem = ExtractedImageProps | RenderingCallback;
+
+type Props = {
+  isAppDataLoading: boolean;
+};
 
 const PRELOAD_ITEMS: PreloadItem[] = [
   { src: MainImage, fill: true },
@@ -37,16 +46,17 @@ const PRELOAD_ITEMS: PreloadItem[] = [
   { src: ShopImage, fill: true },
   { src: MapImage, fill: true },
   { src: SideLinkBg, fill: true },
-  (onLoad) => <PreloadCurrentHeroView onLoad={onLoad} />,
-  (onLoad) => <PreloadRareHeroGridViews onLoad={onLoad} />,
+  (key, onLoad) => <PreloadCurrentHeroView key={key} onLoad={onLoad} />,
+  (key, onLoad) => <PreloadRareHeroGridViews key={key} onLoad={onLoad} />,
 ];
 
-const FORCE_LOADING_TIMER = 100_000;
+const FORCE_LOADING_TIMER = 3000;
 
 const isRenderingCallback = (item: PreloadItem): item is RenderingCallback =>
   typeof item === "function";
 
-export const SplashScreen: FunctionComponent<PropsWithChildren> = ({
+export const SplashScreen: FunctionComponent<PropsWithChildren<Props>> = ({
+  isAppDataLoading,
   children,
 }) => {
   const [remainingCount, setRemainingCount] = useState(PRELOAD_ITEMS.length);
@@ -54,17 +64,28 @@ export const SplashScreen: FunctionComponent<PropsWithChildren> = ({
   const timerRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    timerRef.current = setTimeout(() => {
-      setRemainingCount(0);
-      timerRef.current = undefined;
-    }, FORCE_LOADING_TIMER);
-  }, []);
+    if (!isAppDataLoading) {
+      timerRef.current = setTimeout(() => {
+        setRemainingCount(0);
+        timerRef.current = undefined;
+      }, FORCE_LOADING_TIMER);
+    }
+  }, [isAppDataLoading]);
 
   useEffect(() => {
     if (isLoadingFinished && timerRef.current) {
       clearTimeout(timerRef.current);
     }
   }, [isLoadingFinished]);
+
+  useEffect(
+    () => () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    },
+    [],
+  );
 
   const onItemLoad = () => {
     setRemainingCount((prev) => {
@@ -81,34 +102,47 @@ export const SplashScreen: FunctionComponent<PropsWithChildren> = ({
 
   return !isLoadingFinished ? (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <Image src={SplashBg} sizes="100vw" alt="Splash screen" fill />
+      <Image
+        className="object-cover"
+        src={SplashBg}
+        sizes="100vw"
+        alt="Splash screen"
+        priority
+        fill
+      />
 
-      <div className="absolute bottom-5 mx-auto h-2.5 w-1/2 rounded bg-[rgba(0,0,0,0.3)]">
-        <div
-          className="h-full max-w-full rounded bg-[#FFCC00] transition-[width] duration-300"
-          style={{
-            width: `${progress}%`,
-            minWidth: progress > 0 ? 1 : undefined,
-          }}
-          onTransitionEnd={() => {
-            if (progress === 100) {
-              console.log("Loading finished!");
-              setIsLoadingFinished(true);
+      <div className="absolute bottom-[8%] mx-auto w-[68%] rounded-[14px] border-4 border-[#42DDFC] bg-[#0932A4]">
+        <div className="absolute inset-0.5">
+          <div
+            className={classNames(
+              "transition-width h-full rounded-lg bg-home-bp-btn-indicator-pattern shadow-home-bp-btn-indicator drop-shadow-home-bp-btn-indicator duration-300",
+              "after:absolute after:left-0.5 after:right-0.5 after:top-0.5 after:z-30 after:h-1.5 after:rounded-t-[8px] after:bg-white after:opacity-30 after:content-['']",
+            )}
+            style={{
+              width: `${progress}%`,
+              minWidth: progress > 0 ? 1 : undefined,
+            }}
+            onTransitionEnd={() => {
+              if (progress === 100) {
+                setIsLoadingFinished(true);
+              }
+            }}
+          />
+        </div>
+        <div className="font-base text-stroke-2 relative text-center font-black text-white text-shadow">{`${progress}%`}</div>
+      </div>
+
+      {!isAppDataLoading && (
+        <div className="invisible absolute inset-0">
+          {PRELOAD_ITEMS.map((item: PreloadItem, i: number) => {
+            if (isRenderingCallback(item)) {
+              return item(i, onItemLoad);
+            } else {
+              return <Image {...item} key={i} alt="" onLoad={onItemLoad} />;
             }
-          }}
-        />
-        {`${progress}%`}
-      </div>
-
-      <div className="invisible absolute inset-0">
-        {PRELOAD_ITEMS.map((item: PreloadItem, i: number) => {
-          if (isRenderingCallback(item)) {
-            return item(onItemLoad);
-          } else {
-            return <Image {...item} key={i} alt="" onLoad={onItemLoad} />;
-          }
-        })}
-      </div>
+          })}
+        </div>
+      )}
     </div>
   ) : (
     children

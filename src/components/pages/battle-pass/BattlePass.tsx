@@ -23,8 +23,9 @@ export const BattlePass = () => {
   const { isPending: isAllAppsHeroesPending } = useGetAllAppsHeroes();
 
   useEffect(() => {
-    // Always refetch when getting to this page
+    // Always refetch BP info when getting to this page
     refetchBattlePass();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onScroll = (e: Event) => {
