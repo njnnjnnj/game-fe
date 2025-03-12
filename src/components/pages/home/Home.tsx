@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
+import { AxiosError } from "axios";
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
@@ -16,6 +17,7 @@ import {
   SpecialOfferModal,
   StarterKitModal,
 } from "@/components/common";
+import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
@@ -41,9 +43,14 @@ import {
   useGetOfflineBonus,
 } from "@/services/offline-bonus/queries";
 import { OfflineBonus } from "@/services/offline-bonus/types";
-import { useGetProfile } from "@/services/profile/queries";
-import { useGetShop } from "@/services/shop/queries";
-import { ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import {
+  invalidateProfileQuery,
+  invalidateReferralQuery,
+  useGetProfile,
+} from "@/services/profile/queries";
+import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
+import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { ChestType, Reward, RewardShape } from "@/types/rewards";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -52,9 +59,21 @@ import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 
+const boughtItemToChestReward = (
+  item: IBoughtItem,
+  chestType: ChestType,
+): RewardShape => ({
+  reward: Reward.CHEST,
+  value: chestType,
+  character: null,
+  cloth: null,
+  coffer: item.coffer,
+});
+
 export const Home = () => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.HOME.ROOT);
+  const tErrors = useTranslations(NS.ERRORS.ROOT);
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { refetch } = useGetProfile();
   const { handleSelectionChanged } = useHapticFeedback();
@@ -70,9 +89,12 @@ export const Home = () => {
   const [battlePassExp, setBattlePassExp] = useState(0);
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
+  const [reward, setReward] = useState<RewardShape | null>(null);
   const { webApp, profile } = useTelegram();
   const initialEnergy = profile?.energy ?? 0;
   const [energy, setEnergy] = useState(initialEnergy);
+  const { mutate: buyShopItem, isPending: buyShopItemPending } =
+    useBuyShopItem();
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
   const { data } = useGetShop();
   const friendsShopItems = useMemo(
@@ -118,6 +140,47 @@ export const Home = () => {
     },
     [energy, profile?.reward_per_tap, battlePass],
   );
+
+  const handleBuyShopItem = (
+    id: number,
+    isSpecialOffer: boolean = false,
+    shopItem: ShopItem,
+  ) => {
+    buyShopItem(id, {
+      onSuccess: (response: IBoughtItem) => {
+        invalidateReferralQuery(queryClient);
+        invalidateProfileQuery(queryClient);
+        if (isSpecialOffer) {
+          setIsSpecialOfferModalOpen(false);
+        } else {
+          setIsStarterKitModalOpen(false);
+        }
+
+        if (response.coffer) {
+          setReward(
+            boughtItemToChestReward(response, shopItem.value as ChestType),
+          );
+        } else {
+          toast(
+            <Toast
+              type="done"
+              text={t(
+                `${NS.PAGES.FRIENDS.MODAL.ROOT}.${NS.PAGES.FRIENDS.MODAL.BOUGHT_SUCCESSFULLY}`,
+                { number: shopItem.amount },
+              )}
+            />,
+          );
+        }
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          const tid = error.response?.data["detail"];
+
+          toast(<Toast type="destructive" text={tErrors(tid)} />);
+        }
+      },
+    });
+  };
 
   useEffect(() => {
     // Always refetch BP info when getting to this page
@@ -230,11 +293,19 @@ export const Home = () => {
                 )}
                 onClick={() => setIsSpecialOfferModalOpen(true)}
               />
-              <SpecialOfferModal
-                isLoading={false}
-                onSubmit={() => {}}
-                shopItem={specialOfferShopItem ?? ({} as ShopItem)}
-              />
+              {specialOfferShopItem && (
+                <SpecialOfferModal
+                  isLoading={buyShopItemPending}
+                  onSubmit={() =>
+                    handleBuyShopItem(
+                      specialOfferShopItem?.id,
+                      true,
+                      specialOfferShopItem,
+                    )
+                  }
+                  shopItem={specialOfferShopItem}
+                />
+              )}
             </Drawer>
             <Drawer
               open={isStarterKitModalOpen}
@@ -249,11 +320,19 @@ export const Home = () => {
                 )}
                 onClick={() => setIsStarterKitModalOpen(true)}
               />
-              <StarterKitModal
-                isLoading={false}
-                onSubmit={() => {}}
-                shopItem={starterKitShopItems ?? ({} as ShopItem)}
-              />
+              {starterKitShopItems && (
+                <StarterKitModal
+                  isLoading={buyShopItemPending}
+                  onSubmit={() =>
+                    handleBuyShopItem(
+                      starterKitShopItems?.id,
+                      true,
+                      starterKitShopItems,
+                    )
+                  }
+                  shopItem={starterKitShopItems}
+                />
+              )}
             </Drawer>
             <SideLink
               image={PrizeImage}
@@ -336,6 +415,9 @@ export const Home = () => {
           />
         </Drawer>
       </div>
+      {reward && (
+        <RewardScreen reward={reward} onFinish={() => setReward(null)} />
+      )}
     </PageWrapper>
   );
 };

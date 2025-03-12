@@ -9,6 +9,7 @@ import {
   OverscrollBehavior,
   PageWrapper,
   ProfileHeader,
+  StarterKitModal,
 } from "@/components/common";
 import { SpecialOfferModal } from "@/components/common";
 import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
@@ -28,7 +29,6 @@ import { NotificationEnum } from "@/types/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { AutoCollect } from "./components/auto-collect/AutoCollect";
-import { BaseModal } from "./components/base-modal/BaseModal";
 import { Chests } from "./components/chests/Chests";
 import { Friends } from "./components/friends/Friends";
 import { SpecialOffer } from "./components/special-offer/SpecialOffer";
@@ -195,14 +195,13 @@ export const Shop = () => {
             onSubmit={() => buyItemFn(specialOfferShopItem.price)}
             isLoading={isPending || isStarsPaymentLoading}
           />
-        ) : (
-          <BaseModal
-            onClose={() => setIsDrawerOpen(false)}
-            selectedItem={selectedCard ?? ({} as ShopItem)}
+        ) : selectedCard.id === 2 && starterKitShopItems ? (
+          <StarterKitModal
+            shopItem={starterKitShopItems}
             isLoading={isPending || isStarsPaymentLoading}
-            onSubmit={() => buyItemFn(selectedCard?.price ?? 0)}
+            onSubmit={() => buyItemFn(starterKitShopItems.price)}
           />
-        )}
+        ) : null}
       </Drawer>
       {reward && (
         <RewardScreen reward={reward} onFinish={() => setReward(null)} />
