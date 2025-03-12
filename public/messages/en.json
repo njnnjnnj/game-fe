@@ -355,6 +355,7 @@
     "STARS": "Stars",
     "BUY_FRIENDS": "Buying friends",
     "AUTO_COLLECT": "Auto collect",
+    "BOUGHT_SUCCESSFULLY": "You have successfully purchased a set",
     "SHOP_TYPE": {
       "CHESTS": "Chests",
       "STARS": "Stars",
@@ -377,6 +378,11 @@
     "MODAL_DESCRIPTION": "Complete a daily Stars transaction and receive massive rewards",
     "BUY_FOR": "Buy for",
     "SPECIAL_OFFER_MODAL": {
+      "BADGE": "Special offer",
+      "TITLE": " Beast Games",
+      "DESCRIPTION": "Buy a set and get 30.000.000 coins, 1.200 stars, 2 mega chests and 15.000"
+    },
+    "STARTER_KIT_MODAL": {
       "BADGE": "Special offer",
       "TITLE": "Get 15,000 spins at a super discount!",
       "DESCRIPTION": "Complete daily star transactions and get huge rewards"

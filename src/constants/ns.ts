@@ -394,6 +394,7 @@ export const NS = {
       STARS: "STARS",
       BUY_FRIENDS: "BUY_FRIENDS",
       AUTO_COLLECT: "AUTO_COLLECT",
+      BOUGHT_SUCCESSFULLY: "BOUGHT_SUCCESSFULLY",
       SHOP_TYPE: {
         ROOT: "SHOP_TYPE",
         CHESTS: "CHESTS",
@@ -419,6 +420,12 @@ export const NS = {
       BUY_FOR: "BUY_FOR",
       SPECIAL_OFFER_MODAL: {
         ROOT: "SPECIAL_OFFER_MODAL",
+        BADGE: "BADGE",
+        TITLE: "TITLE",
+        DESCRIPTION: "DESCRIPTION",
+      },
+      STARTER_KIT_MODAL: {
+        ROOT: "STARTER_KIT_MODAL",
         BADGE: "BADGE",
         TITLE: "TITLE",
         DESCRIPTION: "DESCRIPTION",

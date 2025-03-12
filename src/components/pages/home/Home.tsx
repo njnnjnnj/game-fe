@@ -4,12 +4,20 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
+import { AxiosError } from "axios";
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 
-import { PageWrapper, ProfileHeader, SideLink } from "@/components/common";
+import {
+  PageWrapper,
+  ProfileHeader,
+  SideLink,
+  SpecialOfferModal,
+  StarterKitModal,
+} from "@/components/common";
+import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
@@ -35,9 +43,14 @@ import {
   useGetOfflineBonus,
 } from "@/services/offline-bonus/queries";
 import { OfflineBonus } from "@/services/offline-bonus/types";
-import { useGetProfile } from "@/services/profile/queries";
-import { useGetShop } from "@/services/shop/queries";
-import { ShopItemTypeEnum } from "@/services/shop/types";
+import {
+  invalidateProfileQuery,
+  invalidateReferralQuery,
+  useGetProfile,
+} from "@/services/profile/queries";
+import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
+import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { ChestType, Reward, RewardShape } from "@/types/rewards";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -46,9 +59,21 @@ import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 
+const boughtItemToChestReward = (
+  item: IBoughtItem,
+  chestType: ChestType,
+): RewardShape => ({
+  reward: Reward.CHEST,
+  value: chestType,
+  character: null,
+  cloth: null,
+  coffer: item.coffer,
+});
+
 export const Home = () => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.HOME.ROOT);
+  const tErrors = useTranslations(NS.ERRORS.ROOT);
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { refetch: refetchProfile } = useGetProfile();
   const { handleSelectionChanged } = useHapticFeedback();
@@ -58,17 +83,33 @@ export const Home = () => {
     refetch: refetchBattlePass,
   } = useGetBattlePass();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSpecialOfferModalOpen, setIsSpecialOfferModalOpen] = useState(false);
+  const [isStarterKitModalOpen, setIsStarterKitModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
   const [battlePassExp, setBattlePassExp] = useState(0);
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
+  const [reward, setReward] = useState<RewardShape | null>(null);
   const { webApp, profile } = useTelegram();
   const initialEnergy = profile?.energy ?? 0;
   const [energy, setEnergy] = useState(initialEnergy);
+  const { mutate: buyShopItem, isPending: buyShopItemPending } =
+    useBuyShopItem();
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
   const { data } = useGetShop();
   const friendsShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
+    [data],
+  );
+
+  const starterKitShopItems = useMemo(
+    () =>
+      data?.items.find((item) => item.type === ShopItemTypeEnum.STARTER_PACK),
+    [data],
+  );
+
+  const specialOfferShopItem = useMemo(
+    () => data?.items.find((item) => item.type === ShopItemTypeEnum.SPECIAL),
     [data],
   );
 
@@ -99,6 +140,47 @@ export const Home = () => {
     },
     [energy, profile?.reward_per_tap, battlePass],
   );
+
+  const handleBuyShopItem = (
+    id: number,
+    isSpecialOffer: boolean = false,
+    shopItem: ShopItem,
+  ) => {
+    buyShopItem(id, {
+      onSuccess: (response: IBoughtItem) => {
+        invalidateReferralQuery(queryClient);
+        invalidateProfileQuery(queryClient);
+        if (isSpecialOffer) {
+          setIsSpecialOfferModalOpen(false);
+        } else {
+          setIsStarterKitModalOpen(false);
+        }
+
+        if (response.coffer) {
+          setReward(
+            boughtItemToChestReward(response, shopItem.value as ChestType),
+          );
+        } else {
+          toast(
+            <Toast
+              type="done"
+              text={t(
+                `${NS.PAGES.FRIENDS.MODAL.ROOT}.${NS.PAGES.FRIENDS.MODAL.BOUGHT_SUCCESSFULLY}`,
+                { number: shopItem.amount },
+              )}
+            />,
+          );
+        }
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          const tid = error.response?.data["detail"];
+
+          toast(<Toast type="destructive" text={tErrors(tid)} />);
+        }
+      },
+    });
+  };
 
   useEffect(() => {
     // Always refetch BP info when getting to this page
@@ -182,119 +264,165 @@ export const Home = () => {
 
   return (
     <PageWrapper isLoading={isLoading} disableSafeAreaInset>
-      <Drawer
-        onClose={handleClose}
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
+      <div
+        className={classNames(
+          "relative flex h-screen max-h-screen w-full flex-col items-center overflow-hidden overflow-y-auto overscroll-contain bg-blue-800",
+        )}
+        style={{ paddingTop: `${calculatedPaddingTop}px` }}
       >
-        <div
-          className={classNames(
-            "relative flex h-screen max-h-screen w-full flex-col items-center overflow-hidden overflow-y-auto overscroll-contain bg-blue-800",
-          )}
-          style={{ paddingTop: `${calculatedPaddingTop}px` }}
-        >
-          <div className="fixed inset-0 z-10 h-full w-full">
-            <Image src={MainImage} alt="main-bg" fill />
-          </div>
-          <ProfileHeader
-            className="top-0 z-20 w-full"
-            hasFriendsBlock
-            shopItemsForBuyFriends={friendsShopItems ?? []}
-          />
-          <BalanceInfo
-            balance={profileBalance}
-            perHour={profile.reward_per_hour}
-            perTap={profile.reward_per_tap}
-          />
-          <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
-            <div className="absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
+        <div className="fixed inset-0 z-10 h-full w-full">
+          <Image src={MainImage} alt="main-bg" fill />
+        </div>
+        <ProfileHeader
+          className="top-0 z-20 w-full"
+          hasFriendsBlock
+          shopItemsForBuyFriends={friendsShopItems ?? []}
+        />
+        <BalanceInfo
+          balance={profileBalance}
+          perHour={profile.reward_per_hour}
+          perTap={profile.reward_per_tap}
+        />
+        <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
+          <div className="sca absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
+            <Drawer
+              open={isSpecialOfferModalOpen}
+              onOpenChange={setIsSpecialOfferModalOpen}
+            >
               <SideLink
                 image={BeastImage}
+                imageClassnames="!size-16 !scale-100"
                 href=""
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
                 )}
+                onClick={() => setIsSpecialOfferModalOpen(true)}
               />
+              {specialOfferShopItem && (
+                <SpecialOfferModal
+                  isLoading={buyShopItemPending}
+                  onSubmit={() =>
+                    handleBuyShopItem(
+                      specialOfferShopItem?.id,
+                      true,
+                      specialOfferShopItem,
+                    )
+                  }
+                  shopItem={specialOfferShopItem}
+                />
+              )}
+            </Drawer>
+            <Drawer
+              open={isStarterKitModalOpen}
+              onOpenChange={setIsStarterKitModalOpen}
+            >
               <SideLink
                 image={TicketImage}
+                imageClassnames="!size-16 !scale-100"
                 href=""
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
                 )}
+                onClick={() => setIsStarterKitModalOpen(true)}
               />
-              <SideLink
-                image={PrizeImage}
-                href={ROUTES.REWARDS}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
-                )}
-              />
-            </div>
-            <button
-              onClick={handleClick}
-              className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
-            >
-              <HeroView
-                className="user-select-none pointer-events-none aspect-[0.72] h-full touch-none"
-                source="preview"
-                heroCloth={heroCloth}
-                heroId={current}
-                heroRarity={allAppsHeroes[current].rarity}
-              />
-              <AnimatePresence>
-                {clickEffects.map(({ id, x, y }) => (
-                  <motion.div
-                    key={id}
-                    initial={{ opacity: 1, y: 0 }}
-                    animate={{ opacity: 0, y: -150 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1 }}
-                    className="text-stroke-1 pointer-events-none absolute z-50 select-none text-4xl font-black text-white text-shadow-sm"
-                    style={{ top: y, left: x }}
-                  >
-                    +{profile.reward_per_tap}
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </button>
-            <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
-              <SideLink
-                image={CupImage}
-                href={ROUTES.TOP_PLAYERS}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.TOP_PLAYERS}`,
-                )}
-              />
-              <SideLink
-                image={FriendsImage}
-                href={ROUTES.FRIENDS}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.FRIENDS}`,
-                )}
-              />
-              <SideLink
-                image={PacketImage}
-                href={ROUTES.SHOP_CLOTHES}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.CLOTHES}`,
-                )}
-              />
-            </div>
-            <EnergyBar energy={energy} max_energy={profile.max_energy} />
-            <SecondaryNavbar
-              currentExp={battlePassExp}
-              needExp={battlePass.need_exp}
-              currentLevel={battlePass.current_level}
+              {starterKitShopItems && (
+                <StarterKitModal
+                  isLoading={buyShopItemPending}
+                  onSubmit={() =>
+                    handleBuyShopItem(
+                      starterKitShopItems?.id,
+                      true,
+                      starterKitShopItems,
+                    )
+                  }
+                  shopItem={starterKitShopItems}
+                />
+              )}
+            </Drawer>
+            <SideLink
+              image={PrizeImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.REWARDS}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
+              )}
             />
           </div>
-
+          <button
+            onClick={handleClick}
+            className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
+          >
+            <HeroView
+              className="user-select-none pointer-events-none aspect-[0.72] h-full touch-none"
+              source="preview"
+              heroCloth={heroCloth}
+              heroId={current}
+              heroRarity={allAppsHeroes[current].rarity}
+            />
+            <AnimatePresence>
+              {clickEffects.map(({ id, x, y }) => (
+                <motion.div
+                  key={id}
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 0, y: -150 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                  className="text-stroke-1 pointer-events-none absolute z-50 select-none text-4xl font-black text-white text-shadow-sm"
+                  style={{ top: y, left: x }}
+                >
+                  +{profile.reward_per_tap}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </button>
+          <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
+            <SideLink
+              image={CupImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.TOP_PLAYERS}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.TOP_PLAYERS}`,
+              )}
+            />
+            <SideLink
+              image={FriendsImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.FRIENDS}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.FRIENDS}`,
+              )}
+            />
+            <SideLink
+              image={PacketImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.SHOP_CLOTHES}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.CLOTHES}`,
+              )}
+            />
+          </div>
+          <EnergyBar energy={energy} max_energy={profile.max_energy} />
+          <SecondaryNavbar
+            currentExp={battlePassExp}
+            needExp={battlePass.need_exp}
+            currentLevel={battlePass.current_level}
+          />
+        </div>
+        <Drawer
+          onClose={handleClose}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+        >
           <OfflineBonusModal
             {...(offlineBonus ?? ({} as OfflineBonus))}
             isPending={isPending}
             onConfirm={handleConfirmOfflineBonus}
           />
-        </div>
-      </Drawer>
+        </Drawer>
+      </div>
+      {reward && (
+        <RewardScreen reward={reward} onFinish={() => setReward(null)} />
+      )}
     </PageWrapper>
   );
 };

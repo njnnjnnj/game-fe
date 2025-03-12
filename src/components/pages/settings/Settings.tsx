@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
@@ -12,6 +13,7 @@ import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useModalVisibility } from "@/hooks/useModalVisibility";
+import SettingsImagePattern from "@/public/assets/png/settings-pattern.webp";
 import WalletIcon from "@/public/assets/svg/wallet.svg";
 import { useDeleteWallet, useSetWallet } from "@/services/profile/queries";
 import {
@@ -73,7 +75,19 @@ export const Settings: FC = () => {
   const { first_name, photo_url } = webApp?.initDataUnsafe.user || {};
 
   return (
-    <PageWrapper className="bg-settings-pattern pt-10">
+    <PageWrapper
+      className={classNames(
+        "relative overflow-hidden bg-settings-pattern pt-10",
+      )}
+    >
+      <div className="absolute inset-0 h-[30%] scale-[4]">
+        <Image
+          src={SettingsImagePattern}
+          alt=""
+          className="object-contain"
+          fill
+        />
+      </div>
       <Drawer
         open={isTonDisconnectModalVisible}
         onOpenChange={setTonDisconnectModalVisible}
