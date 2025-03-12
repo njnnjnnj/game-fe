@@ -423,6 +423,12 @@ export const NS = {
         TITLE: "TITLE",
         DESCRIPTION: "DESCRIPTION",
       },
+      STARTER_KIT_MODAL: {
+        ROOT: "STARTER_KIT_MODAL",
+        BADGE: "BADGE",
+        TITLE: "TITLE",
+        DESCRIPTION: "DESCRIPTION",
+      },
     },
     TOP_PLAYERS: {
       ROOT: "TOP_PLAYERS",
