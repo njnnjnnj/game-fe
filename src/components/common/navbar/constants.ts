@@ -28,7 +28,7 @@ export const NAVBAR_ITEMS = [
   },
   {
     href: ROUTES.REWARDS,
-    label: `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
+    label: `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.EARNINGS}`,
     image: MapImage,
   },
 ];

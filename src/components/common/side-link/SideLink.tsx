@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
@@ -14,10 +14,17 @@ import LightningSvg from "@/public/assets/png/side-link-bg.webp";
 
 type Props = {
   href: string;
+  image?: StaticImageData;
+  text?: string;
   isFullSize?: boolean;
 };
 
-export const SideLink: FunctionComponent<Props> = ({ href, isFullSize }) => {
+export const SideLink: FunctionComponent<Props> = ({
+  href,
+  image,
+  text,
+  isFullSize,
+}) => {
   const { handleSelectionChanged } = useHapticFeedback();
   const t = useTranslations(NS.COMMON.ROOT);
 
@@ -45,16 +52,20 @@ export const SideLink: FunctionComponent<Props> = ({ href, isFullSize }) => {
             />
           </div>
           <div className="absolute z-50 size-full scale-[1.3]">
-            <Image src={AssignmentsImage} alt="side-bar-link" fill />
+            <Image
+              src={image ? image : AssignmentsImage}
+              alt="side-bar-link"
+              fill
+            />
           </div>
         </div>
         <PrimaryButton
           color="yellow"
-          buttonClassName="absolute !pb-0.5 z-50 !w-14 !h-[18px] !rounded-[4px] -bottom-1"
+          buttonClassName="absolute !pb-0.5 z-50 !w-15 text-nowrap !h-[18px] !rounded-[4px] -bottom-1"
           innerClassname="!rounded-[4px] !p-0.5"
           className="text-x tracking-tighter"
         >
-          {t(NS.COMMON.SIDE_LINK)}
+          {text ? text : t(NS.COMMON.SIDE_LINK)}
         </PrimaryButton>
       </div>
     </Link>

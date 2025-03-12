@@ -36,6 +36,8 @@ export const NS = {
         DESCRIPTION: "DESCRIPTION",
         GET_BONUS: "GET_BONUS",
         BUY_BONUS: "BUY_BONUS",
+        RECEIVED: "RECEIVED",
+        ERROR: "ERROR",
       },
       NAVIGATION: {
         ROOT: "NAVIGATION",
@@ -44,6 +46,11 @@ export const NS = {
         HEROES: "HEROES",
         ASSIGNMENTS: "ASSIGNMENTS",
         REWARDS: "REWARDS",
+        EARNINGS: "EARNINGS",
+        TOP_PLAYERS: "TOP_PLAYERS",
+        FRIENDS: "FRIENDS",
+        CLOTHES: "CLOTHES",
+        ACTION: "ACTION",
       },
     },
     SETTINGS: {
