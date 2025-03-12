@@ -202,9 +202,10 @@ export const Home = () => {
             perTap={profile.reward_per_tap}
           />
           <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
-            <div className="absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
+            <div className="sca absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
               <SideLink
                 image={BeastImage}
+                imageClassnames="!size-16 !scale-100"
                 href=""
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
@@ -212,6 +213,7 @@ export const Home = () => {
               />
               <SideLink
                 image={TicketImage}
+                imageClassnames="!size-16 !scale-100"
                 href=""
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
@@ -219,6 +221,7 @@ export const Home = () => {
               />
               <SideLink
                 image={PrizeImage}
+                imageClassnames="!size-16 !scale-100"
                 href={ROUTES.REWARDS}
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
@@ -255,6 +258,7 @@ export const Home = () => {
             <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
               <SideLink
                 image={CupImage}
+                imageClassnames="!size-16 !scale-100"
                 href={ROUTES.TOP_PLAYERS}
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.TOP_PLAYERS}`,
@@ -262,6 +266,7 @@ export const Home = () => {
               />
               <SideLink
                 image={FriendsImage}
+                imageClassnames="!size-16 !scale-100"
                 href={ROUTES.FRIENDS}
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.FRIENDS}`,
@@ -269,6 +274,7 @@ export const Home = () => {
               />
               <SideLink
                 image={PacketImage}
+                imageClassnames="!size-16 !scale-100"
                 href={ROUTES.SHOP_CLOTHES}
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.CLOTHES}`,

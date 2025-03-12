@@ -17,6 +17,7 @@ type Props = {
   image?: StaticImageData;
   text?: string;
   isFullSize?: boolean;
+  imageClassnames?: string;
 };
 
 export const SideLink: FunctionComponent<Props> = ({
@@ -24,6 +25,7 @@ export const SideLink: FunctionComponent<Props> = ({
   image,
   text,
   isFullSize,
+  imageClassnames,
 }) => {
   const { handleSelectionChanged } = useHapticFeedback();
   const t = useTranslations(NS.COMMON.ROOT);
@@ -51,7 +53,12 @@ export const SideLink: FunctionComponent<Props> = ({
               alt="side-bar-link"
             />
           </div>
-          <div className="absolute z-50 size-full scale-[1.3]">
+          <div
+            className={classNames(
+              "absolute z-50 size-full scale-[1.3]",
+              imageClassnames,
+            )}
+          >
             <Image
               src={image ? image : AssignmentsImage}
               alt="side-bar-link"
