@@ -57,7 +57,7 @@ export const SpecialOfferModal: FunctionComponent<Props> = ({
           )}
         </div>
         <DrawerTitle>
-          <div className="text-stroke-1 px-5 text-center font-rubik text-[28px] font-black uppercase leading-none text-white text-shadow-sm">
+          <div className="text-stroke-half px-5 text-center font-rubik text-[28px] font-black uppercase leading-none text-white text-shadow-sm">
             {t(
               `${NS.PAGES.SHOP.SPECIAL_OFFER_MODAL.ROOT}.${NS.PAGES.SHOP.SPECIAL_OFFER_MODAL.TITLE}`,
             )}
