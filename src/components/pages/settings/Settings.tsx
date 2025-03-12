@@ -73,7 +73,12 @@ export const Settings: FC = () => {
   const { first_name, photo_url } = webApp?.initDataUnsafe.user || {};
 
   return (
-    <PageWrapper className="bg-settings-pattern pt-10">
+    <PageWrapper
+      className={classNames(
+        "relative bg-[url('/assets/png/settings-pattern.webp')] bg-[position:-80%] pt-10",
+        "after:absolute after:inset-0 after:-z-[1] after:bg-settings-pattern",
+      )}
+    >
       <Drawer
         open={isTonDisconnectModalVisible}
         onOpenChange={setTonDisconnectModalVisible}
