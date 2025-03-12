@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,11 +13,18 @@ import { PageWrapper, ProfileHeader, SideLink } from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
+import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
 import { useTelegram } from "@/context";
 import { useClickEffects } from "@/hooks/useClickEffects";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useThrottledClicker } from "@/hooks/useThrottledClicker";
+import BeastImage from "@/public/assets/png/home/beast.webp";
+import CupImage from "@/public/assets/png/home/cup.webp";
+import FriendsImage from "@/public/assets/png/home/friends.webp";
+import PacketImage from "@/public/assets/png/home/packet.webp";
+import PrizeImage from "@/public/assets/png/home/prize.webp";
+import TicketImage from "@/public/assets/png/home/ticker.webp";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import { useGetBattlePass } from "@/services/battle-pass/queries";
 import { BattlePassInfo } from "@/services/battle-pass/types";
@@ -40,6 +48,7 @@ import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 
 export const Home = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations(NS.PAGES.HOME.ROOT);
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { refetch } = useGetProfile();
   const { handleSelectionChanged } = useHapticFeedback();
@@ -137,13 +146,27 @@ export const Home = () => {
     mutate(undefined, {
       onSuccess: () => {
         invalidateOfflineBonusQuery(queryClient);
-        toast(<Toast type="done" text="Бонус получен" />);
+        toast(
+          <Toast
+            type="done"
+            text={t(
+              `${NS.PAGES.HOME.OFFLINE_BONUS.ROOT}.${NS.PAGES.HOME.OFFLINE_BONUS.RECEIVED}`,
+            )}
+          />,
+        );
         setIsModalOpen(false);
         setIsClaimed(true);
         Cookies.set("offlineBonusClaimed", "true", { expires: 1 / 24 });
       },
-      onError: (error) =>
-        toast(<Toast type="destructive" text={error.message} />),
+      onError: () =>
+        toast(
+          <Toast
+            type="destructive"
+            text={t(
+              `${NS.PAGES.HOME.OFFLINE_BONUS.ROOT}.${NS.PAGES.HOME.OFFLINE_BONUS.ERROR}`,
+            )}
+          />,
+        ),
     });
   };
 
@@ -180,9 +203,27 @@ export const Home = () => {
           />
           <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
             <div className="absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
-              <SideLink href="" />
-              <SideLink href="" />
-              <SideLink href={ROUTES.REWARDS} />
+              <SideLink
+                image={BeastImage}
+                href=""
+                text={t(
+                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
+                )}
+              />
+              <SideLink
+                image={TicketImage}
+                href=""
+                text={t(
+                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
+                )}
+              />
+              <SideLink
+                image={PrizeImage}
+                href={ROUTES.REWARDS}
+                text={t(
+                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
+                )}
+              />
             </div>
             <button
               onClick={handleClick}
@@ -212,9 +253,27 @@ export const Home = () => {
               </AnimatePresence>
             </button>
             <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
-              <SideLink href={ROUTES.TOP_PLAYERS} />
-              <SideLink href={ROUTES.FRIENDS} />
-              <SideLink href={ROUTES.SHOP_CLOTHES} />
+              <SideLink
+                image={CupImage}
+                href={ROUTES.TOP_PLAYERS}
+                text={t(
+                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.TOP_PLAYERS}`,
+                )}
+              />
+              <SideLink
+                image={FriendsImage}
+                href={ROUTES.FRIENDS}
+                text={t(
+                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.FRIENDS}`,
+                )}
+              />
+              <SideLink
+                image={PacketImage}
+                href={ROUTES.SHOP_CLOTHES}
+                text={t(
+                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.CLOTHES}`,
+                )}
+              />
             </div>
             <EnergyBar energy={energy} max_energy={profile.max_energy} />
             <SecondaryNavbar

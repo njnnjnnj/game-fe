@@ -29,14 +29,21 @@
       "TITLE": "Offline Bonus",
       "DESCRIPTION": "Come back every 3 hours to earn profit! You can buy a Booster to increase the offline bonus period.",
       "GET_BONUS": "Get Bonus",
-      "BUY_BONUS": "Buy Booster"
+      "BUY_BONUS": "Buy Booster",
+      "RECEIVED": "Bonus received",
+      "ERROR": "Bonus receipt error"
     },
     "NAVIGATION": {
       "HOME": "Home",
       "SHOP": "Shop",
       "HEROES": "Heroes",
       "ASSIGNMENTS": "Assignments",
-      "REWARDS": "Rewards"
+      "EARNINGS": "Earnings",
+      "TOP_PLAYERS": "Top players",
+      "FRIENDS": "Friends",
+      "CLOTHES": "Clothes",
+      "REWARDS": "Awards",
+      "ACTION": "Action"
     }
   },
   "SETTINGS": {
