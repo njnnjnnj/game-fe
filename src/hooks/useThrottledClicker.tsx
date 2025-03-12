@@ -34,9 +34,6 @@ export const useThrottledClicker = () => {
             token,
           },
           {
-            onSuccess: () => {
-              console.log("Throttle Success!!");
-            },
             onError: (error) => {
               clickCountRef.current += clicks;
               toast.error(error.message);

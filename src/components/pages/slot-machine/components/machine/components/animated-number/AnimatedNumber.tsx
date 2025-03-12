@@ -68,13 +68,11 @@ export const AnimatedNumber: FunctionComponent<Props> = ({
     }
   });
 
-  const value = formatter ? formatter(displayNum) : displayNum;
-
   return (
     <div className={className}>
-      <div className="invisible">{value}</div>
+      <div className="invisible">{formatter ? formatter(targetNum) : targetNum}</div>
       <div className="absolute top-1/2 -translate-y-1/2" ref={ref}>
-        {value}
+        {formatter ? formatter(displayNum) : displayNum}
       </div>
     </div>
   );

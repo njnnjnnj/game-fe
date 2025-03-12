@@ -11,6 +11,7 @@ import { CollectButtonColor } from "@/components/ui";
 import { NS } from "@/constants/ns";
 import {
   HeroClothPiece,
+  HeroCurrency,
   HeroId,
   IHeroClothConfig,
 } from "@/services/heroes/types";
@@ -96,7 +97,14 @@ export const ClothCard: FunctionComponent<Props> = ({
       }
       bottomBadge={
         !isOwnCloth ? (
-          <Badge value={formatValue(clothPieceConfig.price)} />
+          <Badge
+            value={formatValue(clothPieceConfig.price)}
+            currency={
+              clothPieceConfig.currency === HeroCurrency.COINS
+                ? "coins"
+                : "stars"
+            }
+          />
         ) : undefined
       }
       isDisabled={isBlocked}

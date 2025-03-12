@@ -99,56 +99,62 @@ export const Rewards = () => {
         isLoadingAppsCards
       }
     >
-      <ProfileHeader />
-      <div className="mt-6 flex flex-1 flex-col gap-6">
-        <Tabs
-          activeTab={current}
-          setActiveTab={handleTabChange}
-          tabs={Object.values(TabsEnum)}
-        />
-        <div
-          ref={containerRef}
-          className="overflow-hidden transition-all duration-300"
-          style={{ height: slideHeight || "auto" }}
-        >
-          <Carousel setApi={setApi}>
-            <CarouselContent>
-              <CarouselItem
-                className={current === 1 ? "carousel-item-active" : ""}
-              >
-                <EarningsContent
-                  isActive={current === 1}
-                  cards={cards ?? ({} as DataStructure)}
-                  appsCards={appsCards ?? ({} as Events)}
-                />
-              </CarouselItem>
-              <CarouselItem
-                className={current === 2 ? "carousel-item-active" : ""}
-              >
-                <RewardsContent
-                  onCollectReward={getDailyReward}
-                  dailyRewardInfo={dailyRewardInfo ?? ({} as IDailyRewardInfo)}
-                  isActive={current === 2}
-                />
-              </CarouselItem>
-              <CarouselItem
-                className={current === 3 ? "carousel-item-active" : ""}
-              >
-                <BoosterContent
-                  boosters={data ?? ({} as IBoosters)}
-                  isActive={current === 3}
-                />
-              </CarouselItem>
-            </CarouselContent>
-          </Carousel>
-        </div>
-      </div>
-      {current === 2 && (
-        <GetAllButton
-          disabled={!dailyRewardInfo?.available}
-          isLoading={isPending}
-          onClick={getDailyReward}
-        />
+      {!reward && (
+        <>
+          <ProfileHeader />
+          <div className="mt-6 flex flex-1 flex-col gap-6">
+            <Tabs
+              activeTab={current}
+              setActiveTab={handleTabChange}
+              tabs={Object.values(TabsEnum)}
+            />
+            <div
+              ref={containerRef}
+              className="overflow-hidden transition-all duration-300"
+              style={{ height: slideHeight || "auto" }}
+            >
+              <Carousel setApi={setApi}>
+                <CarouselContent>
+                  <CarouselItem
+                    className={current === 1 ? "carousel-item-active" : ""}
+                  >
+                    <EarningsContent
+                      isActive={current === 1}
+                      cards={cards ?? ({} as DataStructure)}
+                      appsCards={appsCards ?? ({} as Events)}
+                    />
+                  </CarouselItem>
+                  <CarouselItem
+                    className={current === 2 ? "carousel-item-active" : ""}
+                  >
+                    <RewardsContent
+                      onCollectReward={getDailyReward}
+                      dailyRewardInfo={
+                        dailyRewardInfo ?? ({} as IDailyRewardInfo)
+                      }
+                      isActive={current === 2}
+                    />
+                  </CarouselItem>
+                  <CarouselItem
+                    className={current === 3 ? "carousel-item-active" : ""}
+                  >
+                    <BoosterContent
+                      boosters={data ?? ({} as IBoosters)}
+                      isActive={current === 3}
+                    />
+                  </CarouselItem>
+                </CarouselContent>
+              </Carousel>
+            </div>
+          </div>
+          {current === 2 && (
+            <GetAllButton
+              disabled={!dailyRewardInfo?.available}
+              isLoading={isPending}
+              onClick={getDailyReward}
+            />
+          )}
+        </>
       )}
       {reward && (
         <RewardScreen reward={reward} onFinish={() => setReward(null)} />

@@ -9,8 +9,9 @@ import { Card, CardType } from "@/components/common/card/Card";
 import { AnimatedNumber } from "@/components/pages/slot-machine/components/machine/components/animated-number/AnimatedNumber";
 import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
+import GameEnergyIcon from "@/public/assets/png/game-energy.webp";
+import CoinSVG from "@/public/assets/svg/coin.svg";
 import FriendsSVG from "@/public/assets/svg/friends-coin.svg";
-import CoinSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { useGetProfile } from "@/services/profile/queries";
 import { useGetBandit } from "@/services/slot-machine/queries";
@@ -78,11 +79,15 @@ const renderCoin = (type: CofferKey) => {
     );
   }
 
+  if (type === "game_energy") {
+    return <Image src={GameEnergyIcon} width={28} height={28} alt="" />;
+  }
+
   return (
-    <CoinSvg
+    <CoinSVG
       width="100%"
       height="100%"
-      viewBox="0 0 26 26"
+      viewBox="0 0 28 28"
       preserveAspectRatio="none"
     />
   );

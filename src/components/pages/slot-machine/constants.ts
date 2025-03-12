@@ -3,7 +3,7 @@ import { ChestType, Reward, RewardShape } from "@/types/rewards";
 
 export const mockComplexReward: RewardShape = {
   reward: Reward.CHEST,
-  value: ChestType.EPIC,
+  value: ChestType.MEGA,
   character: null,
   cloth: null,
   coffer: {

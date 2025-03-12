@@ -7,8 +7,8 @@ import classNames from "classnames";
 
 import { NS } from "@/constants/ns";
 import WinPaneImg from "@/public/assets/png/slot-machine/win-pane.webp";
+import CoinSVG from "@/public/assets/svg/coin.svg";
 import FriendsSVG from "@/public/assets/svg/friends-coin.svg";
-import CoinSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { Face } from "@/services/slot-machine/types";
 import { Reward } from "@/types/rewards";
@@ -39,10 +39,10 @@ const renderCoin = (type: Props["type"]) => {
 
   if (type === Reward.COINS) {
     return (
-      <CoinSvg
+      <CoinSVG
         width="100%"
         height="100%"
-        viewBox="0 0 26 26"
+        viewBox="0 0 28 28"
         preserveAspectRatio="none"
       />
     );

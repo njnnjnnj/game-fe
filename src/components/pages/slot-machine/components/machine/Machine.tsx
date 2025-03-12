@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 
+import Image from "next/image";
+
 import { AxiosError } from "axios";
 import classNames from "classnames";
 import { toast } from "sonner";
@@ -8,6 +10,8 @@ import { SideLink } from "@/components/common";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import VipSlotMachineImg from "@/public/assets/png/slot-machine/slot-machine-blue.webp";
+import BaseSlotMachineImg from "@/public/assets/png/slot-machine/slot-machine-red.webp";
 import { updateProfileQuery, useGetProfile } from "@/services/profile/queries";
 import {
   updateGetBanditQuery,
@@ -292,17 +296,14 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
     >
       <div className="flex min-h-0 grow flex-col">
         <div className="mt-auto aspect-[0.51] max-h-full w-full">
-          <div
-            className={classNames(
-              "relative h-full w-full bg-[length:100%_100%]",
-              {
-                "bg-[url('/assets/png/slot-machine/slot-machine-red.webp')]":
-                  !isVip,
-                "bg-[url('/assets/png/slot-machine/slot-machine-blue.webp')]":
-                  isVip,
-              },
-            )}
-          >
+          <div className="relative h-full w-full">
+            <Image
+              src={isVip ? VipSlotMachineImg : BaseSlotMachineImg}
+              alt=""
+              sizes="100vw"
+              fill
+              priority
+            />
             <SwitchButton
               label={isVip ? "BASE" : "VIP ROOM"}
               onClick={() => setIsVip(!isVip)}

@@ -53,3 +53,16 @@ export const useLevelupBattlePass = () =>
     mutationKey: [QueryKeys.LEVELUP_BATTLEPASS],
     mutationFn: levelupBattlePass,
   });
+
+export const levelupBattlePassQuery = (queryClient: QueryClient) => {
+  queryClient.setQueryData(
+    [QueryKeys.GET_BATTLEPASS],
+    (prevBattlePass: BattlePassInfo) => ({
+      ...prevBattlePass,
+      current_exp: 1,
+      current_level: prevBattlePass.current_level + 1,
+      need_exp:
+        prevBattlePass.need_exp + (prevBattlePass.current_level > 70 ? 60 : 50),
+    }),
+  );
+};

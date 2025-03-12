@@ -50,7 +50,7 @@ export const Home = () => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.HOME.ROOT);
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
-  const { refetch } = useGetProfile();
+  const { refetch: refetchProfile } = useGetProfile();
   const { handleSelectionChanged } = useHapticFeedback();
   const {
     data: battlePass,
@@ -103,6 +103,11 @@ export const Home = () => {
   useEffect(() => {
     // Always refetch BP info when getting to this page
     refetchBattlePass({ cancelRefetch: false });
+
+    return () => {
+      // Refetch profile when leaving the page so that calculations are correct when user gets back to the page
+      refetchProfile();
+    };
   }, []);
 
   useEffect(() => {
@@ -116,7 +121,7 @@ export const Home = () => {
       const timeSinceLastClick = Date.now() - lastClickTimeRef.current;
 
       if (timeSinceLastClick >= 3000) {
-        refetch().then(({ data }) => {
+        refetchProfile().then(({ data }) => {
           if (data) {
             setEnergy(data.energy);
           }

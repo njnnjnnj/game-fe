@@ -12,12 +12,19 @@ import Image from "next/image";
 
 import classNames from "classnames";
 
-import AssignmentsImage from "@/public/assets/png/home/assignments.webp";
+import BeastImage from "@/public/assets/png/home/beast.webp";
+import CupImage from "@/public/assets/png/home/cup.webp";
+import FriendsImage from "@/public/assets/png/home/friends.webp";
 import HeroesImage from "@/public/assets/png/home/heroes.webp";
 import MapImage from "@/public/assets/png/home/map.webp";
+import PacketImage from "@/public/assets/png/home/packet.webp";
+import PrizeImage from "@/public/assets/png/home/prize.webp";
 import ShopImage from "@/public/assets/png/home/shop.webp";
+import TicketImage from "@/public/assets/png/home/ticker.webp";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import SideLinkBg from "@/public/assets/png/side-link-bg.webp";
+import VipSlotMachineImg from "@/public/assets/png/slot-machine/slot-machine-blue.webp";
+import BaseSlotMachineImg from "@/public/assets/png/slot-machine/slot-machine-red.webp";
 import SplashBg from "@/public/assets/png/splash-screen-bg.webp";
 
 import { PreloadCurrentHeroView } from "./components/preload-current-hero-view/PreloadCurrentHeroView";
@@ -41,11 +48,18 @@ type Props = {
 
 const PRELOAD_ITEMS: PreloadItem[] = [
   { src: MainImage, fill: true },
-  { src: AssignmentsImage, fill: true },
+  { src: TicketImage, fill: true },
+  { src: PrizeImage, fill: true },
+  { src: PacketImage, fill: true },
+  { src: FriendsImage, fill: true },
+  { src: CupImage, fill: true },
+  { src: BeastImage, fill: true },
   { src: HeroesImage, fill: true },
   { src: ShopImage, fill: true },
   { src: MapImage, fill: true },
   { src: SideLinkBg, fill: true },
+  { src: BaseSlotMachineImg, fill: true },
+  { src: VipSlotMachineImg, fill: true },
   (key, onLoad) => <PreloadCurrentHeroView key={key} onLoad={onLoad} />,
   (key, onLoad) => <PreloadRareHeroGridViews key={key} onLoad={onLoad} />,
 ];

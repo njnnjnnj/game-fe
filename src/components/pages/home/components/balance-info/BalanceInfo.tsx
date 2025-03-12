@@ -6,8 +6,8 @@ import { useTranslations } from "next-intl";
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import CoinSvg from "@/public/assets/svg/coin.svg";
 import IncomeSvg from "@/public/assets/svg/income.svg";
-import StarSvg from "@/public/assets/svg/star.svg";
 import TapSvg from "@/public/assets/svg/tap.svg";
 import { formatNumber } from "@/utils/number";
 
@@ -28,7 +28,12 @@ export const BalanceInfo: FunctionComponent<Props> = ({
   return (
     <div className="relative z-20 pt-6">
       <div className="mb-3 flex items-center justify-center gap-3">
-        <StarSvg className="size-10" />
+        <CoinSvg
+          className="size-10"
+          width={40}
+          height={40}
+          viewBox="0 0 28 28"
+        />
         <span className="text-stroke-1 text-[40px] font-black leading-none text-white text-shadow-sm">
           {balance ? formatNumber(balance) : "0"}
         </span>

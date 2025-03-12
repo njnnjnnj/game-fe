@@ -61,7 +61,8 @@ export const HeroStats: FunctionComponent<Props> = ({
 }) => {
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
   const tShop = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
-  const { data: heroes, isPending: isHeroesDataPending } = useGetAllAppsHeroes();
+  const { data: heroes, isPending: isHeroesDataPending } =
+    useGetAllAppsHeroes();
 
   const renderCta = () => {
     let color: ComponentProps<typeof PrimaryButton>["color"];
@@ -234,7 +235,11 @@ export const HeroStats: FunctionComponent<Props> = ({
               </div>
               <div className="flex justify-center gap-x-2">
                 {!!coins && (
-                  <Badge value={formatValue(coins)} suppressPadding />
+                  <Badge
+                    value={formatValue(coins)}
+                    currency="coins"
+                    suppressPadding
+                  />
                 )}
                 <Badge value={formatValue(stars)} suppressPadding />
               </div>

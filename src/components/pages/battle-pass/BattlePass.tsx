@@ -48,10 +48,14 @@ export const BattlePass = () => {
       }
       disableSafeAreaInset
     >
-      <BattlePassHeader bgScaleDelta={bgScaleDelta} />
-      <BattlePassList onScroll={onScroll} onGetReward={setReward} />
+      {!reward && (
+        <>
+          <BattlePassHeader bgScaleDelta={bgScaleDelta} />
+          <BattlePassList onScroll={onScroll} onGetReward={setReward} />
 
-      <BottomMenu />
+          <BottomMenu />
+        </>
+      )}
 
       {reward && (
         <RewardScreen reward={reward} onFinish={() => setReward(null)} />

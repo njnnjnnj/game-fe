@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 
-import { invalidateBattlePassQuery } from "@/services/battle-pass/queries";
+import { levelupBattlePassQuery } from "@/services/battle-pass/queries";
 import { BattlePassInfo } from "@/services/battle-pass/types";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -30,7 +30,7 @@ export const useClickEffects = (
       setClickEffects((prev) => [...prev, { id, x, y }]);
 
       if (battlePassExp === battlePass?.need_exp) {
-        invalidateBattlePassQuery(queryClient);
+        levelupBattlePassQuery(queryClient);
       } else {
         setBattlePassExp((prev) => prev + 1);
       }
