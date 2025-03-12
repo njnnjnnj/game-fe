@@ -394,6 +394,7 @@ export const NS = {
       STARS: "STARS",
       BUY_FRIENDS: "BUY_FRIENDS",
       AUTO_COLLECT: "AUTO_COLLECT",
+      BOUGHT_SUCCESSFULLY: "BOUGHT_SUCCESSFULLY",
       SHOP_TYPE: {
         ROOT: "SHOP_TYPE",
         CHESTS: "CHESTS",

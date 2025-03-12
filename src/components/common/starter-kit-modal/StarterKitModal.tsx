@@ -57,7 +57,7 @@ export const StarterKitModal: FunctionComponent<Props> = ({
           )}
         </div>
         <DrawerTitle>
-          <div className="text-stroke-half px-5 text-center font-rubik text-[28px] font-black uppercase leading-none text-white text-shadow-sm">
+          <div className="text-stroke-half px-5 text-center font-rubik text-[28px] font-black uppercase leading-none text-white text-shadow">
             {t(
               `${NS.PAGES.SHOP.STARTER_KIT_MODAL.ROOT}.${NS.PAGES.SHOP.STARTER_KIT_MODAL.TITLE}`,
             )}
@@ -74,7 +74,7 @@ export const StarterKitModal: FunctionComponent<Props> = ({
           <div className="rounded-lg bg-black/40 p-0.5 shadow-[0px_2px_4px_0px_#00000066_inset,0px_-2px_4px_0px_#00000033_inset,0px_1px_1px_0px_#FFFFFF66]">
             <div className="relative pt-[100%]">
               <Image src={MegaChestImage} alt="" sizes="25vw" fill />
-              <div className="text-stroke-1 absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow-sm">
+              <div className="text-stroke-half absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow">
                 x30m
               </div>
             </div>
@@ -83,7 +83,7 @@ export const StarterKitModal: FunctionComponent<Props> = ({
             <div className="relative pt-[100%]">
               <Image src={EpicChestImage} alt="" sizes="25vw" fill />
 
-              <div className="text-stroke-1 absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow-sm">
+              <div className="text-stroke-half absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow">
                 x2
               </div>
             </div>
@@ -91,7 +91,7 @@ export const StarterKitModal: FunctionComponent<Props> = ({
           <div className="rounded-lg bg-black/40 p-0.5 shadow-[0px_2px_4px_0px_#00000066_inset,0px_-2px_4px_0px_#00000033_inset,0px_1px_1px_0px_#FFFFFF66]">
             <div className="relative pt-[100%]">
               <Image src={MegaChestImage} alt="" sizes="25vw" fill />
-              <div className="text-stroke-1 absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow-sm">
+              <div className="text-stroke-half absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow">
                 x15k
               </div>
             </div>
@@ -99,7 +99,7 @@ export const StarterKitModal: FunctionComponent<Props> = ({
           <div className="rounded-lg bg-black/40 p-0.5 shadow-[0px_2px_4px_0px_#00000066_inset,0px_-2px_4px_0px_#00000033_inset,0px_1px_1px_0px_#FFFFFF66]">
             <div className="relative pt-[100%]">
               <Image src={MegaChestImage} alt="" sizes="25vw" fill />
-              <div className="text-stroke-1 absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow-sm">
+              <div className="text-stroke-half absolute bottom-1 w-full text-center text-lg font-black text-white text-shadow">
                 x15k
               </div>
             </div>
