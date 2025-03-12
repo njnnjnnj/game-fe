@@ -378,6 +378,11 @@
     "BUY_FOR": "Buy for",
     "SPECIAL_OFFER_MODAL": {
       "BADGE": "Special offer",
+      "TITLE": " Beast Games",
+      "DESCRIPTION": "Buy a set and get 30.000.000 coins, 1.200 stars, 2 mega chests and 15.000"
+    },
+    "STARTER_KIT_MODAL": {
+      "BADGE": "Special offer",
       "TITLE": "Get 15,000 spins at a super discount!",
       "DESCRIPTION": "Complete daily star transactions and get huge rewards"
     }

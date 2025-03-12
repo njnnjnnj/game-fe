@@ -9,7 +9,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 
-import { PageWrapper, ProfileHeader, SideLink } from "@/components/common";
+import {
+  PageWrapper,
+  ProfileHeader,
+  SideLink,
+  SpecialOfferModal,
+  StarterKitModal,
+} from "@/components/common";
 import { HeroView } from "@/components/hs-shared";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
@@ -37,7 +43,7 @@ import {
 import { OfflineBonus } from "@/services/offline-bonus/types";
 import { useGetProfile } from "@/services/profile/queries";
 import { useGetShop } from "@/services/shop/queries";
-import { ShopItemTypeEnum } from "@/services/shop/types";
+import { ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -58,6 +64,8 @@ export const Home = () => {
     refetch: refetchBattlePass,
   } = useGetBattlePass();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSpecialOfferModalOpen, setIsSpecialOfferModalOpen] = useState(false);
+  const [isStarterKitModalOpen, setIsStarterKitModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
   const [battlePassExp, setBattlePassExp] = useState(0);
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
@@ -69,6 +77,17 @@ export const Home = () => {
   const { data } = useGetShop();
   const friendsShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
+    [data],
+  );
+
+  const starterKitShopItems = useMemo(
+    () =>
+      data?.items.find((item) => item.type === ShopItemTypeEnum.STARTER_PACK),
+    [data],
+  );
+
+  const specialOfferShopItem = useMemo(
+    () => data?.items.find((item) => item.type === ShopItemTypeEnum.SPECIAL),
     [data],
   );
 
@@ -177,32 +196,31 @@ export const Home = () => {
 
   return (
     <PageWrapper isLoading={isLoading} disableSafeAreaInset>
-      <Drawer
-        onClose={handleClose}
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
+      <div
+        className={classNames(
+          "relative flex h-screen max-h-screen w-full flex-col items-center overflow-hidden overflow-y-auto overscroll-contain bg-blue-800",
+        )}
+        style={{ paddingTop: `${calculatedPaddingTop}px` }}
       >
-        <div
-          className={classNames(
-            "relative flex h-screen max-h-screen w-full flex-col items-center overflow-hidden overflow-y-auto overscroll-contain bg-blue-800",
-          )}
-          style={{ paddingTop: `${calculatedPaddingTop}px` }}
-        >
-          <div className="fixed inset-0 z-10 h-full w-full">
-            <Image src={MainImage} alt="main-bg" fill />
-          </div>
-          <ProfileHeader
-            className="top-0 z-20 w-full"
-            hasFriendsBlock
-            shopItemsForBuyFriends={friendsShopItems ?? []}
-          />
-          <BalanceInfo
-            balance={profileBalance}
-            perHour={profile.reward_per_hour}
-            perTap={profile.reward_per_tap}
-          />
-          <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
-            <div className="sca absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
+        <div className="fixed inset-0 z-10 h-full w-full">
+          <Image src={MainImage} alt="main-bg" fill />
+        </div>
+        <ProfileHeader
+          className="top-0 z-20 w-full"
+          hasFriendsBlock
+          shopItemsForBuyFriends={friendsShopItems ?? []}
+        />
+        <BalanceInfo
+          balance={profileBalance}
+          perHour={profile.reward_per_hour}
+          perTap={profile.reward_per_tap}
+        />
+        <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
+          <div className="sca absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
+            <Drawer
+              open={isSpecialOfferModalOpen}
+              onOpenChange={setIsSpecialOfferModalOpen}
+            >
               <SideLink
                 image={BeastImage}
                 imageClassnames="!size-16 !scale-100"
@@ -210,7 +228,18 @@ export const Home = () => {
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
                 )}
+                onClick={() => setIsSpecialOfferModalOpen(true)}
               />
+              <SpecialOfferModal
+                isLoading={false}
+                onSubmit={() => {}}
+                shopItem={specialOfferShopItem ?? ({} as ShopItem)}
+              />
+            </Drawer>
+            <Drawer
+              open={isStarterKitModalOpen}
+              onOpenChange={setIsStarterKitModalOpen}
+            >
               <SideLink
                 image={TicketImage}
                 imageClassnames="!size-16 !scale-100"
@@ -218,84 +247,95 @@ export const Home = () => {
                 text={t(
                   `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
                 )}
+                onClick={() => setIsStarterKitModalOpen(true)}
               />
-              <SideLink
-                image={PrizeImage}
-                imageClassnames="!size-16 !scale-100"
-                href={ROUTES.REWARDS}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
-                )}
+              <StarterKitModal
+                isLoading={false}
+                onSubmit={() => {}}
+                shopItem={starterKitShopItems ?? ({} as ShopItem)}
               />
-            </div>
-            <button
-              onClick={handleClick}
-              className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
-            >
-              <HeroView
-                className="user-select-none pointer-events-none aspect-[0.72] h-full touch-none"
-                source="preview"
-                heroCloth={heroCloth}
-                heroId={current}
-                heroRarity={allAppsHeroes[current].rarity}
-              />
-              <AnimatePresence>
-                {clickEffects.map(({ id, x, y }) => (
-                  <motion.div
-                    key={id}
-                    initial={{ opacity: 1, y: 0 }}
-                    animate={{ opacity: 0, y: -150 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1 }}
-                    className="text-stroke-1 pointer-events-none absolute z-50 select-none text-4xl font-black text-white text-shadow-sm"
-                    style={{ top: y, left: x }}
-                  >
-                    +{profile.reward_per_tap}
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </button>
-            <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
-              <SideLink
-                image={CupImage}
-                imageClassnames="!size-16 !scale-100"
-                href={ROUTES.TOP_PLAYERS}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.TOP_PLAYERS}`,
-                )}
-              />
-              <SideLink
-                image={FriendsImage}
-                imageClassnames="!size-16 !scale-100"
-                href={ROUTES.FRIENDS}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.FRIENDS}`,
-                )}
-              />
-              <SideLink
-                image={PacketImage}
-                imageClassnames="!size-16 !scale-100"
-                href={ROUTES.SHOP_CLOTHES}
-                text={t(
-                  `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.CLOTHES}`,
-                )}
-              />
-            </div>
-            <EnergyBar energy={energy} max_energy={profile.max_energy} />
-            <SecondaryNavbar
-              currentExp={battlePassExp}
-              needExp={battlePass.need_exp}
-              currentLevel={battlePass.current_level}
+            </Drawer>
+            <SideLink
+              image={PrizeImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.REWARDS}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.REWARDS}`,
+              )}
             />
           </div>
-
+          <button
+            onClick={handleClick}
+            className="user-select-none relative flex h-full w-full transform-gpu touch-manipulation items-center justify-center transition-all active:scale-[0.98]"
+          >
+            <HeroView
+              className="user-select-none pointer-events-none aspect-[0.72] h-full touch-none"
+              source="preview"
+              heroCloth={heroCloth}
+              heroId={current}
+              heroRarity={allAppsHeroes[current].rarity}
+            />
+            <AnimatePresence>
+              {clickEffects.map(({ id, x, y }) => (
+                <motion.div
+                  key={id}
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 0, y: -150 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                  className="text-stroke-1 pointer-events-none absolute z-50 select-none text-4xl font-black text-white text-shadow-sm"
+                  style={{ top: y, left: x }}
+                >
+                  +{profile.reward_per_tap}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </button>
+          <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
+            <SideLink
+              image={CupImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.TOP_PLAYERS}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.TOP_PLAYERS}`,
+              )}
+            />
+            <SideLink
+              image={FriendsImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.FRIENDS}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.FRIENDS}`,
+              )}
+            />
+            <SideLink
+              image={PacketImage}
+              imageClassnames="!size-16 !scale-100"
+              href={ROUTES.SHOP_CLOTHES}
+              text={t(
+                `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.CLOTHES}`,
+              )}
+            />
+          </div>
+          <EnergyBar energy={energy} max_energy={profile.max_energy} />
+          <SecondaryNavbar
+            currentExp={battlePassExp}
+            needExp={battlePass.need_exp}
+            currentLevel={battlePass.current_level}
+          />
+        </div>
+        <Drawer
+          onClose={handleClose}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+        >
           <OfflineBonusModal
             {...(offlineBonus ?? ({} as OfflineBonus))}
             isPending={isPending}
             onConfirm={handleConfirmOfflineBonus}
           />
-        </div>
-      </Drawer>
+        </Drawer>
+      </div>
     </PageWrapper>
   );
 };

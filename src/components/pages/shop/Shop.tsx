@@ -10,6 +10,7 @@ import {
   PageWrapper,
   ProfileHeader,
 } from "@/components/common";
+import { SpecialOfferModal } from "@/components/common";
 import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
@@ -31,7 +32,6 @@ import { BaseModal } from "./components/base-modal/BaseModal";
 import { Chests } from "./components/chests/Chests";
 import { Friends } from "./components/friends/Friends";
 import { SpecialOffer } from "./components/special-offer/SpecialOffer";
-import { SpecialOfferModal } from "./components/special-offer-modal/SpecialOfferModal";
 import { Stars } from "./components/stars/Stars";
 import { StarterKit } from "./components/starter-kit/StarterKit";
 

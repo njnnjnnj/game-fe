@@ -18,6 +18,7 @@ type Props = {
   text?: string;
   isFullSize?: boolean;
   imageClassnames?: string;
+  onClick?: () => void;
 };
 
 export const SideLink: FunctionComponent<Props> = ({
@@ -26,9 +27,15 @@ export const SideLink: FunctionComponent<Props> = ({
   text,
   isFullSize,
   imageClassnames,
+  onClick,
 }) => {
   const { handleSelectionChanged } = useHapticFeedback();
   const t = useTranslations(NS.COMMON.ROOT);
+
+  const handleClick = () => {
+    handleSelectionChanged();
+    if (onClick) onClick();
+  };
 
   return (
     <Link
@@ -40,7 +47,7 @@ export const SideLink: FunctionComponent<Props> = ({
           "w-full": isFullSize,
         },
       )}
-      onClick={() => handleSelectionChanged()}
+      onClick={handleClick}
     >
       <div className="relative flex h-full w-full items-center justify-center rounded-full bg-[#FFCE08] p-1.5 shadow-[inset_0_-1px_0_rgba(255,255,255,0.4)]">
         <div className="flex h-full w-full items-center justify-center rounded-full bg-[#E88C0E] shadow-[inset_0_1px_0_rgba(0,0,0,0.2)] drop-shadow-inner-side-link">
