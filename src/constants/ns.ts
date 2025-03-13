@@ -199,6 +199,7 @@ export const NS = {
       DAY: "DAY",
       MAX_CARD_LEVEL: "MAX_CARD_LEVEL",
       RECEIVED: "RECEIVED",
+
       COLLECT: "COLLECT",
       EARNINGS: {
         ROOT: "EARNINGS",
@@ -216,6 +217,9 @@ export const NS = {
         PREMIUM: "PREMIUM",
         AVAILABLE: "AVAILABLE",
         NOT_AVAILABLE: "NOT_AVAILABLE",
+        CURRENT: "CURRENT",
+        AFTER_IMPROVE: "AFTER_IMPROVE",
+        IMPROVE_FOR: "IMPROVE_FOR",
         APPLY: "APPLY",
         BUY: "BUY",
         COUNT: "COUNT",

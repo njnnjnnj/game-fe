@@ -188,7 +188,10 @@
       "COUNT": "{num1} of {num2}",
       "LEVEL": "{num} lvl.",
       "COUNT_BOOSTERS": "{num} pcs.",
+      "CURRENT": "Current",
+      "AFTER_IMPROVE": "After improvement",
       "BUY_FOR": "Buy for",
+      "IMPROVE_FOR": "Improve for",
       "SUCCESS_BUY_BOOSTER": "Booster Purchased Successfully",
       "SUCCESS_APPLY_BOOSTER": "Booster Applied Successfully",
       "PREMIUM": {

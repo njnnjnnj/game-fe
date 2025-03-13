@@ -48,7 +48,7 @@ export const StarterKitModal: FunctionComponent<Props> = ({
       <div className="z-10 mb-6 mt-auto flex flex-col items-center gap-3">
         <div
           className={classNames(
-            "text-stroke-half mx-auto flex items-center gap-2 self-start rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-shadow-sm",
+            "text-stroke-half mx-auto flex items-center gap-2 self-start rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 font-extrabold uppercase text-shadow-sm",
           )}
         >
           <StarSVG className="size-4" />
