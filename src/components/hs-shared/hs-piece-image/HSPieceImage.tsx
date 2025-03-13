@@ -23,7 +23,7 @@ const capitalizeFirstLetter = (str: string) => {
 const imageBuilder = (
   heroId: HeroId,
   part: HeroBodyPart | HeroClothPiece,
-  heroGender: HeroGender,
+  heroGender?: HeroGender,
   clothId?: number,
 ): StaticImageData => {
   if (part === HeroBodyPart.BODY) {
@@ -41,7 +41,7 @@ const imageBuilder = (
 type Props = Omit<ComponentProps<typeof Image>, "src"> & {
   heroId: HeroId;
   part: HeroBodyPart | HeroClothPiece;
-  heroGender: HeroGender;
+  heroGender?: HeroGender;
   clothId?: number;
 };
 

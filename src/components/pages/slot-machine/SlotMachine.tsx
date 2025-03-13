@@ -5,9 +5,10 @@ import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { RewardShape } from "@/types/rewards";
 
 import { Machine } from "./components/machine/Machine";
+import { mockComplexReward } from "./constants";
 
 export const SlotMachine = () => {
-  const [reward, setReward] = useState<RewardShape | null>(null);
+  const [reward, setReward] = useState<RewardShape | null>(mockComplexReward);
 
   return (
     <PageWrapper
