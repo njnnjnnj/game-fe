@@ -183,11 +183,10 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    // Always refetch BP info when getting to this page
     refetchBattlePass({ cancelRefetch: false });
+    setIsSpecialOfferModalOpen(true);
 
     return () => {
-      // Refetch profile when leaving the page so that calculations are correct when user gets back to the page
       refetchProfile();
     };
   }, []);

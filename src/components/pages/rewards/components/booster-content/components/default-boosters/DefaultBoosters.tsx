@@ -75,6 +75,8 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
   const handleCapacityContainerClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
+    if (capacity.level === MAX_LEVEL_CARD) return;
+
     if (!(e.target instanceof HTMLButtonElement)) {
       setIsCapacityModalOpen(true);
     }
@@ -82,6 +84,8 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
 
   const handleRecoveryContainerClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+
+    if (recovery.level === MAX_LEVEL_CARD) return;
 
     if (!(e.target instanceof HTMLButtonElement)) {
       setIsRecoveryModalOpen(true);
