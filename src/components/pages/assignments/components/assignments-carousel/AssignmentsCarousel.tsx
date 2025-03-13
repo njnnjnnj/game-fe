@@ -21,7 +21,6 @@ import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import ChestSVG from "@/public/assets/svg/chest-light.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import {
   invalidateProfileQuery,
@@ -126,32 +125,19 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
               <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
                 <div
                   className={classNames(
-                    "relative z-10 aspect-[2.75/1] rounded-xl bg-[#403BB7] pb-1 outline outline-1 outline-black transition-all active:scale-[0.98]",
+                    "relative z-10 aspect-[2.75/1] rounded-xl border-2 border-solid border-white transition-all active:scale-[0.98]",
                     { "opacity-30": activeSlide !== 0 },
                   )}
                 >
-                  <div className="h-full w-full rounded-xl bg-gradient-to-b from-[#9099FD] to-[#777AF0] p-1 shadow-[inset_0_-1px_0_0_rgba(255,255,255,0.3)]">
+                  <div className="h-full w-full rounded-xl">
                     <div className="flex h-full w-full flex-col items-start rounded-xl bg-[url('/assets/png/shop/spec-offer.webp')] bg-cover bg-no-repeat p-4 shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.25),inset_0_-2px_4px_0_rgba(0,0,0,0.15)]">
-                      <div className="mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-[#192632]/50 px-3 py-1">
-                        <div className="flex items-center gap-1">
-                          <StarSVG className="size-4" />
-                          <span className="text-stroke-half text-xs font-extrabold uppercase text-white text-shadow">
-                            +50.000
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <ChestSVG className="size-4.5" />
-                          <span
-                            className={classNames(
-                              "text-stroke-1 text-xs font-extrabold text-shadow-sm",
-                              "md:text-lg",
-                            )}
-                          >
-                            +1
-                          </span>
-                        </div>
+                      <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-shadow-sm">
+                        <StarSVG className="size-4" />
+                        {tShop(
+                          `${NS.PAGES.SHOP.STARTER_KIT_MODAL.ROOT}.${NS.PAGES.SHOP.STARTER_KIT_MODAL.BADGE}`,
+                        )}
                       </div>
-                      <p className="text-stroke-1 w-2/3 text-sm font-black uppercase leading-none tracking-wide text-white text-shadow">
+                      <p className="text-stroke-1 w-2/3 text-base font-black uppercase leading-none tracking-wide text-white text-shadow">
                         {tShop(NS.PAGES.SHOP.SPECIAL_OFFER_CARD)}
                       </p>
                     </div>
@@ -177,32 +163,19 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
               <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
                 <div
                   className={classNames(
-                    "relative z-10 aspect-[2.75/1] rounded-xl bg-[#403BB7] pb-1 outline outline-1 outline-black transition-all active:scale-[0.98]",
+                    "relative z-10 aspect-[2.75/1] rounded-xl border-2 border-solid border-white transition-all active:scale-[0.98]",
                     { "opacity-30": activeSlide !== 1 },
                   )}
                 >
-                  <div className="h-full w-full rounded-xl bg-gradient-to-b from-[#9099FD] to-[#777AF0] p-1 shadow-[inset_0_-1px_0_0_rgba(255,255,255,0.3)]">
+                  <div className="h-full w-full rounded-xl">
                     <div className="flex h-full w-full flex-col items-start rounded-xl bg-[url('/assets/png/shop/starter-kit.webp')] bg-cover p-4 shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.25),inset_0_-2px_4px_0_rgba(0,0,0,0.15)]">
-                      <div className="mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-[#192632]/50 px-3 py-1">
-                        <div className="flex items-center gap-1">
-                          <StarSVG className="size-4" />
-                          <span className="text-stroke-half text-xs font-extrabold uppercase text-white text-shadow">
-                            +50.000
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <ChestSVG className="size-4.5" />
-                          <span
-                            className={classNames(
-                              "text-stroke-1 text-xs font-extrabold text-shadow-sm",
-                              "md:text-lg",
-                            )}
-                          >
-                            +1
-                          </span>
-                        </div>
+                      <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-shadow-sm">
+                        <StarSVG className="size-4" />
+                        {tShop(
+                          `${NS.PAGES.SHOP.STARTER_KIT_MODAL.ROOT}.${NS.PAGES.SHOP.STARTER_KIT_MODAL.BADGE}`,
+                        )}
                       </div>
-                      <p className="text-stroke-1 w-2/4 text-sm font-black uppercase leading-none tracking-wide text-white text-shadow">
+                      <p className="text-stroke-1 w-2/4 text-base font-black uppercase leading-none tracking-wide text-white text-shadow">
                         {tShop(NS.PAGES.SHOP.STARTER_SET_CARD)}
                       </p>
                     </div>

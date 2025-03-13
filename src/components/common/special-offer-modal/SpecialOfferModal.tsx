@@ -36,7 +36,7 @@ export const SpecialOfferModal: FunctionComponent<Props> = ({
   const t = useTranslations(NS.PAGES.SHOP.ROOT);
 
   return (
-    <DrawerContent className="flex h-[70%] w-full flex-col items-center overflow-hidden rounded-t-3xl border-white/10 bg-blue-700 px-4 pb-8 pt-9 font-rubik shadow-[0_-8px_12px_0_rgba(5,22,37,0.6)]">
+    <DrawerContent className="z-50 flex h-[70%] w-full flex-col items-center overflow-hidden rounded-t-3xl border-white/10 bg-blue-700 px-4 pb-8 pt-9 font-rubik shadow-[0_-8px_12px_0_rgba(5,22,37,0.6)]">
       <DrawerClose asChild className="absolute right-4 top-4 z-10">
         <CloseIcon onClick={() => handleSelectionChanged()} />
       </DrawerClose>
@@ -48,7 +48,7 @@ export const SpecialOfferModal: FunctionComponent<Props> = ({
       <div className="z-10 mb-6 mt-auto flex flex-col items-center gap-3">
         <div
           className={classNames(
-            "text-stroke-half mx-auto flex items-center gap-2 self-start rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 font-extrabold uppercase text-shadow",
+            "text-stroke-half mx-auto flex items-center gap-2 self-start rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 font-extrabold uppercase text-white text-shadow",
           )}
         >
           <StarSVG className="size-4" />
