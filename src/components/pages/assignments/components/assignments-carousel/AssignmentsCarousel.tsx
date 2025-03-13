@@ -21,7 +21,6 @@ import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import StarSVG from "@/public/assets/svg/star.svg";
 import {
   invalidateProfileQuery,
   invalidateReferralQuery,
@@ -125,14 +124,13 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
               <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
                 <div
                   className={classNames(
-                    "relative z-10 aspect-[2.75/1] rounded-xl border-2 border-solid border-white transition-all active:scale-[0.98]",
+                    "relative z-10 h-[120px] rounded-xl border-2 border-solid border-white transition-all active:scale-[0.98]",
                     { "opacity-30": activeSlide !== 0 },
                   )}
                 >
                   <div className="h-full w-full rounded-xl">
                     <div className="flex h-full w-full flex-col items-start rounded-xl bg-[url('/assets/png/shop/spec-offer.webp')] bg-cover bg-no-repeat p-4 shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.25),inset_0_-2px_4px_0_rgba(0,0,0,0.15)]">
-                      <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-shadow-sm">
-                        <StarSVG className="size-4" />
+                      <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-white text-shadow-sm">
                         {tShop(
                           `${NS.PAGES.SHOP.STARTER_KIT_MODAL.ROOT}.${NS.PAGES.SHOP.STARTER_KIT_MODAL.BADGE}`,
                         )}
@@ -163,14 +161,13 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
               <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
                 <div
                   className={classNames(
-                    "relative z-10 aspect-[2.75/1] rounded-xl border-2 border-solid border-white transition-all active:scale-[0.98]",
+                    "relative z-10 h-[120px] rounded-xl border-2 border-solid border-white transition-all active:scale-[0.98]",
                     { "opacity-30": activeSlide !== 1 },
                   )}
                 >
                   <div className="h-full w-full rounded-xl">
                     <div className="flex h-full w-full flex-col items-start rounded-xl bg-[url('/assets/png/shop/starter-kit.webp')] bg-cover p-4 shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.25),inset_0_-2px_4px_0_rgba(0,0,0,0.15)]">
-                      <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-shadow-sm">
-                        <StarSVG className="size-4" />
+                      <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-white text-shadow-sm">
                         {tShop(
                           `${NS.PAGES.SHOP.STARTER_KIT_MODAL.ROOT}.${NS.PAGES.SHOP.STARTER_KIT_MODAL.BADGE}`,
                         )}
@@ -196,7 +193,7 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
           <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
             <div
               className={classNames(
-                "relative z-10 aspect-[2.75/1] overflow-hidden rounded-2xl border-2 border-solid border-white p-4 transition-opacity duration-300 ease-in-out",
+                "relative z-10 h-[120px] overflow-hidden rounded-2xl border-2 border-solid border-white p-4 transition-opacity duration-300 ease-in-out",
                 { "opacity-30": activeSlide !== 2 },
               )}
             >
@@ -212,7 +209,6 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
                     "text-stroke-half flex items-center gap-2 self-start rounded-full bg-[#51A395] px-3 py-1 text-xs font-extrabold uppercase text-white text-shadow-sm",
                   )}
                 >
-                  <StarSVG className="size-4" />
                   Специальное предложение
                 </div>
                 <p className="text-stroke-half mr-20 text-left !text-base font-black uppercase tracking-wider text-white text-shadow">

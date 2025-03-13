@@ -20,7 +20,7 @@ import MapImage from "@/public/assets/png/home/map.webp";
 import PacketImage from "@/public/assets/png/home/packet.webp";
 import PrizeImage from "@/public/assets/png/home/prize.webp";
 import ShopImage from "@/public/assets/png/home/shop.webp";
-import TicketImage from "@/public/assets/png/home/ticker.webp";
+import TicketImage from "@/public/assets/png/home/ticket.webp";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import SideLinkBg from "@/public/assets/png/side-link-bg.webp";
 import ChevronImg from "@/public/assets/png/slot-machine/chevron.webp";

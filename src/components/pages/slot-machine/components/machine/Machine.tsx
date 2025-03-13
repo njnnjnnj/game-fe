@@ -3,10 +3,8 @@ import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import { AxiosError } from "axios";
-import classNames from "classnames";
 import { toast } from "sonner";
 
-import { SideLink } from "@/components/common";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
@@ -35,6 +33,7 @@ import { Chevron } from "./components/chevron/Chevron";
 import { EnergyModal } from "./components/energy-modal/EnergyModal";
 import { JackpotPane } from "./components/jackpot-pane/JackpotPane";
 import { ReelPane } from "./components/reel-pane/ReelPane";
+import { SideLinks } from "./components/side-links/SideLinks";
 import { SpinButton } from "./components/spin-button/SpinButton";
 import { StarsModal } from "./components/stars-modal/StarsModal";
 import { SwitchButton } from "./components/switch-button/SwitchButton";
@@ -311,20 +310,7 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
               label={isVip ? "BASE" : "VIP ROOM"}
               onClick={() => setIsVip(!isVip)}
             />
-            {!isVip &&
-              Array.from({ length: 4 }).map((_, i) => (
-                <div
-                  key={`side-link-${i}`}
-                  className={classNames("absolute aspect-square h-[8.2%]", {
-                    "top-[15.2%]": i % 2 === 0,
-                    "top-[25.9%]": i % 2 !== 0,
-                    "left-[7.6%]": i < 2,
-                    "right-[7.6%]": i >= 2,
-                  })}
-                >
-                  <SideLink href="" isFullSize />
-                </div>
-              ))}
+            {!isVip && <SideLinks />}
             {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
 
             <ReelPane

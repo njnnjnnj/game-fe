@@ -74,7 +74,7 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
           className="z-20"
         />
       </div>
-      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase leading-none text-white text-shadow-sm">
+      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase leading-none text-white !text-shadow">
         {t(
           `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.PREMIUM}.${NS.PAGES.REWARDS.BOOSTERS.MODAL_TITLE}`,
         )}
@@ -137,7 +137,7 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
               key={item.id}
               onClick={() => setSelectedBooster(item)}
               className={classNames(
-                "flex w-full items-center justify-center gap-1 text-nowrap rounded-xl border border-solid border-black bg-[#242C34] py-3 text-sm font-semibold",
+                "flex w-full items-center justify-center gap-1 text-nowrap rounded-xl border border-solid border-black bg-[#242C34] py-3 text-sm font-semibold text-white",
                 {
                   "border-2 !border-[#0075FF] !bg-[#203950]":
                     selectedBooster?.id === item.id,

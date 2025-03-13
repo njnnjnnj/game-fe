@@ -13,7 +13,7 @@ import AssignmentsImage from "@/public/assets/png/home/assignments.webp";
 import LightningSvg from "@/public/assets/png/side-link-bg.webp";
 
 type Props = {
-  href: string;
+  href?: string;
   image?: StaticImageData;
   text?: string;
   isFullSize?: boolean;
@@ -39,7 +39,7 @@ export const SideLink: FunctionComponent<Props> = ({
 
   return (
     <Link
-      href={href}
+      href={href ?? ""}
       className={classNames(
         "outline-solid relative aspect-square rounded-full bg-[#E88C0E] pb-0.5 outline outline-1 outline-[#422212] drop-shadow-side-link active:scale-[0.98]",
         {

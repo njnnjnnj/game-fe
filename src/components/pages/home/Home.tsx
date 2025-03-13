@@ -32,7 +32,7 @@ import CupImage from "@/public/assets/png/home/cup.webp";
 import FriendsImage from "@/public/assets/png/home/friends.webp";
 import PacketImage from "@/public/assets/png/home/packet.webp";
 import PrizeImage from "@/public/assets/png/home/prize.webp";
-import TicketImage from "@/public/assets/png/home/ticker.webp";
+import TicketImage from "@/public/assets/png/home/ticket.webp";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import { useGetBattlePass } from "@/services/battle-pass/queries";
 import { BattlePassInfo } from "@/services/battle-pass/types";

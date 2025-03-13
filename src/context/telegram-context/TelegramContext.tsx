@@ -40,7 +40,6 @@ export const TelegramProvider = ({
     isError: isAuthError,
     refetch: refetchAuth,
   } = useTelegramAuth(webApp as IWebApp);
-  console.log("🚀 ~ TelegramProvider ~ isAuthSuccess:", isAuthSuccess);
   const { pathname } = useRouter();
   const {
     data: profile,
