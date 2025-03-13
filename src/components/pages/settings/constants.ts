@@ -1,6 +1,7 @@
 import { FunctionComponent, SVGProps } from "react";
 
 import { NS } from "@/constants/ns";
+import CoinSvg from "@/public/assets/svg/coin.svg";
 import FrindsSvg from "@/public/assets/svg/friends-coin.svg";
 import StarCoin from "@/public/assets/svg/star.svg";
 
@@ -24,7 +25,7 @@ export const PROFILE_BALANCE_ITEMS = ({
 }): ItemProps[] => [
   {
     type: "coin",
-    icon: StarCoin,
+    icon: CoinSvg,
     tidKey: `${NS.PAGES.SETTINGS.BALANCE.ROOT}.${NS.PAGES.SETTINGS.BALANCE.TITLE}`,
     value: coins,
   },
