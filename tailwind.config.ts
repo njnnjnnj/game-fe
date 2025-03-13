@@ -46,7 +46,7 @@ export default {
         "reward-screen-text-scale":
           "reward-screen-text-scale 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "slot-win-view-backdrop-fade-in":
-          "slot-win-view-backdrop-fade-in 0.5s ease-out forwards",
+          "slot-win-view-backdrop-fade-in 0.2s ease-out forwards",
         "slot-win-view-pane-scale-in":
           "slot-win-view-pane-scale-in 0.5s ease-out forwards",
         "slot-win-view-pane-pulse":

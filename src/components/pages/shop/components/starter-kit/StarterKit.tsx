@@ -45,7 +45,7 @@ export const StarterKit: FunctionComponent<Props> = ({ onClick }) => {
                 <ChestSVG className="size-4.5" />
                 <span
                   className={classNames(
-                    "text-stroke-1 text-xs font-extrabold text-shadow-sm",
+                    "text-stroke-1 text-xs font-extrabold text-shadow-sm text-white",
                     "md:text-lg",
                   )}
                 >

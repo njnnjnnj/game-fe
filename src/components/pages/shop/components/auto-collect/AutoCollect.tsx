@@ -48,7 +48,7 @@ export const AutoCollect: FunctionComponent<Props> = ({ cards, onSelect }) => {
               isAnimated
               type={CardType.ORANGE}
             >
-              <div className="absolute h-full w-full">
+              <div className="absolute left-1/2 top-1/2 aspect-square w-4/5 -translate-x-1/2 -translate-y-1/2">
                 <Image src={staticCardData.image} alt="" fill />
               </div>
             </Card>

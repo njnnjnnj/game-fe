@@ -5,6 +5,7 @@ import classNames from "classnames";
 import {
   HeroBodyPart,
   HeroClothPiece,
+  HeroGender,
   HeroId,
   HeroRarity,
   SelectedCloth,
@@ -18,6 +19,7 @@ type Props = {
   heroId: HeroId;
   heroRarity: HeroRarity;
   heroCloth: SelectedCloth;
+  heroGender: HeroGender;
   source: "grid" | "preview";
   // Be cautions with the two methods below - they may not reflect the real status.
   onLoad?: () => void;
@@ -46,6 +48,7 @@ export const HeroView: FunctionComponent<Props> = ({
   heroId,
   source,
   heroCloth,
+  heroGender,
   onLoad,
   onError,
 }) => {
@@ -103,6 +106,7 @@ export const HeroView: FunctionComponent<Props> = ({
           heroId={heroId}
           part={part}
           clothId={isHeroBodyPart(part) ? 0 : heroCloth?.[part]}
+          heroGender={heroGender}
           quality={100}
           alt={part}
           sizes={sizes}

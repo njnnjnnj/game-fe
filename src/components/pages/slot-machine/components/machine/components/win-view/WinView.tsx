@@ -114,7 +114,7 @@ export const WinView: FunctionComponent<Props> = ({
       <div
         className={classNames(
           "absolute bottom-0 left-0 h-screen w-screen bg-black opacity-[0.8]",
-          { "slot-win-view-backdrop-fade-in": isActive },
+          { "animate-slot-win-view-backdrop-fade-in": isActive },
         )}
       />
       <div className="absolute inset-x-10 top-[85%] animate-slot-win-view-text-pulse text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(7.6vw,3.5vh)]">
@@ -123,7 +123,7 @@ export const WinView: FunctionComponent<Props> = ({
       <ReelPane combination={combination} />
       <div
         className={classNames(
-          "absolute inset-x-0 top-[47.6%] z-10 h-[18%] scale-0",
+          "absolute inset-x-0 top-[47.6%] z-10 h-[18%] scale-0 overflow-hidden",
           {
             "animate-slot-win-view-pane-scale-in": isActive,
           },

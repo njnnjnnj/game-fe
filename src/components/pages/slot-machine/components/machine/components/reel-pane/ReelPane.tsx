@@ -39,7 +39,14 @@ export const ReelPane: FunctionComponent<Props> = ({
         isFinalDrama={isFinalDrama}
       />
       <div className="absolute inset-x-0 top-[36.1%] mx-auto h-[40.9%] w-[97.1%]">
-        <Image className="" src={ReelPaneImg} alt="" fill quality={100} />
+        <Image
+          className=""
+          src={ReelPaneImg}
+          alt=""
+          fill
+          quality={100}
+          sizes="97vw"
+        />
       </div>
     </>
   );

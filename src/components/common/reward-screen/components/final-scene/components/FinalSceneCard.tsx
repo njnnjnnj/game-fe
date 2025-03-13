@@ -80,6 +80,7 @@ export const FinalSceneCard: FunctionComponent<Props> = ({ type, value }) => {
                 heroId={heroId}
                 heroRarity={heroes[heroId].rarity}
                 heroCloth={{ kit: 0 } as SelectedCloth}
+                heroGender={heroes[heroId].gender}
                 source="grid"
               />
             )}

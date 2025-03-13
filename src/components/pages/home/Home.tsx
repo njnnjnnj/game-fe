@@ -358,6 +358,7 @@ export const Home = () => {
               heroCloth={heroCloth}
               heroId={current}
               heroRarity={allAppsHeroes[current].rarity}
+              heroGender={allAppsHeroes[current].gender}
             />
             <AnimatePresence>
               {clickEffects.map(({ id, x, y }) => (

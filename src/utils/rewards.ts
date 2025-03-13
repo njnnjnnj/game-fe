@@ -2,15 +2,16 @@ import { StaticImageData } from "next/image";
 
 import Booster from "@/public/assets/png/battle-pass/booster.webp";
 import Bucket from "@/public/assets/png/battle-pass/bucket.webp";
+import CoinsBucket from '@/public/assets/png/battle-pass/coins-bucket.webp';
 import CommonCards from "@/public/assets/png/battle-pass/common-cards.webp";
 import EnergyBucket from "@/public/assets/png/battle-pass/energy-bucket.webp";
 import EpicCards from "@/public/assets/png/battle-pass/epic-cards.webp";
 import EpicChest from "@/public/assets/png/battle-pass/epic-chest.webp";
 import FriendsBucket from "@/public/assets/png/battle-pass/friends-bucket.webp";
 import MegaChest from "@/public/assets/png/battle-pass/mega-chest.webp";
-import Offline6 from "@/public/assets/png/battle-pass/offline6.png";
-import Offline12 from "@/public/assets/png/battle-pass/offline12.png";
-import Offline24 from "@/public/assets/png/battle-pass/offline24.png";
+import Offline6 from "@/public/assets/png/battle-pass/offline6.webp";
+import Offline12 from "@/public/assets/png/battle-pass/offline12.webp";
+import Offline24 from "@/public/assets/png/battle-pass/offline24.webp";
 import RareCards from "@/public/assets/png/battle-pass/rare-cards.webp";
 import StartChest from "@/public/assets/png/battle-pass/start-chest.webp";
 import {
@@ -38,8 +39,9 @@ export const getImgByReward = (
     case Reward.FRIENDS:
       return FriendsBucket;
     case Reward.STARS:
-    case Reward.COINS:
       return Bucket;
+    case Reward.COINS:
+      return CoinsBucket;
     case Reward.BUSTER:
       return Booster;
     case Reward.OFFLINE: {

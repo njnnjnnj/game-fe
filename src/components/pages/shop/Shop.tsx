@@ -29,6 +29,7 @@ import { NotificationEnum } from "@/types/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { AutoCollect } from "./components/auto-collect/AutoCollect";
+import { BaseModal } from "./components/base-modal/BaseModal";
 import { Chests } from "./components/chests/Chests";
 import { Friends } from "./components/friends/Friends";
 import { SpecialOffer } from "./components/special-offer/SpecialOffer";
@@ -145,7 +146,7 @@ export const Shop = () => {
 
   const autoCollectShopItems = useMemo(
     () =>
-      shopData?.items.filter((item) => item.type === ShopItemTypeEnum.BOOSTER),
+      shopData?.items.filter((item) => item.type === ShopItemTypeEnum.OFFLINE_BONUS),
     [shopData],
   );
 
@@ -154,6 +155,38 @@ export const Shop = () => {
 
     setSelectedCard(card);
     setIsDrawerOpen(true);
+  };
+
+  const renderModal = () => {
+    if (!selectedCard) return null;
+
+    if (selectedCard.id === 1 && specialOfferShopItem) {
+      return (
+        <SpecialOfferModal
+          shopItem={specialOfferShopItem}
+          onSubmit={() => buyItemFn(specialOfferShopItem.price)}
+          isLoading={isPending || isStarsPaymentLoading}
+        />
+      );
+    }
+
+    if (selectedCard.id === 2 && starterKitShopItems) {
+      return (
+        <StarterKitModal
+          shopItem={starterKitShopItems}
+          isLoading={isPending || isStarsPaymentLoading}
+          onSubmit={() => buyItemFn(starterKitShopItems.price)}
+        />
+      );
+    }
+
+    return (
+      <BaseModal
+        selectedItem={selectedCard}
+        isLoading={isPending || isStarsPaymentLoading}
+        onSubmit={() => buyItemFn(selectedCard?.price ?? 0)}
+      />
+    );
   };
 
   return (
@@ -196,20 +229,7 @@ export const Shop = () => {
                 />
               </div>
             </div>
-            {!selectedCard ? null : selectedCard.id === 1 &&
-              specialOfferShopItem ? (
-              <SpecialOfferModal
-                shopItem={specialOfferShopItem}
-                onSubmit={() => buyItemFn(specialOfferShopItem.price)}
-                isLoading={isPending || isStarsPaymentLoading}
-              />
-            ) : selectedCard.id === 2 && starterKitShopItems ? (
-              <StarterKitModal
-                shopItem={starterKitShopItems}
-                isLoading={isPending || isStarsPaymentLoading}
-                onSubmit={() => buyItemFn(starterKitShopItems.price)}
-              />
-            ) : null}
+            {renderModal()}
           </Drawer>
         </>
       )}

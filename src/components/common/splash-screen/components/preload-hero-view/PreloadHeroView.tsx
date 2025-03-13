@@ -33,8 +33,9 @@ export const PreloadHeroView: FunctionComponent<Props> = ({
   return (
     <HeroView
       heroId={heroId}
-      heroRarity={heroes[heroId].rarity}
       heroCloth={heroCloth}
+      heroRarity={heroes[heroId].rarity}
+      heroGender={heroes[heroId].gender}
       source={source}
       onLoad={onLoad}
       onError={onLoad}

@@ -27,6 +27,7 @@ export const Chevron: FunctionComponent<Props> = ({
       src={ChevronImg}
       alt=""
       fill
+      sizes="10vw"
       quality={100}
     />
   );

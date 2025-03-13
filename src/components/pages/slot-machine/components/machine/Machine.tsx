@@ -15,6 +15,7 @@ import BaseSlotMachineImg from "@/public/assets/png/slot-machine/slot-machine-re
 import { updateProfileQuery, useGetProfile } from "@/services/profile/queries";
 import {
   updateGetBanditQuery,
+  updateGetBanditQueryBalance,
   useGetBandit,
   usePlayBandit,
   usePlayBanditJackpot,
@@ -176,7 +177,9 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
     setIsSpinning(true);
     setCombination([]);
 
-    const updateBalance = isVip ? updateProfileQuery : updateGetBanditQuery;
+    const updateBalance = isVip
+      ? updateProfileQuery
+      : updateGetBanditQueryBalance;
     const nextBalance = balance - bet;
 
     updateBalance(queryClient, nextBalance);
@@ -296,7 +299,7 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
     >
       <div className="flex min-h-0 grow flex-col">
         <div className="mt-auto aspect-[0.51] max-h-full w-full">
-          <div className="relative h-full w-full">
+          <div className="relative h-full w-full overflow-hidden">
             <Image
               src={isVip ? VipSlotMachineImg : BaseSlotMachineImg}
               alt=""
@@ -370,7 +373,10 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
           <EnergyModal
             onClose={() => setIsBalanceModalOpen(false)}
             onSuccessfulBuy={(energyAmount: number) =>
-              updateGetBanditQuery(queryClient, balance + energyAmount)
+              updateGetBanditQuery(queryClient, {
+                balance: balance + energyAmount,
+                paid: true,
+              })
             }
           />
         )}

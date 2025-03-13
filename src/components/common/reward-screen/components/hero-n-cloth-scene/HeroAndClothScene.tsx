@@ -155,10 +155,11 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
               heroId={reward.value as HeroId}
               heroRarity={heroes[reward.value as HeroId].rarity}
               heroCloth={{ kit: 0 } as SelectedCloth}
+              heroGender={heroes[reward.value as HeroId].gender}
               source="preview"
             />
           )}
-          {type === "cloth" && isClothCoffer(reward) && (
+          {type === "cloth" && isClothCoffer(reward) && heroes && (
             <Card type={CardType.INDIGO} isFullSize>
               <HSPieceImage
                 className={classNames(
@@ -168,6 +169,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
                 heroId={reward.character}
                 part={reward.char_slot}
                 clothId={Number(reward.value)}
+                heroGender={heroes[reward.character as HeroId].gender}
                 alt=""
                 sizes="50vw"
                 fill

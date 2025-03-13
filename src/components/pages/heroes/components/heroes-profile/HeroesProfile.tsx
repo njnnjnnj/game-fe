@@ -106,6 +106,7 @@ export const HeroesProfile = () => {
             heroId={selection.hero.characterId}
             heroRarity={selection.hero.rarity}
             heroCloth={selection.hero.cloth}
+            heroGender={selection.hero.gender}
             source="preview"
           />
         )

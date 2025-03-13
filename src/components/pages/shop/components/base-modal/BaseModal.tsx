@@ -27,7 +27,6 @@ import {
 import { getShopItemByIndex } from "./helpers";
 
 type Props = {
-  onClose: () => void;
   selectedItem: ShopItem;
   isLoading: boolean;
   onSubmit: () => void;

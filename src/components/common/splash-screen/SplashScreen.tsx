@@ -23,6 +23,10 @@ import ShopImage from "@/public/assets/png/home/shop.webp";
 import TicketImage from "@/public/assets/png/home/ticker.webp";
 import MainImage from "@/public/assets/png/main-bg.webp";
 import SideLinkBg from "@/public/assets/png/side-link-bg.webp";
+import ChevronImg from "@/public/assets/png/slot-machine/chevron.webp";
+import ReelPaneImg from "@/public/assets/png/slot-machine/reel-pane.webp";
+import ReelSideBg1 from "@/public/assets/png/slot-machine/reel-side-bg-1.webp";
+import ReelSideBg2 from "@/public/assets/png/slot-machine/reel-side-bg-2.webp";
 import VipSlotMachineImg from "@/public/assets/png/slot-machine/slot-machine-blue.webp";
 import BaseSlotMachineImg from "@/public/assets/png/slot-machine/slot-machine-red.webp";
 import SplashBg from "@/public/assets/png/splash-screen-bg.webp";
@@ -58,8 +62,12 @@ const PRELOAD_ITEMS: PreloadItem[] = [
   { src: ShopImage, fill: true },
   { src: MapImage, fill: true },
   { src: SideLinkBg, fill: true },
-  { src: BaseSlotMachineImg, fill: true },
-  { src: VipSlotMachineImg, fill: true },
+  { src: BaseSlotMachineImg, fill: true, sizes: "100vw" },
+  { src: VipSlotMachineImg, fill: true, sizes: "100vw" },
+  { src: ReelPaneImg, fill: true, sizes: "100vw", quality: 100 },
+  { src: ReelSideBg1, fill: true, sizes: "33vw", quality: 100 },
+  { src: ReelSideBg2, fill: true, sizes: "33vw", quality: 100 },
+  { src: ChevronImg, fill: true, sizes: "10vw", quality: 100 },
   (key, onLoad) => <PreloadCurrentHeroView key={key} onLoad={onLoad} />,
   (key, onLoad) => <PreloadRareHeroGridViews key={key} onLoad={onLoad} />,
 ];

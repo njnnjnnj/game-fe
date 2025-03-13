@@ -1,6 +1,9 @@
 import { NS } from "@/constants/ns";
 import EpicChestImage from "@/public/assets/png/battle-pass/epic-chest.webp";
 import MegaChestImage from "@/public/assets/png/battle-pass/mega-chest.webp";
+import EnergySmallImage from "@/public/assets/png/battle-pass/offline6.webp";
+import EnergyHalfImage from "@/public/assets/png/battle-pass/offline12.webp";
+import EnergyFullImage from "@/public/assets/png/battle-pass/offline24.webp";
 import StartChestImage from "@/public/assets/png/battle-pass/start-chest.webp";
 import Coins1 from "@/public/assets/png/friends/buy-friends/coins-1.webp";
 import Coins2 from "@/public/assets/png/friends/buy-friends/coins-2.webp";
@@ -8,9 +11,6 @@ import Coins3 from "@/public/assets/png/friends/buy-friends/coins-3.webp";
 import Coins4 from "@/public/assets/png/friends/buy-friends/coins-4.webp";
 import Coins5 from "@/public/assets/png/friends/buy-friends/coins-5.webp";
 import Coins6 from "@/public/assets/png/friends/buy-friends/coins-6.webp";
-import EnergySmallImage from "@/public/assets/png/shop/energy/1.webp";
-import EnergyHalfImage from "@/public/assets/png/shop/energy/2.webp";
-import EnergyFullImage from "@/public/assets/png/shop/energy/3.webp";
 import BuyStarsOneImage from "@/public/assets/png/shop/stars/1.webp";
 import BuyStarsTwoImage from "@/public/assets/png/shop/stars/2.webp";
 import BuyStarsThreeImage from "@/public/assets/png/shop/stars/3.webp";
@@ -177,21 +177,21 @@ export const MODAL_IMAGES_BY_SHOP_ITEM = [
     color: ModalColorEnum.BLUE,
   },
   {
-    id: 27,
-    image: BuyStarsOneImage,
-    isSquare: false,
+    id: 18,
+    image: EnergySmallImage,
+    isSquare: true,
     color: ModalColorEnum.BLUE,
   },
   {
-    id: 28,
-    image: BuyStarsTwoImage,
-    isSquare: false,
+    id: 19,
+    image: EnergyHalfImage,
+    isSquare: true,
     color: ModalColorEnum.BLUE,
   },
   {
-    id: 29,
-    image: BuyStarsThreeImage,
-    isSquare: false,
+    id: 20,
+    image: EnergyFullImage,
+    isSquare: true,
     color: ModalColorEnum.BLUE,
   },
 ];

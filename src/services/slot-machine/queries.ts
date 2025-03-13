@@ -42,13 +42,20 @@ export const useGetBandit = (enabled?: boolean) =>
 
 export const updateGetBanditQuery = (
   queryClient: QueryClient,
-  balance: number,
+  newInfo: Partial<BanditInfo>,
 ) => {
   queryClient.setQueryData(
     [QueryKeys.GET_BANDIT],
     (oldBanditInfo: BanditInfo) => ({
       ...oldBanditInfo,
-      balance,
+      ...newInfo,
     }),
   );
+};
+
+export const updateGetBanditQueryBalance = (
+  queryClient: QueryClient,
+  balance: number,
+) => {
+  updateGetBanditQuery(queryClient, { balance });
 };
