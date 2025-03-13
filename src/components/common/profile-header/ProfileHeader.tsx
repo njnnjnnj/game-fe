@@ -12,6 +12,7 @@ import { Drawer } from "@/components/ui/drawer";
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
 import { useTelegram } from "@/context";
+import CoinSvg from "@/public/assets/svg/coin.svg";
 import FriendsSvg from "@/public/assets/svg/friends-coin.svg";
 import HaveBPSvg from "@/public/assets/svg/have-battle-pass.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
@@ -143,7 +144,7 @@ export const ProfileHeader: FunctionComponent<Props> = ({
               <BottomComponent value={profile?.coins ?? 0} />
             )
           }
-          imageNode={<StarSVG className="size-8 object-contain" />}
+          imageNode={<CoinSvg className="size-8 object-contain" />}
         />
       )}
       {hasFriendsBlock ? (

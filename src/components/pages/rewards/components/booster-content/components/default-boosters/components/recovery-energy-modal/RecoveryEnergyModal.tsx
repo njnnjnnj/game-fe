@@ -108,11 +108,21 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
                   </span>
                 ) : index === 10 ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : index === 0 && LEVEL > 0 ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : null}
               </div>
@@ -131,15 +141,22 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
           )}
         >
           <div className="mb-2 self-start rounded-full bg-white/5 px-2.5 py-[5px] text-xs text-gray-550">
-            {LEVEL} ур.
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+              {
+                num: LEVEL || 0,
+              },
+            )}
           </div>
           <div
             className={classNames({
-              "flex flex-col items-end justify-start gap-2": isZeroLevel,
+              "flex flex-col items-end justify-start": isZeroLevel,
             })}
           >
             <span className="text-xs font-medium tracking-wide text-gray-550">
-              Запас энергии
+              {t(
+                `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+              )}
             </span>
             <div className="flex items-center gap-2">
               <ClockIcon className="size-5" />
@@ -157,10 +174,17 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
             </div>
             <div className="flex w-full flex-col items-end gap-3 rounded-2xl bg-blue-700 p-3">
               <div className="mb-2 self-end rounded-full bg-[#0075FF] px-2.5 py-[5px] text-xs text-white">
-                {LEVEL + 1} ур.
+                {t(
+                  `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                  {
+                    num: LEVEL + 1 || 0,
+                  },
+                )}
               </div>
               <span className="text-xs font-medium tracking-wide text-gray-550">
-                Запас энергии
+                {t(
+                  `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+                )}
               </span>
               <div className="flex items-center gap-2">
                 <ClockIcon className="size-5" />
@@ -192,7 +216,9 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
           )
         ) : (
           <div className="flex items-center gap-1 text-base uppercase">
-            Улучшить за
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.IMPROVE_FOR}`,
+            )}
             <div className="grid grid-cols-[16px_1fr] items-center gap-1">
               <StarSVG className="size-4" />
               {formatNumber(PRICE)}

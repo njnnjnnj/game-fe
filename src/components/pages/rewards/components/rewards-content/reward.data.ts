@@ -1,5 +1,6 @@
 import { StaticImageData } from "next/image";
 
+import CoinsBucket from "@/public/assets/png/rewards/coins-bucket.webp";
 import EnergyBoosterImage from "@/public/assets/png/rewards/rewards/1.webp";
 import CoinsBucketImage from "@/public/assets/png/rewards/rewards/2.webp";
 import RareCardsImage from "@/public/assets/png/rewards/rewards/3.webp";
@@ -30,7 +31,12 @@ type Reward = {
 };
 
 export const REWARDS: Reward[] = [
-  { id: 1, type: RewardTypeEnum.COINS, amount: 50000, image: null },
+  {
+    id: 1,
+    type: RewardTypeEnum.COINS,
+    amount: 50000,
+    image: CoinsBucket,
+  },
   {
     id: 2,
     type: RewardTypeEnum.COLLECT_INCOME,
@@ -38,7 +44,7 @@ export const REWARDS: Reward[] = [
     image: EnergySmallImage,
     time: 6,
   },
-  { id: 3, type: RewardTypeEnum.COINS, amount: 250000, image: null },
+  { id: 3, type: RewardTypeEnum.COINS, amount: 250000, image: CoinsBucket },
   {
     id: 4,
     type: RewardTypeEnum.REGULAR_CHEST,
@@ -51,7 +57,7 @@ export const REWARDS: Reward[] = [
     amount: 1,
     image: EnergyBoosterImage,
   },
-  { id: 6, type: RewardTypeEnum.COINS, amount: 500000, image: null },
+  { id: 6, type: RewardTypeEnum.COINS, amount: 500000, image: CoinsBucket },
   {
     id: 7,
     type: RewardTypeEnum.COLLECT_INCOME,
@@ -84,7 +90,7 @@ export const REWARDS: Reward[] = [
     id: 13,
     type: RewardTypeEnum.COINS,
     amount: 1250000,
-    image: null,
+    image: CoinsBucket,
   },
   {
     id: 14,

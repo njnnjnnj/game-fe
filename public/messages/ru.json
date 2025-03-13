@@ -188,7 +188,10 @@
       "COUNT": "{num1} из {num2}",
       "LEVEL": "{num} ур.",
       "COUNT_BOOSTERS": "{num} шт.",
+      "CURRENT": "Текущий",
+      "AFTER_IMPROVE": "После улучшения",
       "BUY_FOR": "Приобрести за",
+      "IMPROVE_FOR": "Улучшить за",
       "SUCCESS_BUY_BOOSTER": "Успешная покупка бустера",
       "SUCCESS_APPLY_BOOSTER": "Успешное применение бустера",
       "PREMIUM": {

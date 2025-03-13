@@ -107,7 +107,7 @@ export const BuyStars = () => {
               </div>
             </div>
           </div>
-          <p className="mb-10 pl-3 text-xs text-gray-550">
+          <p className="mb-10 w-full pl-3 text-xs text-gray-550">
             {t(NS.PAGES.BUY_STARS.DESCRIPTION)}
           </p>
           <span className="mb-2 inline-block self-start text-xs font-medium tracking-wide text-gray-550">
@@ -151,9 +151,6 @@ export const BuyStars = () => {
               </PrimaryButton>
             </div>
           </div>
-          <p className="mb-10 px-3 text-xs text-gray-550">
-            {t(NS.PAGES.BUY_STARS.AVAILABLE_BALANCE_DESCRIPTION)}
-          </p>
         </div>
         <RefillModal
           starsShopItems={starsShopItems ?? []}

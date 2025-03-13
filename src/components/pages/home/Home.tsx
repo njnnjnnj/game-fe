@@ -23,7 +23,7 @@ import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
-import { useTelegram } from "@/context";
+import { useSettings, useTelegram } from "@/context";
 import { useClickEffects } from "@/hooks/useClickEffects";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useThrottledClicker } from "@/hooks/useThrottledClicker";
@@ -51,6 +51,7 @@ import {
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
 import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
 import { ChestType, Reward, RewardShape } from "@/types/rewards";
+import { getRandomZeroOrOne } from "@/utils/number";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -74,6 +75,7 @@ export const Home = () => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.HOME.ROOT);
   const tErrors = useTranslations(NS.ERRORS.ROOT);
+  const randomNumber = getRandomZeroOrOne();
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { refetch: refetchProfile } = useGetProfile();
   const { handleSelectionChanged } = useHapticFeedback();
@@ -91,6 +93,8 @@ export const Home = () => {
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const [reward, setReward] = useState<RewardShape | null>(null);
   const { webApp, profile } = useTelegram();
+  const { isSpecialOfferModalShown, setIsSpecialOfferModalShown } =
+    useSettings();
   const initialEnergy = profile?.energy ?? 0;
   const [energy, setEnergy] = useState(initialEnergy);
   const { mutate: buyShopItem, isPending: buyShopItemPending } =
@@ -183,11 +187,18 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    // Always refetch BP info when getting to this page
     refetchBattlePass({ cancelRefetch: false });
+    if (!isSpecialOfferModalShown) {
+      if (randomNumber === 1) {
+        setIsSpecialOfferModalOpen(true);
+      } else {
+        setIsStarterKitModalOpen(true);
+      }
+    }
+
+    setIsSpecialOfferModalShown(true);
 
     return () => {
-      // Refetch profile when leaving the page so that calculations are correct when user gets back to the page
       refetchProfile();
     };
   }, []);
@@ -264,6 +275,17 @@ export const Home = () => {
 
   return (
     <PageWrapper isLoading={isLoading} disableSafeAreaInset>
+      <Drawer
+        onClose={handleClose}
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+      >
+        <OfflineBonusModal
+          {...(offlineBonus ?? ({} as OfflineBonus))}
+          isPending={isPending}
+          onConfirm={handleConfirmOfflineBonus}
+        />
+      </Drawer>
       <div
         className={classNames(
           "relative flex h-screen max-h-screen w-full flex-col items-center overflow-hidden overflow-y-auto overscroll-contain bg-blue-800",
@@ -409,17 +431,6 @@ export const Home = () => {
             currentLevel={battlePass.current_level}
           />
         </div>
-        <Drawer
-          onClose={handleClose}
-          open={isModalOpen}
-          onOpenChange={setIsModalOpen}
-        >
-          <OfflineBonusModal
-            {...(offlineBonus ?? ({} as OfflineBonus))}
-            isPending={isPending}
-            onConfirm={handleConfirmOfflineBonus}
-          />
-        </Drawer>
       </div>
       {reward && (
         <RewardScreen reward={reward} onFinish={() => setReward(null)} />

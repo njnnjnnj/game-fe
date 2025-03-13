@@ -97,7 +97,9 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
       <div className="relative mb-6 grid w-full grid-cols-2 gap-2">
         <div className="flex w-full flex-col gap-3 rounded-2xl bg-blue-700 p-3">
           <span className="text-xs font-medium tracking-wide text-gray-550">
-            Текущий
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.CURRENT}`,
+            )}
           </span>
           <div className="flex items-center gap-2">
             <FriendsIcon className="size-5" />
@@ -111,7 +113,9 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
         </div>
         <div className="flex w-full flex-col items-end gap-3 rounded-2xl bg-blue-700 p-3">
           <span className="text-xs font-medium tracking-wide text-gray-550">
-            После улучшения
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.AFTER_IMPROVE}`,
+            )}
           </span>
           <div className="flex items-center gap-2">
             <FriendsIcon className="size-5" />
@@ -151,7 +155,6 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
       <PrimaryButton
         onClick={onSubmit}
         size="large"
-        disabled={selectedBooster !== null ? false : amount ? false : true}
         isLoading={isRequesting}
         color={selectedBooster ? "primary" : "secondary"}
         className={classNames("flex gap-1 text-base uppercase", {

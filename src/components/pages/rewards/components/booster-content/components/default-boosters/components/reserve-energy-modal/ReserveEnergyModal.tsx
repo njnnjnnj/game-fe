@@ -99,15 +99,30 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
                 />
                 {isCurrent ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : index === 10 ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : index === 0 && capacity?.level > 0 ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : null}
               </div>
@@ -126,7 +141,12 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           )}
         >
           <div className="mb-2 self-start rounded-full bg-white/5 px-2.5 py-[5px] text-xs text-gray-550">
-            {capacity?.level} ур.
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+              {
+                num: capacity?.level || 0,
+              },
+            )}
           </div>
           <div
             className={classNames({
@@ -155,7 +175,12 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
 
             <div className="flex w-full flex-col items-end gap-3 rounded-2xl bg-blue-700 p-3">
               <div className="mb-2 self-end rounded-full bg-[#0075FF] px-2.5 py-[5px] text-xs text-white">
-                {+capacity?.level + 1} ур.
+                {t(
+                  `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                  {
+                    num: capacity?.level + 1 || 0,
+                  },
+                )}
               </div>
               <span className="text-xs font-medium tracking-wide text-gray-550">
                 {t(
@@ -192,7 +217,9 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           )
         ) : (
           <div className="flex items-center gap-1 text-base uppercase">
-            Улучшить за
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.IMPROVE_FOR}`,
+            )}
             <div className="grid grid-cols-[16px_1fr] items-center gap-1">
               <StarSVG className="size-4" />
               {formatNumber(capacity?.price)}
