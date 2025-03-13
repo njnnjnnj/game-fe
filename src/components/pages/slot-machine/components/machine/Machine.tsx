@@ -298,7 +298,7 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
     >
       <div className="flex min-h-0 grow flex-col">
         <div className="mt-auto aspect-[0.51] max-h-full w-full">
-          <div className="relative h-full w-full overflow-hidden">
+          <div className="relative h-full w-full">
             <Image
               src={isVip ? VipSlotMachineImg : BaseSlotMachineImg}
               alt=""
