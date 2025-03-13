@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
+import { ROUTES } from "@/constants/routes";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import CoinsSVG from "@/public/assets/svg/coins.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
@@ -67,14 +69,14 @@ export const OfflineBonusModal: FunctionComponent<Props> = ({
           )}
         </PrimaryButton>
         {!haveOfflineBonus && (
-          <Button
-            variant="link"
+          <Link
+            href={ROUTES.SHOP}
             className="mt-6 p-0 text-sm font-bold uppercase tracking-wide text-white transition-all hover:no-underline active:scale-[0.98]"
           >
             {tOfflineBonus(
               `${NS.PAGES.HOME.OFFLINE_BONUS.ROOT}.${NS.PAGES.HOME.OFFLINE_BONUS.BUY_BONUS}`,
             )}
-          </Button>
+          </Link>
         )}
       </div>
     </DrawerContent>
