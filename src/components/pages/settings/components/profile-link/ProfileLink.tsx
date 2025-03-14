@@ -87,7 +87,11 @@ export const ProfileLink: FC = () => {
                     `${NS.PAGES.SETTINGS.COMMUNITY.ROOT}.${NS.PAGES.SETTINGS.COMMUNITY.SUBSCRIBE}`,
                   ),
                   isLink: true,
-                  onClick: () => console.log("subscribe"),
+                  onClick: () =>
+                    webApp &&
+                    webApp.openLink("https://t.me/Majestic_EN", {
+                      try_instant_view: true,
+                    }),
                 },
                 {
                   icon: TelegramIcon,

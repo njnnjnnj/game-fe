@@ -6,8 +6,8 @@ import { useTranslations } from "next-intl";
 import classNames from "classnames";
 
 import { NS } from "@/constants/ns";
+import CoinSVG from "@/public/assets/svg/coin.svg";
 import LockSvg from "@/public/assets/svg/lock.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
 import { DataStructure, EventNames } from "@/services/rewards/types";
 import { formatNumber } from "@/utils/number";
 
@@ -38,12 +38,12 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
         >
           <div className="flex h-full w-full items-center rounded-full bg-[#0075FF] px-4 py-1.5 shadow-inset-btn">
             <div className="text-stroke-half grid grid-cols-[16px_1fr] items-center gap-1 text-xs font-extrabold text-white text-shadow-sm">
-              <StarSVG className="size-4" />+{formatNumber(3000000)}
+              <CoinSVG className="size-4" />+{formatNumber(3000000)}
             </div>
           </div>
         </div>
       </div>
-      <div className="grid w-full grid-cols-3 items-center gap-3">
+      <div className="grid w-full grid-cols-3 gap-3">
         <div className="flex flex-col items-center gap-2">
           <div
             className={classNames(
@@ -68,7 +68,7 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
               )}
             {!cards.daily[0] && <LockSvg className="size-8 fill-white/30" />}
           </div>
-          <span className="text-sm font-black text-[#F0F2F5]">
+          <span className="text-center text-sm font-black text-[#F0F2F5]">
             {cards.daily[0] ? (
               t(EVENTS_NAMES_TID[cards.daily[0]])
             ) : (
@@ -100,7 +100,7 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
               )}
             {!cards.daily[1] && <LockSvg className="size-8 fill-white/30" />}
           </div>
-          <span className="text-sm font-black text-[#F0F2F5]">
+          <span className="text-center text-sm font-black text-[#F0F2F5]">
             {cards.daily[1] ? (
               t(EVENTS_NAMES_TID[cards.daily[1]])
             ) : (
@@ -132,7 +132,7 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
               )}
             {!cards.daily[2] && <LockSvg className="size-8 fill-white/30" />}
           </div>
-          <span className="text-sm font-black text-[#F0F2F5]">
+          <span className="text-sm font-black text-[#F0F2F5] text-center">
             {cards.daily[2] ? (
               t(EVENTS_NAMES_TID[cards.daily[2]])
             ) : (
