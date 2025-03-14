@@ -44,7 +44,7 @@ interface IWebAppInitData {
 interface IBackButton {
   isVisible: boolean;
   onClick(callback: () => void): BackButton;
-  offClick(callback: () => void): BackButton;
+  offClick(type: string): BackButton;
   show(): void;
   hide(): void;
 }

@@ -7,8 +7,8 @@ import { useNavigation } from "@/context/navigation-context/NavigationContext";
 import { IWebApp } from "@/types/telegram";
 
 export const useTelegramEffects = (webApp: IWebApp, pathname: string) => {
-  const { goBack } = useNavigation();
-  const { push } = useRouter();
+  const { goBack, history } = useNavigation();
+  const { push, back, locale, replace } = useRouter();
 
   useEffect(() => {
     if (!webApp) return;
@@ -38,9 +38,19 @@ export const useTelegramEffects = (webApp: IWebApp, pathname: string) => {
 
     if (!ROUTES_WITH_CLOSE_BUTTON.includes(pathname)) {
       webApp.BackButton.show();
-      webApp.BackButton.onClick(() => goBack());
+      webApp.BackButton.onClick(() => {
+        if (history[history.length - 2] === ROUTES.SETTINGS) {
+          if (history.length > 2) {
+            replace(history[history.length - 2], undefined, { locale });
+          } else {
+            replace(ROUTES.INDEX, undefined, { locale });
+          }
+        } else {
+          back();
+        }
+      });
     } else {
       webApp.BackButton.hide();
     }
-  }, [webApp, pathname]);
+  }, [webApp, pathname, history, goBack]);
 };
