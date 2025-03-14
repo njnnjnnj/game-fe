@@ -1,18 +1,9 @@
 import React from "react";
 
-import { GetStaticProps } from "next";
-
 import { Shop } from "@/components/pages";
+import { getServerSidePropsWithLocale } from "@/utils/lib/translations";
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { locale } = context;
-
-  return {
-    props: {
-      messages: (await import(`../../public/messages/${locale}.json`)).default,
-    },
-  };
-};
+export const getServerSideProps = getServerSidePropsWithLocale;
 
 const ShopPage = () => <Shop />;
 

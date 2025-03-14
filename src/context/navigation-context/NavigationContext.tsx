@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 interface NavigationContextProps {
-  previousUrl: string | null;
+  history: string[];
   goBack: () => void;
 }
 
@@ -17,29 +17,37 @@ export const NavigationProvider = ({
   children: React.ReactNode;
 }) => {
   const router = useRouter();
-  const [previousUrl, setPreviousUrl] = useState<string | null>(null);
+  const [history, setHistory] = useState<string[]>([]);
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      setPreviousUrl(router.asPath);
+    const handleRouteChange = (url: string) => {
+      setHistory((prevHistory) => {
+        if (prevHistory[prevHistory.length - 1] !== url) {
+          return [...prevHistory, url];
+        }
+        return prevHistory;
+      });
     };
 
-    router.events.on("routeChangeStart", handleRouteChange);
+    router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
+      router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router]);
 
   const goBack = () => {
-    if (previousUrl) {
-      router.push(previousUrl);
+    if (history.length > 1) {
+      const newHistory = history.slice(0, -1);
+      const previousPage = newHistory[newHistory.length - 1];
+      setHistory(newHistory);
+      router.replace(previousPage);
     } else {
       router.back();
     }
   };
 
   return (
-    <NavigationContext.Provider value={{ previousUrl, goBack }}>
+    <NavigationContext.Provider value={{ history, goBack }}>
       {children}
     </NavigationContext.Provider>
   );

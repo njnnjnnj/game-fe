@@ -1,13 +1,21 @@
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
+
+import { parse } from "cookie";
 
 import { Settings } from "@/components/pages";
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { locale } = context;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { locale, req } = context;
+
+  const cookies = parse(req.headers.cookie || "");
+
+  const cookieLocale = cookies["NEXT_LOCALE"];
 
   return {
     props: {
-      messages: (await import(`../../public/messages/${locale}.json`)).default,
+      messages: (
+        await import(`../../public/messages/${cookieLocale ?? locale}.json`)
+      ).default,
     },
   };
 };
