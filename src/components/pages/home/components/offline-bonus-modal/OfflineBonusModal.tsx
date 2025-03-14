@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 
+import Image from 'next/image';
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
@@ -12,9 +13,9 @@ import {
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
+import CoinsImage from "@/public/assets/png/offline-bonus-coins.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import CoinsSVG from "@/public/assets/svg/coins.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
+import CoinSVG from "@/public/assets/svg/coin.svg";
 import { OfflineBonus } from "@/services/offline-bonus/types";
 import { formatNumber } from "@/utils/number";
 
@@ -39,7 +40,8 @@ export const OfflineBonusModal: FunctionComponent<Props> = ({
         >
           <CloseIcon />
         </DrawerClose>
-        <CoinsSVG className="mb-6" />
+        
+        <Image src={CoinsImage} width={161} height={92} alt="" />
 
         <DrawerTitle className="mb-3 text-center text-2xl font-black uppercase tracking-normal !text-white text-shadow">
           {tOfflineBonus(
@@ -52,7 +54,7 @@ export const OfflineBonusModal: FunctionComponent<Props> = ({
           )}
         </DrawerDescription>
         <div className="mb-6 flex items-center gap-2 rounded-full bg-white/10 px-6 py-4">
-          <StarSVG className="size-9" />
+          <CoinSVG className="size-9" />
           <span className="text-stroke-1 text-4xl font-black leading-none tracking-wide text-white text-shadow">
             +{reward ? formatNumber(reward) : "0"}
           </span>

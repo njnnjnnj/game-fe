@@ -7,19 +7,13 @@ import { LocaleSwitcher } from "@/components/common";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LOCALES } from "@/constants/locale";
 import { NS } from "@/constants/ns";
-import { useSettings } from "@/context";
 
 export const Language: FC = () => {
   const t_settings = useTranslations(NS.PAGES.SETTINGS.ROOT);
   const { route, locale } = useRouter();
-  const {
-    settings: { vibrations },
-  } = useSettings();
 
   const handleLanguageChange = () => {
-    if (vibrations) {
-      window.Telegram.WebApp.HapticFeedback.selectionChanged();
-    }
+    window.Telegram.WebApp.HapticFeedback.selectionChanged();
   };
 
   return (

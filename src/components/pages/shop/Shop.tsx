@@ -84,10 +84,7 @@ export const Shop = () => {
           toast(
             <Toast
               type="done"
-              text={t(
-                `${NS.PAGES.FRIENDS.MODAL.ROOT}.${NS.PAGES.FRIENDS.MODAL.BOUGHT_SUCCESSFULLY}`,
-                { number: selectedCard.amount },
-              )}
+              text={t(NS.PAGES.SHOP.BOUGHT_SUCCESSFULLY)}
             />,
           );
         }
