@@ -244,7 +244,7 @@
         "BLOGGING": "Blogging",
         "PODCASTER": "Podcaster",
         "OPINIONLEADER": "Opinion Leader",
-        "CONFERENCE": "Conference",
+        "CONFERENCE": "Football",
         "TAXI": "Taxi",
         "HOTEL": "Hotel",
         "AUTOSALON": "Autosalon"
@@ -426,6 +426,7 @@
   "SLOT_MACHINE": {
     "REWARD": "Reward",
     "JACKPOT": "Jackpot",
+    "BASE_LABEL": "Base",
     "ENERGY_MODAL": {
       "TITLE": "Energy",
       "DESCRIPTION": "You can buy more energy to play one-armed bandit.",

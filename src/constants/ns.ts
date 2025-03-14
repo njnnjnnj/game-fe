@@ -477,6 +477,7 @@ export const NS = {
       ROOT: "SLOT_MACHINE",
       REWARD: "REWARD",
       JACKPOT: "JACKPOT",
+      BASE_LABEL: "BASE_LABEL",
       ENERGY_MODAL: {
         ROOT: "ENERGY_MODAL",
         TITLE: "TITLE",

@@ -244,7 +244,7 @@
         "BLOGGING": "Блоггинг",
         "PODCASTER": "Подкастер",
         "OPINIONLEADER": "Лидер мнений",
-        "CONFERENCE": "Конференция",
+        "CONFERENCE": "Футбол",
         "TAXI": "Такси",
         "HOTEL": "Отель",
         "AUTOSALON": "Автосалон"
@@ -426,6 +426,7 @@
   "SLOT_MACHINE": {
     "REWARD": "Выигрыш",
     "JACKPOT": "Джекпот",
+    "BASE_LABEL": "Базовый",
     "ENERGY_MODAL": {
       "TITLE": "Покупка энергии",
       "DESCRIPTION": "Вы можете купить больше энергии, чтобы играть в однорукого бандита.",

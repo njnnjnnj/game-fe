@@ -19,7 +19,8 @@ import {
   HeroId,
   HeroRarity,
 } from "@/services/heroes/types";
-import { ChestType, Reward, RewardValue } from "@/types/rewards";
+import { IBoughtItem } from "@/services/shop/types";
+import { ChestType, Reward, RewardShape, RewardValue } from "@/types/rewards";
 
 export const getImgByReward = (
   reward: Reward,
@@ -81,3 +82,14 @@ export const getImgByReward = (
       return StartChest;
   }
 };
+
+export const boughtItemToChestReward = (
+  item: IBoughtItem,
+  chestType: ChestType,
+): RewardShape => ({
+  reward: Reward.CHEST,
+  value: chestType,
+  character: null,
+  cloth: null,
+  coffer: item.coffer,
+});

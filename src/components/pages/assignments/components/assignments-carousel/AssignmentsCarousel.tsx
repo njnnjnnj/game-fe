@@ -27,23 +27,13 @@ import {
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
 import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
-import { ChestType, Reward, RewardShape } from "@/types/rewards";
+import { ChestType, RewardShape } from "@/types/rewards";
+import { boughtItemToChestReward } from "@/utils/rewards";
 import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   onSlideClick: (index: number) => void;
 };
-
-const boughtItemToChestReward = (
-  item: IBoughtItem,
-  chestType: ChestType,
-): RewardShape => ({
-  reward: Reward.CHEST,
-  value: chestType,
-  character: null,
-  cloth: null,
-  coffer: item.coffer,
-});
 
 export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
   const tShop = useTranslations(NS.PAGES.SHOP.ROOT);

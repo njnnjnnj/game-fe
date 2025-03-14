@@ -50,8 +50,9 @@ import {
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
 import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
-import { ChestType, Reward, RewardShape } from "@/types/rewards";
+import { ChestType, RewardShape } from "@/types/rewards";
 import { getRandomZeroOrOne } from "@/utils/number";
+import { boughtItemToChestReward } from "@/utils/rewards";
 import { getTgSafeAreaInsetTop } from "@/utils/telegram";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -60,20 +61,10 @@ import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 
-const boughtItemToChestReward = (
-  item: IBoughtItem,
-  chestType: ChestType,
-): RewardShape => ({
-  reward: Reward.CHEST,
-  value: chestType,
-  character: null,
-  cloth: null,
-  coffer: item.coffer,
-});
-
 export const Home = () => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.HOME.ROOT);
+  const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
   const tErrors = useTranslations(NS.ERRORS.ROOT);
   const randomNumber = getRandomZeroOrOne();
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
@@ -168,10 +159,7 @@ export const Home = () => {
           toast(
             <Toast
               type="done"
-              text={t(
-                `${NS.PAGES.FRIENDS.MODAL.ROOT}.${NS.PAGES.FRIENDS.MODAL.BOUGHT_SUCCESSFULLY}`,
-                { number: shopItem.amount },
-              )}
+              text={tShop(NS.PAGES.SHOP.BOUGHT_SUCCESSFULLY)}
             />,
           );
         }
@@ -180,7 +168,12 @@ export const Home = () => {
         if (error instanceof AxiosError) {
           const tid = error.response?.data["detail"];
 
-          toast(<Toast type="destructive" text={tErrors(tid)} />);
+          toast(
+            <Toast
+              type="destructive"
+              text={tid ? tErrors(tid) : "Unknown error"}
+            />,
+          );
         }
       },
     });

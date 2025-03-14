@@ -24,8 +24,9 @@ import {
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
 import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
-import { ChestType, Reward, RewardShape } from "@/types/rewards";
+import { ChestType, RewardShape } from "@/types/rewards";
 import { NotificationEnum } from "@/types/telegram";
+import { boughtItemToChestReward } from "@/utils/rewards";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { AutoCollect } from "./components/auto-collect/AutoCollect";
@@ -35,17 +36,6 @@ import { Friends } from "./components/friends/Friends";
 import { SpecialOffer } from "./components/special-offer/SpecialOffer";
 import { Stars } from "./components/stars/Stars";
 import { StarterKit } from "./components/starter-kit/StarterKit";
-
-const boughtItemToChestReward = (
-  item: IBoughtItem,
-  chestType: ChestType,
-): RewardShape => ({
-  reward: Reward.CHEST,
-  value: chestType,
-  character: null,
-  cloth: null,
-  coffer: item.coffer,
-});
 
 export const Shop = () => {
   const queryClient = useQueryClient();

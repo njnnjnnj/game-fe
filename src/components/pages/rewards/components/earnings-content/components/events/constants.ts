@@ -25,6 +25,7 @@ import StartupImage from "@/public/assets/png/rewards/earning/startup.webp";
 import StreamerImage from "@/public/assets/png/rewards/earning/streamer.webp";
 import SuccessfulTradingImage from "@/public/assets/png/rewards/earning/successful-trading.webp";
 import TaxiImage from "@/public/assets/png/rewards/earning/taxi.webp";
+import CoinSVG from "@/public/assets/svg/coin.svg";
 import FriendsSVG from "@/public/assets/svg/friends-coin.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { Currency, EventNames } from "@/services/rewards/types";
@@ -59,7 +60,7 @@ export const EVENTS_NAMES_TID: { [key in EventNames]: string } = {
 };
 
 export const PRICE_CURRENCY_ICON = {
-  [Currency.COINS]: StarSVG,
+  [Currency.COINS]: CoinSVG,
   [Currency.FRIENDS]: FriendsSVG,
   [Currency.STARS]: StarSVG,
 };

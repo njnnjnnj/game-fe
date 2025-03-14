@@ -41,7 +41,7 @@ import { WinView } from "./components/win-view/WinView";
 
 const DEFAULT_BETS = [5, 10, 15, 20, 25, 50];
 const PAID_BETS = [100, 500, 1000, 2500];
-const VIP_BETS = [...DEFAULT_BETS, 100, 250, 500];
+const VIP_BETS = [...DEFAULT_BETS, 100, 250, 500, 1000, 2500, 5000, 10000];
 
 const WIN_VIEW_TIMING = 500;
 const REEL_STOP_INTERVAL = 1500;
@@ -306,11 +306,8 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
               fill
               priority
             />
-            <SwitchButton
-              label={isVip ? "BASE" : "VIP ROOM"}
-              onClick={() => setIsVip(!isVip)}
-            />
-            {!isVip && <SideLinks />}
+            <SwitchButton isVip={isVip} onClick={() => setIsVip(!isVip)} />
+            {!isVip && <SideLinks setReward={onGetReward} />}
             {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
 
             <ReelPane
