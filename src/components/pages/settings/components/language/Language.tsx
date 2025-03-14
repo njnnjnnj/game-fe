@@ -3,6 +3,8 @@ import { FC } from "react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
+import Cookies from "js-cookie";
+
 import { LocaleSwitcher } from "@/components/common";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LOCALES } from "@/constants/locale";
@@ -11,7 +13,8 @@ import { useSettings } from "@/context";
 
 export const Language: FC = () => {
   const t_settings = useTranslations(NS.PAGES.SETTINGS.ROOT);
-  const { route, locale } = useRouter();
+  const { route } = useRouter();
+  const locale = Cookies.get("NEXT_LOCALE");
   const {
     settings: { vibrations },
   } = useSettings();
