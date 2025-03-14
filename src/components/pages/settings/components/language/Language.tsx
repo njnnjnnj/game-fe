@@ -3,6 +3,8 @@ import { FC } from "react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
+import Cookies from "js-cookie";
+
 import { LocaleSwitcher } from "@/components/common";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LOCALES } from "@/constants/locale";
@@ -10,7 +12,8 @@ import { NS } from "@/constants/ns";
 
 export const Language: FC = () => {
   const t_settings = useTranslations(NS.PAGES.SETTINGS.ROOT);
-  const { route, locale } = useRouter();
+  const { route } = useRouter();
+  const locale = Cookies.get("NEXT_LOCALE");
 
   const handleLanguageChange = () => {
     window.Telegram.WebApp.HapticFeedback.selectionChanged();
