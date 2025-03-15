@@ -54,18 +54,15 @@ export const Shop = () => {
       handleBuyItem();
     },
     () => {
-      toast(<Toast type="destructive" text="Success" />);
-    },
-    () => {
-      toast(<Toast type="destructive" text="Something went wrong" />);
+      handleBuyItem();
     },
   );
 
   const handleBuyItem = () => {
     if (selectedCard === null) {
-      handleSelectionChanged();
-    } else {
       handleNotificationOccurred(NotificationEnum.ERROR);
+    } else {
+      handleSelectionChanged();
     }
 
     if (selectedCard === null) return;
@@ -77,15 +74,19 @@ export const Shop = () => {
         setIsDrawerOpen(false);
 
         if (response.coffer) {
-          setReward(
-            boughtItemToChestReward(response, selectedCard.value as ChestType),
-          );
+          let chestType = selectedCard.value as ChestType;
+
+          if (
+            selectedCard.type === ShopItemTypeEnum.SPECIAL ||
+            selectedCard.type === ShopItemTypeEnum.STARTER_PACK
+          ) {
+            chestType = ChestType.MEGA;
+          }
+
+          setReward(boughtItemToChestReward(response, chestType));
         } else {
           toast(
-            <Toast
-              type="done"
-              text={t(NS.PAGES.SHOP.BOUGHT_SUCCESSFULLY)}
-            />,
+            <Toast type="done" text={t(NS.PAGES.SHOP.BOUGHT_SUCCESSFULLY)} />,
           );
         }
       },
@@ -133,7 +134,9 @@ export const Shop = () => {
 
   const autoCollectShopItems = useMemo(
     () =>
-      shopData?.items.filter((item) => item.type === ShopItemTypeEnum.OFFLINE_BONUS),
+      shopData?.items.filter(
+        (item) => item.type === ShopItemTypeEnum.OFFLINE_BONUS,
+      ),
     [shopData],
   );
 

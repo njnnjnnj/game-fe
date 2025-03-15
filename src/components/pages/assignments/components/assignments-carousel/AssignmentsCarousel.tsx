@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -21,12 +22,13 @@ import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import {
   invalidateProfileQuery,
   invalidateReferralQuery,
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
-import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { IBoughtItem, ShopItemTypeEnum } from "@/services/shop/types";
 import { ChestType, RewardShape } from "@/types/rewards";
 import { boughtItemToChestReward } from "@/utils/rewards";
 import { useQueryClient } from "@tanstack/react-query";
@@ -40,7 +42,9 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
   const tErrors = useTranslations(NS.ERRORS.ROOT);
   const queryClient = useQueryClient();
   const { handleSelectionChanged } = useHapticFeedback();
+  const selectedIdRef = useRef<number | null>(null);
   const [reward, setReward] = useState<RewardShape | null>(null);
+  const [openModal, setOpenModal] = useState<string | null>(null);
   const { mutate, isPending } = useBuyShopItem();
   const { data: shopData } = useGetShop();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
@@ -60,18 +64,21 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
     }
   }, [emblaApi, logActiveSlide]);
 
-  const handleBuyShopItem = (id: number, shopItem: ShopItem) => {
+  const handleBuyShopItem = () => {
+    const id = selectedIdRef.current;
+
+    if (!id) return;
+
     handleSelectionChanged();
 
     mutate(id, {
       onSuccess: (response: IBoughtItem) => {
         invalidateReferralQuery(queryClient);
         invalidateProfileQuery(queryClient);
-
+        selectedIdRef.current = null;
+        setOpenModal(null);
         if (response.coffer) {
-          setReward(
-            boughtItemToChestReward(response, shopItem.value as ChestType),
-          );
+          setReward(boughtItemToChestReward(response, ChestType.MEGA));
         } else {
           toast(
             <Toast
@@ -91,6 +98,15 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
     });
   };
 
+  const { buy: buyItemFn, isStarsPaymentLoading } = useSafeStarsPayment(
+    () => {
+      handleBuyShopItem();
+    },
+    () => {
+      handleBuyShopItem();
+    },
+  );
+
   const starterKitShopItems = useMemo(
     () =>
       shopData?.items.find(
@@ -109,7 +125,10 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
     <section className="mx-0 mt-4 w-full">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="ml-[calc(0.8rem_*_-1)] flex touch-action-carousel">
-          <Drawer>
+          <Drawer
+            open={openModal === "specialOffer"}
+            onOpenChange={(open) => setOpenModal(open ? "specialOffer" : null)}
+          >
             <DrawerTrigger asChild>
               <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
                 <div
@@ -136,17 +155,18 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
             {specialOfferShopItem && (
               <SpecialOfferModal
                 shopItem={specialOfferShopItem}
-                isLoading={isPending}
-                onSubmit={() =>
-                  handleBuyShopItem(
-                    specialOfferShopItem.id,
-                    specialOfferShopItem,
-                  )
-                }
+                isLoading={isPending || isStarsPaymentLoading}
+                onSubmit={() => {
+                  selectedIdRef.current = specialOfferShopItem.id;
+                  buyItemFn(specialOfferShopItem.price);
+                }}
               />
             )}
           </Drawer>
-          <Drawer>
+          <Drawer
+            open={openModal === "starterKit"}
+            onOpenChange={(open) => setOpenModal(open ? "starterKit" : null)}
+          >
             <DrawerTrigger asChild>
               <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
                 <div
@@ -173,10 +193,11 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
             {starterKitShopItems && (
               <StarterKitModal
                 shopItem={starterKitShopItems}
-                isLoading={isPending}
-                onSubmit={() =>
-                  handleBuyShopItem(starterKitShopItems.id, starterKitShopItems)
-                }
+                isLoading={isPending || isStarsPaymentLoading}
+                onSubmit={() => {
+                  selectedIdRef.current = starterKitShopItems.id;
+                  buyItemFn(starterKitShopItems.price);
+                }}
               />
             )}
           </Drawer>

@@ -80,7 +80,7 @@ export const BaseModal: FunctionComponent<Props> = ({
           `${NS.PAGES.SHOP.SHOP_TYPE.ROOT}.${TID_BY_SHOP_ITEM_TYPE[selectedItem.type]}`,
         )}
       </p>
-      <DrawerTitle className="text-stroke-1 mb-3 text-center text-[28px] font-black leading-none text-white text-shadow-sm">
+      <DrawerTitle className="text-stroke-1 mb-3 text-center text-[28px] font-black leading-none !text-white text-shadow-sm">
         {selectedItem.type === ShopItemTypeEnum.FRIENDS
           ? t(`${NS.PAGES.SHOP.BUY_FRIENDS_COUNT}`, {
               count: selectedItem.amount,

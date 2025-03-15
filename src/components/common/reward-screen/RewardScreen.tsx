@@ -8,13 +8,15 @@ import { useTelegram } from "@/context";
 import RewardCardsImg from "@/public/assets/png/reward-screen/reward-cards.webp";
 import { useGetProfile } from "@/services/profile/queries";
 import { useGetBandit } from "@/services/slot-machine/queries";
-import { CofferKey, CofferValue, Reward, RewardShape } from "@/types/rewards";
-
 import {
-  BG_CLASS as BucketSceneBg,
-  BucketScene,
-  Props as BucketSceneProps,
-} from "./components/bucket-scene/BucketScene";
+  ClothCofferReward,
+  CofferKey,
+  CofferReward,
+  CofferValue,
+  Reward,
+  RewardShape,
+} from "@/types/rewards";
+
 import {
   BG_CLASS as ChestSceneBg,
   ChestScene,
@@ -24,33 +26,29 @@ import {
   BG_CLASS as FinalSceneBg,
   FinalScene,
   FinalSceneReward,
-  Props as FinalSceneProps,
 } from "./components/final-scene/FinalScene";
+import { Scene, Scenes } from "./types";
 import {
-  BG_CLASS as HeroAndCloseSceneBg,
-  HeroAndClothScene,
-  Props as HeroAndClothSceneProps,
-} from "./components/hero-n-cloth-scene/HeroAndClothScene";
-import { Scene } from "./types";
+  buildBucketScene,
+  buildCharactersScenes,
+  buildClothesScenes,
+  processExistingItems,
+} from "./utils";
 
 type Props = {
   reward: RewardShape;
   onFinish: () => void;
 };
 
-type Scenes = Scene<
-  ChestSceneProps | BucketSceneProps | HeroAndClothSceneProps | FinalSceneProps
->[];
-
-const SCENES_ORDER: Record<CofferKey, number> = {
+const COFFER_SCENES_ORDER: Record<CofferKey, number> = {
   coins: 0,
   stars: 1,
   friends: 2,
   game_energy: 3,
   buster: 4,
   offline: 5,
-  cloth: 6,
-  character: 7,
+  clothes: 6,
+  characters: 7,
   auto: 8,
 };
 
@@ -62,7 +60,6 @@ export const RewardScreen: FunctionComponent<Props> = ({
   const [toggle, setToggle] = useState(false);
   const [activeBgIndex, setActiveBgIndex] = useState(0);
   const [activeSceneIndex, setActiveSceneIndex] = useState(0);
-
   // Refresh/prefetch data that is neccessary along the way
   const { refetch: refetchBanditInfo } = useGetBandit();
   const { refetch: refetchProfile } = useGetProfile();
@@ -73,35 +70,21 @@ export const RewardScreen: FunctionComponent<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const scenes = useMemo(() => {
-    const buildSceneForCoffer = (key: CofferKey, value: CofferValue) => {
+    const buildSceneForCoffer = (
+      key: CofferKey,
+      value: CofferValue,
+    ): Scenes => {
       switch (key) {
-        case "cloth":
-          return {
-            scene: HeroAndClothScene,
-            props: { type: key, reward: value },
-            bg: HeroAndCloseSceneBg,
-          };
-        case "character":
-          return {
-            scene: HeroAndClothScene,
-            props: { type: key, reward: value },
-            bg: HeroAndCloseSceneBg,
-          };
+        case "clothes":
+          return buildClothesScenes(value as ClothCofferReward[]);
+        case "characters":
+          return buildCharactersScenes(value as CofferReward[]);
         case "auto":
           // Not supported
-          return {
-            scene: HeroAndClothScene,
-            props: { type: key, reward: value },
-            bg: HeroAndCloseSceneBg,
-          };
+          return buildCharactersScenes(value as CofferReward[]);
         default:
-          return {
-            scene: BucketScene,
-            props: { type: key, reward: value },
-            bg: BucketSceneBg,
-          };
+          return [buildBucketScene(key, value as number)];
       }
     };
 
@@ -110,64 +93,64 @@ export const RewardScreen: FunctionComponent<Props> = ({
 
       if (!rawCoffer) return [];
 
-      const coffer = { ...rawCoffer };
-
-      if (coffer.character?.isExist) {
-        const { currency, value } = coffer.character.isExist;
-
-        coffer[currency] = coffer[currency] ? coffer[currency] + value : value;
-
-        coffer.character = null;
-      }
-
-      if (coffer.cloth?.isExist) {
-        const { currency, value } = coffer.cloth.isExist;
-
-        coffer[currency] = coffer[currency] ? coffer[currency] + value : value;
-
-        coffer.cloth = null;
-      }
+      const coffer = processExistingItems(rawCoffer);
 
       const chestScene = {
         scene: ChestScene,
         props: { type: reward.value },
         bg: ChestSceneBg,
-      };
+      } as Scene<ChestSceneProps>;
 
       const rewards: FinalSceneReward[] = [];
-      const scenesList = [
-        chestScene,
-        ...(Object.keys(coffer) as CofferKey[])
-          .filter((key) => !!coffer[key])
-          .sort((key1, key2) => SCENES_ORDER[key1] - SCENES_ORDER[key2])
-          .map((nextKey) => {
-            const key = nextKey;
-            const value = coffer[key];
+      const scenesList: Scenes = [chestScene];
 
+      (Object.keys(coffer) as CofferKey[])
+        .filter((key) => !!coffer[key])
+        .sort((key1, key2) => COFFER_SCENES_ORDER[key1] - COFFER_SCENES_ORDER[key2])
+        .forEach((nextKey) => {
+          const key = nextKey;
+          const value = coffer[key];
+
+          if (Array.isArray(value)) {
+            value.forEach(
+              (clothOrCharacter: ClothCofferReward | CofferReward) => {
+                rewards.push({ type: key, value: clothOrCharacter });
+              },
+            );
+
+            scenesList.push(...buildSceneForCoffer(key, value));
+          } else {
             rewards.push({ type: key, value: value });
+            scenesList.push(...buildSceneForCoffer(key, value));
+          }
+        });
 
-            return buildSceneForCoffer(key, value);
-          }),
-        {
-          scene: FinalScene,
-          props: { rewards },
-          bg: FinalSceneBg,
+      Array.from({ length: Math.ceil(rewards.length / 8) }).forEach(
+        (_, i: number) => {
+          scenesList.push({
+            scene: FinalScene,
+            props: { rewards: rewards.slice(i * 8, i * 8 + 8) },
+            bg: FinalSceneBg,
+          });
         },
-      ];
+      );
 
       return scenesList;
     } else if (reward.reward === Reward.CLOTH) {
       return [
-        buildSceneForCoffer("cloth", reward.cloth),
+        ...buildClothesScenes(reward.cloth ? [reward.cloth] : null),
         {
           scene: FinalScene,
           props: { rewards: [{ type: reward.reward, value: reward.cloth }] },
           bg: FinalSceneBg,
         },
       ];
-    } else if (reward.reward === Reward.CHARACTER) {
+    } else if (
+      reward.reward === Reward.CHARACTER ||
+      reward.reward === Reward.AUTO // Not supported
+    ) {
       return [
-        buildSceneForCoffer("character", reward.character),
+        ...buildCharactersScenes(reward.character ? [reward.character] : null),
         {
           scene: FinalScene,
           props: {
@@ -178,11 +161,7 @@ export const RewardScreen: FunctionComponent<Props> = ({
       ];
     } else {
       return [
-        {
-          scene: BucketScene,
-          props: { type: reward.reward, reward: reward.value },
-          bg: BucketSceneBg,
-        },
+        buildBucketScene(reward.reward, reward.value as number),
         {
           scene: FinalScene,
           props: {
@@ -245,12 +224,7 @@ export const RewardScreen: FunctionComponent<Props> = ({
           style={tgSafeInsetTop ? { top: tgSafeInsetTop } : undefined}
         >
           <Image src={RewardCardsImg} width={40} height={40} alt="" />
-          <div
-            className={classNames(
-              "absolute top-1/2 -translate-y-1/2 rotate-[4deg] text-base font-extrabold text-white",
-              { "right-2.5": itemsLeft !== 1, "right-3": itemsLeft === 1 },
-            )}
-          >
+          <div className="absolute right-0 top-1/2 w-7 -translate-y-1/2 rotate-[4deg] text-center text-base font-extrabold text-white">
             {itemsLeft}
           </div>
         </div>
@@ -258,8 +232,11 @@ export const RewardScreen: FunctionComponent<Props> = ({
       {Scene && (
         <Scene
           {...sceneProps}
+          // @ts-expect-error todo: Working in a hurry. Have no idea what's happening here
           key={activeSceneIndex}
+          // @ts-expect-error todo: Working in a hurry. Have no idea what's happening here
           clickToggle={toggle}
+          // @ts-expect-error todo: Working in a hurry. Have no idea what's happening here
           onFinishScene={onFinishScene}
         />
       )}

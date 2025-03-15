@@ -6,7 +6,12 @@ import classNames from "classnames";
 
 import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
-import { CofferKey, CofferValue } from "@/types/rewards";
+import {
+  ClothCofferReward,
+  CofferKey,
+  CofferReward,
+  CofferValue,
+} from "@/types/rewards";
 
 import { SceneIntrinsicProps } from "../../types";
 import { SceneFooter } from "../scene-footer/SceneFooter";
@@ -15,7 +20,10 @@ import { FinalSceneCard } from "./components/FinalSceneCard";
 
 export type FinalSceneReward = {
   type: CofferKey;
-  value: CofferValue;
+  value:
+    | Exclude<CofferValue, ClothCofferReward[] | CofferReward[]>
+    | ClothCofferReward
+    | CofferReward;
 };
 
 export type Props = SceneIntrinsicProps & {
@@ -56,9 +64,9 @@ export const FinalScene: FunctionComponent<Props> = ({
     setAppearanceAnimation(AppearanceAnimation.DISAPPEARANCE);
   }, [clickToggle]);
 
-  const renderCard = ({ type, value }: FinalSceneReward) => (
+  const renderCard = ({ type, value }: FinalSceneReward, index: number) => (
     <div
-      key={type}
+      key={`${type}-${index}`}
       className={classNames(
         "aspect-[0.65] basis-[25%] transition-transform duration-500",
         {
@@ -113,7 +121,7 @@ export const FinalScene: FunctionComponent<Props> = ({
           </div>
         )}
       </div>
-      
+
       <SceneFooter
         isMovingIn={appearanceAnimation !== AppearanceAnimation.DISAPPEARANCE}
         isMovingOut={appearanceAnimation === AppearanceAnimation.DISAPPEARANCE}

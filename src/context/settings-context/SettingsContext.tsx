@@ -13,8 +13,8 @@ export type SettingsContextValue = {
     setting: keyof Settings,
     value?: boolean | string,
   ) => void;
-  isSpecialOfferModalShown: boolean;
-  setIsSpecialOfferModalShown: (value: boolean) => void;
+  isPromotionModalShown: boolean;
+  setIsPromotionModalShown: (value: boolean) => void;
 };
 
 const SettingsContext = createContext<SettingsContextValue | undefined>(
@@ -35,7 +35,7 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
     }
     return { sound: false, vibrations: false };
   });
-  const [isSpecialOfferModalShown, setIsSpecialOfferModalShown] =
+  const [isPromotionModalShown, setIsPromotionModalShown] =
     useState(false);
 
   const handleUpdateSettings = (
@@ -74,8 +74,8 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
       value={{
         settings,
         handleUpdateSettings,
-        isSpecialOfferModalShown,
-        setIsSpecialOfferModalShown,
+        isPromotionModalShown,
+        setIsPromotionModalShown,
       }}
     >
       {children}

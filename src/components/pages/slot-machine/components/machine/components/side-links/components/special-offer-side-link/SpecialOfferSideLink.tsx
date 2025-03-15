@@ -9,13 +9,14 @@ import { SideLink, SpecialOfferModal } from "@/components/common";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
+import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import BeastImage from "@/public/assets/png/home/beast.webp";
 import {
   invalidateProfileQuery,
   invalidateReferralQuery,
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
-import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { IBoughtItem, ShopItemTypeEnum } from "@/services/shop/types";
 import { ChestType, RewardShape } from "@/types/rewards";
 import { boughtItemToChestReward } from "@/utils/rewards";
 import { useQueryClient } from "@tanstack/react-query";
@@ -42,17 +43,17 @@ export const SpecialOfferSideLink: FunctionComponent<Props> = ({
     [shopItems],
   );
 
-  const handleBuyShopItem = (id: number, shopItem: ShopItem) => {
-    buyShopItem(id, {
+  const handleBuyShopItem = () => {
+    if (!specialOfferShopItem) return;
+
+    buyShopItem(specialOfferShopItem.id, {
       onSuccess: (response: IBoughtItem) => {
         invalidateReferralQuery(queryClient);
         invalidateProfileQuery(queryClient);
         setIsModalOpen(false);
 
         if (response.coffer) {
-          setReward(
-            boughtItemToChestReward(response, shopItem.value as ChestType),
-          );
+          setReward(boughtItemToChestReward(response, ChestType.MEGA));
         } else {
           toast(
             <Toast
@@ -77,6 +78,15 @@ export const SpecialOfferSideLink: FunctionComponent<Props> = ({
     });
   };
 
+  const { buy: buyItemFn, isStarsPaymentLoading } = useSafeStarsPayment(
+    () => {
+      handleBuyShopItem();
+    },
+    () => {
+      handleBuyShopItem();
+    },
+  );
+
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <SideLink
@@ -90,10 +100,8 @@ export const SpecialOfferSideLink: FunctionComponent<Props> = ({
 
       {specialOfferShopItem && (
         <SpecialOfferModal
-          isLoading={buyShopItemPending}
-          onSubmit={() =>
-            handleBuyShopItem(specialOfferShopItem?.id, specialOfferShopItem)
-          }
+          isLoading={buyShopItemPending || isStarsPaymentLoading}
+          onSubmit={() => buyItemFn(specialOfferShopItem.price)}
           shopItem={specialOfferShopItem}
         />
       )}

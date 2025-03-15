@@ -380,15 +380,16 @@
     "REGULAR_CHEST": "Regular chest",
     "MODAL_DESCRIPTION": "Complete a daily Stars transaction and receive massive rewards",
     "BUY_FOR": "Buy for",
+    "SOLD_OUT": "Sold out",
     "SPECIAL_OFFER_MODAL": {
       "BADGE": "Special offer",
       "TITLE": " Beast Games",
-      "DESCRIPTION": "Buy a set and get 30.000.000 coins, 1.200 stars, 2 mega chests and 15.000"
+      "DESCRIPTION": "Get incredible bonuses for a unique price!"
     },
     "STARTER_KIT_MODAL": {
-      "BADGE": "Special offer",
-      "TITLE": "Get 15,000 spins at a super discount!",
-      "DESCRIPTION": "Complete daily star transactions and get huge rewards"
+      "BADGE": "Starter kit",
+      "TITLE": "Starter kit till level 5",
+      "DESCRIPTION": "Get cool rewards!"
     }
   },
   "TOP_PLAYERS": {

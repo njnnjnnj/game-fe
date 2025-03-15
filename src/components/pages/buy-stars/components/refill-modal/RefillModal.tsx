@@ -3,8 +3,6 @@ import React, { FunctionComponent, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-import { toast } from "sonner";
-
 import { Card } from "@/components/common";
 import { Badge } from "@/components/pages/friends/components/invite-modal/components/badge/Badge";
 import {
@@ -14,7 +12,6 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
-import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
@@ -51,9 +48,7 @@ export const RefillModal: FunctionComponent<Props> = ({
       invalidateStarsInfoQuery(queryClient);
       onClose();
     },
-    () => {
-      toast(<Toast type="destructive" text="Ошибка приобретения звезд" />);
-    },
+    undefined,
     false,
   );
 

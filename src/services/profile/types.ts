@@ -31,6 +31,8 @@ export interface IProfile {
   background: number;
   auto: number;
   haveBattlePass: boolean;
+  haveSpecial: boolean;
+  haveStarterPack: boolean;
   league: League;
 }
 

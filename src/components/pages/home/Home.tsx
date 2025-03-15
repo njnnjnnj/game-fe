@@ -26,6 +26,7 @@ import { ROUTES } from "@/constants/routes";
 import { useSettings, useTelegram } from "@/context";
 import { useClickEffects } from "@/hooks/useClickEffects";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import { useThrottledClicker } from "@/hooks/useThrottledClicker";
 import BeastImage from "@/public/assets/png/home/beast.webp";
 import CupImage from "@/public/assets/png/home/cup.webp";
@@ -49,7 +50,7 @@ import {
   useGetProfile,
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
-import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { IBoughtItem, ShopItemTypeEnum } from "@/services/shop/types";
 import { ChestType, RewardShape } from "@/types/rewards";
 import { getRandomZeroOrOne } from "@/utils/number";
 import { boughtItemToChestReward } from "@/utils/rewards";
@@ -66,7 +67,6 @@ export const Home = () => {
   const t = useTranslations(NS.PAGES.HOME.ROOT);
   const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
   const tErrors = useTranslations(NS.ERRORS.ROOT);
-  const randomNumber = getRandomZeroOrOne();
   const { data: allAppsHeroes } = useGetAllAppsHeroes();
   const { refetch: refetchProfile } = useGetProfile();
   const { handleSelectionChanged } = useHapticFeedback();
@@ -84,8 +84,7 @@ export const Home = () => {
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const [reward, setReward] = useState<RewardShape | null>(null);
   const { webApp, profile } = useTelegram();
-  const { isSpecialOfferModalShown, setIsSpecialOfferModalShown } =
-    useSettings();
+  const { isPromotionModalShown, setIsPromotionModalShown } = useSettings();
   const initialEnergy = profile?.energy ?? 0;
   const [energy, setEnergy] = useState(initialEnergy);
   const { mutate: buyShopItem, isPending: buyShopItemPending } =
@@ -97,7 +96,7 @@ export const Home = () => {
     [data],
   );
 
-  const starterKitShopItems = useMemo(
+  const starterKitShopItem = useMemo(
     () =>
       data?.items.find((item) => item.type === ShopItemTypeEnum.STARTER_PACK),
     [data],
@@ -136,25 +135,34 @@ export const Home = () => {
     [energy, profile?.reward_per_tap, battlePass],
   );
 
-  const handleBuyShopItem = (
-    id: number,
-    isSpecialOffer: boolean = false,
-    shopItem: ShopItem,
-  ) => {
+  const handleBuyShopItem = () => {
+    let id = null;
+
+    if (isSpecialOfferModalOpen) {
+      id = specialOfferShopItem?.id;
+    }
+
+    if (isStarterKitModalOpen) {
+      id = starterKitShopItem?.id;
+    }
+
+    if (!id) return;
+
     buyShopItem(id, {
       onSuccess: (response: IBoughtItem) => {
         invalidateReferralQuery(queryClient);
         invalidateProfileQuery(queryClient);
-        if (isSpecialOffer) {
+
+        if (isSpecialOfferModalOpen) {
           setIsSpecialOfferModalOpen(false);
-        } else {
+        }
+
+        if (isStarterKitModalOpen) {
           setIsStarterKitModalOpen(false);
         }
 
         if (response.coffer) {
-          setReward(
-            boughtItemToChestReward(response, shopItem.value as ChestType),
-          );
+          setReward(boughtItemToChestReward(response, ChestType.MEGA));
         } else {
           toast(
             <Toast
@@ -179,17 +187,36 @@ export const Home = () => {
     });
   };
 
+  const { buy: buyItemFn, isStarsPaymentLoading } = useSafeStarsPayment(
+    () => {
+      handleBuyShopItem();
+    },
+    () => {
+      handleBuyShopItem();
+    },
+  );
+
   useEffect(() => {
     refetchBattlePass({ cancelRefetch: false });
-    if (!isSpecialOfferModalShown) {
-      if (randomNumber === 1) {
-        setIsSpecialOfferModalOpen(true);
-      } else {
-        setIsStarterKitModalOpen(true);
-      }
-    }
 
-    setIsSpecialOfferModalShown(true);
+    if (!isPromotionModalShown) {
+      const showStarterKitModal = profile ? !false : false;
+      const showSpecialOfferModal = profile ? !false : false;
+
+      if (showStarterKitModal && showSpecialOfferModal) {
+        if (getRandomZeroOrOne() === 1) {
+          setIsSpecialOfferModalOpen(true);
+        } else {
+          setIsStarterKitModalOpen(true);
+        }
+      } else if (showStarterKitModal) {
+        setIsStarterKitModalOpen(true);
+      } else if (showSpecialOfferModal) {
+        setIsSpecialOfferModalOpen(true);
+      }
+
+      setIsPromotionModalShown(true);
+    }
 
     return () => {
       refetchProfile();
@@ -315,14 +342,10 @@ export const Home = () => {
               />
               {specialOfferShopItem && (
                 <SpecialOfferModal
-                  isLoading={buyShopItemPending}
-                  onSubmit={() =>
-                    handleBuyShopItem(
-                      specialOfferShopItem?.id,
-                      true,
-                      specialOfferShopItem,
-                    )
-                  }
+                  isLoading={buyShopItemPending || isStarsPaymentLoading}
+                  onSubmit={() => {
+                    buyItemFn(specialOfferShopItem.price);
+                  }}
                   shopItem={specialOfferShopItem}
                 />
               )}
@@ -340,17 +363,13 @@ export const Home = () => {
                 )}
                 onClick={() => setIsStarterKitModalOpen(true)}
               />
-              {starterKitShopItems && (
+              {starterKitShopItem && (
                 <StarterKitModal
-                  isLoading={buyShopItemPending}
-                  onSubmit={() =>
-                    handleBuyShopItem(
-                      starterKitShopItems?.id,
-                      true,
-                      starterKitShopItems,
-                    )
-                  }
-                  shopItem={starterKitShopItems}
+                  isLoading={buyShopItemPending || isStarsPaymentLoading}
+                  onSubmit={() => {
+                    buyItemFn(starterKitShopItem.price);
+                  }}
+                  shopItem={starterKitShopItem}
                 />
               )}
             </Drawer>

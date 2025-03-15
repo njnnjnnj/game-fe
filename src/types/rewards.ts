@@ -56,8 +56,8 @@ export type Coffer = {
   friends: number | null;
   offline: number | null;
   game_energy: number | null;
-  cloth: ClothCofferReward | null;
-  character: CofferReward | null;
+  clothes: ClothCofferReward[] | null;
+  characters: CofferReward[] | null;
   auto: CofferReward | null;
 };
 

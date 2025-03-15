@@ -21,8 +21,11 @@ import { formatValue } from "@/utils/lib/utils";
 import { getImgByReward } from "@/utils/rewards";
 
 type Props = {
-  type: CofferKey;
-  value: CofferValue;
+  type: CofferKey | 'cloth' | 'character';
+  value:
+    | Exclude<CofferValue, ClothCofferReward[] | CofferReward[]>
+    | ClothCofferReward
+    | CofferReward;
 };
 
 const clothCardClassName = {
@@ -68,6 +71,7 @@ export const FinalSceneCard: FunctionComponent<Props> = ({ type, value }) => {
           </span>
         </Card>
       );
+    case "characters":
     case "character": {
       const heroId = (value as CofferReward).value as HeroId;
 
@@ -88,6 +92,7 @@ export const FinalSceneCard: FunctionComponent<Props> = ({ type, value }) => {
         </Card>
       );
     }
+    case "clothes":
     case "cloth": {
       const reward = value as ClothCofferReward;
 

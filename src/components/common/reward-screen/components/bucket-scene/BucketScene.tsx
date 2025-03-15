@@ -24,7 +24,7 @@ import { SceneIntrinsicProps } from "../../types";
 import { SceneFooter } from "../scene-footer/SceneFooter";
 
 export type Props = SceneIntrinsicProps & {
-  type: Exclude<CofferKey, "auto" | "character" | "cloth">;
+  type: Exclude<CofferKey, "auto" | "characters" | "clothes">;
   reward: number;
 };
 

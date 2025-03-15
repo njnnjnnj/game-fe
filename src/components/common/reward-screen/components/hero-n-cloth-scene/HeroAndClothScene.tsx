@@ -12,17 +12,17 @@ import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import HourIncomeCoinSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import { useGetAllAppsHeroes } from "@/services/heroes/queries";
 import { HeroClothPiece, HeroId, SelectedCloth } from "@/services/heroes/types";
-import { Coffer, CofferKey } from "@/types/rewards";
+import { ClothCofferReward, CofferKey, CofferReward } from "@/types/rewards";
 import { formatNumber } from "@/utils/number";
 
 import { SceneIntrinsicProps } from "../../types";
 import { SceneFooter } from "../scene-footer/SceneFooter";
 
-type NonNullable<T> = Exclude<T, null>;
+// type NonNullable<T> = Exclude<T, null>;
 
 export type Props = SceneIntrinsicProps & {
-  type: Extract<CofferKey, "cloth" | "character" | "auto">;
-  reward: NonNullable<Coffer["cloth"] | Coffer["character"] | Coffer["auto"]>;
+  type: Extract<CofferKey, "clothes" | "characters" | "auto">;
+  reward: ClothCofferReward | CofferReward;
 };
 
 enum AppearanceAnimation {
@@ -43,9 +43,8 @@ const clothCardClassName = {
     "[transform:translateY(-74%)_translateX(52%)_scaleY(4.5)_scaleX(4.5)]",
 };
 
-const isClothCoffer = (
-  reward: Props["reward"],
-): reward is NonNullable<Coffer["cloth"]> => "char_slot" in reward;
+const isClothCoffer = (reward: Props["reward"]): reward is ClothCofferReward =>
+  "char_slot" in reward;
 
 export const HeroAndClothScene: FunctionComponent<Props> = ({
   type,
@@ -79,7 +78,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
   }, [clickToggle]);
 
   const getIncomePerHour = () => {
-    if (type === "cloth" && isClothCoffer(reward)) {
+    if (type === "clothes" && isClothCoffer(reward)) {
       const hero = heroes?.[reward.character];
       const baseIncomePerHour = hero?.earn_per_hour;
       const clothRate =
@@ -99,8 +98,8 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
     <div className="absolute flex h-[100vh] w-full items-center justify-center">
       <div
         className={classNames({
-          "absolute aspect-[0.72] w-[70%]": type === "character",
-          "absolute aspect-[0.64] w-[43%]": type === "cloth",
+          "absolute aspect-[0.72] w-[70%]": type === "characters",
+          "absolute aspect-[0.64] w-[43%]": type === "clothes",
         })}
       >
         <div
@@ -114,11 +113,11 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
           )}
         >
           <div className="text-stroke-2 inline-flex text-center font-black uppercase italic leading-[36px] text-white text-shadow [font-size:min(10.2vw,5vh)]">
-            {type === "character" &&
+            {type === "characters" &&
               tHeroes(
                 `${NS.PAGES.HEROES.HERO_NAMES.ROOT}.${NS.PAGES.HEROES.HERO_NAMES[String(reward.value).toUpperCase() as Uppercase<HeroId>]}`,
               )}
-            {type === "cloth" &&
+            {type === "clothes" &&
               isClothCoffer(reward) &&
               tShop(
                 `${NS.PAGES.SHOP_CLOTHES.LABELS.ROOT}.${NS.PAGES.SHOP_CLOTHES.LABELS.CLOTH.ROOT}.${reward.character.toUpperCase()}`,
@@ -131,7 +130,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
               { type },
             )}
             <br />
-            {type === "cloth" &&
+            {type === "clothes" &&
               isClothCoffer(reward) &&
               `${tHeroes(
                 `${NS.PAGES.HEROES.HERO_NAMES.ROOT}.${NS.PAGES.HEROES.HERO_NAMES[reward.character.toUpperCase() as Uppercase<HeroId>]}`,
@@ -149,7 +148,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
             },
           )}
         >
-          {type === "character" && heroes && (
+          {type === "characters" && heroes && (
             <HeroView
               className="left-0 top-0 h-full w-full"
               heroId={reward.value as HeroId}
@@ -159,7 +158,7 @@ export const HeroAndClothScene: FunctionComponent<Props> = ({
               source="preview"
             />
           )}
-          {type === "cloth" && isClothCoffer(reward) && heroes && (
+          {type === "clothes" && isClothCoffer(reward) && heroes && (
             <Card type={CardType.INDIGO} isFullSize>
               <HSPieceImage
                 className={classNames(

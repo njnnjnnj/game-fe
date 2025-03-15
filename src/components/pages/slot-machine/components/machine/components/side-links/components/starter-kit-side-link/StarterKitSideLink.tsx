@@ -9,13 +9,14 @@ import { SideLink, StarterKitModal } from "@/components/common";
 import { Drawer } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
+import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import TicketImage from "@/public/assets/png/home/ticket.webp";
 import {
   invalidateProfileQuery,
   invalidateReferralQuery,
 } from "@/services/profile/queries";
 import { useBuyShopItem, useGetShop } from "@/services/shop/queries";
-import { IBoughtItem, ShopItem, ShopItemTypeEnum } from "@/services/shop/types";
+import { IBoughtItem, ShopItemTypeEnum } from "@/services/shop/types";
 import { ChestType, RewardShape } from "@/types/rewards";
 import { boughtItemToChestReward } from "@/utils/rewards";
 import { useQueryClient } from "@tanstack/react-query";
@@ -33,7 +34,7 @@ export const StarterKitSideLink: FunctionComponent<Props> = ({ setReward }) => {
   const { mutate: buyShopItem, isPending: buyShopItemPending } =
     useBuyShopItem();
   const { data: shopItems } = useGetShop();
-  const starterKitShopItems = useMemo(
+  const starterKitShopItem = useMemo(
     () =>
       shopItems?.items.find(
         (item) => item.type === ShopItemTypeEnum.STARTER_PACK,
@@ -41,17 +42,17 @@ export const StarterKitSideLink: FunctionComponent<Props> = ({ setReward }) => {
     [shopItems],
   );
 
-  const handleBuyShopItem = (id: number, shopItem: ShopItem) => {
-    buyShopItem(id, {
+  const handleBuyShopItem = () => {
+    if (!starterKitShopItem) return;
+
+    buyShopItem(starterKitShopItem.id, {
       onSuccess: (response: IBoughtItem) => {
         invalidateReferralQuery(queryClient);
         invalidateProfileQuery(queryClient);
         setIsModalOpen(false);
 
         if (response.coffer) {
-          setReward(
-            boughtItemToChestReward(response, shopItem.value as ChestType),
-          );
+          setReward(boughtItemToChestReward(response, ChestType.MEGA));
         } else {
           toast(
             <Toast
@@ -76,6 +77,15 @@ export const StarterKitSideLink: FunctionComponent<Props> = ({ setReward }) => {
     });
   };
 
+  const { buy: buyItemFn, isStarsPaymentLoading } = useSafeStarsPayment(
+    () => {
+      handleBuyShopItem();
+    },
+    () => {
+      handleBuyShopItem();
+    },
+  );
+
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <SideLink
@@ -87,13 +97,11 @@ export const StarterKitSideLink: FunctionComponent<Props> = ({ setReward }) => {
         isFullSize
       />
 
-      {starterKitShopItems && (
+      {starterKitShopItem && (
         <StarterKitModal
-          isLoading={buyShopItemPending}
-          onSubmit={() =>
-            handleBuyShopItem(starterKitShopItems?.id, starterKitShopItems)
-          }
-          shopItem={starterKitShopItems}
+          isLoading={buyShopItemPending || isStarsPaymentLoading}
+          onSubmit={() => buyItemFn(starterKitShopItem.price)}
+          shopItem={starterKitShopItem}
         />
       )}
     </Drawer>

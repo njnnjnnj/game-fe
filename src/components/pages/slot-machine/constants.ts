@@ -1,4 +1,4 @@
-import { HeroClothPiece, HeroId } from "@/services/heroes/types";
+import { HeroClothPiece, HeroCurrency, HeroId } from "@/services/heroes/types";
 import { ChestType, Reward, RewardShape } from "@/types/rewards";
 
 export const mockComplexReward: RewardShape = {
@@ -12,16 +12,36 @@ export const mockComplexReward: RewardShape = {
     buster: 2,
     friends: 25,
     offline: 6,
-    cloth: {
-      value: "1",
-      isExist: null,
-      character: HeroId.IRONMAN,
-      char_slot: HeroClothPiece.KIT,
-    },
-    character: {
-      value: HeroId.MESSI,
-      isExist: null,
-    },
+    clothes: [
+      {
+        value: "1",
+        isExist: null,
+        character: HeroId.IRONMAN,
+        char_slot: HeroClothPiece.KIT,
+      },
+      {
+        value: "4",
+        isExist: {
+          currency: HeroCurrency.STARS,
+          value: 125,
+        },
+        character: HeroId.BEARD,
+        char_slot: HeroClothPiece.WATCH,
+      },
+    ],
+    characters: [
+      {
+        value: HeroId.MESSI,
+        isExist: null,
+      },
+      {
+        value: HeroId.ROSSOMAHA,
+        isExist: {
+          currency: HeroCurrency.STARS,
+          value: 750,
+        },
+      },
+    ],
     game_energy: 2050,
     auto: null,
   },
