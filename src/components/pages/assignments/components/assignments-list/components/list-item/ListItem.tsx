@@ -22,6 +22,7 @@ type Props = ITask;
 
 export const ListItem: FunctionComponent<Props> = ({
   reward,
+  penalty,
   type,
   title,
   status,
@@ -111,6 +112,7 @@ export const ListItem: FunctionComponent<Props> = ({
         type={type}
         title={title}
         reward={reward}
+        penalty={penalty}
         status={status}
         value={value}
         needValidate={needValidate}

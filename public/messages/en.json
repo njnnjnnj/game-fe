@@ -22,7 +22,7 @@
     "SIDE_LINK": "Obtain"
   },
   "HOME": {
-    "SLOTS": "Slots",
+    "SLOTS": "Fortune",
     "PER_HOUR": "Income / Hour",
     "PER_TAP": "Income / Tap",
     "OFFLINE_BONUS": {
@@ -39,7 +39,7 @@
       "HEROES": "Heroes",
       "ASSIGNMENTS": "Assignments",
       "EARNINGS": "Earnings",
-      "TOP_PLAYERS": "Top players",
+      "TOP_PLAYERS": "Top",
       "FRIENDS": "Friends",
       "CLOTHES": "Clothes",
       "REWARDS": "Awards",

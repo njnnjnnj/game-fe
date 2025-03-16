@@ -54,9 +54,6 @@ export const useThrottledClicker = () => {
 
   useEffect(() => {
     return () => {
-      console.log(
-        "Update effect triggered!" + ` Clicks left = ${clickCountRef.current}`,
-      );
       const remainingClicks = clickCountRef.current;
 
       if (remainingClicks > 0) {

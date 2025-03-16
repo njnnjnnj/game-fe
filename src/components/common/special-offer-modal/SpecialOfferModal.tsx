@@ -51,7 +51,7 @@ export const SpecialOfferModal: FunctionComponent<Props> = ({
         <Image src={BackgroundImage} alt="" fill objectFit="cover" priority />
       </div>
 
-      <div className="z-10 mb-6 mt-auto flex flex-col items-center gap-3">
+      <div className="z-10 mb-6 mt-auto flex w-full flex-col items-center gap-3">
         <div
           className={classNames(
             "text-stroke-half mx-auto flex items-center gap-2 self-start rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 pb-1.5 pt-1 text-lg font-extrabold text-white text-shadow",
@@ -75,7 +75,7 @@ export const SpecialOfferModal: FunctionComponent<Props> = ({
             )}
           </p>
         </DrawerDescription>
-        <div className="grid w-full grid-cols-4 gap-2 px-1.5">
+        <div className="grid w-full max-w-[356px] grid-cols-4 gap-2 px-1.5">
           <div className="rounded-lg bg-black/40 p-0.5 shadow-[0px_2px_4px_0px_#00000066_inset,0px_-2px_4px_0px_#00000033_inset,0px_1px_1px_0px_#FFFFFF66]">
             <div className="relative pt-[100%]">
               <Image src={BucketImage} alt="" sizes="25vw" fill />

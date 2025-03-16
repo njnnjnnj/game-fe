@@ -46,7 +46,7 @@ export interface ITask {
     },
   ];
   penalty: {
-    type: string;
+    type: TaskRewardType;
     value: number;
   }[];
 }

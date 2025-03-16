@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { createElement, FunctionComponent } from "react";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
+import { REWARD_ICONS } from "@/components/pages/assignments/components/assignments-list/constants";
 import {
   DrawerClose,
   DrawerDescription,
@@ -16,11 +17,11 @@ import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import ErrorImage from "@/public/assets/png/assignments/error404.webp";
 import DividerSVG from "@/public/assets/svg/divider.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
+import { ITask, TaskRewardType } from "@/services/tasks/types";
+import { formatNumber } from "@/utils/number";
 import { UseMutateFunction } from "@tanstack/react-query";
 
-type Props = {
-  id: string;
+type Props = Pick<ITask, "id" | "reward" | "penalty"> & {
   isPending: boolean;
   onSubmit: UseMutateFunction<void, unknown, string, unknown>;
   onClose: () => void;
@@ -29,6 +30,8 @@ type Props = {
 
 export const DoubleCheck: FunctionComponent<Props> = ({
   id,
+  reward,
+  penalty,
   isPending,
   onSubmit,
   onClose,
@@ -53,6 +56,15 @@ export const DoubleCheck: FunctionComponent<Props> = ({
       },
     });
   };
+
+  const numericReward = reward.find(
+    ({ type }) =>
+      type === TaskRewardType.COINS || type === TaskRewardType.STARS,
+  );
+  const numericPenalty = penalty.find(
+    ({ type }) =>
+      type === TaskRewardType.COINS || type === TaskRewardType.STARS,
+  );
 
   return (
     <motion.div
@@ -79,9 +91,14 @@ export const DoubleCheck: FunctionComponent<Props> = ({
       </DrawerDescription>
       <div className="mb-8 grid w-full grid-cols-[1fr_32px_1fr] items-center rounded-2xl bg-white/5 p-4 text-white">
         <div className="flex flex-col items-center justify-center gap-2">
-          <StarSVG className="size-7" />
+          {createElement(
+            REWARD_ICONS[numericReward?.type ?? TaskRewardType.COINS],
+            {
+              className: "size-7",
+            },
+          )}
           <span className="text-stroke-half text-center font-extrabold uppercase leading-none text-yellow-500 text-shadow">
-            +500.000
+            {`+${formatNumber(numericReward?.value ?? 0)}`}
           </span>
           <span className="text-xs font-medium leading-none tracking-wide text-gray-550">
             {t(
@@ -93,9 +110,14 @@ export const DoubleCheck: FunctionComponent<Props> = ({
           <DividerSVG />
         </div>
         <div className="flex flex-col items-center justify-center gap-2">
-          <StarSVG className="size-7" />
+          {createElement(
+            REWARD_ICONS[numericPenalty?.type ?? TaskRewardType.COINS],
+            {
+              className: "size-7",
+            },
+          )}
           <span className="text-stroke-half text-center font-extrabold uppercase leading-none text-red-500 text-shadow">
-            +1.000.000
+            {`-${formatNumber(numericPenalty?.value ?? 0)}`}
           </span>
           <span className="text-xs font-medium leading-none tracking-wide text-gray-550">
             {t(

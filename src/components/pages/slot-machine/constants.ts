@@ -14,9 +14,9 @@ export const mockComplexReward: RewardShape = {
     offline: 6,
     clothes: [
       {
-        value: "1",
+        value: "5",
         isExist: null,
-        character: HeroId.IRONMAN,
+        character: HeroId.BOY,
         char_slot: HeroClothPiece.KIT,
       },
       {

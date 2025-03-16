@@ -200,8 +200,8 @@ export const Home = () => {
     refetchBattlePass({ cancelRefetch: false });
 
     if (!isPromotionModalShown) {
-      const showStarterKitModal = profile ? !false : false;
-      const showSpecialOfferModal = profile ? !false : false;
+      const showStarterKitModal = profile ? !profile.haveStarterPack : false;
+      const showSpecialOfferModal = profile ? !profile.haveSpecial : false;
 
       if (showStarterKitModal && showSpecialOfferModal) {
         if (getRandomZeroOrOne() === 1) {
