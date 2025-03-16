@@ -16,7 +16,7 @@ import { NS } from "@/constants/ns";
 import LigntningImage from "@/public/assets/png/rewards/lumin.png";
 import EnergyImage from "@/public/assets/png/rewards/yellow-battery.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
+import EnergyIcon from "@/public/assets/svg/energy.svg";
 import UnionIcon from "@/public/assets/svg/rewards/union.svg";
 
 type Props = {
@@ -61,7 +61,7 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
           className="z-20"
         />
       </div>
-      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase text-white text-shadow-sm">
+      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase !text-white text-shadow-sm">
         {t(
           `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.EVERYDAY}.${NS.PAGES.REWARDS.BOOSTERS.TITLE}`,
         )}
@@ -93,7 +93,7 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
             )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="text-lg font-semibold leading-none text-white">
               {currentEnergy}
             </span>
@@ -109,7 +109,7 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
             )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="inline-block bg-gradient-to-tr from-[#61C2F6] to-[#CCE8F7] bg-clip-text text-lg font-bold leading-none text-transparent">
               {maxEnergy}
             </span>

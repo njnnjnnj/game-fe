@@ -31,7 +31,7 @@ export type TempEnergyBooster = {
 export type CapacityBooster = {
   level: number;
   price: number;
-  currence: string;
+  currence: Currency;
   current: number;
   new: number;
 };
@@ -39,7 +39,7 @@ export type CapacityBooster = {
 export type RecoveryBooster = {
   level: number;
   price: number;
-  currence: string;
+  currence: Currency;
   current: number;
   new: number;
 };

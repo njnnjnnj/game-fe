@@ -10,7 +10,7 @@ import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import ArrowIcon from "@/public/assets/svg/arrow.svg";
 import DoneSvg from "@/public/assets/svg/toast/done.svg";
-import { ITask, TaskStatus } from "@/services/tasks/types";
+import { ITask, TaskRewardType, TaskStatus } from "@/services/tasks/types";
 import { NotificationEnum } from "@/types/telegram";
 import { formatNumber } from "@/utils/number";
 
@@ -90,7 +90,7 @@ export const ListItem: FunctionComponent<Props> = ({
                     {createElement(REWARD_ICONS[type], {
                       className: "size-4",
                     })}
-                    + {formatNumber(value)}
+                    {type === TaskRewardType.CHEST ? 'x1' : `+ ${formatNumber(value)}`}
                   </div>
                 ))}
               </div>

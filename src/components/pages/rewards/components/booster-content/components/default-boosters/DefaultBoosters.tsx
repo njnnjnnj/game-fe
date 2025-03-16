@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import classNames from "classnames";
 import { toast } from "sonner";
 
+import { getCurrencySvg } from "@/components/pages/rewards/helpers";
 import { Drawer } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { Toast } from "@/components/ui/toast";
@@ -14,8 +15,7 @@ import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import GreenBatteryFullImage from "@/public/assets/png/rewards/green-battery-full.webp";
 import GreenBatteryHalfImage from "@/public/assets/png/rewards/green-battery-half.webp";
-import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
+import EnergyIcon from "@/public/assets/svg/energy-flat.svg";
 import { useUpgradeBooster } from "@/services/rewards/queries";
 import {
   CapacityBooster,
@@ -125,6 +125,9 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
     });
   };
 
+  const CapacityCurrencySvg = getCurrencySvg(capacity?.currence);
+  const RecoveryCurrencySvg = getCurrencySvg(recovery?.currence);
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -180,7 +183,7 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                   </span>
                   {capacity?.level < MAX_LEVEL_CARD ? (
                     <span className="flex items-center gap-1 text-xs font-semibold text-white">
-                      <FriendsIcon className="size-4" /> +
+                      <EnergyIcon className="size-4" /> +
                       {capacity?.new - capacity?.current}
                     </span>
                   ) : (
@@ -205,7 +208,7 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                   className="text-stroke-1 text-sm font-extrabold text-shadow-sm"
                 >
                   <div className="grid grid-cols-[16px_1fr] items-center gap-2">
-                    <StarSVG className="size-4" />
+                    <CapacityCurrencySvg className="size-4" />
                     {formatValue(+capacity?.price)}
                   </div>
                 </PrimaryButton>
@@ -256,7 +259,7 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                   </span>
                   {recovery?.level < MAX_LEVEL_CARD ? (
                     <span className="flex items-center gap-1 text-xs font-semibold text-white">
-                      <FriendsIcon className="size-4" />
+                      <EnergyIcon className="size-4" />
                       {(recovery?.new - recovery?.current).toFixed(2)} c
                     </span>
                   ) : (
@@ -281,7 +284,7 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                   className="text-stroke-1 text-sm font-extrabold text-shadow-sm"
                 >
                   <div className="grid grid-cols-[16px_1fr] items-center gap-2">
-                    <StarSVG className="size-4" />
+                    <RecoveryCurrencySvg className="size-4" />
                     {formatValue(+recovery?.price)}
                   </div>
                 </PrimaryButton>

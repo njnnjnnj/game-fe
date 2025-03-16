@@ -21,7 +21,7 @@ export const EnergyBar: FunctionComponent<Props> = ({ energy, max_energy }) => {
       )}
       onClick={() => handleSelectionChanged()}
     >
-      <EnergySvg className="absolute -left-6 z-40" />
+      <EnergySvg className="absolute -left-6 z-40 size-8" />
       <div
         className={classNames(
           "text-stroke-1 relative z-40 flex h-full w-full items-end bg-transparent text-xs font-black leading-[14px] text-white text-shadow-sm",

@@ -41,7 +41,7 @@ export const OfflineBonusModal: FunctionComponent<Props> = ({
           <CloseIcon />
         </DrawerClose>
         
-        <Image src={CoinsImage} width={161} height={92} alt="" />
+        <Image className="mb-6" src={CoinsImage} width={161} height={92} alt="" />
 
         <DrawerTitle className="mb-3 text-center text-2xl font-black uppercase tracking-normal !text-white text-shadow">
           {tOfflineBonus(

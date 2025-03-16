@@ -66,3 +66,27 @@ export const levelupBattlePassQuery = (queryClient: QueryClient) => {
     }),
   );
 };
+
+export const updateBattlePassConfigItemIsOpened = (
+  queryClient: QueryClient,
+  level: number,
+  isPaid: boolean,
+) => {
+  queryClient.setQueryData(
+    [QueryKeys.GET_BATTLEPASS_CONFIG],
+    (prevBattlePassConfig: BattlePassConfig) => {
+      const key = isPaid ? "paid" : "free";
+
+      return {
+        ...prevBattlePassConfig,
+        [key]: {
+          ...prevBattlePassConfig[key],
+          [level]: {
+            ...prevBattlePassConfig[key][level],
+            is_opened: true,
+          },
+        },
+      };
+    },
+  );
+};

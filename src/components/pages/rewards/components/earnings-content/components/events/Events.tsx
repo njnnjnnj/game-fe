@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { createElement, FunctionComponent } from "react";
+import React, { createElement, FunctionComponent, useRef } from "react";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -9,6 +9,8 @@ import classNames from "classnames";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
+import { useSafeCoinsPayment } from "@/hooks/useSafeCoinsPayment";
+import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import HourIncomeSvg from "@/public/assets/svg/heroes/hour-income-coin.svg";
 import LockSvg from "@/public/assets/svg/lock.svg";
 import {
@@ -43,19 +45,63 @@ export const Events: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations(NS.PAGES.REWARDS.ROOT);
   const { profile } = useTelegram();
+  const selectedCardRef = useRef<{
+    card: PreparedCard | PreparedEvent;
+    index: number;
+  } | null>(null);
+
+  const { buy: buyForStars, isStarsPaymentLoading } = useSafeStarsPayment(
+    () => {
+      if (selectedCardRef.current?.card) {
+        onUpgradeCard(
+          selectedCardRef.current.card.name,
+          selectedCardRef.current.index,
+        );
+      }
+
+      selectedCardRef.current = null;
+    },
+    () => {
+      if (selectedCardRef.current?.card) {
+        onUpgradeCard(
+          selectedCardRef.current.card.name,
+          selectedCardRef.current.index,
+        );
+      }
+
+      selectedCardRef.current = null;
+    },
+  );
+
+  const buyForCoins = useSafeCoinsPayment(() => {
+    if (selectedCardRef.current?.card) {
+      onUpgradeCard(
+        selectedCardRef.current.card.name,
+        selectedCardRef.current.index,
+      );
+    }
+
+    selectedCardRef.current = null;
+  });
 
   const onUpgradeClick = (
     card: PreparedCard | PreparedEvent,
     index: number,
   ) => {
+    selectedCardRef.current = { card, index };
+
     if (card.currency === Currency.FRIENDS) {
       if ((profile?.friends ?? 0) < card.price) {
         onOutOfFriends();
         return;
+      } else {
+        onUpgradeCard(card.name, index);
       }
+    } else if (card.currency === Currency.COINS) {
+      buyForCoins(card.price);
+    } else if (card.currency === Currency.STARS) {
+      buyForStars(card.price);
     }
-
-    onUpgradeCard(card.name, index);
   };
 
   return (
@@ -144,7 +190,7 @@ export const Events: FunctionComponent<Props> = ({
               ) : level !== MAX_LEVEL_CARD ? (
                 <div className="pointer-events-auto w-26">
                   <PrimaryButton
-                    isLoading={indexLoading === index}
+                    isLoading={indexLoading === index || isStarsPaymentLoading}
                     size="small"
                     className="text-stroke-1 text-sm font-extrabold text-shadow-sm"
                     onClick={() => onUpgradeClick(card, index)}

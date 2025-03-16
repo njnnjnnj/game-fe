@@ -4,12 +4,11 @@ export type BattlePassInfo = {
   current_exp: number;
   current_level: number;
   is_paid: boolean;
-  last_free_reward: number;
-  last_paid_reward: number;
   need_exp: number;
 };
 
 export type BattlePassItem = {
+  is_opened: boolean;
   is_paid: boolean;
   level: number;
   type: Reward;

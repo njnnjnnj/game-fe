@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
 
+import { getCurrencySvg } from "@/components/pages/rewards/helpers";
 import {
   DrawerClose,
   DrawerContent,
@@ -17,7 +18,6 @@ import EnergyImage from "@/public/assets/png/rewards/green-battery-full.webp";
 import LigntningImage from "@/public/assets/png/rewards/lightning.png";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
 import { CapacityBooster, UpgradeBoosterType } from "@/services/rewards/types";
 import { formatNumber } from "@/utils/number";
 
@@ -37,6 +37,7 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
 }) => {
   const isZeroLevel = capacity.level === 0;
   const t = useTranslations(NS.PAGES.REWARDS.ROOT);
+  const CurrencySVG = getCurrencySvg(capacity?.currence);
 
   return (
     <DrawerContent
@@ -130,8 +131,9 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           })}
       </div>
       <div
-        className={classNames("relative mb-6 grid w-full grid-cols-2 gap-2", {
+        className={classNames("relative mb-6 grid w-full gap-2", {
           "grid-cols-1": isZeroLevel,
+          "grid-cols-2": !isZeroLevel,
         })}
       >
         <div
@@ -221,7 +223,7 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
               `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.IMPROVE_FOR}`,
             )}
             <div className="grid grid-cols-[16px_1fr] items-center gap-1">
-              <StarSVG className="size-4" />
+              <CurrencySVG className="size-4" />
               {formatNumber(capacity?.price)}
             </div>
           </div>

@@ -16,7 +16,7 @@ import { NS } from "@/constants/ns";
 import EnergyImage from "@/public/assets/png/rewards/full-energy.webp";
 import LigntningImage from "@/public/assets/png/rewards/lumin.png";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
+import EnergyIcon from "@/public/assets/svg/energy.svg";
 import UnionIcon from "@/public/assets/svg/rewards/union.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { ShopItem } from "@/services/shop/types";
@@ -102,7 +102,7 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
             )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="text-lg font-semibold leading-none text-white">
               {currentEnergy}
             </span>
@@ -118,7 +118,7 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
             )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="inline-block bg-gradient-to-tr from-[#61C2F6] to-[#CCE8F7] bg-clip-text text-lg font-bold leading-none text-transparent">
               {maxEnergy}
             </span>

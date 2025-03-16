@@ -15,7 +15,7 @@ import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import LargeFx from "@/public/assets/png/battle-pass/large-fx.webp";
 import SmallFx from "@/public/assets/png/battle-pass/small-fx.webp";
 import {
-  useGetBattlePass,
+  updateBattlePassConfigItemIsOpened,
   useGetBattlePassReward,
 } from "@/services/battle-pass/queries";
 import { BattlePassItem } from "@/services/battle-pass/types";
@@ -23,6 +23,7 @@ import { useGetAllAppsHeroes } from "@/services/heroes/queries";
 import { RewardShape } from "@/types/rewards";
 import { NotificationEnum } from "@/types/telegram";
 import { getImgByReward } from "@/utils/rewards";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { ModalType } from "../../../../constants";
 
@@ -32,8 +33,6 @@ import { GlowAnimationController } from "./glow-animation-controller";
 type Props = {
   battlePassLevel: number;
   renderLevel: number;
-  lastFreeReward: number;
-  lastPaidReward: number;
   isPaid: boolean;
   item: BattlePassItem;
   onGetReward: (reward: RewardShape) => void;
@@ -45,25 +44,22 @@ const glowAnimationController = new GlowAnimationController();
 export const BattlePassCell: FunctionComponent<Props> = ({
   battlePassLevel,
   renderLevel,
-  lastFreeReward,
-  lastPaidReward,
   isPaid,
   item,
   onGetReward,
   openModal,
 }) => {
+  const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
   const { handleNotificationOccurred } = useHapticFeedback();
   const { data: heroes } = useGetAllAppsHeroes();
-  const { refetch: refetchBattlePass } = useGetBattlePass();
   const { mutate: getBattlePassReward, isPending: isGettingBattlePassReward } =
     useGetBattlePassReward();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
 
   const isPremium = item.is_paid;
-  const lastTakenReward = isPremium ? lastPaidReward : lastFreeReward;
-  const isTaken = renderLevel <= lastTakenReward;
+  const isTaken = item.is_opened;
   const isLocked = renderLevel > battlePassLevel;
   const isCollectible = !isTaken && !isLocked;
   const ItemImage = heroes
@@ -122,7 +118,11 @@ export const BattlePassCell: FunctionComponent<Props> = ({
       {
         onSuccess: (response) => {
           onGetReward(response);
-          refetchBattlePass();
+          updateBattlePassConfigItemIsOpened(
+            queryClient,
+            renderLevel,
+            isPremium,
+          );
         },
         onError: (error) => {
           toast(

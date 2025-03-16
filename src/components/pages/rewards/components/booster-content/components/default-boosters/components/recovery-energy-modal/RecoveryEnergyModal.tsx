@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
 
+import { getCurrencySvg } from "@/components/pages/rewards/helpers";
 import {
   DrawerClose,
   DrawerContent,
@@ -17,7 +18,6 @@ import EnergyImage from "@/public/assets/png/rewards/green-battery-half.webp";
 import LigntningImage from "@/public/assets/png/rewards/lumin.png";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import ClockIcon from "@/public/assets/svg/rewards/clock.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
 import { RecoveryBooster, UpgradeBoosterType } from "@/services/rewards/types";
 import { formatNumber } from "@/utils/number";
 
@@ -40,6 +40,7 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
   const PRICE = recoveryBooster?.price;
 
   const isZeroLevel = recoveryBooster?.level === 0;
+  const CurrencySVG = getCurrencySvg(recoveryBooster?.currence);
 
   return (
     <DrawerContent
@@ -77,7 +78,7 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
         )}
       </DrawerDescription>
       <div className="mb-6 flex w-full items-center justify-between px-3">
-        {Array(10)
+        {Array(11)
           .fill(0)
           .map((_, index) => {
             const isCurrent = recoveryBooster?.level === index;
@@ -104,6 +105,9 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
                   <span className="text-xs font-medium tracking-wide text-gray-550">
                     {t(
                       `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
                     )}
                   </span>
                 ) : index === 10 ? (
@@ -130,8 +134,9 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
           })}
       </div>
       <div
-        className={classNames("relative mb-6 grid w-full grid-cols-2 gap-2", {
+        className={classNames("relative mb-6 grid w-full gap-2", {
           "grid-cols-1": isZeroLevel,
+          "grid-cols-2": !isZeroLevel,
         })}
       >
         <div
@@ -153,7 +158,7 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
               "flex flex-col items-end justify-start": isZeroLevel,
             })}
           >
-            <span className="text-xs font-medium tracking-wide text-gray-550">
+            <span className="text-xs font-medium tracking-wide text-gray-550 mb-2">
               {t(
                 `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
               )}
@@ -220,7 +225,7 @@ export const RecoveryEnergyModal: FunctionComponent<Props> = ({
               `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.IMPROVE_FOR}`,
             )}
             <div className="grid grid-cols-[16px_1fr] items-center gap-1">
-              <StarSVG className="size-4" />
+              <CurrencySVG className="size-4" />
               {formatNumber(PRICE)}
             </div>
           </div>
