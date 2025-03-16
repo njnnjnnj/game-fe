@@ -19,6 +19,8 @@ import BuyStarsFiveImage from "@/public/assets/png/shop/stars/5.webp";
 import BuyStarsSixImage from "@/public/assets/png/shop/stars/6.webp";
 import { ShopItemTypeEnum } from "@/services/shop/types";
 
+export const OFFLINE_BOOSTERS_CONTAINER_ID = "offline-boosters-container";
+
 export enum ModalColorEnum {
   BLUE = "blue",
   PURPLE = "purple",

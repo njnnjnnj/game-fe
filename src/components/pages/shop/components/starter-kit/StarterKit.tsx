@@ -3,12 +3,8 @@ import React, { FunctionComponent } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-import classNames from "classnames";
-
 import { NS } from "@/constants/ns";
 import TapeBlueImage from "@/public/assets/png/shop/tape-1.webp";
-import ChestSVG from "@/public/assets/svg/chest-light.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
 
 type Props = {
   onClick?: () => void;
@@ -34,24 +30,10 @@ export const StarterKit: FunctionComponent<Props> = ({ onClick }) => {
       >
         <div className="h-full w-full rounded-xl bg-gradient-to-b from-[#9099FD] to-[#777AF0] p-1 shadow-[inset_0_-1px_0_0_rgba(255,255,255,0.3)]">
           <div className="flex h-full w-full flex-col items-start rounded-xl bg-[url('/assets/png/shop/starter-kit.webp')] bg-cover p-4 shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.25),inset_0_-2px_4px_0_rgba(0,0,0,0.15)]">
-            <div className="mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-[#192632]/50 px-3 py-1">
-              <div className="flex items-center gap-1">
-                <StarSVG className="size-4" />
-                <span className="text-stroke-half text-xs font-extrabold uppercase text-white text-shadow">
-                  +50.000
-                </span>
-              </div>
-              <div className="flex items-center gap-1">
-                <ChestSVG className="size-4.5" />
-                <span
-                  className={classNames(
-                    "text-stroke-1 text-xs font-extrabold text-shadow-sm text-white",
-                    "md:text-lg",
-                  )}
-                >
-                  +1
-                </span>
-              </div>
+            <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-white text-shadow-sm">
+              {t(
+                `${NS.PAGES.SHOP.STARTER_KIT_MODAL.ROOT}.${NS.PAGES.SHOP.STARTER_KIT_MODAL.BADGE}`,
+              )}
             </div>
             <p className="text-stroke-1 w-2/4 text-sm font-black uppercase leading-none tracking-wide text-white text-shadow">
               {t(NS.PAGES.SHOP.STARTER_SET_CARD)}

@@ -44,6 +44,7 @@ export const TopPlayers = () => {
         <LeagueInfo
           insetTop={insetTop}
           league={profile?.league ?? League.BRONZE}
+          selectedLeaderboard={league}
         />
         <PlayersList
           leaders={data?.pages.flatMap((page) => page.leaders) || []}

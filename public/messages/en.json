@@ -126,11 +126,11 @@
     },
     "ENHANCE_MODAL": {
       "TITLE": "Improve\nBATTLE PASS",
-      "DESCRIPTION": "Get unique rewards with improved Battle Pass!"
+      "DESCRIPTION": "Get access to exclusive items, unique clothing and rare characters to earn even more coins!"
     },
     "LEVELUP_MODAL": {
       "TITLE": "Buy level of\nBATTLE PASS",
-      "DESCRIPTION": "Don't wait the moment you can get next reward! Take the reward now!"
+      "DESCRIPTION": "Don't want to wait? Buy Battle Pass levels and pick up valuable rewards instantly!"
     }
   },
   "FRIENDS": {
@@ -351,9 +351,9 @@
   "SHOP": {
     "SPECIAL_OFFER": "Special offer",
     "EXPRESS_YOUR_MOOD": "Express your mood with emoji!",
-    "SPECIAL_OFFER_CARD": "Buy 1 pack and get 2 free",
+    "SPECIAL_OFFER_CARD": "Uniquely low price in Combo-PACKAGE",
     "STARTER_SET": "Starter kit",
-    "STARTER_SET_CARD": "Starter kit up to level 5",
+    "STARTER_SET_CARD": "Buy super set at super price",
     "CHESTS": "Chests",
     "STARS": "Stars",
     "BUY_FRIENDS": "Buying friends",
@@ -379,16 +379,20 @@
     "EPIC_CHEST": "Epic chest",
     "REGULAR_CHEST": "Regular chest",
     "MODAL_DESCRIPTION": "Complete a daily Stars transaction and receive massive rewards",
+    "MODAL_STARS_DESCRIPTION": "Stars unlock access to any in-game purchases, from items to upgrades",
+    "MODAL_OFFLINE_BONUS_DESCRIPTION": "Activate this feature to automatically receive your accumulated income and save your time!",
+    "MODAL_CHEST_DESCRIPTION": "Try your luck - open the chest, get valuable items and improve your game inventory!",
+    "MODAL_FRIENDS_DESCRIPTION": "Friends Coin unlocks access to any in-game purchases from items to upgrades.",
     "BUY_FOR": "Buy for",
     "SOLD_OUT": "Sold out",
     "SPECIAL_OFFER_MODAL": {
       "BADGE": "Special offer",
       "TITLE": " Beast Games",
-      "DESCRIPTION": "Get incredible bonuses for a unique price!"
+      "DESCRIPTION": "Catch your chance. Get incredible bonuses at a super price!"
     },
     "STARTER_KIT_MODAL": {
       "BADGE": "Starter kit",
-      "TITLE": "Starter kit till level 5",
+      "TITLE": "Buy super set at super price",
       "DESCRIPTION": "Get cool rewards!"
     }
   },
@@ -401,7 +405,9 @@
     },
     "TOURNAMENTS": {
       "DIAMOND": "Diamond Tournament",
-      "DESCRIPTION": "Top-10 go to semi-finals"
+      "DESCRIPTION": "Earn coins - move up in the rankings. The higher the ranking, the better the rewards!",
+      "FRIENDS_DESCRIPTION": "Invite your friends or buy their coins - the higher the place in the top, the more STARS rewards!",
+      "WORLD_DESCRIPTION": "Earn coins - move up in the rankings. The higher the ranking, the better the rewards!"
     },
     "BEST_PLAYERS": "Best Players",
     "WINNERS": "Winners",

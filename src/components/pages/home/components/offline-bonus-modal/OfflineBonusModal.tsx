@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
+import { OFFLINE_BOOSTERS_CONTAINER_ID } from "@/components/pages/shop/constants";
 import {
   DrawerClose,
   DrawerContent,
@@ -71,8 +72,9 @@ export const OfflineBonusModal: FunctionComponent<Props> = ({
         </PrimaryButton>
         {!haveOfflineBonus && (
           <Link
-            href={ROUTES.SHOP}
+            href={{ pathname: ROUTES.SHOP, hash: OFFLINE_BOOSTERS_CONTAINER_ID }}
             className="mt-6 p-0 text-sm font-bold uppercase tracking-wide text-white transition-all hover:no-underline active:scale-[0.98]"
+            onClick={onConfirm}
           >
             {tOfflineBonus(
               `${NS.PAGES.HOME.OFFLINE_BONUS.ROOT}.${NS.PAGES.HOME.OFFLINE_BONUS.BUY_BONUS}`,

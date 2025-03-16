@@ -4,19 +4,17 @@ import { useRouter } from "next/router";
 
 type Props = {
   children: React.ReactNode;
-  route: string;
   locale?: string;
 };
 
 export const LocaleSwitcher: FunctionComponent<Props> = ({
   children,
   locale,
-  route,
 }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.replace(route, undefined, { locale });
+    router.replace(router.route, router.asPath, { locale });
     document.cookie = `NEXT_LOCALE=${locale}; max-age=31536000; path=/`;
   };
 

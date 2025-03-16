@@ -42,6 +42,21 @@ export const BaseModal: FunctionComponent<Props> = ({
       (item) => item.id === selectedItem.id,
     );
 
+  const getDescription = () => {
+    switch (selectedItem.type) {
+      case ShopItemTypeEnum.STARS:
+        return t(NS.PAGES.SHOP.MODAL_STARS_DESCRIPTION);
+      case ShopItemTypeEnum.OFFLINE_BONUS:
+        return t(NS.PAGES.SHOP.MODAL_OFFLINE_BONUS_DESCRIPTION);
+      case ShopItemTypeEnum.CHEST:
+        return t(NS.PAGES.SHOP.MODAL_CHEST_DESCRIPTION);
+      case ShopItemTypeEnum.FRIENDS:
+        return t(NS.PAGES.SHOP.MODAL_FRIENDS_DESCRIPTION);
+      default:
+        return t(NS.PAGES.SHOP.MODAL_DESCRIPTION);
+    }
+  }
+
   return (
     <DrawerContent
       className={classNames(
@@ -90,7 +105,7 @@ export const BaseModal: FunctionComponent<Props> = ({
             : null}
       </DrawerTitle>
       <DrawerDescription className="mb-6 text-center text-xs font-medium tracking-wide text-white">
-        {t(NS.PAGES.SHOP.MODAL_DESCRIPTION)}
+        {getDescription()}
       </DrawerDescription>
       <PrimaryButton
         color="yellow"

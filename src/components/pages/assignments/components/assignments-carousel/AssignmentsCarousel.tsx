@@ -124,7 +124,7 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
   return (
     <section className="mx-0 mt-4 w-full">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="ml-[calc(0.8rem_*_-1)] flex touch-action-carousel">
+        <div className="flex touch-action-carousel gap-x-3">
           <Drawer
             open={openModal === "specialOffer"}
             onOpenChange={(open) => setOpenModal(open ? "specialOffer" : null)}
@@ -141,7 +141,7 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
                     <div className="flex h-full w-full flex-col items-start rounded-xl bg-[url('/assets/png/shop/spec-offer.webp')] bg-cover bg-no-repeat p-4 shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.25),inset_0_-2px_4px_0_rgba(0,0,0,0.15)]">
                       <div className="text-stroke-half mb-2 mt-auto flex items-center justify-start gap-2 rounded-full bg-gradient-to-tr from-[#FF8E01] to-[#DD342C] px-3 py-1 text-xs font-extrabold uppercase text-white text-shadow-sm">
                         {tShop(
-                          `${NS.PAGES.SHOP.STARTER_KIT_MODAL.ROOT}.${NS.PAGES.SHOP.STARTER_KIT_MODAL.BADGE}`,
+                          `${NS.PAGES.SHOP.SPECIAL_OFFER_MODAL.ROOT}.${NS.PAGES.SHOP.SPECIAL_OFFER_MODAL.BADGE}`,
                         )}
                       </div>
                       <p className="text-stroke-1 w-2/3 text-base font-black uppercase leading-none tracking-wide text-white text-shadow">
@@ -168,7 +168,7 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
             onOpenChange={(open) => setOpenModal(open ? "starterKit" : null)}
           >
             <DrawerTrigger asChild>
-              <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
+              <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pr-3">
                 <div
                   className={classNames(
                     "relative z-10 h-[120px] rounded-xl border-2 border-solid border-white transition-all active:scale-[0.98]",
@@ -201,7 +201,7 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
               />
             )}
           </Drawer>
-          <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
+          {/* <div className="translate-z-0 min-w-0 flex-[0_0_90%] transform pl-3">
             <div
               className={classNames(
                 "relative z-10 h-[120px] overflow-hidden rounded-2xl border-2 border-solid border-white p-4 transition-opacity duration-300 ease-in-out",
@@ -227,7 +227,7 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

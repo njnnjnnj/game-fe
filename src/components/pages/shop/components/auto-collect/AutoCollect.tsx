@@ -10,7 +10,10 @@ import TapeBlueAlternativeImage from "@/public/assets/png/shop/tape-3.webp";
 import { ShopItem } from "@/services/shop/types";
 import { formatNumber } from "@/utils/number";
 
-import { AUTO_COLLECT_CARDS } from "../../constants";
+import {
+  AUTO_COLLECT_CARDS,
+  OFFLINE_BOOSTERS_CONTAINER_ID,
+} from "../../constants";
 
 type Props = {
   cards: ShopItem[];
@@ -33,7 +36,10 @@ export const AutoCollect: FunctionComponent<Props> = ({ cards, onSelect }) => {
         {t(NS.PAGES.SHOP.EXPRESS_YOUR_MOOD)}
       </div>
 
-      <div className="relative mb-8 grid w-full grid-cols-3 gap-2">
+      <div
+        id={OFFLINE_BOOSTERS_CONTAINER_ID}
+        className="relative mb-8 grid w-full grid-cols-3 gap-2"
+      >
         {cards.map((card, index) => {
           const staticCardData = AUTO_COLLECT_CARDS[index];
 
