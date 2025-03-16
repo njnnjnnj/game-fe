@@ -16,12 +16,14 @@ type Props = {
   leaders: Leader[];
   hasNextPage: boolean;
   fetchNextPage: () => void;
+  isLoading: boolean;
 };
 
 export const PlayersList: FunctionComponent<Props> = ({
   leaders,
   fetchNextPage,
   hasNextPage,
+  isLoading,
 }) => {
   const t = useTranslations(NS.PAGES.TOP_PLAYERS.ROOT);
   const MAX_TOP_RECORDS = 300;
@@ -67,35 +69,49 @@ export const PlayersList: FunctionComponent<Props> = ({
             Топ 3
           </span>
           <div className="flex w-full flex-col gap-2 rounded-[20px] bg-[#C18700] px-2 py-3 shadow-leaderbord-list-pattern">
-            <ListItem leader={leaders[0]} />
-            <ListItem leader={leaders[1]} />
-            <ListItem leader={leaders[2]} />
+            <ListItem leader={leaders[0]} isLoading={isLoading} />
+            <ListItem leader={leaders[1]} isLoading={isLoading} />
+            <ListItem leader={leaders[2]} isLoading={isLoading} />
           </div>
         </div>
         <div className="top-players-list-inset-shadows flex w-full flex-col gap-2 rounded-b-4xl bg-black/50 px-4 pb-5 pt-3">
-          {leaders.slice(3).map((leader) => (
-            <>
-              <ListItem key={`leaderboard_${leader.rank}`} leader={leader} />
-              {leader.rank === NUMBER_OF_WINNERS && (
-                <div className="my-2 flex items-center justify-center gap-3 border-b border-solid border-white/20 pb-2">
-                  <ArrowSVG className="size-6 fill-[#44C2FD]" />
-                  <span className="font-extrabold uppercase tracking-wide text-[#44C2FD]">
-                    WINNERS
-                  </span>
-                  <ArrowSVG className="size-6 fill-[#44C2FD]" />
-                </div>
-              )}
-              {leader.rank === START_INDEX_FOR_DOWNGRADE_LEAGUE && (
-                <div className="my-2 flex items-center justify-center gap-3 border-b border-solid border-white/20 pb-2">
-                  <ArrowSVG className="size-6 rotate-180 fill-[#FDE333]" />
-                  <span className="font-extrabold uppercase tracking-wide text-[#FDE333]">
-                    GOLD League
-                  </span>
-                  <ArrowSVG className="size-6 rotate-180 fill-[#FDE333]" />
-                </div>
-              )}
-            </>
-          ))}
+          {!isLoading
+            ? leaders.slice(3).map((leader) => (
+                <>
+                  <ListItem
+                    key={`leaderboard_${leader.rank}`}
+                    leader={leader}
+                    isLoading={false}
+                  />
+                  {leader.rank === NUMBER_OF_WINNERS && (
+                    <div className="my-2 flex items-center justify-center gap-3 border-b border-solid border-white/20 pb-2">
+                      <ArrowSVG className="size-6 fill-[#44C2FD]" />
+                      <span className="font-extrabold uppercase tracking-wide text-[#44C2FD]">
+                        WINNERS
+                      </span>
+                      <ArrowSVG className="size-6 fill-[#44C2FD]" />
+                    </div>
+                  )}
+                  {leader.rank === START_INDEX_FOR_DOWNGRADE_LEAGUE && (
+                    <div className="my-2 flex items-center justify-center gap-3 border-b border-solid border-white/20 pb-2">
+                      <ArrowSVG className="size-6 rotate-180 fill-[#FDE333]" />
+                      <span className="font-extrabold uppercase tracking-wide text-[#FDE333]">
+                        GOLD League
+                      </span>
+                      <ArrowSVG className="size-6 rotate-180 fill-[#FDE333]" />
+                    </div>
+                  )}
+                </>
+              ))
+            : Array(7)
+                .fill(0)
+                .map((_, index) => (
+                  <ListItem
+                    key={index}
+                    leader={{} as Leader}
+                    isLoading={true}
+                  />
+                ))}
         </div>
       </InfiniteScroll>
     </div>

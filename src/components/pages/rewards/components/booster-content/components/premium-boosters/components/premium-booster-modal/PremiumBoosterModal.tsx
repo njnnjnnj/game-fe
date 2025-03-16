@@ -16,7 +16,7 @@ import { NS } from "@/constants/ns";
 import EnergyImage from "@/public/assets/png/rewards/full-energy.webp";
 import LigntningImage from "@/public/assets/png/rewards/lumin.png";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
+import EnergyIcon from "@/public/assets/svg/energy.svg";
 import UnionIcon from "@/public/assets/svg/rewards/union.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { ShopItem } from "@/services/shop/types";
@@ -74,7 +74,7 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
           className="z-20"
         />
       </div>
-      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase leading-none text-white text-shadow-sm">
+      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase leading-none text-white !text-shadow">
         {t(
           `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.PREMIUM}.${NS.PAGES.REWARDS.BOOSTERS.MODAL_TITLE}`,
         )}
@@ -97,10 +97,12 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
       <div className="relative mb-6 grid w-full grid-cols-2 gap-2">
         <div className="flex w-full flex-col gap-3 rounded-2xl bg-blue-700 p-3">
           <span className="text-xs font-medium tracking-wide text-gray-550">
-            Текущий
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.CURRENT}`,
+            )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="text-lg font-semibold leading-none text-white">
               {currentEnergy}
             </span>
@@ -111,10 +113,12 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
         </div>
         <div className="flex w-full flex-col items-end gap-3 rounded-2xl bg-blue-700 p-3">
           <span className="text-xs font-medium tracking-wide text-gray-550">
-            После улучшения
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.AFTER_IMPROVE}`,
+            )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="inline-block bg-gradient-to-tr from-[#61C2F6] to-[#CCE8F7] bg-clip-text text-lg font-bold leading-none text-transparent">
               {maxEnergy}
             </span>
@@ -133,7 +137,7 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
               key={item.id}
               onClick={() => setSelectedBooster(item)}
               className={classNames(
-                "flex w-full items-center justify-center gap-1 text-nowrap rounded-xl border border-solid border-black bg-[#242C34] py-3 text-sm font-semibold",
+                "flex w-full items-center justify-center gap-1 text-nowrap rounded-xl border border-solid border-black bg-[#242C34] py-3 text-sm font-semibold text-white",
                 {
                   "border-2 !border-[#0075FF] !bg-[#203950]":
                     selectedBooster?.id === item.id,
@@ -151,7 +155,6 @@ export const PremiumBoosterModal: FunctionComponent<Props> = ({
       <PrimaryButton
         onClick={onSubmit}
         size="large"
-        disabled={selectedBooster !== null ? false : amount ? false : true}
         isLoading={isRequesting}
         color={selectedBooster ? "primary" : "secondary"}
         className={classNames("flex gap-1 text-base uppercase", {

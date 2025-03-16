@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useRef } from "react";
 
 import classNames from "classnames";
 
 import {
   HeroBodyPart,
   HeroClothPiece,
+  HeroGender,
   HeroId,
   HeroRarity,
   SelectedCloth,
@@ -14,11 +15,15 @@ import { hasHeroDefaultCloth } from "@/utils/heroes";
 import { HSPieceImage } from "../hs-piece-image/HSPieceImage";
 
 type Props = {
+  className?: string;
   heroId: HeroId;
   heroRarity: HeroRarity;
   heroCloth: SelectedCloth;
+  heroGender: HeroGender;
   source: "grid" | "preview";
-  className?: string;
+  // Be cautions with the two methods below - they may not reflect the real status.
+  onLoad?: () => void;
+  onError?: () => void;
 };
 
 type HeroRenderingPart = HeroClothPiece | HeroBodyPart;
@@ -39,10 +44,13 @@ const isHeroBodyPart = (
   part === HeroBodyPart.BODY || part === HeroBodyPart.HEAD;
 
 export const HeroView: FunctionComponent<Props> = ({
+  className,
   heroId,
   source,
   heroCloth,
-  className,
+  heroGender,
+  onLoad,
+  onError,
 }) => {
   const sizes = source === "grid" ? "33vw" : "50vw";
 
@@ -62,6 +70,34 @@ export const HeroView: FunctionComponent<Props> = ({
     (a, b) => RENDERING_ORDER[a] - RENDERING_ORDER[b],
   );
 
+  const settledRef = useRef(heroParts);
+  const errorsRef = useRef<HeroRenderingPart[]>([]);
+
+  const onSinglePieceSettle = (
+    settledPart: HeroRenderingPart,
+    status: "success" | "error",
+  ) => {
+    settledRef.current = settledRef.current.filter(
+      (part) => part !== settledPart,
+    );
+
+    if (status === "error") {
+      errorsRef.current.push(settledPart);
+    }
+
+    if (!settledRef.current.length) {
+      if (!!errorsRef.current.length) {
+        if (onError) {
+          onError();
+        }
+      } else {
+        if (onLoad) {
+          onLoad();
+        }
+      }
+    }
+  };
+
   return (
     <div className={classNames("absolute", className)}>
       {heroParts.map((part) => (
@@ -70,9 +106,12 @@ export const HeroView: FunctionComponent<Props> = ({
           heroId={heroId}
           part={part}
           clothId={isHeroBodyPart(part) ? 0 : heroCloth?.[part]}
+          heroGender={heroGender}
           quality={100}
           alt={part}
           sizes={sizes}
+          onLoad={() => onSinglePieceSettle(part, "success")}
+          onError={() => onSinglePieceSettle(part, "error")}
           fill
         />
       ))}

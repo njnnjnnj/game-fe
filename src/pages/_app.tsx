@@ -6,8 +6,10 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 
+import { Navbar } from "@/components/common/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { SettingsProvider } from "@/context";
+// import { NavigationProvider } from "@/context/navigation-context/NavigationContext";
 import { TelegramProvider } from "@/context/telegram-context/TelegramContext";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import {
@@ -48,6 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   className={`flex min-h-screen flex-col items-center justify-center font-[family-name:var(--font-rubik)]`}
                 >
                   <Component {...pageProps} />
+                  <Navbar />
                   <SpeedInsights />
                   <Toaster />
                   {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA && (

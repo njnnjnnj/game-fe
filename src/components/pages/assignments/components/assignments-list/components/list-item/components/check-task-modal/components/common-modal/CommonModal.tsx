@@ -22,7 +22,7 @@ import { CHECK_TASKS_MODAL_TID } from "../../constants";
 
 import { DoubleCheck } from "./components/double-check/DoubleCheck";
 
-type Props = Pick<ITask, "id" | "type" | "reward" | "title"> & {
+type Props = Pick<ITask, "id" | "type" | "reward" | "title" | "penalty"> & {
   isLoading: boolean;
   isChecked: boolean;
   isInit: boolean;
@@ -37,6 +37,7 @@ export const CommonModal: FunctionComponent<Props> = ({
   id,
   type,
   reward,
+  penalty,
   title,
   isPending,
   isLoading,
@@ -140,6 +141,8 @@ export const CommonModal: FunctionComponent<Props> = ({
       ) : (
         <DoubleCheck
           id={id}
+          reward={reward}
+          penalty={penalty}
           isPending={isPending}
           onCheck={onCheck}
           onSubmit={onSubmit}

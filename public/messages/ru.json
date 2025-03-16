@@ -18,14 +18,32 @@
     "BUY": "Купить",
     "SALE": "-20%",
     "STARS": "{count} звезд",
-    "TAP_TO_CONTINUE": "Нажмите, чтобы продолжить"
+    "TAP_TO_CONTINUE": "Нажмите, чтобы продолжить",
+    "SIDE_LINK": "Забрать"
   },
   "HOME": {
+    "SLOTS": "Фортуна",
+    "PER_HOUR": "Доход / Час",
+    "PER_TAP": "Доход / Тап",
+    "NAVIGATION": {
+      "HOME": "Главная",
+      "SHOP": "Магазин",
+      "HEROES": "Герои",
+      "ASSIGNMENTS": "Задания",
+      "EARNINGS": "Заработок",
+      "TOP_PLAYERS": "Top",
+      "FRIENDS": "Друзья",
+      "CLOTHES": "Одежда",
+      "REWARDS": "Награды",
+      "ACTION": "Акция"
+    },
     "OFFLINE_BONUS": {
       "TITLE": "Оффлайн бонус",
       "DESCRIPTION": "Заходи каждые 3 часа, чтобы получить прибыль! Вы можете приобрести Усиление, увеличивающее период оффлайн бонуса.",
       "GET_BONUS": "Получить бонус",
-      "BUY_BONUS": "Купить усилитель"
+      "BUY_BONUS": "Купить усилитель",
+      "RECEIVED": "Бонус получен",
+      "ERROR": "Ошибка получения бонуса"
     }
   },
   "SETTINGS": {
@@ -92,7 +110,7 @@
       },
       "CONFIRMATION_MODAL": {
         "TITLE": "Убедитесь, что Вы завершили задание",
-        "DESCRIPTION": "Если мы увидим, что вы не выполняете условия выполнения задания (Вы должны быть подписаны на канал как минимум 5 дней), мы спишем монеты в двойном кооличестве",
+        "DESCRIPTION": "Если мы увидим, что вы не выполняете условия выполнения задания (Вы должны быть подписаны на канал как минимум 5 дней), мы спишем монеты в двойном количестве",
         "AWARD": "Награда",
         "PENALTY": "Штраф",
         "BUTTON": "Да, выполнено",
@@ -103,7 +121,16 @@
   "BATTLE_PASS": {
     "BUTTONS": {
       "IMPROVE": "Улучшить",
-      "COLLECT": "Забрать"
+      "COLLECT": "Забрать",
+      "MODALS_BUY": "Приобрести за"
+    },
+    "ENHANCE_MODAL": {
+      "TITLE": "Улучшить\nBATTLE PASS",
+      "DESCRIPTION": "Получи доступ к эксклюзивным предметам, уникальной одежде и редким персонажам, чтобы заработать еще больше монет!"
+    },
+    "LEVELUP_MODAL": {
+      "TITLE": "Купить уровень\nBATTLE PASS",
+      "DESCRIPTION": "Не хочешь ждать? Покупай уровни Battle Pass и мгновенно забирай ценные награды!"
     }
   },
   "FRIENDS": {
@@ -119,6 +146,8 @@
     "GET_FRIENDS": "Приобрести друзей",
     "GET": "Получить",
     "CAN_COLLECT": "Можешь собрать",
+    "SUCCESSFULLY_EARN": "Сбор наград завершен успешно.",
+    "PROFIT_PER_HOUR": "Прибыль в час: +{reward}",
     "MODAL": {
       "TITLE": "Покупка друзей",
       "DESCRIPTION": "Вы можете завести друзей, которые будут приносить вам пассивный доход.",
@@ -128,11 +157,23 @@
       "BOUGHT_SUCCESSFULLY": "Вы успешно приобрели {number} друзей"
     },
     "ERRORS": {
+      "EARN_FRIENDS": "Произошла ошибка при сборе наград с друзей.",
       "BUY_FRIENDS": "Произошла ошибка при покупке друзей."
     }
   },
   "REWARDS": {
     "GET_REWARDS": "Получить награды",
+    "COMBO": "Комбо",
+    "COUNT": "{num} шт.",
+    "TIMER": "{time} ч.",
+    "DAY": "День {num}",
+    "RECEIVED": "Получено",
+    "COLLECT": "Получить",
+    "MAX_CARD_LEVEL": "Максимальный",
+    "EARNINGS": {
+      "CARD_UPDATED": "Рейтинг карты обновлен",
+      "ERROR_CARD_UPDATED": "Произошла ошибка при обновлении карты"
+    },
     "TABS": {
       "EARNINGS": "Заработок",
       "REWARDS": "Награды",
@@ -140,14 +181,17 @@
     },
     "BOOSTERS": {
       "AVAILABLE": "Доступно",
-      "NOT_AVAILABLE": "Усиление недоступно",
-      "APPLY": "Применить усиление",
+      "NOT_AVAILABLE": "недоступно",
+      "APPLY": "Применить",
       "BUY": "Купить",
       "INSUFFICIENT_FUNDS": "Недостаточно средств",
       "COUNT": "{num1} из {num2}",
       "LEVEL": "{num} ур.",
       "COUNT_BOOSTERS": "{num} шт.",
+      "CURRENT": "Текущий",
+      "AFTER_IMPROVE": "После улучшения",
       "BUY_FOR": "Приобрести за",
+      "IMPROVE_FOR": "Улучшить за",
       "SUCCESS_BUY_BOOSTER": "Успешная покупка бустера",
       "SUCCESS_APPLY_BOOSTER": "Успешное применение бустера",
       "PREMIUM": {
@@ -165,7 +209,8 @@
       "DEFAULT": {
         "TITLE": "Усилители",
         "ENERGY": "Запас энергии",
-        "RECOVERY_ENERGY": "Восстановление энергии"
+        "RECOVERY_ENERGY": "Восстановление энергии",
+        "RECOVERY_ENERGY_DESCRIPTION": "Увеличивает максимальный запас энергии"
       }
     },
     "EVENTS": {
@@ -174,7 +219,8 @@
       "LEADER_OF_MINDS": "Лидер мнений",
       "TAXI": "Такси",
       "INVITE_FRIENDS": "Пригласи друзей: {number}",
-      "LEVEL": "{num} ур.",
+      "LEVEL": "{level} ур.",
+      "NEED_CARD": "Нужна карта {card} {level} уровня",
       "EVENTS_LIST": {
         "STARSBANK": "Банк StarsBank",
         "OILCOMPANY": "Нефтяная компания",
@@ -190,7 +236,7 @@
         "FOODDELIVERY": "Доставка еды",
         "RESTAURANT": "Ресторан",
         "EDUCATIONALCOURSES": "Образовательные курсы",
-        "CYBERSECURITY": "Кибербезопасность",
+        "CYBERSECURITY": "Кибер безопасность",
         "STARLINK": "Starlink",
         "STARTUP": "Стартап",
         "ELECTICALCOMMERCY": "Электронная коммерция",
@@ -198,7 +244,7 @@
         "BLOGGING": "Блоггинг",
         "PODCASTER": "Подкастер",
         "OPINIONLEADER": "Лидер мнений",
-        "CONFERENCE": "Конференция",
+        "CONFERENCE": "Футбол",
         "TAXI": "Такси",
         "HOTEL": "Отель",
         "AUTOSALON": "Автосалон"
@@ -261,7 +307,7 @@
       "ZUCKERBERG": "Марк Цукерберг"
     }
   },
-  "SHOP": {
+  "SHOP_CLOTHES": {
     "TITLE": "Корзина",
     "KIT": "{form, select, plural {Комплекты} full_plural {Комплекты одежды} full_singular {Комлект одежды} other {Комплект}}",
     "HAT": "{form, select, plural {Шляпы} other {Шляпа}}",
@@ -302,6 +348,54 @@
       }
     }
   },
+  "SHOP": {
+    "SPECIAL_OFFER": "Спец. предложение",
+    "EXPRESS_YOUR_MOOD": "Выражай настроение с помощью эмодзи!",
+    "SPECIAL_OFFER_CARD": "Уникально низкая цена в Комбо-ПАКЕТЕ",
+    "STARTER_SET": "Старт. набор",
+    "STARTER_SET_CARD": "Купите супер набор по супер цене",
+    "CHESTS": "Сундуки",
+    "STARS": "Звезды",
+    "BUY_FRIENDS": "Покупка друзей",
+    "AUTO_COLLECT": "Автомат. сбор дохода",
+    "BOUGHT_SUCCESSFULLY": "Вы успешно приобрели набор",
+    "SHOP_TYPE": {
+      "CHESTS": "Сундуки",
+      "STARS": "Звезды",
+      "FRIENDS": "Друзья",
+      "AUTO_COLLECT": "Сбор дохода",
+      "STARTER_SET": "Старт. набор",
+      "SPECIAL_OFFER": "Спец. предложение"
+    },
+    "STARS_TYPE": {
+      "BAG": "Мешок звезд",
+      "BUCKET": "Ведро звезд",
+      "BOX": "Бочка звезд",
+      "CHEST": "Сундук звезд",
+      "CARRIAGE": "Карета звезд",
+      "CONTAINER": "Контейнер звезд"
+    },
+    "BUY_FRIENDS_COUNT": "Покупка {count} друзей",
+    "EPIC_CHEST": "Эпический сундук",
+    "REGULAR_CHEST": "Обычный сундук",
+    "MODAL_DESCRIPTION": "Выполняйте ежедневные операции со звездами и получайте огромные вознаграждения",
+    "MODAL_STARS_DESCRIPTION": "Звезды открывают доступ к любым игровым покупкам — от предметов до апгрейдов",
+    "MODAL_OFFLINE_BONUS_DESCRIPTION": "Активируй эту функцию, чтобы автоматически получать накопленный доход и экономить своё время!",
+    "MODAL_CHEST_DESCRIPTION": "Испытай удачу — открой сундук, получи ценные предметы и улучши свой игровой инвентарь!",
+    "MODAL_FRIENDS_DESCRIPTION": "Монета друзей открывают доступ к любым игровым покупкам — от предметов до апгрейдов.",
+    "BUY_FOR": "Приобрести за",
+    "SOLD_OUT": "Распродано",
+    "SPECIAL_OFFER_MODAL": {
+      "BADGE": "Специальное предложение",
+      "TITLE": " Beast Игры",
+      "DESCRIPTION": "Лови свой шанс. Получи невероятные бонусы за уникальную цену!"
+    },
+    "STARTER_KIT_MODAL": {
+      "BADGE": "Стартовый набор",
+      "TITLE": "Купите супер набор по супер цене",
+      "DESCRIPTION": "Получайте классные награды!"
+    }
+  },
   "TOP_PLAYERS": {
     "TITLE": "Топ игроков",
     "MENU_ITEMS": {
@@ -311,7 +405,9 @@
     },
     "TOURNAMENTS": {
       "DIAMOND": "Бриллиантовый турнир",
-      "DESCRIPTION": "Топ-10 выходят в полуфинал"
+      "DESCRIPTION": "Зарабатывай монеты – поднимайся в рейтинге. Чем выше место, тем лучше награды!",
+      "FRIENDS_DESCRIPTION": "Приглашай друзей или покупай их монеты – чем выше место в топе, тем больше наград STARS!",
+      "WORLD_DESCRIPTION": "Зарабатывай монеты – поднимайся в рейтинге. Чем выше место, тем лучше награды!"
     },
     "BEST_PLAYERS": "Лучшие Игроки",
     "WINNERS": "Победители",
@@ -332,6 +428,17 @@
       "BILLIARD_LEAGUE": "Лига Миллиардеров",
       "DESCRIPTION": "Вы можете завести друзей, которые будут приносить вам пассивный доход.",
       "TOP": "Топ {num}"
+    }
+  },
+  "SLOT_MACHINE": {
+    "REWARD": "Выигрыш",
+    "JACKPOT": "Джекпот",
+    "BASE_LABEL": "Базовый",
+    "ENERGY_MODAL": {
+      "TITLE": "Покупка энергии",
+      "DESCRIPTION": "Вы можете купить больше энергии, чтобы играть в однорукого бандита.",
+      "ENERGY_UNIT": "{amount} Энергии",
+      "BUTTON": "Приобрести энергию"
     }
   },
   "BUY_STARS": {
@@ -356,5 +463,22 @@
   "ERRORS": {
     "notEnoughStars": "Недостаточно звезд",
     "userNotFound": "Пользователь не найден"
+  },
+  "REWARDS_SCREEN": {
+    "CHEST_SCENE": {
+      "TITLE": "Нажми на меня!"
+    },
+    "BUCKET_SCENE": {
+      "CARD_TITLE": "{type, select, coins {Ведро монет} stars {Ведро звезд} buster {Бустер} friends {Ведро друзей} offline {Оффлайн бонус} game_energy {Ведро энергии} other {Ресурс}}",
+      "CARD_SUBTITLE": "Карта ресурса",
+      "BALANCE_TITLE": "{type, select, coins {Сейчас монет} stars {Сейчас звезд} friends {Сейчас друзей} game_energy {Сейчас энергии} other {Баланс}}",
+      "BOOSTER_DURATION": "{hours, plural, =24 {# часа} other {# часов}}"
+    },
+    "HERO_AND_CLOTH_SCENE": {
+      "REWARD_SUBTITLE": "{type, select, character {Новый персонаж} cloth {Карта одежды} other {Награда}}"
+    },
+    "FINAL_SCENE": {
+      "TITLE": "Ваша награда"
+    }
   }
 }

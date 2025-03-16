@@ -12,6 +12,7 @@ import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
 import StarSVG from "@/public/assets/svg/star.svg";
+import { useGetStarsInfo } from "@/services/profile/queries";
 import { useGetShop } from "@/services/shop/queries";
 import { ShopItemTypeEnum } from "@/services/shop/types";
 import { formatNumber } from "@/utils/number";
@@ -21,14 +22,15 @@ import { RefillModal } from "./components/refill-modal/RefillModal";
 
 export const BuyStars = () => {
   const t = useTranslations(NS.PAGES.BUY_STARS.ROOT);
-  const { webApp, profile } = useTelegram();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { webApp } = useTelegram();
   const STARS_PRICE = 0.011;
   const { data, isLoading: isLoadingShop } = useGetShop();
+  const { data: starsInfo } = useGetStarsInfo();
   const starsShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.STARS),
     [data],
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!webApp) return null;
 
@@ -40,7 +42,11 @@ export const BuyStars = () => {
   const calculatedPaddingTop = insetTop ? insetTop - 32 : 16;
 
   return (
-    <PageWrapper isLoading={isLoadingShop} disableSafeAreaInset>
+    <PageWrapper
+      isLoading={isLoadingShop}
+      disableSafeAreaInset
+      className="bg-blue-800"
+    >
       <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
         <div
           className="flex flex-col items-center px-4"
@@ -62,13 +68,13 @@ export const BuyStars = () => {
                 <StarSVG className="size-5" />
                 <div>
                   <span className="text-stroke-half text-lg font-semibold leading-none tracking-wide text-white text-shadow-sm">
-                    {profile?.stars ? formatNumber(profile?.stars) : "0"}
+                    {starsInfo?.sum ? formatNumber(starsInfo.sum) : "0"}
                   </span>{" "}
                   <span className="text-str text-xs font-normal text-gray-550">
                     ≈$
-                    {profile?.stars
+                    {starsInfo?.sum
                       ? formatNumber(
-                          +(Number(profile?.stars) * STARS_PRICE).toFixed(2),
+                          +(Number(starsInfo.sum) * STARS_PRICE).toFixed(2),
                         )
                       : "0"}
                   </span>
@@ -83,13 +89,17 @@ export const BuyStars = () => {
                 <StarSVG className="size-5" />
                 <div>
                   <span className="text-stroke-half text-lg font-semibold leading-none tracking-wide text-white text-shadow-sm">
-                    {profile?.stars ? formatNumber(profile?.stars) : "0"}
+                    {starsInfo?.available
+                      ? formatNumber(starsInfo.available)
+                      : "0"}
                   </span>{" "}
                   <span className="text-str text-xs font-normal text-gray-550">
                     ≈$
-                    {profile?.stars
+                    {starsInfo?.available
                       ? formatNumber(
-                          +(Number(profile?.stars) * STARS_PRICE).toFixed(2),
+                          +(Number(starsInfo.available) * STARS_PRICE).toFixed(
+                            2,
+                          ),
                         )
                       : "0"}
                   </span>
@@ -97,7 +107,7 @@ export const BuyStars = () => {
               </div>
             </div>
           </div>
-          <p className="mb-10 pl-3 text-xs text-gray-550">
+          <p className="mb-10 w-full pl-3 text-xs text-gray-550">
             {t(NS.PAGES.BUY_STARS.DESCRIPTION)}
           </p>
           <span className="mb-2 inline-block self-start text-xs font-medium tracking-wide text-gray-550">
@@ -112,14 +122,16 @@ export const BuyStars = () => {
               <div className="flex items-center gap-2">
                 <StarSVG className="size-9" />
                 <span className="text-stroke-1 text-4xl font-black leading-none tracking-wider text-white text-shadow">
-                  {profile?.stars ? formatNumber(profile?.stars) : "0"}
+                  {starsInfo?.available
+                    ? formatNumber(starsInfo.available)
+                    : "0"}
                 </span>
               </div>
               <span className="font-normal text-gray-550">
                 ≈$
-                {profile?.stars
+                {starsInfo?.available
                   ? formatNumber(
-                      +(Number(profile?.stars) * STARS_PRICE).toFixed(2),
+                      +(Number(starsInfo.available) * STARS_PRICE).toFixed(2),
                     )
                   : "0"}
               </span>
@@ -139,9 +151,6 @@ export const BuyStars = () => {
               </PrimaryButton>
             </div>
           </div>
-          <p className="mb-10 px-3 text-xs text-gray-550">
-            {t(NS.PAGES.BUY_STARS.AVAILABLE_BALANCE_DESCRIPTION)}
-          </p>
         </div>
         <RefillModal
           starsShopItems={starsShopItems ?? []}

@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
+import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import {
   Carousel,
   CarouselApi,
@@ -20,6 +21,7 @@ import {
   IBoosters,
   IDailyRewardInfo,
 } from "@/services/rewards/types";
+import { RewardShape } from "@/types/rewards";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { BoosterContent } from "./components/booster-content/BoosterContent";
@@ -35,10 +37,14 @@ export const Rewards = () => {
   const [current, setCurrent] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const [slideHeight, setSlideHeight] = useState<number>(0);
+  const [reward, setReward] = useState<RewardShape | null>(null);
 
   const { data: dailyRewardInfo, isLoading: isLoadingDailyReward } =
     useGetDailyRewardInfo();
-  const { mutate: getDailyReward, isPending } = useGetDailyReward(queryClient);
+  const { mutate: getDailyReward, isPending } = useGetDailyReward(
+    queryClient,
+    setReward,
+  );
   const { data, isLoading: isLoadingBoosters } = useGetBoosters();
   const { data: appsCards, isLoading: isLoadingAppsCards } =
     useGetAllAppsCards();
@@ -93,56 +99,65 @@ export const Rewards = () => {
         isLoadingAppsCards
       }
     >
-      <ProfileHeader />
-      <div className="mt-6 flex flex-1 flex-col gap-6">
-        <Tabs
-          activeTab={current}
-          setActiveTab={handleTabChange}
-          tabs={Object.values(TabsEnum)}
-        />
-        <div
-          ref={containerRef}
-          className="overflow-hidden transition-all duration-300"
-          style={{ height: slideHeight || "auto" }}
-        >
-          <Carousel setApi={setApi}>
-            <CarouselContent>
-              <CarouselItem
-                className={current === 1 ? "carousel-item-active" : ""}
-              >
-                <EarningsContent
-                  isActive={current === 1}
-                  cards={cards ?? ({} as DataStructure)}
-                  appsCards={appsCards ?? ({} as Events)}
-                />
-              </CarouselItem>
-              <CarouselItem
-                className={current === 2 ? "carousel-item-active" : ""}
-              >
-                <RewardsContent
-                  onCollectReward={getDailyReward}
-                  dailyRewardInfo={dailyRewardInfo ?? ({} as IDailyRewardInfo)}
-                  isActive={current === 2}
-                />
-              </CarouselItem>
-              <CarouselItem
-                className={current === 3 ? "carousel-item-active" : ""}
-              >
-                <BoosterContent
-                  boosters={data ?? ({} as IBoosters)}
-                  isActive={current === 3}
-                />
-              </CarouselItem>
-            </CarouselContent>
-          </Carousel>
-        </div>
-      </div>
-      {current === 2 && (
-        <GetAllButton
-          disabled={!dailyRewardInfo?.available}
-          isLoading={isPending}
-          onClick={getDailyReward}
-        />
+      {!reward && (
+        <>
+          <ProfileHeader />
+          <div className="mt-6 flex flex-1 flex-col gap-6">
+            <Tabs
+              activeTab={current}
+              setActiveTab={handleTabChange}
+              tabs={Object.values(TabsEnum)}
+            />
+            <div
+              ref={containerRef}
+              className="overflow-hidden transition-all duration-300"
+              style={{ height: slideHeight || "auto" }}
+            >
+              <Carousel setApi={setApi}>
+                <CarouselContent>
+                  <CarouselItem
+                    className={current === 1 ? "carousel-item-active" : ""}
+                  >
+                    <EarningsContent
+                      isActive={current === 1}
+                      cards={cards ?? ({} as DataStructure)}
+                      appsCards={appsCards ?? ({} as Events)}
+                    />
+                  </CarouselItem>
+                  <CarouselItem
+                    className={current === 2 ? "carousel-item-active" : ""}
+                  >
+                    <RewardsContent
+                      onCollectReward={getDailyReward}
+                      dailyRewardInfo={
+                        dailyRewardInfo ?? ({} as IDailyRewardInfo)
+                      }
+                      isActive={current === 2}
+                    />
+                  </CarouselItem>
+                  <CarouselItem
+                    className={current === 3 ? "carousel-item-active" : ""}
+                  >
+                    <BoosterContent
+                      boosters={data ?? ({} as IBoosters)}
+                      isActive={current === 3}
+                    />
+                  </CarouselItem>
+                </CarouselContent>
+              </Carousel>
+            </div>
+          </div>
+          {current === 2 && (
+            <GetAllButton
+              disabled={!dailyRewardInfo?.available}
+              isLoading={isPending}
+              onClick={getDailyReward}
+            />
+          )}
+        </>
+      )}
+      {reward && (
+        <RewardScreen reward={reward} onFinish={() => setReward(null)} />
       )}
     </PageWrapper>
   );

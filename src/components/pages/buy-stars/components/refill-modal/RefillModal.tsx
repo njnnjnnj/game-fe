@@ -3,8 +3,6 @@ import React, { FunctionComponent, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-import { toast } from "sonner";
-
 import { Card } from "@/components/common";
 import { Badge } from "@/components/pages/friends/components/invite-modal/components/badge/Badge";
 import {
@@ -14,12 +12,14 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
-import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import { invalidateProfileQuery } from "@/services/profile/queries";
+import {
+  invalidateProfileQuery,
+  invalidateStarsInfoQuery,
+} from "@/services/profile/queries";
 import { ShopItem } from "@/services/shop/types";
 import { formatNumber } from "@/utils/number";
 import { useQueryClient } from "@tanstack/react-query";
@@ -43,12 +43,12 @@ export const RefillModal: FunctionComponent<Props> = ({
   const { buy: buyStarsFn, isStarsPaymentLoading } = useSafeStarsPayment(
     () => {},
     () => {
+      console.log("Stars payment success");
       invalidateProfileQuery(queryClient);
+      invalidateStarsInfoQuery(queryClient);
       onClose();
     },
-    () => {
-      toast(<Toast type="destructive" text="Ошибка приобретения звезд" />);
-    },
+    undefined,
     false,
   );
 

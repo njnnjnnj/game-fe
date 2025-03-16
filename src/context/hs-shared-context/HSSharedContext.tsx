@@ -82,6 +82,7 @@ const toSelectedHero = (
   rarity: config.rarity,
   price: config.price,
   currency: config.currency,
+  gender: config.gender,
   auto: 0,
   background: 0,
   cloth: selectedCloth,
@@ -173,7 +174,7 @@ export const HSSharedProvider: FunctionComponent<PropsWithChildren> = ({
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      if (router.pathname === ROUTES.SHOP && url === ROUTES.HEROES) {
+      if (router.pathname === ROUTES.SHOP_CLOTHES && url === ROUTES.HEROES) {
         persistedHero = hero;
       }
     };

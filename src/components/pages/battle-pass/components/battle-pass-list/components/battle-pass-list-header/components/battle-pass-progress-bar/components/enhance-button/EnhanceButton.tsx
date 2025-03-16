@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FunctionComponent } from "react";
 
 import { useTranslations } from "next-intl";
 
@@ -8,22 +8,23 @@ import { motion } from "framer-motion";
 import { CheckedPentagon } from "@/components/ui/svgr-icons/CheckedPentagon";
 import { Pentagon } from "@/components/ui/svgr-icons/Pentagon";
 import { NS } from "@/constants/ns";
-import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
+import { useGetBattlePass } from "@/services/battle-pass/queries";
 
-export const EnhanceButton = () => {
-  const [isChecked, setIsChecked] = useState(false);
+type Props = {
+  onClick: () => void;
+};
+
+export const EnhanceButton: FunctionComponent<Props> = ({ onClick }) => {
+  const { data: battlePassInfo } = useGetBattlePass();
   const t = useTranslations(NS.PAGES.BATTLE_PASS.ROOT);
-  const { buy: buyPremiumBattlePass } = useSafeStarsPayment(
-    () => {
-      console.log("Buying Premium BP");
-    },
-    () => {
-      setIsChecked(true);
-    },
-    () => {
-      setIsChecked(true);
-    },
-  );
+
+  const isPaid = !!battlePassInfo?.is_paid;
+
+  const handleClick = () => {
+    if (!isPaid) {
+      onClick();
+    }
+  };
 
   return (
     <motion.div
@@ -34,9 +35,9 @@ export const EnhanceButton = () => {
         stiffness: 200,
         damping: 20,
       }}
-      onClick={() => buyPremiumBattlePass(1)}
+      onClick={handleClick}
     >
-      {isChecked ? (
+      {isPaid ? (
         <CheckedPentagon className="shrink-0" />
       ) : (
         <Pentagon className="shrink-0" />
@@ -45,8 +46,8 @@ export const EnhanceButton = () => {
         className={classNames(
           "text-stroke-1 absolute inset-0 z-10 text-center font-black text-white text-shadow-sm",
           {
-            "leading-10": !isChecked,
-            "pl-3 text-xs leading-[38px]": isChecked,
+            "leading-10": !isPaid,
+            "pl-3 text-xs leading-[38px]": isPaid,
           },
         )}
       >

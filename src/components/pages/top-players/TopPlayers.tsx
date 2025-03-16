@@ -22,6 +22,7 @@ export const TopPlayers = () => {
 
   const { data, isLoading, fetchNextPage, hasNextPage } =
     useInfiniteLeaderboard(league);
+
   if (!webApp) return null;
 
   const insetTop = getTgSafeAreaInsetTop(webApp);
@@ -43,18 +44,19 @@ export const TopPlayers = () => {
         <LeagueInfo
           insetTop={insetTop}
           league={profile?.league ?? League.BRONZE}
+          selectedLeaderboard={league}
         />
-        {!isLoading ? (
-          <PlayersList
-            leaders={data?.pages.flatMap((page) => page.leaders) || []}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-          />
-        ) : null}
+        <PlayersList
+          leaders={data?.pages.flatMap((page) => page.leaders) || []}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isLoading={isLoading}
+        />
         <TimerBlock />
         <RewardsBlock />
-        <BottomMenu />
         <RewardsModal league={profile?.league ?? League.BRONZE} />
+
+        <BottomMenu />
       </Drawer>
     </PageWrapper>
   );

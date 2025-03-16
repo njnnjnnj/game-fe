@@ -1,5 +1,6 @@
 import { Cards, Events } from "@/services/rewards/types";
 
+import { MAX_LEVEL_CARD } from "./components/events/constants";
 import { PreparedCard, PreparedEvent } from "./types";
 
 export const prepareCards = (cards: Cards): PreparedCard[] => {
@@ -22,6 +23,8 @@ export const prepareEvents = (
     const needCardName = data.need_for_open?.need_card;
     const needCardLevel = data.need_for_open?.need_lvl_card;
 
+    const findCard = preparedCards.find((card) => card.name === name);
+
     const isCardValid = needCardName
       ? preparedCards.some(
           (card) =>
@@ -31,7 +34,7 @@ export const prepareEvents = (
 
     return {
       name,
-      level: 0,
+      level: findCard?.level ?? 0,
       profit: data.earn,
       need: data.need_for_open,
       price: data.price,
@@ -52,5 +55,13 @@ export const mergeCards = (
       );
       return matchingCard || event;
     })
-    .sort((a, b) => Number(b.isValid) - Number(a.isValid));
+    .sort((a, b) => {
+      const getPriority = (item: PreparedEvent | PreparedCard) => {
+        if (item.isValid && item.level < MAX_LEVEL_CARD) return 2;
+        if (item.level === MAX_LEVEL_CARD) return 1;
+        return 0;
+      };
+
+      return getPriority(b) - getPriority(a);
+    });
 };

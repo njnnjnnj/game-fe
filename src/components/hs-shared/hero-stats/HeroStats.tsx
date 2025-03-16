@@ -20,6 +20,7 @@ import { Coin, CoinType } from "./components/coin/Coin";
 import { Indicator } from "./components/indicator/Indicator";
 import { Ribbon } from "./components/ribbon/Ribbon";
 import {
+  calculateStat,
   MAX_ENERGY,
   MAX_INCOME_PER_HOUR,
   MAX_INCOME_PER_TAP,
@@ -47,8 +48,6 @@ type Props = {
 const calculateProgress = (current: number, max: number) =>
   (current / max) * 100;
 
-const calculateStat = (base: number, rate: number) => base * rate;
-
 export const HeroStats: FunctionComponent<Props> = ({
   ctaType,
   heroId,
@@ -61,8 +60,9 @@ export const HeroStats: FunctionComponent<Props> = ({
   onCtaClick,
 }) => {
   const tHeroes = useTranslations(NS.PAGES.HEROES.ROOT);
-  const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
-  const { data: heroes } = useGetAllAppsHeroes();
+  const tShop = useTranslations(NS.PAGES.SHOP_CLOTHES.ROOT);
+  const { data: heroes, isPending: isHeroesDataPending } =
+    useGetAllAppsHeroes();
 
   const renderCta = () => {
     let color: ComponentProps<typeof PrimaryButton>["color"];
@@ -130,14 +130,17 @@ export const HeroStats: FunctionComponent<Props> = ({
       calculatedEnergy += calculateStat(
         heroConfig.energy,
         clothConfig?.energy ?? 0,
+        heroId,
       );
       calculatedEarnPerHour += calculateStat(
         heroConfig.earn_per_hour,
         clothConfig?.earn_per_hour ?? 0,
+        heroId,
       );
       calculatedEarnPerTap += calculateStat(
         heroConfig.earn_per_tap,
         clothConfig?.earn_per_tap ?? 0,
+        heroId,
       );
 
       if (currentHeroCloth?.[clothPiece as HeroClothPiece] !== clothId) {
@@ -165,7 +168,7 @@ export const HeroStats: FunctionComponent<Props> = ({
           <div className="absolute inset-x-2 bottom-[72%] top-1.5 rounded-t-2xl bg-white opacity-5" />
           <div className="text-center text-xl font-black leading-none tracking-wide text-white text-shadow">
             {isShopPage
-              ? tShop(`${NS.PAGES.SHOP.KIT}`, { form: "full_singular" })
+              ? tShop(`${NS.PAGES.SHOP_CLOTHES.KIT}`, { form: "full_singular" })
               : tHeroes(
                   `${NS.PAGES.HEROES.HERO_NAMES.ROOT}.${NS.PAGES.HEROES.HERO_NAMES[nameTranslationKey]}`,
                 )}
@@ -189,6 +192,7 @@ export const HeroStats: FunctionComponent<Props> = ({
                   { num: formatValue(energy) },
                 )}
                 progress={calculateProgress(energy, MAX_ENERGY)}
+                isLoading={isHeroesDataPending}
               />
             </div>
             <div className="flex w-full items-center gap-x-2">
@@ -202,6 +206,7 @@ export const HeroStats: FunctionComponent<Props> = ({
                   { num: formatValue(earnPerHour) },
                 )}
                 progress={calculateProgress(earnPerHour, MAX_INCOME_PER_HOUR)}
+                isLoading={isHeroesDataPending}
               />
             </div>
             <div className="flex w-full items-center gap-x-2">
@@ -215,20 +220,27 @@ export const HeroStats: FunctionComponent<Props> = ({
                   { num: formatValue(earnPerTap) },
                 )}
                 progress={calculateProgress(earnPerTap, MAX_INCOME_PER_TAP)}
+                isLoading={isHeroesDataPending}
               />
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-y-3">
-          {isShopPage && (
+          {isShopPage && (!!coins || !!stars) && (
             <div className="flex flex-col gap-y-2">
               <div className="text-stroke-1 text-center text-base font-extrabold text-white text-shadow">
                 {tShop(
-                  `${NS.PAGES.SHOP.LABELS.ROOT}.${NS.PAGES.SHOP.LABELS.TOTAL}`,
+                  `${NS.PAGES.SHOP_CLOTHES.LABELS.ROOT}.${NS.PAGES.SHOP_CLOTHES.LABELS.TOTAL}`,
                 )}
               </div>
               <div className="flex justify-center gap-x-2">
-                <Badge value={formatValue(coins)} suppressPadding />
+                {!!coins && (
+                  <Badge
+                    value={formatValue(coins)}
+                    currency="coins"
+                    suppressPadding
+                  />
+                )}
                 <Badge value={formatValue(stars)} suppressPadding />
               </div>
             </div>
@@ -239,7 +251,7 @@ export const HeroStats: FunctionComponent<Props> = ({
               ctaType === HeroStatsCtaType.SELECTED) && (
               <Link
                 href={{
-                  pathname: ROUTES.SHOP,
+                  pathname: ROUTES.SHOP_CLOTHES,
                   query: isCurrentHeroSelected ? undefined : { heroId },
                 }}
                 className="text-center text-sm font-extrabold text-white"

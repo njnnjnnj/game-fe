@@ -30,6 +30,16 @@ type Props = {
   isAnimated?: boolean;
 };
 
+const INITIAL_BOOSTER = {
+  id: 27,
+  type: "buster",
+  price: 50,
+  amount: 1,
+  details: null,
+  static: true,
+  value: null,
+} as ShopItem;
+
 export const PremiumBoosters: FunctionComponent<Props> = ({
   isAnimated,
   booster,
@@ -43,7 +53,8 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
   const { mutate } = useTempEnergyBooster(queryClient);
   const { mutate: mutateBuyShopItem } = useBuyShopItem();
   const [isRequesting, setRequesting] = useState(false);
-  const [selectedBooster, setSelectedBooster] = useState<ShopItem | null>(null);
+  const [selectedBooster, setSelectedBooster] =
+    useState<ShopItem>(INITIAL_BOOSTER);
 
   const boosterShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.BOOSTER),
@@ -86,7 +97,9 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
 
   const handleBoosterClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (selectedBooster) {
-      handleBuyBooster(selectedBooster.id, () => setSelectedBooster(null));
+      handleBuyBooster(selectedBooster.id, () =>
+        setSelectedBooster(INITIAL_BOOSTER),
+      );
     } else if (booster.amount > 0) {
       handleUseBoosterMutation(e);
     }
@@ -149,7 +162,7 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
       onOpenChange={(open) => {
         setIsModalOpen(open);
         if (!open) {
-          setSelectedBooster(null);
+          setSelectedBooster(INITIAL_BOOSTER);
         }
       }}
     >
@@ -201,14 +214,14 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
               </div>
             </div>
           </div>
-          <div className="pointer-events-auto w-[122px]">
+          <div className="pointer-events-auto w-26">
             <PrimaryButton
               onClick={handleUseBooster}
               size="small"
               isLoading={isRequesting}
               color={!booster?.amount ? "primary" : "secondary"}
               buttonClassName="relative z-50"
-              className="text-stroke-1 text-xs font-extrabold text-shadow-sm"
+              className="text-stroke-1 text-sm font-extrabold uppercase text-shadow-sm"
             >
               {!booster?.amount
                 ? t(

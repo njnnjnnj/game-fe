@@ -3,7 +3,7 @@ import { UseMutateFunction } from "@tanstack/react-query";
 
 export type ModalProps = Pick<
   ITask,
-  "id" | "type" | "reward" | "title" | "value"
+  "id" | "type" | "reward" | "title" | "value" | "penalty"
 > & {
   isLoading: boolean;
   isInit: boolean;

@@ -18,14 +18,32 @@
     "BUY": "Buy",
     "SALE": "-20%",
     "STARS": "{count} stars",
-    "TAP_TO_CONTINUE": "Tap to continue"
+    "TAP_TO_CONTINUE": "Tap to continue",
+    "SIDE_LINK": "Obtain"
   },
   "HOME": {
+    "SLOTS": "Fortune",
+    "PER_HOUR": "Income / Hour",
+    "PER_TAP": "Income / Tap",
     "OFFLINE_BONUS": {
       "TITLE": "Offline Bonus",
       "DESCRIPTION": "Come back every 3 hours to earn profit! You can buy a Booster to increase the offline bonus period.",
       "GET_BONUS": "Get Bonus",
-      "BUY_BONUS": "Buy Booster"
+      "BUY_BONUS": "Buy Booster",
+      "RECEIVED": "Bonus received",
+      "ERROR": "Bonus receipt error"
+    },
+    "NAVIGATION": {
+      "HOME": "Home",
+      "SHOP": "Shop",
+      "HEROES": "Heroes",
+      "ASSIGNMENTS": "Assignments",
+      "EARNINGS": "Earnings",
+      "TOP_PLAYERS": "Top",
+      "FRIENDS": "Friends",
+      "CLOTHES": "Clothes",
+      "REWARDS": "Awards",
+      "ACTION": "Action"
     }
   },
   "SETTINGS": {
@@ -103,7 +121,16 @@
   "BATTLE_PASS": {
     "BUTTONS": {
       "IMPROVE": "Upgrade",
-      "COLLECT": "Collect"
+      "COLLECT": "Collect",
+      "MODALS_BUY": "Buy for"
+    },
+    "ENHANCE_MODAL": {
+      "TITLE": "Improve\nBATTLE PASS",
+      "DESCRIPTION": "Get access to exclusive items, unique clothing and rare characters to earn even more coins!"
+    },
+    "LEVELUP_MODAL": {
+      "TITLE": "Buy level of\nBATTLE PASS",
+      "DESCRIPTION": "Don't want to wait? Buy Battle Pass levels and pick up valuable rewards instantly!"
     }
   },
   "FRIENDS": {
@@ -119,6 +146,8 @@
     "GET_FRIENDS": "Buy Friends",
     "GET": "Get",
     "CAN_COLLECT": "Can Collect",
+    "SUCCESSFULLY_EARN": "Collection of awards completed successfully.",
+    "PROFIT_PER_HOUR": "Profit per hour: +{reward}",
     "MODAL": {
       "TITLE": "Buy Friends",
       "DESCRIPTION": "You can get friends who will bring you passive income.",
@@ -128,11 +157,23 @@
       "BOUGHT_SUCCESSFULLY": "You have successfully purchased {number} friends"
     },
     "ERRORS": {
+      "EARN_FRIENDS": "There was an error when collecting rewards from friends.",
       "BUY_FRIENDS": "An error occurred while buying friends."
     }
   },
   "REWARDS": {
     "GET_REWARDS": "Get Rewards",
+    "COMBO": "Combo",
+    "COUNT": "{num} pcs.",
+    "TIMER": "{time} h.",
+    "MAX_CARD_LEVEL": "Max",
+    "RECEIVED": "Received",
+    "COLLECT": "Receive",
+    "DAY": "Day {num}",
+    "EARNINGS": {
+      "CARD_UPDATED": "The map rating has been updated",
+      "ERROR_CARD_UPDATED": "An error occurred when updating the map"
+    },
     "TABS": {
       "EARNINGS": "Earnings",
       "REWARDS": "Rewards",
@@ -141,13 +182,16 @@
     "BOOSTERS": {
       "AVAILABLE": "Available",
       "NOT_AVAILABLE": "Not Available",
-      "APPLY": "Apply Booster",
+      "APPLY": "Apply",
       "BUY": "Buy",
       "INSUFFICIENT_FUNDS": "Insufficient Funds",
       "COUNT": "{num1} of {num2}",
       "LEVEL": "{num} lvl.",
       "COUNT_BOOSTERS": "{num} pcs.",
+      "CURRENT": "Current",
+      "AFTER_IMPROVE": "After improvement",
       "BUY_FOR": "Buy for",
+      "IMPROVE_FOR": "Improve for",
       "SUCCESS_BUY_BOOSTER": "Booster Purchased Successfully",
       "SUCCESS_APPLY_BOOSTER": "Booster Applied Successfully",
       "PREMIUM": {
@@ -165,7 +209,8 @@
       "DEFAULT": {
         "TITLE": "Boosters",
         "ENERGY": "Energy Reserve",
-        "RECOVERY_ENERGY": "Energy Recovery"
+        "RECOVERY_ENERGY": "Energy Recovery",
+        "RECOVERY_ENERGY_DESCRIPTION": "Increases maximum energy reserve"
       }
     },
     "EVENTS": {
@@ -174,7 +219,8 @@
       "LEADER_OF_MINDS": "Opinion Leader",
       "TAXI": "Taxi",
       "INVITE_FRIENDS": "Invite Friends: {number}",
-      "LEVEL": "{num} lvl.",
+      "LEVEL": "{level} lvl.",
+      "NEED_CARD": "Need a card {card} {level} level",
       "EVENTS_LIST": {
         "STARSBANK": "StarsBank",
         "OILCOMPANY": "Oil Company",
@@ -198,7 +244,7 @@
         "BLOGGING": "Blogging",
         "PODCASTER": "Podcaster",
         "OPINIONLEADER": "Opinion Leader",
-        "CONFERENCE": "Conference",
+        "CONFERENCE": "Football",
         "TAXI": "Taxi",
         "HOTEL": "Hotel",
         "AUTOSALON": "Autosalon"
@@ -261,7 +307,7 @@
       "ZUCKERBERG": "Mark Zuckerberg"
     }
   },
-  "SHOP": {
+  "SHOP_CLOTHES": {
     "TITLE": "Cart",
     "KIT": "{form, select, plural {Kits} full_plural {Clothing Kits} full_singular {Clothing Kit} other {Kit}}",
     "HAT": "{form, select, plural {Hats} other {Hat}}",
@@ -302,6 +348,54 @@
       }
     }
   },
+  "SHOP": {
+    "SPECIAL_OFFER": "Special offer",
+    "EXPRESS_YOUR_MOOD": "Express your mood with emoji!",
+    "SPECIAL_OFFER_CARD": "Uniquely low price in Combo-PACKAGE",
+    "STARTER_SET": "Starter kit",
+    "STARTER_SET_CARD": "Buy super set at super price",
+    "CHESTS": "Chests",
+    "STARS": "Stars",
+    "BUY_FRIENDS": "Buying friends",
+    "AUTO_COLLECT": "Auto collect",
+    "BOUGHT_SUCCESSFULLY": "You have successfully purchased a set",
+    "SHOP_TYPE": {
+      "CHESTS": "Chests",
+      "STARS": "Stars",
+      "FRIENDS": "Friends",
+      "AUTO_COLLECT": "Revenue collection",
+      "STARTER_SET": "Starter kit",
+      "SPECIAL_OFFER": "Special offer"
+    },
+    "STARS_TYPE": {
+      "BAG": "A bag of stars",
+      "BUCKET": "Bucket of stars",
+      "BOX": "Star barrel",
+      "CHEST": "Chest of stars",
+      "CARRIAGE": "Carriage of stars",
+      "CONTAINER": "Star container"
+    },
+    "BUY_FRIENDS_COUNT": "Buying {count} friends",
+    "EPIC_CHEST": "Epic chest",
+    "REGULAR_CHEST": "Regular chest",
+    "MODAL_DESCRIPTION": "Complete a daily Stars transaction and receive massive rewards",
+    "MODAL_STARS_DESCRIPTION": "Stars unlock access to any in-game purchases, from items to upgrades",
+    "MODAL_OFFLINE_BONUS_DESCRIPTION": "Activate this feature to automatically receive your accumulated income and save your time!",
+    "MODAL_CHEST_DESCRIPTION": "Try your luck - open the chest, get valuable items and improve your game inventory!",
+    "MODAL_FRIENDS_DESCRIPTION": "Friends Coin unlocks access to any in-game purchases from items to upgrades.",
+    "BUY_FOR": "Buy for",
+    "SOLD_OUT": "Sold out",
+    "SPECIAL_OFFER_MODAL": {
+      "BADGE": "Special offer",
+      "TITLE": " Beast Games",
+      "DESCRIPTION": "Catch your chance. Get incredible bonuses at a super price!"
+    },
+    "STARTER_KIT_MODAL": {
+      "BADGE": "Starter kit",
+      "TITLE": "Buy super set at super price",
+      "DESCRIPTION": "Get cool rewards!"
+    }
+  },
   "TOP_PLAYERS": {
     "TITLE": "Top players",
     "MENU_ITEMS": {
@@ -311,7 +405,9 @@
     },
     "TOURNAMENTS": {
       "DIAMOND": "Diamond Tournament",
-      "DESCRIPTION": "Top-10 go to semi-finals"
+      "DESCRIPTION": "Earn coins - move up in the rankings. The higher the ranking, the better the rewards!",
+      "FRIENDS_DESCRIPTION": "Invite your friends or buy their coins - the higher the place in the top, the more STARS rewards!",
+      "WORLD_DESCRIPTION": "Earn coins - move up in the rankings. The higher the ranking, the better the rewards!"
     },
     "BEST_PLAYERS": "Best Players",
     "WINNERS": "Winners",
@@ -332,6 +428,17 @@
       "BILLIARD_LEAGUE": "Milliard League",
       "DESCRIPTION": "You can make friends who will bring you passive income.",
       "TOP": "Top {num}"
+    }
+  },
+  "SLOT_MACHINE": {
+    "REWARD": "Reward",
+    "JACKPOT": "Jackpot",
+    "BASE_LABEL": "Base",
+    "ENERGY_MODAL": {
+      "TITLE": "Energy",
+      "DESCRIPTION": "You can buy more energy to play one-armed bandit.",
+      "ENERGY_UNIT": "{amount} of Energy",
+      "BUTTON": "Buy energy"
     }
   },
   "BUY_STARS": {
@@ -356,5 +463,22 @@
   "ERRORS": {
     "notEnoughStars": "Not enough stars",
     "userNotFound": "User not found"
+  },
+  "REWARDS_SCREEN": {
+    "CHEST_SCENE": {
+      "TITLE": "Hit me!"
+    },
+    "BUCKET_SCENE": {
+      "CARD_TITLE": "{type, select, coins {Coins bucket} stars {Stars bucket} buster {Booster} friends {Friends bucket} offline {Offline bonus} game_energy {Energy bucket} other {Resource}}",
+      "CARD_SUBTITLE": "Resource card",
+      "BALANCE_TITLE": "{type, select, coins {Coins} stars {Stars} friends {Friends} game_energy {Energy} other {Balance}}",
+      "BOOSTER_DURATION": "{hours} hours"
+    },
+    "HERO_AND_CLOTH_SCENE": {
+      "REWARD_SUBTITLE": "{type, select, character {New character} cloth {Cloth card} other {Reward}}"
+    },
+    "FINAL_SCENE": {
+      "TITLE": "Your reward"
+    }
   }
 }

@@ -149,16 +149,16 @@ export const EverydayBoosters: FunctionComponent<Props> = ({
             </div>
           </div>
         </div>
-        <div className="pointer-events-auto w-[122px]">
+        <div className="pointer-events-auto w-26">
           <PrimaryButton
             onClick={handleUseBoosterMutation}
             size="small"
             disabled={!isAvailable}
             color={PRICE ? "primary" : "secondary"}
             className={classNames(
-              "text-stroke-1 text-xs font-extrabold text-shadow-sm",
+              "text-stroke-1 text-sm font-extrabold uppercase text-shadow-sm",
               {
-                "!bg-[#1B3044]": !isAvailable,
+                "!bg-[#1B3044] text-xs": !isAvailable,
               },
             )}
             innerClassname={classNames({

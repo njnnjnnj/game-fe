@@ -1,11 +1,11 @@
 import apiClient from "@/api/api-client";
 import { API_ENDPOINTS } from "@/constants/api";
+import { RewardShape } from "@/types/rewards";
 
 import {
   DataStructure,
   Events,
   IBoosters,
-  IDailyReward,
   IDailyRewardInfo,
   IRewardsEarn,
   UpgradeBoosterType,
@@ -23,7 +23,7 @@ export const getDailyInfo = async (): Promise<IDailyRewardInfo> => {
   return data;
 };
 
-export const getDailyReward = async (): Promise<IDailyReward> => {
+export const getDailyReward = async (): Promise<RewardShape> => {
   const { data } = await apiClient.get(API_ENDPOINTS.GET.GET_DAILY_REWARD);
 
   return data;

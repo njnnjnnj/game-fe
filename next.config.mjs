@@ -4,7 +4,7 @@ const nextConfig = {
   images: { unoptimized: true, domains: ["picsum.photos"] },
   i18n: {
     locales: ["en", "ru"],
-    defaultLocale: "ru",
+    defaultLocale: "en",
     localeDetection: false,
   },
   experimental: {

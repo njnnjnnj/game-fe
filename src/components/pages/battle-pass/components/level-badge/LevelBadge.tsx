@@ -2,22 +2,31 @@ import React, { FunctionComponent } from "react";
 
 import Image from "next/image";
 
+import classNames from "classnames";
+
 import Level from "@/public/assets/png/battle-pass/level.webp";
 import LockedLevel from "@/public/assets/png/battle-pass/locked-level.webp";
 
 type Props = {
-  className?: string;
   level: number;
+  className?: string;
+  iconWrapperClassname?: string;
   isInactive?: boolean;
 };
 
 export const LevelBadge: FunctionComponent<Props> = ({
   className,
+  iconWrapperClassname,
   level,
   isInactive = false,
 }) => (
   <div className={className}>
-    <div className="relative flex size-[42px] items-center justify-center">
+    <div
+      className={classNames(
+        "relative flex size-[42px] items-center justify-center",
+        iconWrapperClassname,
+      )}
+    >
       <Image
         className="absolute inset-0"
         src={!isInactive ? Level : LockedLevel}

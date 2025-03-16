@@ -20,7 +20,7 @@ import { HeroesTabs } from "./components/heroes-tabs/HeroesTabs";
 
 export const HeroesGrid = () => {
   const t = useTranslations(NS.PAGES.HEROES.ROOT);
-  const [selectedTab, setSelectedTab] = useState<HeroRarity>(HeroRarity.COMMON);
+  const [selectedTab, setSelectedTab] = useState<HeroRarity>(HeroRarity.RARE);
   const { data: heroes } = useGetAllAppsHeroes();
   const { data: ownHeroes, isPending: isOwnHeroesPending } = useGetAllHeroes();
   const { currentHero, currentClothByHeroId, selectHero } =
@@ -48,13 +48,15 @@ export const HeroesGrid = () => {
         title={t(NS.PAGES.HEROES.TITLE)}
       />
       <HeroesTabs selectedTab={selectedTab} onSelectTab={setSelectedTab} />
-      <div className="flex-grow bg-[#192632]">
+      <div
+        className={classNames("flex-grow", {
+          "bg-[#192632]": selectedTab === HeroRarity.COMMON,
+          "bg-[#35241C]": selectedTab === HeroRarity.RARE,
+          "bg-[#2F1A60]": selectedTab === HeroRarity.EPIC,
+        })}
+      >
         <div
-          className={classNames("grid grid-cols-3 grid-rows-3 gap-2 p-4", {
-            "bg-[#192632]": selectedTab === HeroRarity.COMMON,
-            "bg-[#35241C]": selectedTab === HeroRarity.RARE,
-            "bg-[#2F1A60]": selectedTab === HeroRarity.EPIC,
-          })}
+          className={classNames("grid grid-cols-3 grid-rows-3 gap-2 p-4", {})}
         >
           {heroesByRarity && currentClothByHeroId && !isOwnHeroesPending
             ? heroesByRarity[selectedTab].map((hero) => {
@@ -69,6 +71,7 @@ export const HeroesGrid = () => {
                     heroId={hero.characterId}
                     heroRarity={hero.rarity}
                     heroPrice={hero.price}
+                    heroGender={hero.gender}
                     heroCloth={currentClothByHeroId[hero.characterId]}
                     isOwnHero={isOwnHero}
                     isCurrentHero={isCurrentHero}
@@ -77,7 +80,19 @@ export const HeroesGrid = () => {
                   />
                 );
               })
-            : null}
+            : Array.from({ length: 9 }).map((_, i) => (
+                <div
+                  key={`placeholder-${i}`}
+                  className={classNames(
+                    "aspect-[3/4] animate-pulse rounded-xl",
+                    {
+                      "bg-blue-700": selectedTab === HeroRarity.COMMON,
+                      "bg-[#604335]": selectedTab === HeroRarity.RARE,
+                      "bg-[#442786]": selectedTab === HeroRarity.EPIC,
+                    },
+                  )}
+                />
+              ))}
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@ export const HeaderItem: FunctionComponent<Props> = ({
     )}
     onClick={onClick}
   >
-    <div className="flex h-full w-full flex-1 flex-row items-center justify-center gap-x-[9px] transition-all active:scale-95">
+    <div className="grid h-full w-full grid-cols-[28px_1fr] items-center gap-x-[9px] transition-all active:scale-95">
       {imageNode}
       <HeaderInfo
         topComponent={topInfoComponent}

@@ -15,7 +15,7 @@ import { COMPONENTS_MAP } from "./constants";
 
 type Props = Pick<
   ITask,
-  "type" | "title" | "reward" | "id" | "status" | "value" | "needValidate"
+  "type" | "title" | "reward" | "id" | "status" | "value" | "needValidate" | "penalty"
 > & {
   onClose: () => void;
 };
@@ -24,6 +24,7 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
   type,
   title,
   reward,
+  penalty,
   status,
   id,
   value,
@@ -168,6 +169,7 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
         id,
         type,
         reward,
+        penalty,
         title,
         value,
         isPending,

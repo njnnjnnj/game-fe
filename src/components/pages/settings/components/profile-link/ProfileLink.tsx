@@ -70,9 +70,11 @@ export const ProfileLink: FC = () => {
                     `${NS.PAGES.SETTINGS.ABOUT_THE_APP.ROOT}.${NS.PAGES.SETTINGS.ABOUT_THE_APP.SUPPORT}`,
                   ),
                   isLink: true,
-                  onClick: () => {
-                    console.log("support");
-                  },
+                  onClick: () =>
+                    webApp &&
+                    webApp.openLink("https://t.me/MajesticGameSupport", {
+                      try_instant_view: true,
+                    }),
                 },
               ],
             },
@@ -87,7 +89,11 @@ export const ProfileLink: FC = () => {
                     `${NS.PAGES.SETTINGS.COMMUNITY.ROOT}.${NS.PAGES.SETTINGS.COMMUNITY.SUBSCRIBE}`,
                   ),
                   isLink: true,
-                  onClick: () => console.log("subscribe"),
+                  onClick: () =>
+                    webApp &&
+                    webApp.openLink("https://t.me/Majestic_EN", {
+                      try_instant_view: true,
+                    }),
                 },
                 {
                   icon: TelegramIcon,

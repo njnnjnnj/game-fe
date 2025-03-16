@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
 
+import { getCurrencySvg } from "@/components/pages/rewards/helpers";
 import {
   DrawerClose,
   DrawerContent,
@@ -17,7 +18,6 @@ import EnergyImage from "@/public/assets/png/rewards/green-battery-full.webp";
 import LigntningImage from "@/public/assets/png/rewards/lightning.png";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
-import StarSVG from "@/public/assets/svg/star.svg";
 import { CapacityBooster, UpgradeBoosterType } from "@/services/rewards/types";
 import { formatNumber } from "@/utils/number";
 
@@ -37,6 +37,7 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
 }) => {
   const isZeroLevel = capacity.level === 0;
   const t = useTranslations(NS.PAGES.REWARDS.ROOT);
+  const CurrencySVG = getCurrencySvg(capacity?.currence);
 
   return (
     <DrawerContent
@@ -63,11 +64,15 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           className="z-20"
         />
       </div>
-      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase text-white text-shadow-sm">
-        Запас энергии
+      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase !text-white text-shadow-sm">
+        {t(
+          `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+        )}
       </DrawerTitle>
-      <DrawerDescription className="mb-6 text-sm font-medium tracking-wide text-white">
-        Увеличивает максимальный запас энергии
+      <DrawerDescription className="mb-6 text-sm font-medium tracking-wide !text-white">
+        {t(
+          `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.RECOVERY_ENERGY_DESCRIPTION}`,
+        )}
       </DrawerDescription>
       <div className="mb-6 flex w-full items-center justify-between px-3">
         {Array(11)
@@ -95,15 +100,30 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
                 />
                 {isCurrent ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : index === 10 ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : index === 0 && capacity?.level > 0 ? (
                   <span className="text-xs font-medium tracking-wide text-gray-550">
-                    {index} ур.
+                    {t(
+                      `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                      {
+                        num: index || 0,
+                      },
+                    )}
                   </span>
                 ) : null}
               </div>
@@ -111,8 +131,9 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           })}
       </div>
       <div
-        className={classNames("relative mb-6 grid w-full grid-cols-2 gap-2", {
+        className={classNames("relative mb-6 grid w-full gap-2", {
           "grid-cols-1": isZeroLevel,
+          "grid-cols-2": !isZeroLevel,
         })}
       >
         <div
@@ -122,7 +143,12 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           )}
         >
           <div className="mb-2 self-start rounded-full bg-white/5 px-2.5 py-[5px] text-xs text-gray-550">
-            {capacity?.level} ур.
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+              {
+                num: capacity?.level || 0,
+              },
+            )}
           </div>
           <div
             className={classNames({
@@ -130,7 +156,9 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
             })}
           >
             <span className="text-xs font-medium tracking-wide text-gray-550">
-              Запас энергии
+              {t(
+                `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+              )}
             </span>
             <div className="flex items-center gap-2">
               <FriendsIcon className="size-5" />
@@ -149,10 +177,17 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
 
             <div className="flex w-full flex-col items-end gap-3 rounded-2xl bg-blue-700 p-3">
               <div className="mb-2 self-end rounded-full bg-[#0075FF] px-2.5 py-[5px] text-xs text-white">
-                {+capacity?.level + 1} ур.
+                {t(
+                  `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.LEVEL}`,
+                  {
+                    num: capacity?.level + 1 || 0,
+                  },
+                )}
               </div>
               <span className="text-xs font-medium tracking-wide text-gray-550">
-                Запас энергии
+                {t(
+                  `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.DEFAULT}.${NS.PAGES.REWARDS.BOOSTERS.ENERGY}`,
+                )}
               </span>
               <div className="flex items-center gap-2">
                 <FriendsIcon className="size-5" />
@@ -184,9 +219,11 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
           )
         ) : (
           <div className="flex items-center gap-1 text-base uppercase">
-            Улучшить за
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.IMPROVE_FOR}`,
+            )}
             <div className="grid grid-cols-[16px_1fr] items-center gap-1">
-              <StarSVG className="size-4" />
+              <CurrencySVG className="size-4" />
               {formatNumber(capacity?.price)}
             </div>
           </div>

@@ -7,7 +7,12 @@ import React, {
 
 import Image, { StaticImageData } from "next/image";
 
-import { HeroBodyPart, HeroClothPiece, HeroId } from "@/services/heroes/types";
+import {
+  HeroBodyPart,
+  HeroClothPiece,
+  HeroGender,
+  HeroId,
+} from "@/services/heroes/types";
 
 import * as images from "./images";
 
@@ -18,10 +23,16 @@ const capitalizeFirstLetter = (str: string) => {
 const imageBuilder = (
   heroId: HeroId,
   part: HeroBodyPart | HeroClothPiece,
+  heroGender?: HeroGender,
   clothId?: number,
 ): StaticImageData => {
+  if (part === HeroBodyPart.BODY) {
+    if (heroGender === HeroGender.FEMALE) return images.FemaleBody;
+    return images.MaleBody;
+  }
+
   const capitalizedPart = capitalizeFirstLetter(part);
-  const endsWith = typeof clothId === "number" ? clothId : "";
+  const endsWith = part === HeroBodyPart.HEAD ? "" : clothId;
   const imageKey = heroId + capitalizedPart + endsWith;
   // @ts-expect-error imported module
   return images[imageKey];
@@ -30,6 +41,7 @@ const imageBuilder = (
 type Props = Omit<ComponentProps<typeof Image>, "src"> & {
   heroId: HeroId;
   part: HeroBodyPart | HeroClothPiece;
+  heroGender?: HeroGender;
   clothId?: number;
 };
 
@@ -37,14 +49,12 @@ export const HSPieceImage: FunctionComponent<Props> = ({
   heroId,
   part,
   clothId,
+  heroGender,
   ...props
 }) => {
   const [isHidden, setIsHidden] = useState(false);
 
-  const img =
-    part === HeroBodyPart.BODY || part === HeroBodyPart.HEAD
-      ? imageBuilder(heroId, part)
-      : imageBuilder(heroId, part, clothId ?? 0);
+  const img = imageBuilder(heroId, part, heroGender, clothId ?? 0);
 
   useEffect(() => {
     setIsHidden(false);
@@ -56,9 +66,13 @@ export const HSPieceImage: FunctionComponent<Props> = ({
         {...props}
         alt={props.alt} // to appease eslint
         src={img}
-        onError={() => {
+        onError={(e) => {
           if (!isHidden) {
             setIsHidden(true);
+          }
+
+          if (props.onError) {
+            props.onError(e);
           }
         }}
       />

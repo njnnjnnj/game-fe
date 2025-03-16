@@ -53,7 +53,17 @@ export const InviteModal: FunctionComponent<Props> = ({
       handleBuyFriends();
     },
     () => {
-      toast(<Toast type="destructive" text="Ошибка приобретения звезд" />);
+      handleBuyFriends();
+    },
+    () => {
+      toast(
+        <Toast
+          type="destructive"
+          text={t(
+            `${NS.PAGES.FRIENDS.ERRORS.ROOT}.${NS.PAGES.FRIENDS.ERRORS.BUY_FRIENDS}`,
+          )}
+        />,
+      );
     },
   );
 

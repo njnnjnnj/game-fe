@@ -17,6 +17,7 @@ export enum CardType {
   ORANGE = "orange",
   DARK_BLUE = "dark_blue",
   GREEN = "green",
+  RED = "red",
 }
 
 type Props = {
@@ -27,8 +28,9 @@ type Props = {
   isAnimated?: boolean;
   isSelected?: boolean;
   isDisabled?: boolean;
+  isFullSize?: boolean;
   type?: CardType;
-  onClick: () => void;
+  onClick?: () => void;
   ref?: RefObject<HTMLDivElement>;
 };
 
@@ -40,6 +42,7 @@ export const Card: FunctionComponent<Props> = ({
   isAnimated = false,
   isSelected = false,
   isDisabled = false,
+  isFullSize = false,
   type = CardType.BLUE,
   ref,
   onClick,
@@ -54,7 +57,9 @@ export const Card: FunctionComponent<Props> = ({
       handleNotificationOccurred(NotificationEnum.ERROR);
     }
 
-    onClick();
+    if (onClick) {
+      onClick();
+    }
   };
 
   const onCollectButtonClick = (event: MouseEvent) => {
@@ -75,11 +80,13 @@ export const Card: FunctionComponent<Props> = ({
     <div
       ref={ref}
       className={classNames(
-        "relative aspect-[3/4] rounded-xl border border-solid border-black pb-1 text-white transition-transform will-change-transform",
+        "relative aspect-[3/4] rounded-xl border border-solid border-black pb-1 text-white transition-transform will-change-transform active:scale-[0.98]",
         {
+          "aspect-[3/4]": !isFullSize,
+          "h-full w-full": isFullSize,
           "bg-[#0069B1]": type === CardType.BLUE,
           "bg-[#403BB7]": type === CardType.INDIGO,
-          "bg-[#A6552D]": type === CardType.ORANGE,
+          "bg-[#A6552D]": type === CardType.ORANGE || type === CardType.RED,
           "bg-[#101C28]": type === CardType.DARK_BLUE,
           "bg-[#009F00]": type === CardType.GREEN,
           "scale-105": isSelected,
@@ -102,7 +109,7 @@ export const Card: FunctionComponent<Props> = ({
               type === CardType.BLUE,
             "bg-gradient-to-b from-[#9099FD] to-[#777AF0]":
               type === CardType.INDIGO,
-            "bg-[#EFC609]": type === CardType.ORANGE,
+            "bg-[#EFC609]": type === CardType.ORANGE || type === CardType.RED,
             "bg-[#203950]": type === CardType.DARK_BLUE,
             "bg-[#02DB07]": type === CardType.GREEN,
           },
@@ -117,6 +124,7 @@ export const Card: FunctionComponent<Props> = ({
               "bg-[#403BB7]": type === CardType.INDIGO,
               "bg-[#203950]": type === CardType.DARK_BLUE,
               "bg-[#02DB07]": type === CardType.GREEN,
+              "bg-[#8B2542]": type === CardType.RED,
             },
           )}
         >
@@ -129,6 +137,7 @@ export const Card: FunctionComponent<Props> = ({
                 "bg-card-orange-bg-pattern": type === CardType.ORANGE,
                 "bg-card-dark-blue-bg-pattern": type === CardType.DARK_BLUE,
                 "bg-card-green-bg-pattern": type === CardType.GREEN,
+                "bg-card-red-bg-pattern": type === CardType.RED,
               },
             )}
           />
@@ -142,9 +151,11 @@ export const Card: FunctionComponent<Props> = ({
                 {
                   "bg-[#2596E4]": type === CardType.BLUE,
                   "bg-[#777AF0]": type === CardType.INDIGO,
-                  "bg-[#EFC609]": type === CardType.ORANGE,
+                  "bg-[#EFC609]":
+                    type === CardType.ORANGE || type === CardType.RED,
                   "bg-[#203950]": type === CardType.DARK_BLUE,
                   "bg-[#02DB07]": type === CardType.GREEN,
+                  "bg-[#8B2542]": type === CardType.RED,
                 },
               )}
             >
@@ -158,7 +169,8 @@ export const Card: FunctionComponent<Props> = ({
                 {
                   "bg-[#2596E4]": type === CardType.BLUE,
                   "bg-[#777AF0]": type === CardType.INDIGO,
-                  "bg-[#EFC609]": type === CardType.ORANGE,
+                  "bg-[#EFC609]":
+                    type === CardType.ORANGE || type === CardType.RED,
                   "bg-[#203950]": type === CardType.DARK_BLUE,
                   "bg-[#02DB07]": type === CardType.GREEN,
                 },

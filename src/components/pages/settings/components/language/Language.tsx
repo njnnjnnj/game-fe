@@ -3,23 +3,20 @@ import { FC } from "react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
+import Cookies from "js-cookie";
+
 import { LocaleSwitcher } from "@/components/common";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LOCALES } from "@/constants/locale";
 import { NS } from "@/constants/ns";
-import { useSettings } from "@/context";
 
 export const Language: FC = () => {
   const t_settings = useTranslations(NS.PAGES.SETTINGS.ROOT);
-  const { route, locale } = useRouter();
-  const {
-    settings: { vibrations },
-  } = useSettings();
+  const router = useRouter();
+  const locale = Cookies.get("NEXT_LOCALE") ?? router.locale;
 
   const handleLanguageChange = () => {
-    if (vibrations) {
-      window.Telegram.WebApp.HapticFeedback.selectionChanged();
-    }
+    window.Telegram.WebApp.HapticFeedback.selectionChanged();
   };
 
   return (
@@ -30,7 +27,7 @@ export const Language: FC = () => {
         )}
       </h2>
       <div className="flex min-h-[70px] w-full flex-col gap-y-[14px]">
-        <LocaleSwitcher route={route} locale={LOCALES.RU}>
+        <LocaleSwitcher locale={LOCALES.RU}>
           <div
             className="flex w-full cursor-pointer flex-row items-center justify-between"
             onClick={() => handleLanguageChange()}
@@ -39,7 +36,7 @@ export const Language: FC = () => {
             <Checkbox className="size-6" checked={locale === LOCALES.RU} />
           </div>
         </LocaleSwitcher>
-        <LocaleSwitcher route={route} locale={LOCALES.EN}>
+        <LocaleSwitcher locale={LOCALES.EN}>
           <div
             className="flex w-full cursor-pointer flex-row items-center justify-between"
             onClick={() => handleLanguageChange()}

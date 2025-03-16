@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 
 import { validateToken } from "@/api/helpers";
 import { AUTH_COOKIE_TOKEN, STALE_TIME } from "@/constants/api";
+import { RewardShape } from "@/types/rewards";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import { invalidateProfileQuery } from "../profile/queries";
@@ -51,13 +52,20 @@ export const useGetDailyRewardInfo = () =>
     retry: false,
   });
 
-export const useGetDailyReward = (queryClient: QueryClient) =>
+export const useGetDailyReward = (
+  queryClient: QueryClient,
+  onSuccess?: (response: RewardShape) => void,
+) =>
   useMutation({
     mutationKey: [QueryKeys.GET_DAILY_REWARD],
     mutationFn: async () => getDailyReward(),
-    onSuccess: () => {
+    onSuccess: (response: RewardShape) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_DAILY_INFO] });
       invalidateProfileQuery(queryClient);
+
+      if (onSuccess) {
+        onSuccess(response);
+      }
     },
   });
 

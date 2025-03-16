@@ -31,19 +31,39 @@ export interface IProfile {
   background: number;
   auto: number;
   haveBattlePass: boolean;
+  haveSpecial: boolean;
+  haveStarterPack: boolean;
   league: League;
 }
 
-export type Referal = {
+export type Referral = {
   name: string;
   photo_url: string;
   reward: number;
   reward_per_hour: number;
 };
 
-export interface IReferals {
+export interface IReferrals {
   count: number;
-  friends: Referal[];
+  friends: Referral[];
   link: string;
   reward: number;
+}
+
+export interface IWalletReqM {
+  userfriendly: string;
+  address: string;
+  chain: string;
+  publickey: string;
+}
+
+export interface IStarsInfo {
+  sum: number;
+  available: number;
+}
+
+export interface ClickerReqM {
+  debouncedClickCount: number;
+  unixTimeInSeconds: number;
+  token: string;
 }

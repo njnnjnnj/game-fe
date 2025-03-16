@@ -16,7 +16,7 @@ import { NS } from "@/constants/ns";
 import LigntningImage from "@/public/assets/png/rewards/lumin.png";
 import EnergyImage from "@/public/assets/png/rewards/yellow-battery.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
+import EnergyIcon from "@/public/assets/svg/energy.svg";
 import UnionIcon from "@/public/assets/svg/rewards/union.svg";
 
 type Props = {
@@ -34,7 +34,6 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
   maxEnergy,
   amount,
 }) => {
-  console.log("🚀 ~ disabled:", disabled);
   const t = useTranslations(NS.PAGES.REWARDS.ROOT);
 
   return (
@@ -62,11 +61,15 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
           className="z-20"
         />
       </div>
-      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase text-white text-shadow-sm">
-        Полный запас энергии
+      <DrawerTitle className="text-stroke-half mb-6 text-center text-2xl font-black uppercase !text-white text-shadow-sm">
+        {t(
+          `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.EVERYDAY}.${NS.PAGES.REWARDS.BOOSTERS.TITLE}`,
+        )}
       </DrawerTitle>
       <DrawerDescription className="mb-6 text-sm font-medium tracking-wide text-white">
-        Полностью восстанавливает запас энергии
+        {t(
+          `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.EVERYDAY}.${NS.PAGES.REWARDS.BOOSTERS.FULL_ENERGY}`,
+        )}
       </DrawerDescription>
       <div className="mb-6 flex items-center gap-2 rounded-2xl bg-blue-700/30 p-2 text-xs font-medium capitalize tracking-wide text-gray-550">
         {t(
@@ -85,10 +88,12 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
       <div className="relative mb-6 grid w-full grid-cols-2 gap-2">
         <div className="flex w-full flex-col gap-3 rounded-2xl bg-blue-700 p-3">
           <span className="text-xs font-medium tracking-wide text-gray-550">
-            Доступно
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.AVAILABLE}`,
+            )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="text-lg font-semibold leading-none text-white">
               {currentEnergy}
             </span>
@@ -99,10 +104,12 @@ export const EverydayBoosterModal: FunctionComponent<Props> = ({
         </div>
         <div className="flex w-full flex-col items-end gap-3 rounded-2xl bg-blue-700 p-3">
           <span className="text-xs font-medium tracking-wide text-gray-550">
-            После улучшения
+            {t(
+              `${NS.PAGES.REWARDS.BOOSTERS.ROOT}.${NS.PAGES.REWARDS.BOOSTERS.AFTER_IMPROVE}`,
+            )}
           </span>
           <div className="flex items-center gap-2">
-            <FriendsIcon className="size-5" />
+            <EnergyIcon className="size-5" />
             <span className="inline-block bg-gradient-to-tr from-[#61C2F6] to-[#CCE8F7] bg-clip-text text-lg font-bold leading-none text-transparent">
               {maxEnergy}
             </span>

@@ -18,6 +18,7 @@ export enum TaskStatus {
 export enum TaskRewardType {
   COINS = "coins",
   CHEST = "chest",
+  STARS = "stars",
 }
 
 export interface ITask {
@@ -45,7 +46,7 @@ export interface ITask {
     },
   ];
   penalty: {
-    type: string;
+    type: TaskRewardType;
     value: number;
   }[];
 }
