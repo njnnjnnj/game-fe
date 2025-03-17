@@ -8,6 +8,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import {
   useGetAllAppsCards,
   useGetBoosters,
@@ -38,6 +39,7 @@ export const Rewards = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [slideHeight, setSlideHeight] = useState<number>(0);
   const [reward, setReward] = useState<RewardShape | null>(null);
+  const { handleSelectionChanged } = useHapticFeedback();
 
   const { data: dailyRewardInfo, isLoading: isLoadingDailyReward } =
     useGetDailyRewardInfo();
@@ -83,6 +85,7 @@ export const Rewards = () => {
   }, [current]);
 
   const handleTabChange = (index: number) => {
+    handleSelectionChanged();
     setCurrent(index);
     if (api) {
       api.scrollTo(index - 1);

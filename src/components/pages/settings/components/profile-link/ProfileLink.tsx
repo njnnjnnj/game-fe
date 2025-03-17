@@ -59,10 +59,7 @@ export const ProfileLink: FC = () => {
                   ),
                   isLink: true,
                   onClick: () =>
-                    webApp &&
-                    webApp.openLink("https://telegra.ph/api", {
-                      try_instant_view: true,
-                    }),
+                    webApp && webApp.openTelegramLink("https://telegra.ph/api"),
                 },
                 {
                   icon: QuestionIcon,
@@ -72,9 +69,7 @@ export const ProfileLink: FC = () => {
                   isLink: true,
                   onClick: () =>
                     webApp &&
-                    webApp.openLink("https://t.me/MajesticGameSupport", {
-                      try_instant_view: true,
-                    }),
+                    webApp.openTelegramLink("https://t.me/MajesticGameSupport"),
                 },
               ],
             },
@@ -91,9 +86,7 @@ export const ProfileLink: FC = () => {
                   isLink: true,
                   onClick: () =>
                     webApp &&
-                    webApp.openLink("https://t.me/Majestic_EN", {
-                      try_instant_view: true,
-                    }),
+                    webApp.openTelegramLink("https://t.me/Majestic_EN"),
                 },
                 {
                   icon: TelegramIcon,

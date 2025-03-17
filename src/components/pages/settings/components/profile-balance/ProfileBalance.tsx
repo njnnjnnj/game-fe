@@ -16,8 +16,10 @@ import { InviteModal } from "@/components/pages/friends/components/invite-modal/
 import { Drawer } from "@/components/ui/drawer";
 import { NS } from "@/constants/ns";
 import { ROUTES } from "@/constants/routes";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useGetShop } from "@/services/shop/queries";
 import { ShopItemTypeEnum } from "@/services/shop/types";
+import { ImpactStyleEnum } from "@/types/telegram";
 import { formatValue } from "@/utils/lib/utils";
 
 type ItemProps = {
@@ -70,8 +72,10 @@ const ProfileBalanceItem: FC<ItemProps> = ({
 }) => {
   const router = useRouter();
   const t = useTranslations(NS.PAGES.SETTINGS.ROOT);
+  const { handleImpactOccurred } = useHapticFeedback();
 
   const handleClick = () => {
+    handleImpactOccurred(ImpactStyleEnum.LIGHT);
     if (type === "star") router.push(ROUTES.BUY_STARS);
     if (type === "friend" && onOpen) {
       onOpen();

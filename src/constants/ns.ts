@@ -443,6 +443,7 @@ export const NS = {
     TOP_PLAYERS: {
       ROOT: "TOP_PLAYERS",
       TITLE: "TITLE",
+      LEADERBOARD: "LEADERBOARD",
       MENU_ITEMS: {
         ROOT: "MENU_ITEMS",
         LEAGUE: "LEAGUE",
@@ -457,6 +458,8 @@ export const NS = {
         WORLD_DESCRIPTION: "WORLD_DESCRIPTION",
       },
       BEST_PLAYERS: "BEST_PLAYERS",
+      WORLD_TOP: "WORLD_TOP",
+      FRIENDS_TOP: "FRIENDS_TOP",
       WINNERS: "WINNERS",
       LEAGUES: {
         ROOT: "LEAGUES",
