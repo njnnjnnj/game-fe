@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   <Navbar />
                   <SpeedInsights />
                   <Toaster />
-                  {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA && (
+                  {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA === 'true' && (
                     <Script
                       src="https://cdn.jsdelivr.net/npm/eruda"
                       strategy="afterInteractive"
