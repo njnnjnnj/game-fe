@@ -8,11 +8,14 @@ import { useTranslations } from "next-intl";
 import classNames from "classnames";
 
 import { NS } from "@/constants/ns";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { ImpactStyleEnum } from "@/types/telegram";
 
 import { NAVBAR_ITEMS, PAGES_WITH_NAVBAR } from "./constants";
 
 export const Navbar = () => {
   const t = useTranslations(NS.PAGES.HOME.ROOT);
+  const { handleImpactOccurred } = useHapticFeedback();
   const { pathname } = useRouter();
 
   if (!PAGES_WITH_NAVBAR.includes(pathname)) {
@@ -25,8 +28,9 @@ export const Navbar = () => {
         <Link
           key={index}
           href={item.href}
+          onClick={() => handleImpactOccurred(ImpactStyleEnum.MEDIUM)}
           className={classNames(
-            "w-full bg-blue-700 px-2.5 py-2 text-center text-xs font-extrabold text-white/30 transition-transform duration-200 text-shadow-sm",
+            "group w-full bg-blue-700 px-2.5 py-2 text-center text-xs font-extrabold text-white/30 transition-transform duration-200 text-shadow-sm",
             {
               "relative z-20 scale-110 rounded-t-md bg-gradient-to-b from-[#0A4CDE] to-[#04A0F5] !text-sm !text-white shadow-[inset_0_4px_4px_rgba(4,160,245,0.6),_inset_0_1px_0_0_rgba(4,160,245,0.8)] after:absolute after:bottom-1.5 after:left-1 after:right-1 after:top-1 after:rounded after:bg-white/20":
                 pathname === item.href,
@@ -35,7 +39,7 @@ export const Navbar = () => {
         >
           <div
             className={classNames(
-              "flex h-full flex-col items-center justify-center",
+              "flex h-full flex-col items-center justify-center transition-all group-active:scale-[0.98]",
               {
                 "!justify-end": pathname === item.href,
               },

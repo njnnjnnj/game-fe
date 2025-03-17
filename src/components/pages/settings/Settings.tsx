@@ -16,6 +16,7 @@ import { useModalVisibility } from "@/hooks/useModalVisibility";
 import SettingsImagePattern from "@/public/assets/png/settings-pattern.webp";
 import WalletIcon from "@/public/assets/svg/wallet.svg";
 import { useDeleteWallet, useSetWallet } from "@/services/profile/queries";
+import { ImpactStyleEnum } from "@/types/telegram";
 import {
   useTonAddress,
   useTonConnectUI,
@@ -48,15 +49,15 @@ export const Settings: FC = () => {
   const [isTonDisconnectModalVisible, setTonDisconnectModalVisible] =
     useState(false);
 
-  const { handleSelectionChanged } = useHapticFeedback();
+  const { handleImpactOccurred } = useHapticFeedback();
 
   const handleOpenTon = () => {
-    handleSelectionChanged();
+    handleImpactOccurred(ImpactStyleEnum.LIGHT);
     tonConnectUI?.openModal();
   };
 
   const handleDisconnect = () => {
-    handleSelectionChanged();
+    handleImpactOccurred(ImpactStyleEnum.LIGHT);
     tonConnectUI?.disconnect();
     deleteWalletMutate();
   };
