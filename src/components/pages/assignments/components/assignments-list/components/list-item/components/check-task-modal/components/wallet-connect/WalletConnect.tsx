@@ -1,6 +1,5 @@
 import React, { createElement, FunctionComponent } from "react";
 
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
@@ -14,8 +13,10 @@ import {
 import { DrawerTitle } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { Toast } from "@/components/ui/toast";
+import { Locale } from "@/constants/locale";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useLocaleManager } from "@/hooks/useLocaleManager";
 import { ITask } from "@/services/tasks/types";
 import { formatNumber } from "@/utils/number";
 import { UseMutateFunction } from "@tanstack/react-query";
@@ -39,7 +40,7 @@ export const WalletConnect: FunctionComponent<Props> = ({
   onClose,
 }) => {
   const t = useTranslations(NS.PAGES.ASSIGNMENTS.ROOT);
-  const { locale } = useRouter();
+  const { locale } = useLocaleManager();
   const { open } = useTonConnectModal();
   const address = useTonAddress();
   const { handleSelectionChanged } = useHapticFeedback();
@@ -78,7 +79,7 @@ export const WalletConnect: FunctionComponent<Props> = ({
         {createElement(ASSIGNMENTS_ICONS[type], {
           className: "size-23 rounded-full",
         })}
-        {locale === "en" ? title.en : title.ru}
+        {locale === Locale.EN ? title.en : title.ru}
       </DrawerTitle>
       <div
         className={classNames(

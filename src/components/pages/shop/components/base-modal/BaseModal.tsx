@@ -42,6 +42,25 @@ export const BaseModal: FunctionComponent<Props> = ({
       (item) => item.id === selectedItem.id,
     );
 
+  const getTitle = () => {
+    switch (selectedItem.type) {
+      case ShopItemTypeEnum.STARS:
+        return t(getShopItemByIndex(selectedItem.id));
+      case ShopItemTypeEnum.OFFLINE_BONUS:
+        return t(NS.PAGES.SHOP.MODAL_OFFLINE_BONUS_TITLE, {
+          hours: selectedItem.amount,
+        });
+      case ShopItemTypeEnum.CHEST:
+        return t(NS.PAGES.SHOP.MODAL_CHEST_TITLE, { type: selectedItem.value });
+      case ShopItemTypeEnum.FRIENDS:
+        return t(`${NS.PAGES.SHOP.BUY_FRIENDS_COUNT}`, {
+          count: selectedItem.amount,
+        });
+      default:
+        return t(NS.PAGES.SHOP.MODAL_TITLE);
+    }
+  };
+
   const getDescription = () => {
     switch (selectedItem.type) {
       case ShopItemTypeEnum.STARS:
@@ -55,7 +74,7 @@ export const BaseModal: FunctionComponent<Props> = ({
       default:
         return t(NS.PAGES.SHOP.MODAL_DESCRIPTION);
     }
-  }
+  };
 
   return (
     <DrawerContent
@@ -96,13 +115,7 @@ export const BaseModal: FunctionComponent<Props> = ({
         )}
       </p>
       <DrawerTitle className="text-stroke-1 mb-3 text-center text-[28px] font-black leading-none !text-white text-shadow-sm">
-        {selectedItem.type === ShopItemTypeEnum.FRIENDS
-          ? t(`${NS.PAGES.SHOP.BUY_FRIENDS_COUNT}`, {
-              count: selectedItem.amount,
-            })
-          : selectedItem.type === ShopItemTypeEnum.STARS
-            ? t(getShopItemByIndex(selectedItem.id))
-            : null}
+        {getTitle()}
       </DrawerTitle>
       <DrawerDescription className="mb-6 text-center text-xs font-medium tracking-wide text-white">
         {getDescription()}

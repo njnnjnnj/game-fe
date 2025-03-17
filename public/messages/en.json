@@ -365,7 +365,9 @@
       "FRIENDS": "Friends",
       "AUTO_COLLECT": "Revenue collection",
       "STARTER_SET": "Starter kit",
-      "SPECIAL_OFFER": "Special offer"
+      "SPECIAL_OFFER": "Special offer",
+      "BOOSTER": "Boosters",
+      "GAME_ENERGY": "Game energy"
     },
     "STARS_TYPE": {
       "BAG": "A bag of stars",
@@ -376,11 +378,12 @@
       "CONTAINER": "Star container"
     },
     "BUY_FRIENDS_COUNT": "Buying {count} friends",
-    "EPIC_CHEST": "Epic chest",
-    "REGULAR_CHEST": "Regular chest",
+    "MODAL_TITLE": "Item",
     "MODAL_DESCRIPTION": "Complete a daily Stars transaction and receive massive rewards",
     "MODAL_STARS_DESCRIPTION": "Stars unlock access to any in-game purchases, from items to upgrades",
+    "MODAL_OFFLINE_BONUS_TITLE": "{hours} hours",
     "MODAL_OFFLINE_BONUS_DESCRIPTION": "Activate this feature to automatically receive your accumulated income and save your time!",
+    "MODAL_CHEST_TITLE": "{type, select, start {Start} epic {Epic} mega {Mega} other {Start}} chest",
     "MODAL_CHEST_DESCRIPTION": "Try your luck - open the chest, get valuable items and improve your game inventory!",
     "MODAL_FRIENDS_DESCRIPTION": "Friends Coin unlocks access to any in-game purchases from items to upgrades.",
     "BUY_FOR": "Buy for",

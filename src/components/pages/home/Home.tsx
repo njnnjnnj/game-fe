@@ -308,12 +308,13 @@ export const Home = () => {
       </Drawer>
       <div
         className={classNames(
-          "relative flex h-screen max-h-screen w-full flex-col items-center overflow-hidden overflow-y-auto overscroll-contain bg-blue-800",
+          "relative flex h-screen max-h-screen w-full flex-col items-center overflow-hidden overflow-y-auto overscroll-contain bg-[url('/assets/png/main-bg-placeholder.webp')] bg-[length:100%_100%] bg-center",
         )}
         style={{ paddingTop: `${calculatedPaddingTop}px` }}
       >
         <div className="fixed inset-0 z-10 h-full w-full">
           <Image src={MainImage} alt="main-bg" fill />
+          <div className="absolute size-full bg-black/30" />
         </div>
         <ProfileHeader
           className="top-0 z-20 w-full"

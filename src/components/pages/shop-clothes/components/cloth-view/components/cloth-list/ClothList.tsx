@@ -20,7 +20,20 @@ export const ClothList = () => {
     selection.hero?.characterId,
   );
 
-  if (!selection.hero || !heroes || !heroOwnCloth) return null;
+  if (!selection.hero || !heroes || !heroOwnCloth)
+    return (
+      <div className="flex grow flex-col gap-y-4 bg-[#35241C] p-4">
+        <div className="h-6 w-24 animate-pulse rounded-xl bg-[#604335]" />
+        <div className="flex gap-x-2">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={`placeholder-${i}`}
+              className="aspect-[3/4] basis-1/3 animate-pulse rounded-xl bg-[#604335]"
+            />
+          ))}
+        </div>
+      </div>
+    );
 
   const { characterId: heroId, cloth } = selection.hero;
   const hero = heroes[heroId];

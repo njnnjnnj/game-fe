@@ -23,7 +23,7 @@ import EnhanceBpHero from "@/public/assets/png/battle-pass/enhance-bp-hero.webp"
 import EpicChest from "@/public/assets/png/battle-pass/epic-chest.webp";
 import FriendsBucket from "@/public/assets/png/battle-pass/friends-bucket.webp";
 import MegaChest from "@/public/assets/png/battle-pass/mega-chest.webp";
-import StartChest from "@/public/assets/png/battle-pass/start-chest.webp";
+import Offline24 from "@/public/assets/png/battle-pass/offline24.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import StarSVG from "@/public/assets/svg/star.svg";
 import { useGetBattlePass } from "@/services/battle-pass/queries";
@@ -35,14 +35,14 @@ type Props = {
 };
 
 const ITEMS = [
-  { img: MegaChest, amount: 40 },
-  { img: EpicChest, amount: 40 },
-  { img: StartChest, amount: 40 },
-  { img: EnergyBooster, amount: 40 },
-  { img: AllCards, amount: 40 },
-  { img: EnergyBucket, amount: 40 },
-  { img: FriendsBucket, amount: 1500 },
-  { img: Bucket, amount: 1500 },
+  { img: MegaChest, amount: 5 },
+  { img: EpicChest, amount: 5 },
+  { img: AllCards, amount: 11 },
+  { img: Offline24, amount: 12 },
+  { img: EnergyBucket, amount: 3700 },
+  { img: FriendsBucket, amount: 145 },
+  { img: Bucket, amount: 950 },
+  { img: EnergyBooster, amount: 5 },
 ];
 
 export const EnhanceBattlePassModal: FunctionComponent<Props> = ({

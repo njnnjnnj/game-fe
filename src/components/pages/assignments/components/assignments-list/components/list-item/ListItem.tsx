@@ -1,13 +1,13 @@
 import React, { createElement, FunctionComponent, useState } from "react";
 
-import { useRouter } from "next/router";
-
 import classNames from "classnames";
 import { motion } from "framer-motion";
 
 import { Spinner } from "@/components/common";
 import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
+import { Locale } from "@/constants/locale";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useLocaleManager } from "@/hooks/useLocaleManager";
 import ArrowIcon from "@/public/assets/svg/arrow.svg";
 import DoneSvg from "@/public/assets/svg/toast/done.svg";
 import { ITask, TaskRewardType, TaskStatus } from "@/services/tasks/types";
@@ -31,7 +31,7 @@ export const ListItem: FunctionComponent<Props> = ({
   value,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { locale } = useRouter();
+  const { locale } = useLocaleManager();
   const { handleNotificationOccurred, handleSelectionChanged } =
     useHapticFeedback();
 
@@ -79,7 +79,7 @@ export const ListItem: FunctionComponent<Props> = ({
             })}
             <div className="flex flex-col gap-1">
               <p className="text-stroke-1 text-sm font-black tracking-wide text-white text-shadow-sm">
-                {locale === "en" ? title.en : title.ru}
+                {locale === Locale.EN ? title.en : title.ru}
               </p>
               <div className="flex gap-2">
                 {reward.map(({ type, value }) => (

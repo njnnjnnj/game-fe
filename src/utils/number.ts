@@ -1,6 +1,5 @@
-export const formatNumber = (num: number | string | undefined): string => {
-  if (!num) return "";
-
+export const formatNumber = (num?: number | string): string => {
+  if (typeof num !== 'number' && !num) return "";
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
 
