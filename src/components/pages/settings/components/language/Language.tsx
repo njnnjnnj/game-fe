@@ -1,23 +1,23 @@
 import { FC } from "react";
 
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
-
-import Cookies from "js-cookie";
 
 import { LocaleSwitcher } from "@/components/common";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LOCALES } from "@/constants/locale";
+import { Locale } from "@/constants/locale";
 import { NS } from "@/constants/ns";
+import { useLocaleManager } from "@/hooks/useLocaleManager";
 
 export const Language: FC = () => {
   const t_settings = useTranslations(NS.PAGES.SETTINGS.ROOT);
-  const router = useRouter();
-  const locale = Cookies.get("NEXT_LOCALE") ?? router.locale;
+  const { locale, updateLocale } = useLocaleManager();
 
-  const handleLanguageChange = () => {
+  const handleLanguageChange = (locale: Locale) => {
     window.Telegram.WebApp.HapticFeedback.selectionChanged();
+    updateLocale(locale);
   };
+
+  const currentLocale = locale;
 
   return (
     <div className="flex h-max w-full flex-col gap-y-5">
@@ -27,22 +27,16 @@ export const Language: FC = () => {
         )}
       </h2>
       <div className="flex min-h-[70px] w-full flex-col gap-y-[14px]">
-        <LocaleSwitcher locale={LOCALES.RU}>
-          <div
-            className="flex w-full cursor-pointer flex-row items-center justify-between"
-            onClick={() => handleLanguageChange()}
-          >
+        <LocaleSwitcher onClick={() => handleLanguageChange(Locale.RU)}>
+          <div className="flex w-full cursor-pointer flex-row items-center justify-between">
             <p className="text-base font-medium text-white">Русский</p>
-            <Checkbox className="size-6" checked={locale === LOCALES.RU} />
+            <Checkbox className="size-6" checked={currentLocale === Locale.RU} />
           </div>
         </LocaleSwitcher>
-        <LocaleSwitcher locale={LOCALES.EN}>
-          <div
-            className="flex w-full cursor-pointer flex-row items-center justify-between"
-            onClick={() => handleLanguageChange()}
-          >
+        <LocaleSwitcher onClick={() => handleLanguageChange(Locale.EN)}>
+          <div className="flex w-full cursor-pointer flex-row items-center justify-between">
             <p className="text-base font-medium text-white">English</p>
-            <Checkbox className="size-6" checked={locale === LOCALES.EN} />
+            <Checkbox className="size-6" checked={currentLocale === Locale.EN} />
           </div>
         </LocaleSwitcher>
       </div>

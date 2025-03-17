@@ -1,6 +1,5 @@
 import React, { createElement, FunctionComponent, useState } from "react";
 
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
@@ -14,8 +13,10 @@ import {
 import { DrawerTitle } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { Toast } from "@/components/ui/toast";
+import { Locale } from "@/constants/locale";
 import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
+import { useLocaleManager } from "@/hooks/useLocaleManager";
 import { useStarsPayment } from "@/services/payments/queries";
 import { ITask } from "@/services/tasks/types";
 import { InvoiceStatus } from "@/types/telegram";
@@ -43,7 +44,7 @@ export const BuyStars: FunctionComponent<Props> = ({
   const t = useTranslations(NS.PAGES.ASSIGNMENTS.ROOT);
   const { webApp } = useTelegram();
   const [isChecked, setIsChecked] = useState(false);
-  const { locale } = useRouter();
+  const { locale } = useLocaleManager();
   const { mutate, isPending } = useStarsPayment(
     (response) => {
       if (webApp) {
@@ -100,7 +101,7 @@ export const BuyStars: FunctionComponent<Props> = ({
         {createElement(ASSIGNMENTS_ICONS[type], {
           className: "size-23 rounded-full",
         })}
-        {locale === "en" ? title.en : title.ru}
+        {locale === Locale.EN ? title.en : title.ru}
       </DrawerTitle>
       <div
         className={classNames(

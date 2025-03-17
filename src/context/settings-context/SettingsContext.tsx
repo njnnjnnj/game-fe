@@ -37,7 +37,7 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   });
   const [isPromotionModalShown, setIsPromotionModalShown] =
     useState(false);
-
+ 
   const handleUpdateSettings = (
     setting: keyof Settings,
     value?: boolean | string,

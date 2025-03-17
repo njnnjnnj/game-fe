@@ -1,6 +1,5 @@
 import React, { createElement, FunctionComponent, useState } from "react";
 
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
@@ -14,9 +13,11 @@ import {
 import { DrawerTitle } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { Toast } from "@/components/ui/toast";
+import { Locale } from "@/constants/locale";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import { ITask } from "@/services/tasks/types";
+import { useLocaleManager } from "@/hooks/useLocaleManager";
+import { ITask, TaskRewardType } from "@/services/tasks/types";
 import { formatNumber } from "@/utils/number";
 import { UseMutateFunction } from "@tanstack/react-query";
 import {
@@ -43,7 +44,7 @@ export const PromoteTon: FunctionComponent<Props> = ({
   onClose,
 }) => {
   const t = useTranslations(NS.PAGES.ASSIGNMENTS.ROOT);
-  const { locale } = useRouter();
+  const { locale } = useLocaleManager();
   const [isSent, setIsSent] = useState(false);
   const { open } = useTonConnectModal();
   const [tonConnectUI] = useTonConnectUI();
@@ -112,7 +113,7 @@ export const PromoteTon: FunctionComponent<Props> = ({
         {createElement(ASSIGNMENTS_ICONS[type], {
           className: "size-23 rounded-full",
         })}
-        {locale === "en" ? title.en : title.ru}
+        {locale === Locale.EN ? title.en : title.ru}
       </DrawerTitle>
       <div
         className={classNames(
@@ -127,7 +128,7 @@ export const PromoteTon: FunctionComponent<Props> = ({
             {React.createElement(REWARD_ICONS[type], {
               className: "size-6",
             })}
-            + {formatNumber(value)}
+            {type === TaskRewardType.CHEST ? "x1" : `+ ${formatNumber(value)}`}
           </div>
         ))}
       </div>

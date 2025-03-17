@@ -1,6 +1,5 @@
 import React, { createElement, FunctionComponent } from "react";
 
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import classNames from "classnames";
@@ -12,7 +11,9 @@ import {
 } from "@/components/pages/assignments/components/assignments-list/constants";
 import { DrawerTitle } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
+import { Locale } from "@/constants/locale";
 import { NS } from "@/constants/ns";
+import { useLocaleManager } from "@/hooks/useLocaleManager";
 import ExternalSVG from "@/public/assets/svg/external.svg";
 import { ITask } from "@/services/tasks/types";
 import { formatNumber } from "@/utils/number";
@@ -49,7 +50,7 @@ export const CommonModal: FunctionComponent<Props> = ({
   onClose,
 }) => {
   const t = useTranslations(NS.PAGES.ASSIGNMENTS.ROOT);
-  const { locale } = useRouter();
+  const { locale } = useLocaleManager();
 
   const handleButtonClick = () => {
     onClick();
@@ -68,7 +69,7 @@ export const CommonModal: FunctionComponent<Props> = ({
             {createElement(ASSIGNMENTS_ICONS[type], {
               className: "size-23 rounded-full",
             })}
-            {locale === "en" ? title.en : title.ru}
+            {locale === Locale.EN ? title.en : title.ru}
           </DrawerTitle>
           <div
             className={classNames(

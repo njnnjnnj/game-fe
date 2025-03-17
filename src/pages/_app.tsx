@@ -2,15 +2,14 @@ import { useState } from "react";
 
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 
 import { Navbar } from "@/components/common/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { SettingsProvider } from "@/context";
-// import { NavigationProvider } from "@/context/navigation-context/NavigationContext";
 import { TelegramProvider } from "@/context/telegram-context/TelegramContext";
+import { useLocaleManager } from "@/hooks/useLocaleManager";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import {
   HydrationBoundary,
@@ -26,7 +25,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? "";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
-  const { locale } = useRouter();
+  const { locale } = useLocaleManager();
 
   return (
     <NextIntlClientProvider

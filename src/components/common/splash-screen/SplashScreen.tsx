@@ -36,7 +36,7 @@ import { PreloadRareHeroGridViews } from "./components/preload-rare-hero-grid-vi
 
 type ExtractedImageProps = Pick<
   ComponentProps<typeof Image>,
-  "src" | "sizes" | "fill" | "quality"
+  "src" | "sizes" | "fill" | "quality" | "priority"
 >;
 
 type RenderingCallback = (
