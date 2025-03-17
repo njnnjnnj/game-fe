@@ -41,6 +41,16 @@ export const LeagueInfo: FunctionComponent<Props> = ({
     );
   };
 
+  const getTitleByLeague = () => {
+    if (selectedLeaderboard === LeaderboardEnum.FRIEND) {
+      return t(NS.PAGES.TOP_PLAYERS.FRIENDS_TOP);
+    } else if (selectedLeaderboard === LeaderboardEnum.WORLD) {
+      return t(NS.PAGES.TOP_PLAYERS.WORLD_TOP);
+    }
+
+    return t(LEAGUE_INFO[league].TITLE_TID);
+  };
+
   return (
     <div
       className="mt-30 w-full px-4"
@@ -62,7 +72,7 @@ export const LeagueInfo: FunctionComponent<Props> = ({
         )}
       </div>
       <h3 className="text-stroke-half mb-2 text-center text-2xl font-black uppercase tracking-wide text-white text-shadow">
-        {t(LEAGUE_INFO[league].TITLE_TID)}
+        {getTitleByLeague()}
       </h3>
       <p className="text-medium text-center text-sm text-white/50">
         {getDescription()}
