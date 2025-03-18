@@ -15,9 +15,12 @@ export const PlayerInfo: FunctionComponent<Props> = ({
 }) => {
   return (
     <div
-      className={classNames("flex flex-col items-start justify-center", {
-        "gap-1": isLoading,
-      })}
+      className={classNames(
+        "flex min-w-0 flex-col items-start justify-center",
+        {
+          "gap-1": isLoading,
+        },
+      )}
     >
       {isLoading ? (
         <>
@@ -26,7 +29,7 @@ export const PlayerInfo: FunctionComponent<Props> = ({
         </>
       ) : (
         <>
-          <span className="text-stroke-1 font-extrabold capitalize text-white text-shadow-sm">
+          <span className="text-stroke-1 w-full overflow-hidden text-ellipsis font-extrabold capitalize text-white text-shadow-sm">
             {name}
           </span>
           <span className="text-xs font-medium text-[#6A8098]">{league}</span>

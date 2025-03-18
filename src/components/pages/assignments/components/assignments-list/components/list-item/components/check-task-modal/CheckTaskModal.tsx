@@ -47,7 +47,7 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
         toast(
           <Toast
             type="warning"
-            text="Выше задание находится на рассмотрении у модерации"
+            text="The assignment is under review by moderation"
           />,
         );
         onClose();

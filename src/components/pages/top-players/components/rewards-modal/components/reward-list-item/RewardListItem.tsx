@@ -2,6 +2,8 @@ import React, { FunctionComponent } from "react";
 
 import classNames from "classnames";
 
+import { LeaderboardEnum } from "@/services/leaderboard/types";
+
 import { PlayerValue } from "../../../players-list/components/list-item/components/player-value/PlayerValue";
 import { Rank } from "../../../players-list/components/list-item/components/rank/Rank";
 
@@ -9,12 +11,14 @@ type Props = {
   rank: number | string;
   description: string;
   value: number;
+  leaderboard: LeaderboardEnum;
 };
 
 export const RewardListItem: FunctionComponent<Props> = ({
   rank,
   description,
   value,
+  leaderboard,
 }) => {
   return (
     <div
@@ -33,7 +37,7 @@ export const RewardListItem: FunctionComponent<Props> = ({
           <span className="text-stroke-1 font-extrabold capitalize text-white text-shadow-sm">
             {description}
           </span>
-          <PlayerValue value={value} />
+          <PlayerValue value={value} leaderboard={leaderboard} />
         </div>
       </div>
     </div>

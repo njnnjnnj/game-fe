@@ -1,6 +1,9 @@
+import { useState } from "react";
+
 import { PageWrapper, ProfileHeader } from "@/components/common";
-import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { useGetTasks } from "@/services/tasks/queries";
+import { RewardShape } from "@/types/rewards";
 
 import { AssignmentsCarousel } from "./components/assignments-carousel/AssignmentsCarousel";
 import { AssignmentsList } from "./components/assignments-list/AssignmentsList";
@@ -9,29 +12,30 @@ import { sortTasks } from "./helpers";
 
 export const Assignments = () => {
   const { data: tasks, isLoading: isTasksLoading } = useGetTasks();
-  const { handleSelectionChanged } = useHapticFeedback();
-
-  const handleSlideClick = () => {
-    handleSelectionChanged();
-  };
+  const [reward, setReward] = useState<RewardShape | null>(null);
 
   return (
     <PageWrapper className="bg-blue-800 pb-10 pt-4" isLoading={isTasksLoading}>
-      <div className="flex flex-col pb-23">
-        <ProfileHeader />
-        <AssignmentsCarousel onSlideClick={handleSlideClick} />
-        <div className="flex flex-col gap-4">
-          <AssignmentsList
-            isLoading={isTasksLoading}
-            list={sortTasks(tasks?.everyday || [])}
-          />
-          <AssignmentsList
-            isLoading={isTasksLoading}
-            list={sortTasks(tasks?.other.slice(0, 10) || [])}
-            type={AssignmentType.ONE_OFF}
-          />
+      {!reward && (
+        <div className="flex flex-col pb-23">
+          <ProfileHeader />
+          <AssignmentsCarousel onGetReward={setReward} />
+          <div className="flex flex-col gap-4">
+            <AssignmentsList
+              isLoading={isTasksLoading}
+              list={sortTasks(tasks?.everyday || [])}
+            />
+            <AssignmentsList
+              isLoading={isTasksLoading}
+              list={sortTasks(tasks?.other.slice(0, 10) || [])}
+              type={AssignmentType.ONE_OFF}
+            />
+          </div>
         </div>
-      </div>
+      )}
+      {reward && (
+        <RewardScreen reward={reward} onFinish={() => setReward(null)} />
+      )}
     </PageWrapper>
   );
 };

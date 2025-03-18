@@ -12,6 +12,7 @@ import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useSafeStarsPayment } from "@/hooks/useSafeStarsPayment";
 import BatteryImage from "@/public/assets/png/rewards/full-energy.webp";
 import { invalidateProfileQuery } from "@/services/profile/queries";
 import {
@@ -95,11 +96,22 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
     });
   };
 
-  const handleBoosterClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (selectedBooster) {
+  const { buy: tryBuyBooster, isStarsPaymentLoading } = useSafeStarsPayment(
+    () => {
       handleBuyBooster(selectedBooster.id, () =>
         setSelectedBooster(INITIAL_BOOSTER),
       );
+    },
+    () => {
+      handleBuyBooster(selectedBooster.id, () =>
+        setSelectedBooster(INITIAL_BOOSTER),
+      );
+    },
+  );
+
+  const handleBoosterClick = (e: MouseEvent<HTMLButtonElement>) => {
+    if (selectedBooster) {
+      tryBuyBooster(selectedBooster.price);
     } else if (booster.amount > 0) {
       handleUseBoosterMutation(e);
     }
@@ -218,7 +230,7 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
             <PrimaryButton
               onClick={handleUseBooster}
               size="small"
-              isLoading={isRequesting}
+              isLoading={isRequesting || isStarsPaymentLoading}
               color={!booster?.amount ? "primary" : "secondary"}
               buttonClassName="relative z-50"
               className="text-stroke-1 text-sm font-extrabold uppercase text-shadow-sm"
@@ -243,7 +255,7 @@ export const PremiumBoosters: FunctionComponent<Props> = ({
         endTime={booster.end}
         boosterShopItems={boosterShopItems ?? []}
         amount={booster.amount}
-        isRequesting={isRequesting}
+        isRequesting={isRequesting || isStarsPaymentLoading}
       />
     </Drawer>
   );

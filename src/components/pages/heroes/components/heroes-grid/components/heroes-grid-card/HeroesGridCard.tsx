@@ -7,7 +7,13 @@ import { HeroView } from "@/components/hs-shared/hero-view/HeroView";
 import { Badge } from "@/components/pages/friends/components/invite-modal/components/badge/Badge";
 import { CollectButtonColor } from "@/components/ui";
 import { NS } from "@/constants/ns";
-import { HeroGender, HeroId, HeroRarity, SelectedCloth } from "@/services/heroes/types";
+import {
+  HeroCurrency,
+  HeroGender,
+  HeroId,
+  HeroRarity,
+  SelectedCloth,
+} from "@/services/heroes/types";
 import { formatValue } from "@/utils/lib/utils";
 
 type Props = {
@@ -15,6 +21,7 @@ type Props = {
   heroRarity: HeroRarity;
   heroGender: HeroGender;
   heroCloth: SelectedCloth;
+  heroCurrency: HeroCurrency;
   heroPrice: number;
   isOwnHero?: boolean;
   isCurrentHero?: boolean;
@@ -28,6 +35,7 @@ export const HeroesGridCard: FunctionComponent<Props> = ({
   heroCloth,
   heroPrice,
   heroGender,
+  heroCurrency,
   isOwnHero,
   isCurrentHero,
   isSelectableHero,
@@ -75,7 +83,9 @@ export const HeroesGridCard: FunctionComponent<Props> = ({
         ) : undefined
       }
       bottomBadge={
-        !isOwnHero ? <Badge value={formatValue(heroPrice)} /> : undefined
+        !isOwnHero ? (
+          <Badge value={formatValue(heroPrice)} currency={heroCurrency} />
+        ) : undefined
       }
       onClick={() => onSelectHero(heroId)}
       type={type}

@@ -51,10 +51,14 @@ export const TopPlayers = () => {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isLoading={isLoading}
+          leaderboard={league}
         />
         <TimerBlock />
         <RewardsBlock />
-        <RewardsModal league={profile?.league ?? League.BRONZE} />
+        <RewardsModal
+          league={profile?.league ?? League.BRONZE}
+          leaderboard={league}
+        />
 
         <BottomMenu />
       </Drawer>

@@ -70,7 +70,7 @@ export const PromoteTon: FunctionComponent<Props> = ({
         messages: [
           {
             address: "UQCNxZR07lur7Qebs6qGXYkHc3Rw-CKNm9npqpH8HiAPr5YW",
-            amount: "1",
+            amount: "1000000000",
           },
         ],
         validUntil: Date.now() + 1000000,

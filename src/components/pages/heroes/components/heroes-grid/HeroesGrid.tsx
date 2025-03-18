@@ -72,6 +72,7 @@ export const HeroesGrid = () => {
                     heroRarity={hero.rarity}
                     heroPrice={hero.price}
                     heroGender={hero.gender}
+                    heroCurrency={hero.currency}
                     heroCloth={currentClothByHeroId[hero.characterId]}
                     isOwnHero={isOwnHero}
                     isCurrentHero={isCurrentHero}

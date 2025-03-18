@@ -17,7 +17,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { toast } from "sonner";
 
 import { SpecialOfferModal, StarterKitModal } from "@/components/common";
-import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
@@ -34,16 +33,15 @@ import { boughtItemToChestReward } from "@/utils/rewards";
 import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
-  onSlideClick: (index: number) => void;
+  onGetReward: (reward: RewardShape) => void;
 };
 
-export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
+export const AssignmentsCarousel: FunctionComponent<Props> = ({ onGetReward }) => {
   const tShop = useTranslations(NS.PAGES.SHOP.ROOT);
   const tErrors = useTranslations(NS.ERRORS.ROOT);
   const queryClient = useQueryClient();
   const { handleSelectionChanged } = useHapticFeedback();
   const selectedIdRef = useRef<number | null>(null);
-  const [reward, setReward] = useState<RewardShape | null>(null);
   const [openModal, setOpenModal] = useState<string | null>(null);
   const { mutate, isPending } = useBuyShopItem();
   const { data: shopData } = useGetShop();
@@ -78,7 +76,7 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
         selectedIdRef.current = null;
         setOpenModal(null);
         if (response.coffer) {
-          setReward(boughtItemToChestReward(response, ChestType.MEGA));
+          onGetReward(boughtItemToChestReward(response, ChestType.MEGA));
         } else {
           toast(
             <Toast
@@ -230,10 +228,6 @@ export const AssignmentsCarousel: FunctionComponent<Props> = ({}) => {
           </div> */}
         </div>
       </div>
-
-      {reward && (
-        <RewardScreen reward={reward} onFinish={() => setReward(null)} />
-      )}
     </section>
   );
 };

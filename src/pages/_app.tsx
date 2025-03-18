@@ -9,7 +9,9 @@ import { Navbar } from "@/components/common/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { SettingsProvider } from "@/context";
 import { TelegramProvider } from "@/context/telegram-context/TelegramContext";
+import { useClientOnce } from '@/hooks/useClientOnce';
 import { useLocaleManager } from "@/hooks/useLocaleManager";
+import { initTgAnalytics } from "@/utils/lib/tg-analytics";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import {
   HydrationBoundary,
@@ -24,8 +26,16 @@ import "@/styles/globals.css";
 const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? "";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const isDev = process.env.NODE_ENV === 'development';
+
   const [queryClient] = useState(() => new QueryClient());
   const { locale } = useLocaleManager();
+
+  useClientOnce(() => {
+    if (!isDev) {
+      initTgAnalytics();
+    }
+  });
 
   return (
     <NextIntlClientProvider
@@ -36,7 +46,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <GoogleAnalytics gaId={GA_ID} />
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={pageProps.dehydratedState}>
-          <TonConnectUIProvider manifestUrl="https://taiga-labs.github.io/gorelko.json">
+          <TonConnectUIProvider manifestUrl="https://njnnjnnj.github.io/game-fe/manifest.json">
             <TelegramProvider>
               <SettingsProvider>
                 <Head>
@@ -52,7 +62,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   <Navbar />
                   <SpeedInsights />
                   <Toaster />
-                  {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA === 'true' && (
+                  {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA === "true" && (
                     <Script
                       src="https://cdn.jsdelivr.net/npm/eruda"
                       strategy="afterInteractive"
