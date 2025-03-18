@@ -15,7 +15,8 @@ import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import GreenBatteryFullImage from "@/public/assets/png/rewards/green-battery-full.webp";
 import GreenBatteryHalfImage from "@/public/assets/png/rewards/green-battery-half.webp";
-import EnergyIcon from "@/public/assets/svg/energy-flat.svg";
+import EnergyIcon from "@/public/assets/svg/energy.svg";
+import ClockIcon from "@/public/assets/svg/rewards/clock.svg";
 import { useUpgradeBooster } from "@/services/rewards/queries";
 import {
   CapacityBooster,
@@ -259,7 +260,7 @@ export const DefaultBoosters: FunctionComponent<Props> = ({
                   </span>
                   {recovery?.level < MAX_LEVEL_CARD ? (
                     <span className="flex items-center gap-1 text-xs font-semibold text-white">
-                      <EnergyIcon className="size-4" />
+                      <ClockIcon className="size-4" />
                       {(recovery?.new - recovery?.current).toFixed(2)} c
                     </span>
                   ) : (

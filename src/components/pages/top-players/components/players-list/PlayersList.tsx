@@ -7,7 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import { NS } from "@/constants/ns";
 import ArrowSVG from "@/public/assets/svg/top-players/arrow.svg";
-import { Leader } from "@/services/leaderboard/types";
+import { Leader, LeaderboardEnum } from "@/services/leaderboard/types";
 
 import { ListItem } from "./components/list-item/ListItem";
 import { Tape } from "./components/tape/Tape";
@@ -17,6 +17,7 @@ type Props = {
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isLoading: boolean;
+  leaderboard: LeaderboardEnum;
 };
 
 export const PlayersList: FunctionComponent<Props> = ({
@@ -24,6 +25,7 @@ export const PlayersList: FunctionComponent<Props> = ({
   fetchNextPage,
   hasNextPage,
   isLoading,
+  leaderboard,
 }) => {
   const t = useTranslations(NS.PAGES.TOP_PLAYERS.ROOT);
   const MAX_TOP_RECORDS = 300;
@@ -66,22 +68,22 @@ export const PlayersList: FunctionComponent<Props> = ({
               "after:absolute after:left-[3px] after:right-[3px] after:top-[3px] after:h-2.5 after:rounded-t-sm after:bg-white after:opacity-20 after:content-['']",
             )}
           >
-            Топ 3
+            {t(NS.PAGES.TOP_PLAYERS.TOP_3)}
           </span>
           <div className="flex w-full flex-col gap-2 rounded-[20px] bg-[#C18700] px-2 py-3 shadow-leaderbord-list-pattern">
-            <ListItem leader={leaders[0]} isLoading={isLoading} />
-            <ListItem leader={leaders[1]} isLoading={isLoading} />
-            <ListItem leader={leaders[2]} isLoading={isLoading} />
+            <ListItem leader={leaders[0]} isLoading={isLoading} leaderboard={leaderboard} />
+            <ListItem leader={leaders[1]} isLoading={isLoading} leaderboard={leaderboard} />
+            <ListItem leader={leaders[2]} isLoading={isLoading} leaderboard={leaderboard} />
           </div>
         </div>
         <div className="top-players-list-inset-shadows flex w-full flex-col gap-2 rounded-b-4xl bg-black/50 px-4 pb-5 pt-3">
           {!isLoading
             ? leaders.slice(3).map((leader) => (
-                <>
+                <React.Fragment key={`leaderboard_${leader.rank}`}>
                   <ListItem
-                    key={`leaderboard_${leader.rank}`}
                     leader={leader}
                     isLoading={false}
+                    leaderboard={leaderboard}
                   />
                   {leader.rank === NUMBER_OF_WINNERS && (
                     <div className="my-2 flex items-center justify-center gap-3 border-b border-solid border-white/20 pb-2">
@@ -101,7 +103,7 @@ export const PlayersList: FunctionComponent<Props> = ({
                       <ArrowSVG className="size-6 rotate-180 fill-[#FDE333]" />
                     </div>
                   )}
-                </>
+                </React.Fragment>
               ))
             : Array(7)
                 .fill(0)
@@ -110,6 +112,7 @@ export const PlayersList: FunctionComponent<Props> = ({
                     key={index}
                     leader={{} as Leader}
                     isLoading={true}
+                    leaderboard={leaderboard}
                   />
                 ))}
         </div>

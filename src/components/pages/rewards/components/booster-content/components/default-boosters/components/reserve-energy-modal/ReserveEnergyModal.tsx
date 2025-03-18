@@ -17,7 +17,7 @@ import { NS } from "@/constants/ns";
 import EnergyImage from "@/public/assets/png/rewards/green-battery-full.webp";
 import LigntningImage from "@/public/assets/png/rewards/lightning.png";
 import CloseIcon from "@/public/assets/svg/close.svg";
-import FriendsIcon from "@/public/assets/svg/friends-coin.svg";
+import EnergyIcon from "@/public/assets/svg/energy.svg";
 import { CapacityBooster, UpgradeBoosterType } from "@/services/rewards/types";
 import { formatNumber } from "@/utils/number";
 
@@ -161,7 +161,7 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
               )}
             </span>
             <div className="flex items-center gap-2">
-              <FriendsIcon className="size-5" />
+              <EnergyIcon className="size-5" />
               <span className="text-lg font-semibold leading-none text-white">
                 {capacity?.current}
               </span>
@@ -171,7 +171,7 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
         {!isZeroLevel && (
           <>
             <div className="text-stroke-1 absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-solid border-[#192632] bg-[linear-gradient(45deg,_#35AFF1_0%,_#4DC0FF_50%,_#9EDDFF_100%)] px-3 py-2 text-sm font-semibold text-white text-shadow-sm">
-              <FriendsIcon className="mr-1 size-5" /> +
+              <EnergyIcon className="mr-1 size-5" /> +
               {capacity?.new - capacity?.current}
             </div>
 
@@ -190,7 +190,7 @@ export const ReserveEnergyModal: FunctionComponent<Props> = ({
                 )}
               </span>
               <div className="flex items-center gap-2">
-                <FriendsIcon className="size-5" />
+                <EnergyIcon className="size-5" />
                 <span className="inline-block bg-gradient-to-tr from-[#61C2F6] to-[#CCE8F7] bg-clip-text text-lg font-bold leading-none text-transparent">
                   {capacity?.new}
                 </span>

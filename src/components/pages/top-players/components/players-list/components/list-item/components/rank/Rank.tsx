@@ -10,7 +10,7 @@ export const Rank: FunctionComponent<Props> = ({ rank }) => {
   return (
     <div
       className={classNames(
-        "text-stroke-1 flex size-8 items-center justify-center rounded-lg bg-[#6A8098] p-0.5 text-x font-extrabold tracking-wide text-white text-shadow-sm",
+        "text-stroke-1 flex size-8 items-center justify-center rounded-lg bg-[#6A8098] p-0.5 text-x font-extrabold tracking-wide text-white text-shadow-sm shrink-0",
         "shadow-[inset_-1px_-1px_0_0_rgba(0,0,0,0.2),inset_1px_1px_1px_0_rgba(0,0,0,0.2)]",
       )}
     >

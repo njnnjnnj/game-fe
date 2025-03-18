@@ -23,6 +23,8 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(
 
 const SETTINGS_KEY = "app_settings";
 
+const DEFAULT_SETTINGS = { sound: false, vibrations: true };
+
 export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -31,10 +33,12 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
       const savedSettings = localStorage.getItem(SETTINGS_KEY);
       return savedSettings
         ? JSON.parse(savedSettings)
-        : { sound: false, vibrations: false };
+        : DEFAULT_SETTINGS;
     }
-    return { sound: false, vibrations: false };
+
+    return DEFAULT_SETTINGS;
   });
+
   const [isPromotionModalShown, setIsPromotionModalShown] =
     useState(false);
  
@@ -44,6 +48,7 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   ) => {
     if (setting === "sound") {
       if (settings.vibrations) {
+        // Using HapticFeedback directly from WebApp because in hook we rely on Settings
         window.Telegram.WebApp.HapticFeedback.notificationOccurred(
           NotificationEnum.ERROR,
         );

@@ -401,6 +401,7 @@
   },
   "TOP_PLAYERS": {
     "TITLE": "Топ игроков",
+    "TOP_3": "Топ 3",
     "MENU_ITEMS": {
       "LEAGUE": "Лига",
       "WORLD": "Мир",

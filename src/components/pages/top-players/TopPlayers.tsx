@@ -51,6 +51,7 @@ export const TopPlayers = () => {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isLoading={isLoading}
+          leaderboard={league}
         />
         <TimerBlock />
         <RewardsBlock />

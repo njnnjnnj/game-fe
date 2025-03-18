@@ -13,7 +13,7 @@ export const PlayerAvatar: FunctionComponent<Props> = ({ url, isLoading }) => {
   return (
     <div
       className={classNames(
-        "relative size-8 overflow-hidden rounded-lg bg-[#6A8098] p-0.5",
+        "relative size-8 overflow-hidden rounded-lg bg-[#6A8098] p-0.5 shrink-0",
         { "animate-pulse": isLoading },
       )}
     >

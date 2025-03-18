@@ -288,7 +288,7 @@
       "CAPTAINAMERICA": "Captain America",
       "DEADPOOL": "Deadpool",
       "DEFAULT": "Default",
-      "DEFAULTHQ": "Default",
+      "DEFAULTHQ": "Regular",
       "DUROV": "Pavel Durov",
       "GIRL": "Girl",
       "GRETTATUMBERG": "Greta Thunberg",
@@ -363,7 +363,7 @@
       "CHESTS": "Chests",
       "STARS": "Stars",
       "FRIENDS": "Friends",
-      "AUTO_COLLECT": "Revenue collection",
+      "AUTO_COLLECT": "Income collection",
       "STARTER_SET": "Starter kit",
       "SPECIAL_OFFER": "Special offer",
       "BOOSTER": "Boosters",
@@ -401,6 +401,7 @@
   },
   "TOP_PLAYERS": {
     "TITLE": "Top players",
+    "TOP_3": "Top 3",
     "MENU_ITEMS": {
       "LEAGUE": "League",
       "WORLD": "World",

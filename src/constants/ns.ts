@@ -446,7 +446,7 @@ export const NS = {
     TOP_PLAYERS: {
       ROOT: "TOP_PLAYERS",
       TITLE: "TITLE",
-      LEADERBOARD: "LEADERBOARD",
+      TOP_3: "TOP_3",
       MENU_ITEMS: {
         ROOT: "MENU_ITEMS",
         LEAGUE: "LEAGUE",

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import classNames from "classnames";
 
-import { Leader } from "@/services/leaderboard/types";
+import { Leader, LeaderboardEnum } from "@/services/leaderboard/types";
 
 import { PlayerAvatar } from "./components/player-avatar/PlayerAvatar";
 import { PlayerInfo } from "./components/player-info/PlayerInfo";
@@ -12,9 +12,10 @@ import { Rank } from "./components/rank/Rank";
 type Props = {
   leader: Leader;
   isLoading: boolean;
+  leaderboard: LeaderboardEnum;
 };
 
-export const ListItem: FunctionComponent<Props> = ({ leader, isLoading }) => {
+export const ListItem: FunctionComponent<Props> = ({ leader, isLoading, leaderboard }) => {
   return (
     <div
       className={classNames(
@@ -36,7 +37,7 @@ export const ListItem: FunctionComponent<Props> = ({ leader, isLoading }) => {
             league="League name"
             isLoading={isLoading}
           />
-          <PlayerValue value={leader?.value} isLoading={isLoading} />
+          <PlayerValue value={leader?.value} isLoading={isLoading} leaderboard={leaderboard} />
         </div>
       </div>
     </div>

@@ -63,6 +63,7 @@ export const RewardsModal: FunctionComponent<Props> = ({
               { num: reward.description },
             )}
             value={reward.value}
+            leaderboard={leaderboard}
           />
         ))}
       </div>
