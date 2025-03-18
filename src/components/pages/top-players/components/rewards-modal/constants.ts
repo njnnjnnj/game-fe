@@ -63,3 +63,24 @@ export const LEAGUES = {
     ],
   },
 };
+
+export const TOP_FRIENDS = {
+  TITLE_TID: NS.PAGES.TOP_PLAYERS.FRIENDS_TOP,
+  DESCRIPTION_TID: `${NS.PAGES.TOP_PLAYERS.MODAL.ROOT}.${NS.PAGES.TOP_PLAYERS.MODAL.DESCRIPTION}`,
+  REWARDS: [
+    { rank: 1, description: "1", value: 10000 },
+    { rank: 2, description: '2', value: 7500 },
+    { rank: 3, description: '3', value: 5000 },
+  ]
+}
+
+export const WORLD_TOP = {
+  TITLE_TID: NS.PAGES.TOP_PLAYERS.WORLD_TOP,
+  DESCRIPTION_TID: `${NS.PAGES.TOP_PLAYERS.MODAL.ROOT}.${NS.PAGES.TOP_PLAYERS.MODAL.DESCRIPTION}`,
+  REWARDS: [
+    { rank: 1, description: "1", value: 15000 },
+    { rank: 2, description: '2', value: 10000 },
+    { rank: 3, description: '3', value: 4500 },
+    { rank: "4+", description: "4-10", value: 1500 },
+  ]
+}
