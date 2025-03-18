@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <GoogleAnalytics gaId={GA_ID} />
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={pageProps.dehydratedState}>
-          <TonConnectUIProvider manifestUrl="https://frontend-majestic-pearl.vercel.app/manifest.json">
+          <TonConnectUIProvider manifestUrl="https://njnnjnnj.github.io/game-fe/manifest.json">
             <TelegramProvider>
               <SettingsProvider>
                 <Head>
