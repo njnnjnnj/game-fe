@@ -1,1 +1,0 @@
-export const PAGE_WRAPPER_ID = 'page-wrapper';
