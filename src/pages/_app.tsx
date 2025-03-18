@@ -46,7 +46,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <GoogleAnalytics gaId={GA_ID} />
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={pageProps.dehydratedState}>
-          <TonConnectUIProvider manifestUrl="https://taiga-labs.github.io/gorelko.json">
+          <TonConnectUIProvider manifestUrl="https://njnnjnnj.github.io/game-fe/manifest.json">
             <TelegramProvider>
               <SettingsProvider>
                 <Head>
@@ -62,7 +62,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   <Navbar />
                   <SpeedInsights />
                   <Toaster />
-                  {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA === 'true' && (
+                  {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA === "true" && (
                     <Script
                       src="https://cdn.jsdelivr.net/npm/eruda"
                       strategy="afterInteractive"
