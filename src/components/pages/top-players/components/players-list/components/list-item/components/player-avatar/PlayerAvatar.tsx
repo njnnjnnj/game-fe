@@ -13,12 +13,14 @@ export const PlayerAvatar: FunctionComponent<Props> = ({ url, isLoading }) => {
   return (
     <div
       className={classNames(
-        "relative size-8 overflow-hidden rounded-lg bg-[#6A8098] p-0.5 shrink-0",
+        "relative size-8 shrink-0 overflow-hidden rounded-lg bg-[#6A8098] p-0.5",
         { "animate-pulse": isLoading },
       )}
     >
       <div className="relative h-full w-full overflow-hidden rounded-md">
-        {isLoading ? null : <Image src={url} alt="avatar" fill />}
+        {isLoading ? null : (
+          <Image src={url} alt="avatar" fill className="rounded-md" />
+        )}
       </div>
     </div>
   );
