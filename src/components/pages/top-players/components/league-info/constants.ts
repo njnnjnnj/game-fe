@@ -37,3 +37,12 @@ export const LEAGUE_INFO = {
     TITLE_TID: `${NS.PAGES.TOP_PLAYERS.LEAGUES.ROOT}.${NS.PAGES.TOP_PLAYERS.LEAGUES.BILLIARD}`,
   },
 };
+
+export const RANKED_LEAGUES = [
+  League.BRONZE,
+  League.SILVER,
+  League.GOLD,
+  League.PLATINUM,
+  League.BRILLIANT,
+  League.BILLIARD,
+];
