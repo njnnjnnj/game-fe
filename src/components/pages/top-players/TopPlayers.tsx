@@ -52,6 +52,7 @@ export const TopPlayers = () => {
           hasNextPage={hasNextPage}
           isLoading={isLoading}
           leaderboard={league}
+          league={profile?.league ?? League.BRONZE}
         />
         <TimerBlock />
         <RewardsBlock />

@@ -8,12 +8,16 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { NS } from "@/constants/ns";
 import ArrowSVG from "@/public/assets/svg/top-players/arrow.svg";
 import { Leader, LeaderboardEnum } from "@/services/leaderboard/types";
+import { League } from "@/services/profile/types";
+
+import { LEAGUE_INFO, RANKED_LEAGUES } from "../league-info/constants";
 
 import { ListItem } from "./components/list-item/ListItem";
 import { Tape } from "./components/tape/Tape";
 
 type Props = {
   leaders: Leader[];
+  league: League;
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isLoading: boolean;
@@ -22,6 +26,7 @@ type Props = {
 
 export const PlayersList: FunctionComponent<Props> = ({
   leaders,
+  league,
   fetchNextPage,
   hasNextPage,
   isLoading,
@@ -35,6 +40,13 @@ export const PlayersList: FunctionComponent<Props> = ({
     if (leaders.length >= MAX_TOP_RECORDS) return;
     fetchNextPage();
   };
+
+  const currentLeagueIndex = RANKED_LEAGUES.findIndex((l) => l === league);
+  const isLowestLeague = league === League.BRONZE;
+  const previousLeague = isLowestLeague
+    ? League.BRONZE
+    : RANKED_LEAGUES[currentLeagueIndex - 1];
+  const previousLeagueTitle = t(LEAGUE_INFO[previousLeague].TITLE_TID);
 
   return (
     <div
@@ -71,9 +83,21 @@ export const PlayersList: FunctionComponent<Props> = ({
             {t(NS.PAGES.TOP_PLAYERS.TOP_3)}
           </span>
           <div className="flex w-full flex-col gap-2 rounded-[20px] bg-[#C18700] px-2 py-3 shadow-leaderbord-list-pattern">
-            <ListItem leader={leaders[0]} isLoading={isLoading} leaderboard={leaderboard} />
-            <ListItem leader={leaders[1]} isLoading={isLoading} leaderboard={leaderboard} />
-            <ListItem leader={leaders[2]} isLoading={isLoading} leaderboard={leaderboard} />
+            <ListItem
+              leader={leaders[0]}
+              isLoading={isLoading}
+              leaderboard={leaderboard}
+            />
+            <ListItem
+              leader={leaders[1]}
+              isLoading={isLoading}
+              leaderboard={leaderboard}
+            />
+            <ListItem
+              leader={leaders[2]}
+              isLoading={isLoading}
+              leaderboard={leaderboard}
+            />
           </div>
         </div>
         <div className="top-players-list-inset-shadows flex w-full flex-col gap-2 rounded-b-4xl bg-black/50 px-4 pb-5 pt-3">
@@ -98,7 +122,7 @@ export const PlayersList: FunctionComponent<Props> = ({
                     <div className="my-2 flex items-center justify-center gap-3 border-b border-solid border-white/20 pb-2">
                       <ArrowSVG className="size-6 rotate-180 fill-[#FDE333]" />
                       <span className="font-extrabold uppercase tracking-wide text-[#FDE333]">
-                        GOLD League
+                        {previousLeagueTitle}
                       </span>
                       <ArrowSVG className="size-6 rotate-180 fill-[#FDE333]" />
                     </div>
