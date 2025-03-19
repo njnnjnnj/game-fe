@@ -29,7 +29,7 @@ export const PlayerInfo: FunctionComponent<Props> = ({
         </>
       ) : (
         <>
-          <span className="text-stroke-1 w-full overflow-hidden text-ellipsis font-extrabold capitalize text-white text-shadow-sm">
+          <span className="text-stroke-1 w-full overflow-hidden text-ellipsis whitespace-nowrap font-extrabold capitalize text-white text-shadow-sm">
             {name}
           </span>
           <span className="text-xs font-medium text-[#6A8098]">{league}</span>
