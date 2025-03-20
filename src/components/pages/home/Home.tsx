@@ -264,6 +264,7 @@ export const Home = () => {
     mutate(undefined, {
       onSuccess: () => {
         invalidateOfflineBonusQuery(queryClient);
+        invalidateProfileQuery(queryClient);
         toast(
           <Toast
             type="done"

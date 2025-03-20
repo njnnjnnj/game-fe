@@ -15,7 +15,14 @@ import { COMPONENTS_MAP } from "./constants";
 
 type Props = Pick<
   ITask,
-  "type" | "title" | "reward" | "id" | "status" | "value" | "needValidate" | "penalty"
+  | "type"
+  | "title"
+  | "reward"
+  | "id"
+  | "status"
+  | "value"
+  | "needValidate"
+  | "penalty"
 > & {
   onClose: () => void;
 };
@@ -136,6 +143,7 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
         }, 3000);
         break;
       case TaskType.BOOST_CHANNEL:
+        webApp?.openTelegramLink(value as string);
         setTimeout(() => {
           setIsInit(true);
           setIsLoading(false);
