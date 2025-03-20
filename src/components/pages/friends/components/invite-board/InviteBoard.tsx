@@ -27,7 +27,7 @@ export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
 
   const handleCopyClipboard = () => {
     handleSelectionChanged();
-    navigator.clipboard.writeText(getLinkToApp(referralsData.link));
+    navigator.clipboard.writeText(getLinkToApp(referralsData.link, true));
     toast(<Toast type="done" text={t(NS.PAGES.FRIENDS.LINK_COPIED)} />);
   };
 
@@ -61,7 +61,7 @@ export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
             onClick={() => {
               handleSelectionChanged();
               webApp?.openTelegramLink(
-                `https://t.me/share/url?url=${getLinkToApp(referralsData.link)}&text=🎁 500,000 free tokens are already waiting for you in Majestic! ⭐️ I invite you to the game`,
+                `https://t.me/share/url?url=${getLinkToApp(referralsData.link)}&text=%5Cn🎁 500,000 free tokens are already waiting for you in Majestic!%5Cn ⭐️ I invite you to the game`,
               );
             }}
           >
