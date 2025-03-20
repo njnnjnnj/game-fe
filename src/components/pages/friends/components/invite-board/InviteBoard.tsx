@@ -61,7 +61,7 @@ export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
             onClick={() => {
               handleSelectionChanged();
               webApp?.openTelegramLink(
-                `https://t.me/share/url?url=${getLinkToApp(referralsData.link, false)}&text=<br/>🎁 500,000 free tokens are already waiting for you in Majestic!<br/> ⭐️ I invite you to the game`,
+                `https://t.me/share/url?url=${getLinkToApp(referralsData.link, false)}&text=🎁 500,000 free tokens are already waiting for you in Majestic! ⭐️ I invite you to the game`,
               );
             }}
           >
