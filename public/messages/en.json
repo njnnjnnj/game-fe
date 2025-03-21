@@ -19,7 +19,9 @@
     "SALE": "-20%",
     "STARS": "{count} stars",
     "TAP_TO_CONTINUE": "Tap to continue",
-    "SIDE_LINK": "Obtain"
+    "SIDE_LINK": "Obtain",
+    "DAYS": "{days}d.",
+    "HOURS": "{hours}h."
   },
   "HOME": {
     "SLOTS": "Fortune",
@@ -141,6 +143,7 @@
     "INVITE_FRIEND": "Invite a Friend",
     "INVITE_DESCRIPTION": "For you and your friend",
     "INVITE_BUTTON_TEXT": "Invite a Friend",
+    "SHARE_TO_STORY": "Share to story",
     "INVITED": "Invited",
     "COLLECT_PRIZE": "Collect",
     "LINK_COPIED": "Link Copied",
@@ -161,7 +164,8 @@
     "ERRORS": {
       "EARN_FRIENDS": "There was an error when collecting rewards from friends.",
       "BUY_FRIENDS": "An error occurred while buying friends."
-    }
+    },
+    "INVITE_MESSAGE": "\n🎁 550,000 free coins are already waiting for you in Majestic!\n⭐️ I invite you to the game!"
   },
   "REWARDS": {
     "GET_REWARDS": "Get Rewards",

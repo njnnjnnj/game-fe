@@ -10,7 +10,7 @@ import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import StarSVG from "@/public/assets/svg/star.svg";
+import CoinSVG from "@/public/assets/svg/coin.svg";
 import { useEarnReferrals, useGetProfile } from "@/services/profile/queries";
 import { IReferrals } from "@/services/profile/types";
 import { NotificationEnum } from "@/types/telegram";
@@ -71,7 +71,7 @@ export const FriendsList: FunctionComponent<Props> = ({ referralsData }) => {
             {t(NS.PAGES.FRIENDS.CAN_COLLECT)}
           </span>
           <div className="grid grid-cols-[20px_1fr] items-center gap-2">
-            <StarSVG className="size-5" />
+            <CoinSVG className="size-5" />
             <div className="flex items-center gap-2">
               <span className="text-stroke-1 font-extrabold text-white text-shadow-sm">
                 {referralsData.reward}
@@ -126,7 +126,7 @@ export const FriendsList: FunctionComponent<Props> = ({ referralsData }) => {
                   </div>
                 </div>
                 <div className="grid grid-cols-[20px_1fr] items-center gap-2 rounded-full bg-white/10 px-2 py-1">
-                  <StarSVG className="size-5" />
+                  <CoinSVG className="size-5" />
                   <span className="text-stroke-1 text-xs font-extrabold text-white text-shadow-sm">
                     +{friend.reward}
                   </span>

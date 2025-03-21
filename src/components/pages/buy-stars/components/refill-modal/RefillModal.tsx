@@ -43,7 +43,6 @@ export const RefillModal: FunctionComponent<Props> = ({
   const { buy: buyStarsFn, isStarsPaymentLoading } = useSafeStarsPayment(
     () => {},
     () => {
-      console.log("Stars payment success");
       invalidateProfileQuery(queryClient);
       invalidateStarsInfoQuery(queryClient);
       onClose();
