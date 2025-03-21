@@ -106,7 +106,9 @@
         "CHECK_ASSIGNMENTS": "Click below to submit it for verification.",
         "BUTTON": "Check Assignments",
         "WALLET_CONNECT": "Connect Wallet",
-        "MAKE_TRANSACTION": "Make a Transaction"
+        "MAKE_TRANSACTION": "Make a Transaction",
+        "REVIEW_MESSAGE": "The assignment is under review by moderation",
+        "EMOJI_STATUS_CANCELED_MESSAGE": "Adding emoji-status has been canceled"
       },
       "CONFIRMATION_MODAL": {
         "TITLE": "Make Sure You Have Completed the Task",

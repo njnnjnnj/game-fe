@@ -106,7 +106,9 @@
         "CHECK_ASSIGNMENTS": "Нажмите ниже, чтобы отправить его на проверку.",
         "BUTTON": "Проверить задания",
         "WALLET_CONNECT": "Подключить кошелек",
-        "MAKE_TRANSACTION": "Совершить транзакцию"
+        "MAKE_TRANSACTION": "Совершить транзакцию",
+        "REVIEW_MESSAGE": "Задание находится на рассмотрении у модерации",
+        "EMOJI_STATUS_CANCELED_MESSAGE": "Добавление emoji-status отменено"
       },
       "CONFIRMATION_MODAL": {
         "TITLE": "Убедитесь, что Вы завершили задание",
