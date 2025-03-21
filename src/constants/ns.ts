@@ -23,6 +23,8 @@ export const NS = {
     STARS: "STARS",
     TAP_TO_CONTINUE: "TAP_TO_CONTINUE",
     SIDE_LINK: "SIDE_LINK",
+    DAYS: "DAYS",
+    HOURS: "HOURS",
   },
   PAGES: {
     HOME: {
@@ -167,6 +169,7 @@ export const NS = {
       INVITE_FRIEND: "INVITE_FRIEND",
       INVITE_DESCRIPTION: "INVITE_DESCRIPTION",
       INVITE_BUTTON_TEXT: "INVITE_BUTTON_TEXT",
+      SHARE_TO_STORY: "SHARE_TO_STORY",
       INVITED: "INVITED",
       COLLECT_PRIZE: "COLLECT_PRIZE",
       LINK_COPIED: "LINK_COPIED",
@@ -191,6 +194,7 @@ export const NS = {
         BUY_FRIENDS: "BUY_FRIENDS",
         EARN_FRIENDS: "EARN_FRIENDS",
       },
+      INVITE_MESSAGE: "INVITE_MESSAGE",
     },
     REWARDS: {
       ROOT: "REWARDS",

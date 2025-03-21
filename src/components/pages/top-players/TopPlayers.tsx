@@ -54,7 +54,7 @@ export const TopPlayers = () => {
           leaderboard={league}
           league={profile?.league ?? League.BRONZE}
         />
-        <TimerBlock />
+        <TimerBlock leaderboard={league} />
         <RewardsBlock />
         <RewardsModal
           league={profile?.league ?? League.BRONZE}
