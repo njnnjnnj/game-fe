@@ -264,7 +264,6 @@ export const Home = () => {
     mutate(undefined, {
       onSuccess: () => {
         invalidateOfflineBonusQuery(queryClient);
-        invalidateProfileQuery(queryClient);
 
         toast(
           <Toast
@@ -276,9 +275,14 @@ export const Home = () => {
         );
         setIsModalOpen(false);
         setIsClaimed(true);
-        setProfileBalance(
-          (prevBalance) => prevBalance + (profile?.reward_per_tap ?? 1),
-        );
+        refetchProfile().then(({ data }) => {
+          if (data) {
+            setProfileBalance(
+              (prevBalance) => prevBalance + (data.reward_per_tap ?? 1),
+            );
+          }
+        });
+
         Cookies.set("offlineBonusClaimed", "true", { expires: 1 / 24 });
       },
       onError: () =>
