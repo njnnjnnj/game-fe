@@ -19,7 +19,9 @@
     "SALE": "-20%",
     "STARS": "{count} stars",
     "TAP_TO_CONTINUE": "Tap to continue",
-    "SIDE_LINK": "Obtain"
+    "SIDE_LINK": "Obtain",
+    "DAYS": "{days}d.",
+    "HOURS": "{hours}h."
   },
   "HOME": {
     "SLOTS": "Fortune",
@@ -106,7 +108,9 @@
         "CHECK_ASSIGNMENTS": "Click below to submit it for verification.",
         "BUTTON": "Check Assignments",
         "WALLET_CONNECT": "Connect Wallet",
-        "MAKE_TRANSACTION": "Make a Transaction"
+        "MAKE_TRANSACTION": "Make a Transaction",
+        "REVIEW_MESSAGE": "The assignment is under review by moderation",
+        "EMOJI_STATUS_CANCELED_MESSAGE": "Adding emoji-status has been canceled"
       },
       "CONFIRMATION_MODAL": {
         "TITLE": "Make Sure You Have Completed the Task",
@@ -139,6 +143,7 @@
     "INVITE_FRIEND": "Invite a Friend",
     "INVITE_DESCRIPTION": "For you and your friend",
     "INVITE_BUTTON_TEXT": "Invite a Friend",
+    "SHARE_TO_STORY": "Share to story",
     "INVITED": "Invited",
     "COLLECT_PRIZE": "Collect",
     "LINK_COPIED": "Link Copied",
@@ -159,7 +164,8 @@
     "ERRORS": {
       "EARN_FRIENDS": "There was an error when collecting rewards from friends.",
       "BUY_FRIENDS": "An error occurred while buying friends."
-    }
+    },
+    "INVITE_MESSAGE": "\n🎁 550,000 free coins are already waiting for you in Majestic!\n⭐️ I invite you to the game!"
   },
   "REWARDS": {
     "GET_REWARDS": "Get Rewards",

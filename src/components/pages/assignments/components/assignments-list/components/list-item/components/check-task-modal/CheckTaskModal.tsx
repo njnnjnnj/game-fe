@@ -1,9 +1,12 @@
 import React, { FunctionComponent, useState } from "react";
 
+import { useTranslations } from "next-intl";
+
 import { toast } from "sonner";
 
 import { DrawerClose, DrawerContent } from "@/components/ui/drawer";
 import { Toast } from "@/components/ui/toast";
+import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import CloseIcon from "@/public/assets/svg/close.svg";
@@ -15,7 +18,14 @@ import { COMPONENTS_MAP } from "./constants";
 
 type Props = Pick<
   ITask,
-  "type" | "title" | "reward" | "id" | "status" | "value" | "needValidate" | "penalty"
+  | "type"
+  | "title"
+  | "reward"
+  | "id"
+  | "status"
+  | "value"
+  | "needValidate"
+  | "penalty"
 > & {
   onClose: () => void;
 };
@@ -32,6 +42,7 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
   onClose,
 }) => {
   const queryClient = useQueryClient();
+  const t = useTranslations(NS.PAGES.ASSIGNMENTS.ROOT);
   const [isLoading, setIsLoading] = useState(false);
   const [isInit, setIsInit] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -47,7 +58,9 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
         toast(
           <Toast
             type="warning"
-            text="The assignment is under review by moderation"
+            text={t(
+              `${NS.PAGES.ASSIGNMENTS.MODALS.ROOT}.${NS.PAGES.ASSIGNMENTS.MODALS.CHECK_ASSIGNMENTS.ROOT}.${NS.PAGES.ASSIGNMENTS.MODALS.CHECK_ASSIGNMENTS.REVIEW_MESSAGE}`,
+            )}
           />,
         );
         onClose();
@@ -109,7 +122,9 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
               toast(
                 <Toast
                   type="destructive"
-                  text="Добавление emoji status отменено"
+                  text={t(
+                    `${NS.PAGES.ASSIGNMENTS.MODALS.ROOT}.${NS.PAGES.ASSIGNMENTS.MODALS.CHECK_ASSIGNMENTS.ROOT}.${NS.PAGES.ASSIGNMENTS.MODALS.CHECK_ASSIGNMENTS.EMOJI_STATUS_CANCELED_MESSAGE}`,
+                  )}
                 />,
               );
             }
@@ -136,6 +151,7 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
         }, 3000);
         break;
       case TaskType.BOOST_CHANNEL:
+        webApp?.openTelegramLink(value as string);
         setTimeout(() => {
           setIsInit(true);
           setIsLoading(false);
