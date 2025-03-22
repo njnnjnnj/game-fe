@@ -22,6 +22,7 @@ type Props = {
 
 export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
   const t = useTranslations(NS.PAGES.FRIENDS.ROOT);
+  const tCommon = useTranslations(NS.COMMON.ROOT);
   const { handleSelectionChanged } = useHapticFeedback();
   const { webApp } = useTelegram();
   const text = encodeURIComponent(t(NS.PAGES.FRIENDS.INVITE_MESSAGE));
@@ -32,15 +33,23 @@ export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
     toast(<Toast type="done" text={t(NS.PAGES.FRIENDS.LINK_COPIED)} />);
   };
 
-  // const handleShareToStory = () => {
-  //   handleSelectionChanged();
+  const handleShareToStory = () => {
+    handleSelectionChanged();
 
-  //   try {
-  //     webApp?.shareToStory("");
-  //   } catch (error) {
-  //     toast(<Toast type="destructive" text={(error as Error).message} />);
-  //   }
-  // };
+    const refLink = getLinkToApp(referralsData.link);
+
+    try {
+      webApp?.shareToStory("https://njnnjnnj.github.io/game-fe/story.png", {
+        text: tCommon(NS.COMMON.SHARE_TO_STORY_CAPTION, { link: refLink }),
+        widget_link: {
+          url: refLink,
+          name: tCommon(NS.COMMON.SHARE_TO_STORY_WIDGET_NAME),
+        },
+      });
+    } catch (error) {
+      toast(<Toast type="destructive" text={(error as Error).message} />);
+    }
+  };
 
   return (
     <motion.div
@@ -102,7 +111,7 @@ export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
             </div>
           </motion.button>
         </div>
-        {/* <div className="grid grid-cols-[1fr] items-center gap-2">
+        <div className="grid grid-cols-[1fr] items-center gap-2">
           <PrimaryButton
             className="uppercase"
             color="yellow"
@@ -110,7 +119,7 @@ export const InviteBoard: FunctionComponent<Props> = ({ referralsData }) => {
           >
             {t(NS.PAGES.FRIENDS.SHARE_TO_STORY)}
           </PrimaryButton>
-        </div> */}
+        </div>
       </div>
     </motion.div>
   );

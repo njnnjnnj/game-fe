@@ -9,7 +9,7 @@ import { Navbar } from "@/components/common/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { SettingsProvider } from "@/context";
 import { TelegramProvider } from "@/context/telegram-context/TelegramContext";
-import { useClientOnce } from '@/hooks/useClientOnce';
+import { useClientOnce } from "@/hooks/useClientOnce";
 import { useLocaleManager } from "@/hooks/useLocaleManager";
 import { initTgAnalytics } from "@/utils/lib/tg-analytics";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -26,7 +26,7 @@ import "@/styles/globals.css";
 const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? "";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = process.env.NODE_ENV === "development";
 
   const [queryClient] = useState(() => new QueryClient());
   const { locale } = useLocaleManager();
@@ -62,25 +62,31 @@ export default function App({ Component, pageProps }: AppProps) {
                   <Navbar />
                   <SpeedInsights />
                   <Toaster />
-                  {process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA === "true" && (
-                    <Script
-                      src="https://cdn.jsdelivr.net/npm/eruda"
-                      strategy="afterInteractive"
-                      onLoad={() => {
-                        if (typeof window.eruda !== "undefined")
-                          window.eruda.init({
-                            tool: ["console", "elements", "network", "sources"],
-                            useShadowDom: true,
-                            autoScale: true,
-                            defaults: {
-                              displaySize: 50,
-                              transparency: 0.9,
-                              theme: "Monokai Pro",
-                            },
-                          });
-                      }}
-                    />
-                  )}
+                  {isDev &&
+                    process.env.NEXT_PUBLIC_IS_ENABLED_ERUDA === "true" && (
+                      <Script
+                        src="https://cdn.jsdelivr.net/npm/eruda"
+                        strategy="afterInteractive"
+                        onLoad={() => {
+                          if (typeof window.eruda !== "undefined")
+                            window.eruda.init({
+                              tool: [
+                                "console",
+                                "elements",
+                                "network",
+                                "sources",
+                              ],
+                              useShadowDom: true,
+                              autoScale: true,
+                              defaults: {
+                                displaySize: 50,
+                                transparency: 0.9,
+                                theme: "Monokai Pro",
+                              },
+                            });
+                        }}
+                      />
+                    )}
                 </div>
               </SettingsProvider>
             </TelegramProvider>

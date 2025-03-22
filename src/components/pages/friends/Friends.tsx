@@ -3,11 +3,9 @@ import React, { UIEvent, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { motion } from "framer-motion";
-import { toast } from "sonner";
 
 import { PageWrapper, ProfileHeader } from "@/components/common";
 import { Drawer } from "@/components/ui/drawer";
-import { Toast } from "@/components/ui/toast";
 import { NS } from "@/constants/ns";
 import { useGetReferrals } from "@/services/profile/queries";
 import { IReferrals } from "@/services/profile/types";
@@ -26,8 +24,6 @@ export const Friends = () => {
   const {
     data: referralData,
     isPending: isPendingReferralData,
-    isError,
-    error,
   } = useGetReferrals();
   const { data, isLoading: isLoadingShop } = useGetShop();
   const friendsShopItems = useMemo(
@@ -44,10 +40,6 @@ export const Friends = () => {
       setBgScaleDelta(0);
     }
   };
-
-  if (isError) {
-    toast(<Toast type="destructive" text={"Что-то пошло не так" + error} />);
-  }
 
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
