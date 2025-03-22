@@ -277,7 +277,6 @@ export const Home = () => {
         setIsModalOpen(false);
         setIsClaimed(true);
         refetchProfile().then(({ data: profileData }) => {
-          console.log("🚀 ~ refetchProfile ~ data:", offlineBonus?.reward);
           if (profileData) {
             setProfileBalance(
               (prevBalance) => prevBalance + (offlineBonus?.reward ?? 1),
