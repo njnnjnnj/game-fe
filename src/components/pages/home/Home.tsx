@@ -90,6 +90,7 @@ export const Home = () => {
   const { mutate: buyShopItem, isPending: buyShopItemPending } =
     useBuyShopItem();
   const [profileBalance, setProfileBalance] = useState(profile?.coins ?? 0);
+  console.log("🚀 ~ Home ~ profileBalance:", profileBalance);
   const { data } = useGetShop();
   const friendsShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
@@ -275,10 +276,11 @@ export const Home = () => {
         );
         setIsModalOpen(false);
         setIsClaimed(true);
-        refetchProfile().then(({ data }) => {
-          if (data) {
+        refetchProfile().then(({ data: profileData }) => {
+          console.log("🚀 ~ refetchProfile ~ data:", offlineBonus?.reward);
+          if (profileData) {
             setProfileBalance(
-              (prevBalance) => prevBalance + (data.reward_per_tap ?? 1),
+              (prevBalance) => prevBalance + (offlineBonus?.reward ?? 1),
             );
           }
         });
