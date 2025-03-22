@@ -26,9 +26,9 @@ export const Forbidden = () => {
         "after:absolute after:inset-0 after:z-0 after:bg-[url('/assets/png/reward-screen/rays-bg.webp')] after:bg-[position:center_80%] after:bg-no-repeat",
       )}
     >
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
-        <div className="mb-12 rounded-[20px] bg-black p-0.5 pb-1.5">
-          <div className="relative size-60 rounded-[20px]">
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center">
+        <div className="mb-12 w-2/3 rounded-[20px] bg-black p-0.5 pb-1.5">
+          <div className="relative aspect-square rounded-[20px]">
             <Image
               src={QRImage}
               alt="QR code Application"

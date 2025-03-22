@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 import { SplashScreen } from "@/components/common";
 import { Toast } from "@/components/ui/toast";
+import { ROUTES } from "@/constants/routes";
 import { useGetProfile } from "@/services/profile/queries";
 import { IProfile } from "@/services/profile/types";
 import { IWebApp, WebAppUser } from "@/types/telegram";
@@ -110,9 +111,13 @@ export const TelegramProvider = ({
         src="https://telegram.org/js/telegram-web-app.js"
         strategy="beforeInteractive"
       />
-      <SplashScreen isAppDataLoading={isAppDataLoading}>
-        {children}
-      </SplashScreen>
+      {pathname !== ROUTES.FORBIDDEN ? (
+        <SplashScreen isAppDataLoading={isAppDataLoading}>
+          {children}
+        </SplashScreen>
+      ) : (
+        children
+      )}
     </TelegramContext.Provider>
   );
 };
