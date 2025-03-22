@@ -12,7 +12,7 @@ import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import QRImage from "@/public/assets/png/qr.png";
 import TelegramSVG from "@/public/assets/svg/telegram.svg";
-import XSVG from "@/public/assets/svg/x.svg";
+// import XSVG from "@/public/assets/svg/x.svg";
 
 export const Forbidden = () => {
   const t = useTranslations(NS.PAGES.FORBIDDEN.ROOT);
@@ -26,9 +26,9 @@ export const Forbidden = () => {
         "after:absolute after:inset-0 after:z-0 after:bg-[url('/assets/png/reward-screen/rays-bg.webp')] after:bg-[position:center_80%] after:bg-no-repeat",
       )}
     >
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
-        <div className="mb-12 rounded-[20px] bg-black p-0.5 pb-1.5">
-          <div className="relative size-60 rounded-[20px]">
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center">
+        <div className="mb-12 w-2/3 rounded-[20px] bg-black p-0.5 pb-1.5">
+          <div className="relative aspect-square rounded-[20px]">
             <Image
               src={QRImage}
               alt="QR code Application"
@@ -56,12 +56,12 @@ export const Forbidden = () => {
         >
           <TelegramSVG className="size-6 drop-shadow-social-icons" /> Telegram
         </PrimaryButton>
-        <PrimaryButton
+        {/* <PrimaryButton
           onClick={() => handleSelectionChanged()}
           className="flex items-center gap-2"
         >
           <XSVG className="size-6 drop-shadow-social-icons" /> Twitter (X)
-        </PrimaryButton>
+        </PrimaryButton> */}
       </div>
     </PageWrapper>
   );
