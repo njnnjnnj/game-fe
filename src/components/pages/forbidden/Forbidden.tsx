@@ -12,7 +12,7 @@ import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import QRImage from "@/public/assets/png/qr.png";
 import TelegramSVG from "@/public/assets/svg/telegram.svg";
-import XSVG from "@/public/assets/svg/x.svg";
+// import XSVG from "@/public/assets/svg/x.svg";
 
 export const Forbidden = () => {
   const t = useTranslations(NS.PAGES.FORBIDDEN.ROOT);
@@ -56,12 +56,12 @@ export const Forbidden = () => {
         >
           <TelegramSVG className="size-6 drop-shadow-social-icons" /> Telegram
         </PrimaryButton>
-        <PrimaryButton
+        {/* <PrimaryButton
           onClick={() => handleSelectionChanged()}
           className="flex items-center gap-2"
         >
           <XSVG className="size-6 drop-shadow-social-icons" /> Twitter (X)
-        </PrimaryButton>
+        </PrimaryButton> */}
       </div>
     </PageWrapper>
   );
