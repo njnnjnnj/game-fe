@@ -21,7 +21,9 @@
     "TAP_TO_CONTINUE": "Tap to continue",
     "SIDE_LINK": "Obtain",
     "DAYS": "{days}d.",
-    "HOURS": "{hours}h."
+    "HOURS": "{hours}h.",
+    "SHARE_TO_STORY_CAPTION": "Use my referral link to get 500,000 tokens instantly. 🛩️ Upgrade heroes, get rewards and invite friends to get even more rewards! {link}",
+    "SHARE_TO_STORY_WIDGET_NAME": "Play majestic"
   },
   "HOME": {
     "SLOTS": "Fortune",
@@ -110,7 +112,8 @@
         "WALLET_CONNECT": "Connect Wallet",
         "MAKE_TRANSACTION": "Make a Transaction",
         "REVIEW_MESSAGE": "The assignment is under review by moderation",
-        "EMOJI_STATUS_CANCELED_MESSAGE": "Adding emoji-status has been canceled"
+        "EMOJI_STATUS_CANCELED_MESSAGE": "Adding emoji-status has been canceled",
+        "REFERRAL_DATA_IS_NOT_AVAILABLE": "Referral data is not available"
       },
       "CONFIRMATION_MODAL": {
         "TITLE": "Make Sure You Have Completed the Task",

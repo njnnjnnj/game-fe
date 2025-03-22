@@ -10,8 +10,10 @@ import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import CloseIcon from "@/public/assets/svg/close.svg";
+import { useGetReferrals } from "@/services/profile/queries";
 import { useSetCompleteTask } from "@/services/tasks/queries";
 import { ITask, TaskStatus, TaskType } from "@/services/tasks/types";
+import { getLinkToApp } from "@/utils/lib/tg";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { COMPONENTS_MAP } from "./constants";
@@ -43,11 +45,13 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
 }) => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.ASSIGNMENTS.ROOT);
+  const tCommon = useTranslations(NS.COMMON.ROOT);
   const [isLoading, setIsLoading] = useState(false);
   const [isInit, setIsInit] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const { mutate: setCompleteTask, isPending } =
     useSetCompleteTask(queryClient);
+  const { data: referralData } = useGetReferrals();
 
   const { handleSelectionChanged } = useHapticFeedback();
   const { webApp } = useTelegram();
@@ -89,9 +93,29 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
           setIsLoading(false);
         }
         break;
-      case TaskType.STORIES_REPLY:
+      case TaskType.STORIES_REPLY: {
+        if (!referralData) {
+          toast(
+            <Toast
+              type="destructive"
+              text={t(
+                `${NS.PAGES.ASSIGNMENTS.MODALS.ROOT}.${NS.PAGES.ASSIGNMENTS.MODALS.CHECK_ASSIGNMENTS.ROOT}.${NS.PAGES.ASSIGNMENTS.MODALS.CHECK_ASSIGNMENTS.REFERRAL_DATA_IS_NOT_AVAILABLE}`,
+              )}
+            />,
+          );
+          return;
+        }
+
+        const refLink = getLinkToApp(referralData.link);
+
         try {
-          webApp?.shareToStory(value as string);
+          webApp?.shareToStory("https://njnnjnnj.github.io/game-fe/story.png", {
+            text: tCommon(NS.COMMON.SHARE_TO_STORY_CAPTION, { link: refLink }),
+            widget_link: {
+              url: refLink,
+              name: tCommon(NS.COMMON.SHARE_TO_STORY_WIDGET_NAME),
+            },
+          });
           setTimeout(() => {
             setIsInit(true);
             setIsLoading(false);
@@ -100,7 +124,9 @@ export const CheckTaskModal: FunctionComponent<Props> = ({
           toast(<Toast type="destructive" text={(error as Error).message} />);
           setIsLoading(false);
         }
+
         break;
+      }
       case TaskType.ADD_TO_HOME:
         try {
           webApp?.addToHomeScreen();
