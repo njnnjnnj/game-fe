@@ -93,6 +93,9 @@ const renderCoin = (type: CofferKey) => {
   );
 };
 
+const calculateBalance = (balance: number, reward: number) =>
+  Math.round(Math.max(balance - reward, 0));
+
 export const BucketScene: FunctionComponent<Props> = ({
   type,
   reward,
@@ -117,18 +120,18 @@ export const BucketScene: FunctionComponent<Props> = ({
   const { data: banditInfo } = useGetBandit(isShowingGameEnergy);
   const [balance, setBalance] = useState(() => {
     if (isShowingGameEnergy) {
-      return banditInfo?.balance ?? 0;
+      return calculateBalance(banditInfo?.balance ?? 0, reward);
     } else if (!isShowingBooster) {
-      return profile?.[type] ?? 0;
+      return calculateBalance(profile?.[type] ?? 0, reward);
     }
   });
 
   useEffect(() => {
-    // There are certain cases when Bandit Info doesn't have enough to to resolve
+    // There are certain cases when Bandit Info doesn't have enough time to fetch
     if (isShowingGameEnergy && banditInfo?.balance) {
-      setBalance(banditInfo?.balance);
+      setBalance(calculateBalance(banditInfo?.balance ?? 0, reward));
     }
-  }, [isShowingGameEnergy, banditInfo?.balance]);
+  }, [isShowingGameEnergy, banditInfo?.balance, reward]);
 
   const clearTimers = () => {
     if (coinsAnimationTimerRef.current) {
