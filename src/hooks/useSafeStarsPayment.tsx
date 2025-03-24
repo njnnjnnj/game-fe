@@ -55,6 +55,11 @@ export const useSafeStarsPayment = (
                     text={`Buying stars has failed. Status: ${status}`}
                   />,
                 );
+
+                if (onStarsPaymentError) {
+                  onStarsPaymentError();
+                }
+
                 break;
               default:
                 toast(
@@ -63,6 +68,11 @@ export const useSafeStarsPayment = (
                     text={`Buying stars has failed. Status: ${status}`}
                   />,
                 );
+
+                if (onStarsPaymentError) {
+                  onStarsPaymentError();
+                }
+
                 break;
             }
           });
@@ -75,6 +85,10 @@ export const useSafeStarsPayment = (
               text={`Buying stars has failed. ${message}`}
             />,
           );
+
+          if (onStarsPaymentError) {
+            onStarsPaymentError();
+          }
         } finally {
           setIsStarsPaymentLoading(false);
         }
