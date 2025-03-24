@@ -21,10 +21,8 @@ export const Friends = () => {
   const t = useTranslations(NS.PAGES.FRIENDS.ROOT);
   const [bgScaleDelta, setBgScaleDelta] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    data: referralData,
-    isPending: isPendingReferralData,
-  } = useGetReferrals();
+  const { data: referralData, isPending: isPendingReferralData } =
+    useGetReferrals();
   const { data, isLoading: isLoadingShop } = useGetShop();
   const friendsShopItems = useMemo(
     () => data?.items.filter((item) => item.type === ShopItemTypeEnum.FRIENDS),
@@ -60,7 +58,7 @@ export const Friends = () => {
               shopItemsForBuyFriends={friendsShopItems}
               hasFriendsBlock
             />
-            <p className="text-stroke-1 mx-4 mt-6 w-48 text-justify font-rubik text-xl font-black uppercase leading-none text-white text-shadow-sm">
+            <p className="text-stroke-1 mx-4 mt-6 whitespace-break-spaces text-justify font-rubik text-xl font-black uppercase leading-none text-white text-shadow-sm">
               {t(`${NS.PAGES.FRIENDS.PROPOSAL}`)}
             </p>
           </div>
