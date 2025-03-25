@@ -11,7 +11,7 @@ import classNames from "classnames";
 import { motion } from "framer-motion";
 
 import { RewardsStatusEnum } from "@/components/pages/rewards/enums";
-import BGImage from "@/public/assets/png/card-bg.webp";
+import BGImage from "@/public/assets/png/reward-card-bg.webp";
 
 type Props = {
   status: RewardsStatusEnum;

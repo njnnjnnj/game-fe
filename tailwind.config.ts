@@ -687,17 +687,17 @@ export default {
         "top-players-pattern":
           "linear-gradient(to bottom, #6420B9 7%, #8948FA 50%, #6420B9 100%)",
         "card-blue-bg-pattern":
-          "radial-gradient(50% 88.48% at 50% 50%, rgba(0, 105, 177, 0) 0%, #0069B1 100%), url('/assets/png/card-bg.png')",
+          "radial-gradient(50% 88.48% at 50% 50%, rgba(0, 105, 177, 0) 0%, #0069B1 100%), url('/assets/png/card-bg.webp')",
         "card-orange-bg-pattern":
-          "radial-gradient(50% 88.48% at 50% 50%, rgba(136, 51, 8, 0) 0%, #883308 100%), url('/assets/png/card-bg.png')",
+          "radial-gradient(50% 88.48% at 50% 50%, rgba(136, 51, 8, 0) 0%, #883308 100%), url('/assets/png/card-bg.webp')",
         "card-indigo-bg-pattern":
-          "radial-gradient(50% 88.48% at 50% 50%, rgba(64, 59, 183, 0) 0%, #403BB7 100%), url('/assets/png/card-bg.png')",
+          "radial-gradient(50% 88.48% at 50% 50%, rgba(64, 59, 183, 0) 0%, #403BB7 100%), url('/assets/png/card-bg.webp')",
         "card-dark-blue-bg-pattern":
-          "radial-gradient(50% 88.48% at 50% 50%, rgba(32, 57, 80, 0) 0%, #203950 100%), url('/assets/png/card-bg.png')",
+          "radial-gradient(50% 88.48% at 50% 50%, rgba(32, 57, 80, 0) 0%, #203950 100%), url('/assets/png/card-bg.webp')",
         "card-green-bg-pattern":
-          "radial-gradient(50% 88.48% at 50% 50%, rgba(0, 159, 0, 0) 0%, #009F00 100%), url('/assets/png/card-bg.png')",
+          "radial-gradient(50% 88.48% at 50% 50%, rgba(0, 159, 0, 0) 0%, #009F00 100%), url('/assets/png/card-bg.webp')",
         "card-red-bg-pattern":
-          "radial-gradient(50% 88.48% at 50% 50%, rgba(136, 51, 8, 0) 0%, #883308 100%), url('/assets/png/card-bg.png')",
+          "radial-gradient(50% 88.48% at 50% 50%, rgba(136, 51, 8, 0) 0%, #883308 100%), url('/assets/png/card-bg.webp')",
         "top-players-list-pattern":
           "linear-gradient(#FFB900 0%, #FDC42D 50%, #FFB900 100%)",
         "top-players-modal-pattern":

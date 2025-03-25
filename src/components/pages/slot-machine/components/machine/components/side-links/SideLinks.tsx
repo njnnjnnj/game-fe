@@ -35,6 +35,7 @@ export const SideLinks: FunctionComponent<Props> = ({ setReward }) => {
       {i === 1 && <StarterKitSideLink setReward={setReward} />}
       {i === 2 && (
         <SideLink
+          imageClassnames="!scale-[1]"
           image={FriendsImage}
           href={ROUTES.FRIENDS}
           text={t(
@@ -45,6 +46,7 @@ export const SideLinks: FunctionComponent<Props> = ({ setReward }) => {
       )}
       {i === 3 && (
         <SideLink
+          imageClassnames="!scale-[1]"
           image={PacketImage}
           href={ROUTES.SHOP_CLOTHES}
           text={t(

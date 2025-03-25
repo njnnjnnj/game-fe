@@ -15,7 +15,7 @@ import {
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
 import EnergyImage from "@/public/assets/png/rewards/green-battery-full.webp";
-import LigntningImage from "@/public/assets/png/rewards/lightning.png";
+import LigntningImage from "@/public/assets/png/rewards/lightning.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import EnergyIcon from "@/public/assets/svg/energy.svg";
 import { CapacityBooster, UpgradeBoosterType } from "@/services/rewards/types";

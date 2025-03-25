@@ -133,10 +133,12 @@ export const Events: FunctionComponent<Props> = ({
                   )}
                 >
                   <Image
+                    className="rounded-lg"
                     src={EVENTS_IMAGES[name as EventNames]}
                     fill
                     alt=""
-                    className="rounded-lg"
+                    sizes="60px"
+                    loading="eager"
                   />
                 </div>
                 <div className="flex flex-col gap-2">

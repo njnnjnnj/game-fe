@@ -10,9 +10,8 @@ import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
 import { useTelegram } from "@/context";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import QRImage from "@/public/assets/png/qr.png";
+import QRImage from "@/public/assets/png/qr.webp";
 import TelegramSVG from "@/public/assets/svg/telegram.svg";
-// import XSVG from "@/public/assets/svg/x.svg";
 
 export const Forbidden = () => {
   const t = useTranslations(NS.PAGES.FORBIDDEN.ROOT);

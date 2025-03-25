@@ -90,6 +90,7 @@ export const SpecialOfferSideLink: FunctionComponent<Props> = ({
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <SideLink
+        imageClassnames="!scale-[1]"
         image={BeastImage}
         text={t(
           `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
