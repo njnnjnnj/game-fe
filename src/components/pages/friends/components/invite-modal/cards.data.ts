@@ -1,10 +1,10 @@
 import { CollectButtonColor } from "@/components/ui";
-import Coins1 from "@/public/assets/png/friends/buy-friends/coins-1.webp";
-import Coins2 from "@/public/assets/png/friends/buy-friends/coins-2.webp";
-import Coins3 from "@/public/assets/png/friends/buy-friends/coins-3.webp";
-import Coins4 from "@/public/assets/png/friends/buy-friends/coins-4.webp";
-import Coins5 from "@/public/assets/png/friends/buy-friends/coins-5.webp";
-import Coins6 from "@/public/assets/png/friends/buy-friends/coins-6.webp";
+import Coins1 from "@/public/assets/png/friends/friends-1.webp";
+import Coins2 from "@/public/assets/png/friends/friends-2.webp";
+import Coins3 from "@/public/assets/png/friends/friends-3.webp";
+import Coins4 from "@/public/assets/png/friends/friends-4.webp";
+import Coins5 from "@/public/assets/png/friends/friends-5.webp";
+import Coins6 from "@/public/assets/png/friends/friends-6.webp";
 
 export const CARDS = [
   { buttonText: "Купить", number: 5, badgeValue: 1450, image: Coins1 },

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/drawer";
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
-import LigntningImage from "@/public/assets/png/rewards/lumin.png";
+import LigntningImage from "@/public/assets/png/rewards/lumin.webp";
 import EnergyImage from "@/public/assets/png/rewards/yellow-battery.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import EnergyIcon from "@/public/assets/svg/energy.svg";

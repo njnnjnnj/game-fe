@@ -14,7 +14,7 @@ import {
 import { PrimaryButton } from "@/components/ui/primary-button/PrimaryButton";
 import { NS } from "@/constants/ns";
 import EnergyImage from "@/public/assets/png/rewards/full-energy.webp";
-import LigntningImage from "@/public/assets/png/rewards/lumin.png";
+import LigntningImage from "@/public/assets/png/rewards/lumin.webp";
 import CloseIcon from "@/public/assets/svg/close.svg";
 import EnergyIcon from "@/public/assets/svg/energy.svg";
 import UnionIcon from "@/public/assets/svg/rewards/union.svg";

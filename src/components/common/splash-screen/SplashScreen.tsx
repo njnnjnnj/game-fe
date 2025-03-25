@@ -12,6 +12,7 @@ import Image from "next/image";
 
 import classNames from "classnames";
 
+import LevelImage from "@/public/assets/png/battle-pass/level.webp";
 import BeastImage from "@/public/assets/png/home/beast.webp";
 import CupImage from "@/public/assets/png/home/cup.webp";
 import FriendsImage from "@/public/assets/png/home/friends.webp";
@@ -68,6 +69,7 @@ const PRELOAD_ITEMS: PreloadItem[] = [
   { src: ReelSideBg1, fill: true, sizes: "33vw", quality: 100 },
   { src: ReelSideBg2, fill: true, sizes: "33vw", quality: 100 },
   { src: ChevronImg, fill: true, sizes: "10vw", quality: 100 },
+  { src: LevelImage, fill: true, sizes: "42px" },
   (key, onLoad) => <PreloadCurrentHeroView key={key} onLoad={onLoad} />,
   (key, onLoad) => <PreloadRareHeroGridViews key={key} onLoad={onLoad} />,
 ];

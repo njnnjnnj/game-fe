@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useLayoutEffect, useState } from "react";
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -24,8 +24,21 @@ export const SecondaryNavbar: FunctionComponent<Props> = ({
   needExp,
 }) => {
   const t = useTranslations(NS.PAGES.HOME.ROOT);
+  const [isBpAnimationEnabled, setIsBpAnimationEnabled] = useState(false);
   const progress = ((Number(currentExp) / Number(needExp)) * 100).toFixed(0);
   const { handleSelectionChanged } = useHapticFeedback();
+
+  useLayoutEffect(() => {
+    const timer = setTimeout(() => {
+      setIsBpAnimationEnabled(true);
+    }, 1000);
+    
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, []);
 
   return (
     <div className="relative z-30 grid w-full grid-cols-[1fr_175px] gap-2">
@@ -56,8 +69,9 @@ export const SecondaryNavbar: FunctionComponent<Props> = ({
                   </span>
                   <div
                     className={classNames(
-                      "transition-width absolute bottom-[1px] left-0 top-[1px] z-30 rounded-[8px] bg-home-bp-btn-indicator-pattern shadow-home-bp-btn-indicator drop-shadow-home-bp-btn-indicator duration-300",
+                      "absolute bottom-[1px] left-0 top-[1px] z-30 rounded-[8px] bg-home-bp-btn-indicator-pattern shadow-home-bp-btn-indicator drop-shadow-home-bp-btn-indicator",
                       "after:absolute after:left-0.5 after:right-0.5 after:top-0.5 after:z-30 after:h-1.5 after:rounded-t-[8px] after:bg-white after:opacity-30 after:content-['']",
+                      { "transition-width duration-300": isBpAnimationEnabled },
                     )}
                     style={{
                       width: `${progress}%`,

@@ -21,7 +21,7 @@ export const HSProfile: FunctionComponent<Props> = ({
 
   return (
     <div
-      className="relative aspect-[0.78] bg-[url('/assets/png/heroes/bg.webp')] bg-cover bg-[32%_center] bg-no-repeat pt-28"
+      className="relative aspect-[0.78] bg-[url('/assets/png/heroes/bg.webp')] bg-cover bg-no-repeat pt-28"
       style={insetTop ? { paddingTop: insetTop } : undefined}
     >
       <ProfileHeader />
