@@ -89,7 +89,7 @@ export const StarterKitSideLink: FunctionComponent<Props> = ({ setReward }) => {
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <SideLink
-        imageClassnames="!scale-[1.15]"
+        imageClassnames="!scale-[1]"
         image={TicketImage}
         text={t(
           `${NS.PAGES.HOME.NAVIGATION.ROOT}.${NS.PAGES.HOME.NAVIGATION.ACTION}`,
