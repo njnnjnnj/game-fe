@@ -123,17 +123,22 @@ export const Events: FunctionComponent<Props> = ({
           return (
             <div
               key={name}
-              className="relative z-10 grid w-full max-w-[calc(100vw_-_2rem)] grid-cols-[1fr_104px] items-center justify-between gap-2 rounded-2xl bg-blue-700 p-3 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]"
+              className="relative z-10 grid w-full max-w-[calc(100vw_-_2rem)] grid-cols-[1fr_104px] items-center justify-between gap-2 rounded-2xl bg-blue-700 p-2 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]"
             >
+              {currency === "stars" && (
+                <div className="absolute -left-1 -top-1 z-40 rounded-full bg-gradient-to-b from-[#F7DE2D] via-[#FABD25] to-[#FD9F1E] px-[7px] py-[5px] text-sm font-semibold text-white">
+                  VIP
+                </div>
+              )}
               <div className="grid grid-cols-[60px_1fr] items-center gap-3">
                 <div
                   className={classNames(
-                    "relative flex size-15 items-center justify-center rounded-lg p-1.5",
-                    "after:absolute after:inset-0 after:z-10 after:rounded-lg after:bg-transparent after:shadow-[inset_2px_2px_2px_0_rgba(255,255,255,0.4)]",
+                    "size-15.5 relative flex items-center justify-center rounded-xl p-1.5",
+                    "after:absolute after:inset-0 after:z-10 after:rounded-xl after:bg-transparent after:shadow-[inset_2px_2px_2px_0_rgba(255,255,255,0.4)]",
                   )}
                 >
                   <Image
-                    className="rounded-lg"
+                    className="rounded-xl"
                     src={EVENTS_IMAGES[name as EventNames]}
                     fill
                     alt=""
@@ -145,8 +150,8 @@ export const Events: FunctionComponent<Props> = ({
                   <span className="text-stroke-1 text-sm font-black text-white text-shadow-sm">
                     {t(EVENTS_NAMES_TID[name as EventNames])}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <span className="self-start rounded-full bg-white/10 px-2.5 py-[5px] text-xs font-semibold text-gray-550">
+                  <div className="flex items-center gap-3">
+                    <span className="self-start rounded-full bg-white/10 px-3 py-[5px] text-xs font-semibold text-gray-550">
                       {t(
                         `${NS.PAGES.REWARDS.EVENTS.ROOT}.${NS.PAGES.REWARDS.EVENTS.LEVEL}`,
                         { level },
@@ -194,6 +199,7 @@ export const Events: FunctionComponent<Props> = ({
                   <PrimaryButton
                     isLoading={indexLoading === index || isStarsPaymentLoading}
                     size="small"
+                    color={currency === "stars" ? "yellow" : "primary"}
                     className="text-stroke-1 text-sm font-extrabold text-shadow-sm"
                     onClick={() => onUpgradeClick(card, index)}
                     disabled={

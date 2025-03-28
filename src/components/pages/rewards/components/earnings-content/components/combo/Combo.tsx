@@ -28,7 +28,7 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
       )}
     >
       <div className="combo-border-radius relative w-full bg-white/5 px-3 py-2">
-        <span className="text-stroke-1 text-sm font-black leading-none tracking-[0.04em] text-white text-shadow-sm">
+        <span className="text-stroke-1 font-black leading-none tracking-[0.04em] text-white text-shadow-sm">
           {t(NS.PAGES.REWARDS.COMBO)}
         </span>
         <div
@@ -132,7 +132,7 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
               )}
             {!cards.daily[2] && <LockSvg className="size-8 fill-white/30" />}
           </div>
-          <span className="text-sm font-black text-[#F0F2F5] text-center">
+          <span className="text-center text-sm font-black text-[#F0F2F5]">
             {cards.daily[2] ? (
               t(EVENTS_NAMES_TID[cards.daily[2]])
             ) : (
