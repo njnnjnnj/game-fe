@@ -43,7 +43,6 @@ export const Events: FunctionComponent<Props> = ({
   indexLoading,
   onOutOfFriends,
 }) => {
-  console.log("🚀 ~ appsCards:", appsCards);
   const t = useTranslations(NS.PAGES.REWARDS.ROOT);
   const { profile } = useTelegram();
   const selectedCardRef = useRef<{
