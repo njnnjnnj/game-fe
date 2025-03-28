@@ -124,7 +124,7 @@ export const Events: FunctionComponent<Props> = ({
           return (
             <div
               key={name}
-              className="relative z-10 grid w-full max-w-[calc(100vw_-_2rem)] grid-cols-[1fr_104px] items-center justify-between gap-2 rounded-2xl bg-blue-700 p-3 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]"
+              className="relative z-10 grid w-full max-w-[calc(100vw_-_2rem)] grid-cols-[1fr_104px] items-center justify-between gap-2 rounded-2xl bg-blue-700 p-2 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]"
             >
               {currency === "stars" && (
                 <div className="absolute -left-1 -top-1 z-40 rounded-full bg-gradient-to-b from-[#F7DE2D] via-[#FABD25] to-[#FD9F1E] px-[7px] py-[5px] text-sm font-semibold text-white">
@@ -134,12 +134,12 @@ export const Events: FunctionComponent<Props> = ({
               <div className="grid grid-cols-[60px_1fr] items-center gap-3">
                 <div
                   className={classNames(
-                    "size-15.5 relative flex items-center justify-center rounded-lg p-1.5",
-                    "after:absolute after:inset-0 after:z-10 after:rounded-lg after:bg-transparent after:shadow-[inset_2px_2px_2px_0_rgba(255,255,255,0.4)]",
+                    "size-15.5 relative flex items-center justify-center rounded-xl p-1.5",
+                    "after:absolute after:inset-0 after:z-10 after:rounded-xl after:bg-transparent after:shadow-[inset_2px_2px_2px_0_rgba(255,255,255,0.4)]",
                   )}
                 >
                   <Image
-                    className="rounded-lg"
+                    className="rounded-xl"
                     src={EVENTS_IMAGES[name as EventNames]}
                     fill
                     alt=""
