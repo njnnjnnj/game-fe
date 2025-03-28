@@ -196,8 +196,8 @@ body {
   }
 
   .combo-border-radius {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
   }
