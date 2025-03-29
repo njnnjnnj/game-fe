@@ -8,31 +8,26 @@ import classNames from "classnames";
 import { NS } from "@/constants/ns";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import EnergyImage from "@/public/assets/png/game-energy.webp";
-import {
-  updateGetBanditQuery,
-  useGetBandit,
-} from "@/services/slot-machine/queries";
+import { useGetBandit } from "@/services/slot-machine/queries";
 import { extractMinutesFromSeconds } from "@/utils/date";
 import { formatValue } from "@/utils/lib/utils";
 import { calculateProgress } from "@/utils/progress";
-import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   balance: number;
+  onClick: () => void;
 };
 
 const MAX_FREE_ENERGY = 120;
 const TICK_INTERVAL = 1000;
 const ONE_HOUR = 3600;
 
-export const EnergyBar: FunctionComponent<Props> = ({ balance }) => {
+export const EnergyBar: FunctionComponent<Props> = ({ balance, onClick }) => {
   const t = useTranslations(NS.PAGES.SLOT_MACHINE.ROOT);
-  const queryClient = useQueryClient();
   const { data: banditInfo, refetch: refetchBanditInfo } = useGetBandit();
   const [secondsLeft, setSecondsLeft] = useState(
     banditInfo?.timeToEnergyAccrual ?? 0,
   );
-  const secondsLeftRef = useRef<number>(secondsLeft);
   const intervalRef = useRef<NodeJS.Timeout>();
 
   const clearIntervalIfExists = () => {
@@ -42,20 +37,15 @@ export const EnergyBar: FunctionComponent<Props> = ({ balance }) => {
     }
   };
 
-  useEffect(
-    () => () => {
-      clearIntervalIfExists();
-      console.log(secondsLeftRef.current);
-      updateGetBanditQuery(queryClient, {
-        timeToEnergyAccrual: Math.max(secondsLeftRef.current - 1, 0),
-      });
-    },
-    [],
-  );
+  useEffect(() => clearIntervalIfExists, []);
 
   useEffect(() => {
-    secondsLeftRef.current = secondsLeft;
+    if (banditInfo?.timeToEnergyAccrual) {
+      setSecondsLeft(banditInfo?.timeToEnergyAccrual);
+    }
+  }, [banditInfo?.timeToEnergyAccrual]);
 
+  useEffect(() => {
     if (secondsLeft > 0) {
       if (!intervalRef.current) {
         intervalRef.current = setInterval(() => {
@@ -99,7 +89,10 @@ export const EnergyBar: FunctionComponent<Props> = ({ balance }) => {
   };
 
   return (
-    <div className="absolute left-[24.6%] right-[24.6%] top-[27.8%] h-[4.7%]">
+    <div
+      className="absolute left-[24.6%] right-[24.6%] top-[27.8%] h-[4.7%]"
+      onClick={onClick}
+    >
       <div className="text-stroke-2 absolute left-1/2 top-full -translate-x-1/2 -translate-y-[6px] whitespace-nowrap rounded-b-md bg-[#015EC9] p-1 font-black uppercase text-white shadow-[-1px_-2px_1px_0_#0000004D_inset,-1px_1px_1px_0_#FFFFFF26_inset,0_2px_2px_0_#0000004D] text-shadow-sm [font-size:min(3.5vw,1.4vh)]">
         {secondsLeft > 0
           ? t(NS.PAGES.SLOT_MACHINE.ENERGY_RESTORE_LABEL, {
@@ -123,21 +116,25 @@ export const EnergyBar: FunctionComponent<Props> = ({ balance }) => {
         </span>
         <div className="h-[11.1%] w-full bg-[#FEA700] shadow-inner-light-bottom" />
       </div>
-      <div className="absolute left-0 aspect-square h-full rounded-full border border-[#422212] bg-yellow-450 p-1">
-        <div className="h-full w-full rounded-full bg-orange-550" />
-        <Image
-          className="scale-[1.12]"
-          src={EnergyImage}
-          alt=""
-          sizes="50px"
-          fill
-        />
+      <div className="absolute left-0 aspect-square h-full">
+        <div className="size-full rounded-full border border-[#422212] bg-yellow-450 p-1">
+          <div className="size-full rounded-full bg-orange-550" />
+          <Image
+            className="scale-[1.12]"
+            src={EnergyImage}
+            alt=""
+            sizes="50px"
+            fill
+          />
+        </div>
       </div>
 
-      <div className="absolute right-0 aspect-square h-full rounded-full border border-[#422212] bg-yellow-450 p-1">
-        <div className="relative h-full w-full rounded-full bg-orange-550">
-          <div className="absolute inset-0 m-auto h-[14.2%] w-[57.1%] rounded-[1px] bg-yellow-450" />
-          <div className="absolute inset-0 m-auto h-[14.2%] w-[57.1%] rotate-90 rounded-[1px] bg-yellow-450" />
+      <div className="absolute right-0 aspect-square h-full">
+        <div className="size-full rounded-full border border-[#422212] bg-yellow-450 p-1">
+          <div className="relative size-full rounded-full bg-orange-550">
+            <div className="absolute inset-0 m-auto h-[14.2%] w-[57.1%] rounded-[1px] bg-yellow-450" />
+            <div className="absolute inset-0 m-auto h-[14.2%] w-[57.1%] rotate-90 rounded-[1px] bg-yellow-450" />
+          </div>
         </div>
       </div>
     </div>

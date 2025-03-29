@@ -118,6 +118,8 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
   useEffect(() => {
     if (isVip) {
       runBanditInfoRefetch();
+    } else {
+      refetchBanditInfo();
     }
 
     return () => {
@@ -309,7 +311,12 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
             />
             <SwitchButton isVip={isVip} onClick={() => setIsVip(!isVip)} />
             {!isVip && <SideLinks setReward={onGetReward} />}
-            {!isVip && banditInfo && <EnergyBar balance={balance} />}
+            {!isVip && banditInfo && (
+              <EnergyBar
+                balance={balance}
+                onClick={onBalanceClick}
+              />
+            )}
             {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
 
             <ReelPane
