@@ -454,7 +454,9 @@
       "DESCRIPTION": "Вы можете купить больше энергии, чтобы играть в однорукого бандита.",
       "ENERGY_UNIT": "{amount} Энергии",
       "BUTTON": "Приобрести энергию"
-    }
+    },
+    "FULL_ENERGY_LABEL": "Полный запас",
+    "ENERGY_RESTORE_LABEL": "+15 Энергии: {time}"
   },
   "BUY_STARS": {
     "TITLE": "Звезды",

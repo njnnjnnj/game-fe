@@ -1,5 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import { useRouter } from "next/router";
+
 import { PageWrapper, ProfileHeader } from "@/components/common";
 import { RewardScreen } from "@/components/common/reward-screen/RewardScreen";
 import {
@@ -33,9 +35,13 @@ import { Tabs } from "./components/tabs/Tabs";
 import { TabsEnum } from "./enums";
 
 export const Rewards = () => {
+  const router = useRouter();
+  const queryTab = router.query.tab;
   const queryClient = useQueryClient();
   const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState<number>(
+    queryTab ? Number(queryTab) : 1,
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const [slideHeight, setSlideHeight] = useState<number>(0);
   const [reward, setReward] = useState<RewardShape | null>(null);
@@ -82,6 +88,10 @@ export const Rewards = () => {
 
   useLayoutEffect(() => {
     updateSlideHeight();
+
+    if (queryTab) {
+      router.replace(router.pathname, undefined, { shallow: true });
+    }
   }, [current]);
 
   const handleTabChange = (index: number) => {
@@ -116,7 +126,7 @@ export const Rewards = () => {
               className="overflow-hidden transition-all duration-300"
               style={{ height: slideHeight || "auto" }}
             >
-              <Carousel setApi={setApi}>
+              <Carousel setApi={setApi} opts={{ startIndex: current - 1 }}>
                 <CarouselContent>
                   <CarouselItem
                     className={current === 1 ? "carousel-item-active" : ""}

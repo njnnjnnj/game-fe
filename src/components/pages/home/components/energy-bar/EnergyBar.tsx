@@ -1,7 +1,10 @@
 import React, { FunctionComponent } from "react";
 
+import { useRouter } from "next/router";
+
 import classNames from "classnames";
 
+import { ROUTES } from "@/constants/routes";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import EnergySvg from "@/public/assets/svg/energy.svg";
 import { calculateProgress } from "@/utils/progress";
@@ -13,13 +16,22 @@ type Props = {
 
 export const EnergyBar: FunctionComponent<Props> = ({ energy, max_energy }) => {
   const { handleSelectionChanged } = useHapticFeedback();
+  const router = useRouter();
+
+  const onClick = () => {
+    handleSelectionChanged();
+    router.push({
+      pathname: ROUTES.REWARDS,
+      query: { tab: 3 }
+    });
+  }
 
   return (
     <div
       className={classNames(
         "relative mb-[14px] ml-auto flex h-7 w-40 items-center rounded-r-[10px] bg-black/50 p-[3px] pl-3",
       )}
-      onClick={() => handleSelectionChanged()}
+      onClick={onClick}
     >
       <EnergySvg className="absolute -left-6 z-40 size-8" />
       <div

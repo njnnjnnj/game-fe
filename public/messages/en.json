@@ -454,7 +454,9 @@
       "DESCRIPTION": "You can buy more energy to play one-armed bandit.",
       "ENERGY_UNIT": "{amount} of Energy",
       "BUTTON": "Buy energy"
-    }
+    },
+    "FULL_ENERGY_LABEL": "Full reserve",
+    "ENERGY_RESTORE_LABEL": "+15 Energy: {time}"
   },
   "BUY_STARS": {
     "TITLE": "Stars",

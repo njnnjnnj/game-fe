@@ -507,6 +507,8 @@ export const NS = {
         ENERGY_UNIT: "ENERGY_UNIT",
         BUTTON: "BUTTON",
       },
+      FULL_ENERGY_LABEL: "FULL_ENERGY_LABEL",
+      ENERGY_RESTORE_LABEL: "ENERGY_RESTORE_LABEL",
     },
     BUY_STARS: {
       ROOT: "BUY_STARS",
