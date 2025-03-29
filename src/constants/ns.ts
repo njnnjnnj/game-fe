@@ -34,6 +34,7 @@ export const NS = {
       SLOTS: "SLOTS",
       PER_HOUR: "PER_HOUR",
       PER_TAP: "PER_TAP",
+      TAP_ME: "TAP_ME",
       OFFLINE_BONUS: {
         ROOT: "OFFLINE_BONUS",
         TITLE: "TITLE",

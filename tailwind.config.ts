@@ -633,6 +633,8 @@ export default {
         lg: "0 8px 16px #000",
         win: "0px 1.5px 0px #542E00",
         blue: "0px 1.24px 0px #18549C",
+        "tap-me":
+          "0px 4px 0px black, 0 -1px 0 black, -1px 0 0 black, 1px 0 0 black",
       },
       backgroundPosition: {
         "center-top": "center top",
@@ -776,6 +778,7 @@ export default {
         lg: ["18px", "18px"],
         "2xl": ["24px", "24px"],
         "3xl": ["32px", "32px"],
+        "4xl": ["40px", "40px"],
       },
       touchAction: {
         carousel: "pan-y pinch-zoom",
