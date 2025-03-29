@@ -62,6 +62,8 @@ import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { OfflineBonusModal } from "./components/offline-bonus-modal/OfflineBonusModal";
 import { SecondaryNavbar } from "./components/secondary-navbar/SecondaryNavbar";
 
+let IS_TAP_ME_HIDDEN = false; // Should reset every new session
+
 export const Home = () => {
   const queryClient = useQueryClient();
   const t = useTranslations(NS.PAGES.HOME.ROOT);
@@ -80,6 +82,7 @@ export const Home = () => {
   const [isStarterKitModalOpen, setIsStarterKitModalOpen] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
   const [battlePassExp, setBattlePassExp] = useState(0);
+  const [isTapMeHidden, setIsTapMeHidden] = useState(IS_TAP_ME_HIDDEN);
   const { data: offlineBonus, isLoading } = useGetOfflineBonus();
   const { mutate, isPending } = useConfirmOfflineBonus(queryClient);
   const [reward, setReward] = useState<RewardShape | null>(null);
@@ -119,6 +122,11 @@ export const Home = () => {
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (!IS_TAP_ME_HIDDEN) {
+        setIsTapMeHidden(true);
+        IS_TAP_ME_HIDDEN = true;
+      }
+
       if (energy < (profile?.reward_per_tap ?? 1)) return;
       handleSelectionChanged();
 
@@ -337,7 +345,7 @@ export const Home = () => {
           perTap={profile.reward_per_tap}
         />
         <div className="relative z-20 flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
-          <div className="sca absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
+          <div className="absolute left-4 top-15 z-40 flex flex-col gap-[22px]">
             <Drawer
               open={isSpecialOfferModalOpen}
               onOpenChange={setIsSpecialOfferModalOpen}
@@ -420,6 +428,21 @@ export const Home = () => {
                 </motion.div>
               ))}
             </AnimatePresence>
+            {!isTapMeHidden && (
+              <motion.div
+                className="text-shadow-tap-me absolute relative text-4xl font-black uppercase tracking-widest text-white will-change-transform"
+                initial={{ scale: 1.1 }}
+                animate={{ scale: [1.1, 0.8, 1.1] }}
+                transition={{
+                  duration: 1.6,
+                  ease: "linear",
+                  repeat: Infinity,
+                }}
+              >
+                <div className="absolute -inset-x-[5%] inset-y-0 translate-y-1/3 bg-[#D9D9D9] blur-[20px]" />
+                <span className="relative">{t(NS.PAGES.HOME.TAP_ME)}</span>
+              </motion.div>
+            )}
           </button>
           <div className="absolute right-4 top-15 z-40 flex flex-col gap-[22px]">
             <SideLink

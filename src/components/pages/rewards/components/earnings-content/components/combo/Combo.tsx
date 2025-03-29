@@ -28,7 +28,7 @@ export const Combo: FunctionComponent<Props> = ({ cards }) => {
       )}
     >
       <div className="combo-border-radius relative w-full bg-white/5 px-3 py-2">
-        <span className="text-stroke-1 font-black leading-none tracking-[0.04em] text-white text-shadow-sm">
+        <span className="text-stroke-1 font-black leading-none tracking-[0.04em] text-white text-shadow-sm text-md">
           {t(NS.PAGES.REWARDS.COMBO)}
         </span>
         <div

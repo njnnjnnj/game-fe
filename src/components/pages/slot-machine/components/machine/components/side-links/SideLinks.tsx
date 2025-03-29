@@ -24,7 +24,7 @@ export const SideLinks: FunctionComponent<Props> = ({ setReward }) => {
   return Array.from({ length: 4 }).map((_, i) => (
     <div
       key={`side-link-${i}`}
-      className={classNames("absolute aspect-square h-[8.2%]", {
+      className={classNames("absolute aspect-square w-[16%]", {
         "left-[7.6%] top-[15.2%]": i === 0,
         "left-[7.6%] top-[25.9%]": i === 1,
         "right-[7.6%] top-[15.2%]": i === 2,

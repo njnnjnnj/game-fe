@@ -29,6 +29,7 @@
     "SLOTS": "Fortune",
     "PER_HOUR": "Income / Hour",
     "PER_TAP": "Income / Tap",
+    "TAP_ME": "Tap me",
     "OFFLINE_BONUS": {
       "TITLE": "Offline Bonus",
       "DESCRIPTION": "Come back every 3 hours to earn profit! You can buy a Booster to increase the offline bonus period.",
@@ -454,7 +455,9 @@
       "DESCRIPTION": "You can buy more energy to play one-armed bandit.",
       "ENERGY_UNIT": "{amount} of Energy",
       "BUTTON": "Buy energy"
-    }
+    },
+    "FULL_ENERGY_LABEL": "Full reserve",
+    "ENERGY_RESTORE_LABEL": "+15 Energy: {time}"
   },
   "BUY_STARS": {
     "TITLE": "Stars",

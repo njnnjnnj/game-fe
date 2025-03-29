@@ -126,14 +126,14 @@ export const Events: FunctionComponent<Props> = ({
               className="relative z-10 grid w-full max-w-[calc(100vw_-_2rem)] grid-cols-[1fr_104px] items-center justify-between gap-2 rounded-2xl bg-blue-700 p-2 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_0_rgba(255,255,255,0.1)]"
             >
               {currency === "stars" && (
-                <div className="absolute -left-1 -top-1 z-40 rounded-full bg-gradient-to-b from-[#F7DE2D] via-[#FABD25] to-[#FD9F1E] px-[7px] py-[5px] text-sm font-semibold text-white">
+                <div className="absolute -left-1 -top-1 z-40 flex h-6 w-[38px] items-center justify-center rounded-full bg-gradient-to-b from-[#F7DE2D] via-[#FABD25] to-[#FD9F1E] pt-0.5 text-sm font-semibold text-white">
                   VIP
                 </div>
               )}
               <div className="grid grid-cols-[60px_1fr] items-center gap-3">
                 <div
                   className={classNames(
-                    "size-15.5 relative flex items-center justify-center rounded-xl p-1.5",
+                    "relative flex size-15.5 items-center justify-center rounded-xl p-1.5",
                     "after:absolute after:inset-0 after:z-10 after:rounded-xl after:bg-transparent after:shadow-[inset_2px_2px_2px_0_rgba(255,255,255,0.4)]",
                   )}
                 >
@@ -146,12 +146,20 @@ export const Events: FunctionComponent<Props> = ({
                     loading="eager"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                   <span className="text-stroke-1 text-sm font-black text-white text-shadow-sm">
                     {t(EVENTS_NAMES_TID[name as EventNames])}
                   </span>
-                  <div className="flex items-center gap-3">
-                    <span className="self-start rounded-full bg-white/10 px-3 py-[5px] text-xs font-semibold text-gray-550">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={classNames(
+                        "self-start rounded-full bg-white/10 px-3 py-[5px] text-sm font-semibold",
+                        {
+                          "text-gray-550": level === 0,
+                          "text-white": level !== 0,
+                        },
+                      )}
+                    >
                       {t(
                         `${NS.PAGES.REWARDS.EVENTS.ROOT}.${NS.PAGES.REWARDS.EVENTS.LEVEL}`,
                         { level },
@@ -159,7 +167,7 @@ export const Events: FunctionComponent<Props> = ({
                     </span>
                     <div
                       className={classNames(
-                        "text-yellow flex items-center gap-1 text-xs font-semibold text-white",
+                        "flex items-center gap-1.5 text-sm font-semibold text-yellow-500",
                         {
                           "!text-x !text-[#02DB07]": level === MAX_LEVEL_CARD,
                         },
@@ -167,8 +175,8 @@ export const Events: FunctionComponent<Props> = ({
                     >
                       {level !== MAX_LEVEL_CARD ? (
                         <>
-                          <HourIncomeSvg className="size-4" /> +
-                          {formatValue(profit)}
+                          <HourIncomeSvg className="size-5" />
+                          {`+ ${formatValue(profit)}`}
                         </>
                       ) : (
                         t(NS.PAGES.REWARDS.MAX_CARD_LEVEL)

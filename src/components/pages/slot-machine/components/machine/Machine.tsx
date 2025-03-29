@@ -30,6 +30,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { BetButton } from "./components/bet-button/BetButton";
 import { Chevron } from "./components/chevron/Chevron";
+import { EnergyBar } from "./components/energy-bar/EnergyBar";
 import { EnergyModal } from "./components/energy-modal/EnergyModal";
 import { JackpotPane } from "./components/jackpot-pane/JackpotPane";
 import { ReelPane } from "./components/reel-pane/ReelPane";
@@ -117,6 +118,8 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
   useEffect(() => {
     if (isVip) {
       runBanditInfoRefetch();
+    } else {
+      refetchBanditInfo();
     }
 
     return () => {
@@ -308,6 +311,12 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
             />
             <SwitchButton isVip={isVip} onClick={() => setIsVip(!isVip)} />
             {!isVip && <SideLinks setReward={onGetReward} />}
+            {!isVip && banditInfo && (
+              <EnergyBar
+                balance={balance}
+                onClick={onBalanceClick}
+              />
+            )}
             {isVip && <JackpotPane jackpot={banditInfo?.jackpot ?? 0} />}
 
             <ReelPane
@@ -335,7 +344,7 @@ export const Machine: FunctionComponent<Props> = ({ onGetReward }) => {
               className="absolute left-[3%] top-[81.8%] h-[6%] w-[27.4%]"
               onClick={onBalanceClick}
             >
-              <div className="text-stroke-2 absolute right-[10%] top-[45%] flex h-[64.2%] w-[45%] -translate-y-1/2 items-center justify-center font-black leading-none text-white text-shadow [container-type:inline-size] [font-size:min(3.4cqw,1.7cqh)]">
+              <div className="text-stroke-2 absolute right-[10%] top-[45%] flex h-[64.2%] w-[45%] -translate-y-1/2 items-center justify-center font-black leading-none text-white text-shadow [container-type:inline-size] [font-size:min(3.8cqw,1.8cqh)]">
                 {formatValue(balance ?? 0)}
               </div>
             </div>

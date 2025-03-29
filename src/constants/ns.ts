@@ -34,6 +34,7 @@ export const NS = {
       SLOTS: "SLOTS",
       PER_HOUR: "PER_HOUR",
       PER_TAP: "PER_TAP",
+      TAP_ME: "TAP_ME",
       OFFLINE_BONUS: {
         ROOT: "OFFLINE_BONUS",
         TITLE: "TITLE",
@@ -507,6 +508,8 @@ export const NS = {
         ENERGY_UNIT: "ENERGY_UNIT",
         BUTTON: "BUTTON",
       },
+      FULL_ENERGY_LABEL: "FULL_ENERGY_LABEL",
+      ENERGY_RESTORE_LABEL: "ENERGY_RESTORE_LABEL",
     },
     BUY_STARS: {
       ROOT: "BUY_STARS",

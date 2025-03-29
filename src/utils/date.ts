@@ -21,3 +21,6 @@ export const getDaysAndHoursTillMonthAndDay = (month: number, day?: number) => {
 
 export const getDaysAndHoursTillStartOfNextMonth = () =>
   getDaysAndHoursTillMonthAndDay(new Date().getUTCMonth() + 1);
+
+export const extractMinutesFromSeconds = (seconds: number) =>
+  Math.floor(seconds / 60);

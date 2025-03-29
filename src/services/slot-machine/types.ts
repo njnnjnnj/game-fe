@@ -17,4 +17,5 @@ export type BanditInfo = {
   paid: boolean;
   balance: number;
   jackpot: number;
+  timeToEnergyAccrual: number;
 };
